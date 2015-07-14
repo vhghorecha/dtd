@@ -30,11 +30,10 @@
     <link href="<?=RES_URL;?>bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="<?=RES_URL;?>css/sb-admin-2.css" rel="stylesheet">
 	<link href="<?=RES_URL;?>css/jquery.dataTables.css" rel="stylesheet">
 	<link href="<?=RES_URL;?>css/bootstrap.min.css" rel="stylesheet">
 	<link href="<?=RES_URL;?>css/dataTables.bootstrap.css" rel="stylesheet">
-	
+    <link href="<?=RES_URL;?>css/sb-admin-2.css" rel="stylesheet">
 	
 	
 
