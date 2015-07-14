@@ -22,23 +22,19 @@
 	?>
 
     <!-- Bootstrap Core CSS -->
-    <link href="<?=RES_URL;?>bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?=RES_URL;?>css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="<?=RES_URL;?>css/datepicker.css">
-        
 
     <!-- MetisMenu CSS -->
-    <link href="<?=RES_URL;?>bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+    <link href="<?=RES_URL;?>css/metisMenu.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-	<link href="<?=RES_URL;?>css/jquery.dataTables.css" rel="stylesheet">
-	<link href="<?=RES_URL;?>css/bootstrap.min.css" rel="stylesheet">
+	<link href="<?=RES_URL;?>css/jquery.dataTables.min.css" rel="stylesheet">
 	<link href="<?=RES_URL;?>css/dataTables.bootstrap.css" rel="stylesheet">
-    <link href="<?=RES_URL;?>css/sb-admin-2.css" rel="stylesheet">
-	
-	
+	<link href="<?=RES_URL;?>css/sb-admin-2.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="<?=RES_URL;?>bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="<?=RES_URL;?>css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
