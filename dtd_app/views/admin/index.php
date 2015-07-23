@@ -11,17 +11,17 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-envelope fa-5x"></i>
+                                    <i class="fa fa-lock fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge">3</div>
-                                    <div>Request sent</div>
+                                    <div>Order Pending</div>
                                 </div>
                             </div>
                         </div>
                         <a href="#">
                             <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
+                                <span class="pull-left"><a href="<?=site_url('admin/orders_pending');?>"> View Details</a></span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                 <div class="clearfix"></div>
                             </div>
@@ -33,17 +33,17 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-thumbs-o-up fa-5x"></i>
+                                    <i class="fa fa-plus-square fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">1</div>
-                                    <div>Request Processed</div>
+                                    <div class="huge">1000</div>
+                                    <div>Money Received</div>
                                 </div>
                             </div>
                         </div>
                         <a href="#">
                             <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
+                                <span class="pull-left"><a href="<?=site_url('admin/money_received');?>">View Details</a></span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                 <div class="clearfix"></div>
                             </div>
@@ -55,17 +55,17 @@
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-lock fa-5x"></i>
+                                    <i class="fa fa-minus-square fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">1</div>
-                                    <div>Request Pending</div>
+                                    <div class="huge">500</div>
+                                    <div>Money Paid</div>
                                 </div>
                             </div>
                         </div>
                         <a href="#">
                             <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
+                                <span class="pull-left"><a href="<?=site_url('admin/money_paid');?>">View Details</a></span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                 <div class="clearfix"></div>
                             </div>
@@ -80,14 +80,14 @@
                                     <i class="fa fa-dollar  fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">1200</div>
+                                    <div class="huge">500</div>
                                     <div>Balance</div>
                                 </div>
                             </div>
                         </div>
                         <a href="#">
                             <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
+                                <span class="pull-left"><a href="<?=site_url('admin/account');?>">View Details</a></span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                 <div class="clearfix"></div>
                             </div>

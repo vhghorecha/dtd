@@ -29,6 +29,12 @@
 			$('#example').DataTable();
 		});
 	</script>
+	<script type="text/javascript">
+	// When the document is ready
+		$(document).ready(function() {
+			$('table.example').DataTable();
+		});
+	</script>
 		
 </body>
 

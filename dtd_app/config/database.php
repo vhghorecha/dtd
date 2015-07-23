@@ -63,11 +63,11 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-	'dsn'	=> 'mysql:host=localhost;dbname=unispace'
+	'dsn'	=> 'mysql:host=localhost;dbname=dtd_schema',
 	//'hostname' => 'localhost',
 	'username' => 'root',
 	'password' => '',
-	'database' => 'unispace',
+	'database' => 'dtd_schema',
 	'dbdriver' => 'pdo',
 	'dbprefix' => 'dtd_',
 	'pconnect' => FALSE,

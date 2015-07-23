@@ -8,35 +8,29 @@
                         <h3 class="panel-title">Please Sign In</h3>
                     </div>
                     <div class="panel-body">
-                        <form role="form">
+						<?php if(!empty($error)) { ?>
+							<div class="alert alert-danger fade in"><?=$error;?></div>
+						<?php } ?>
+                        <?php echo form_open('login', array(
+							'id' => 'frmlogin',
+							'role' => 'form'
+						));?>
                             <fieldset>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>
+                                    <input class="form-control" placeholder="E-mail" name="txtemail" id="txtemail" type="email" autofocus>
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                                    <input class="form-control" placeholder="Password" name="txtpass" id="txtpass" type="password" value="" maxlength="15">
                                 </div>
-								<div class="form-group">
-                                            
-                                            <select class="form-control">
-                                                <option>Select your Role</option>
-												<option>Admin</option>
-                                                <option>Client</option>
-                                                <option>Vendor</option>
-                                                
-                                            </select>
-                                        </div>
                                 <div class="checkbox">
                                     <label>
                                         <input name="remember" type="checkbox" value="Remember Me">Remember Me
                                     </label>
                                 </div>
-                                <!-- Change this to a button or input when using this as a form -->
-								
-                                <a href="./customer" class="btn btn-lg btn-success btn-block">Login</a>
+                                <input type="submit" class="btn btn-lg btn-success btn-block" name="btnLogin" id="btnLogin" value="Login">
 								<div class="form-group">
                                     <label>
-                                        <a href="<?=site_url('registration');?>">New User, Click Here</a>
+                                        <a href="<?=site_url('register');?>">New User, Click Here</a>
                                     </label>
                                 </div>
                             </fieldset>
