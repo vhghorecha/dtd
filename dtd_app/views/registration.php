@@ -32,7 +32,7 @@
                             <input class="form-control" placeholder="Name" name="txtname" id="txtname" type="text" value="" required>
                         </div>
                         <div class="form-group">
-                            <textarea name="txtaddress" class="form-control" placeholder="Enter address" id="txtaddress" row="3" required></textarea>
+                            <textarea name="txtaddress" placeholder="Enter address" id="txtaddress" row="3" required></textarea>
                         </div>
                         <div class="form-group">
                             <input class="form-control" placeholder="ZipCode" name="txtzip" id="txtzip" type="text" value="" required>
