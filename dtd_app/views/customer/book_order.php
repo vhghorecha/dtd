@@ -11,37 +11,32 @@
                         <label>Recipient Name*</label>
                         <input class="form-control" placeholder="Enter Name" name="recname" autofocus>
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label>Zip Code*</label>
                         <input class="form-control" placeholder="Enter ZipCode" name="zipcode">
-                    </div>
+                    </div> -->
                     <div class="form-group">
                         <label>Recipient Address*</label>
                         <textarea class="form-control" placeholder="Enter Address" rows="3" name="address"></textarea>
                     </div>
-                    <div class="form-group">
-                        <label>Mobile Prefix</label>
-                        <input class="form-control" placeholder="Enter prefix" name="mobprefix">
-                    </div>
+
                     <div class="form-group">
                         <label>Mobile Number</label>
                         <input class="form-control" placeholder="Enter Mobile Number" name="mobile">
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-
-
-                    <div class="form-group">
-                        <label>Telephone Prefix*</label>
-                        <input class="form-control" placeholder="Enter prefix" name="telprefix">
                     </div>
                     <div class="form-group">
                         <label>Telephone Number</label>
                         <input class="form-control" placeholder="Enter Telephone Number" name="telephone">
                     </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+
+
+
                     <div class="form-group">
                         <label>Date</label>
-                        <input class="form-control datepicker" placeholder="Click to Select Date" name="">
+                        <input class="form-control datepicker" placeholder="Click to Select Date" name="" value="<?php echo date('d-m-Y'); ?>">
                     </div>
                     <div class="form-group">
                         <label>Item Type</label>

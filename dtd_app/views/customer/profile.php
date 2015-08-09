@@ -26,8 +26,8 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>Customer Name</td>
-                                    <td>Mr. Vimal Ghorecha</td>
+                                    <td>Company Name</td>
+                                    <td>Vimal Pvt. Ltd.</td>
 
                                 </tr>
                                 <tr>
@@ -47,6 +47,15 @@
                                     <td>Website</td>
                                     <td>www.vhghorecha.in</td>
                                 </tr>
+                                <tr>
+                                    <td>Staff Name</td>
+                                    <td>Vimal Ghorecha</td>
+                                </tr>
+                                <tr>
+                                    <td>Staff Telephone No</td>
+                                    <td>22113344</td>
+                                </tr>
+
                                 </tbody>
                             </table>
                         </div>
@@ -65,7 +74,7 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Contact Information
+                        Address Information
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
@@ -88,14 +97,6 @@
                                     <td>Zip Code</td>
                                     <td>123456</td>
                                 </tr>
-                                <tr>
-                                    <td>Contact Person Name</td>
-                                    <td>Vimal Ghorecha</td>
-                                </tr>
-                                <tr>
-                                    <td>Contact Person Number</td>
-                                    <td>9898989898</td>
-                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -107,7 +108,42 @@
             </div>
             <!-- /.col-lg-6 -->
         </div>
+        <div class="row">
 
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Memo
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Memo</th>
+
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>Description of Memo</td>
+
+
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-6 -->
+        </div>
         <!-- /.col-lg-12 -->
         <div class="col-lg-12">
             <div class="form-group">
