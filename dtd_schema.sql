@@ -156,7 +156,7 @@ CREATE TABLE IF NOT EXISTS `dtd_order` (
   `order_itemname` varchar(100) NOT NULL,
   `order_desc` text,
   `order_memo` text,
-  `order_status` text NOT NULL,
+  `order_status` varchar(20) NOT NULL,
   PRIMARY KEY (`order_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
