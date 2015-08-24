@@ -7,6 +7,13 @@
                 <h1 class="page-header">Profile</h1>
             </div>
         </div>
+        <?php if(!empty($error)) { ?>
+            <div class="alert alert-danger fade in"><?=$error;?></div>
+        <?php } ?>
+        <?php echo form_open('customer/profile', array(
+            'id' => 'frmprofile',
+            'role' => 'form'
+        ));?>
         <div class="row">
             <div class="col-lg-12">
                 <div class="panel panel-default">
@@ -147,11 +154,10 @@
         <!-- /.col-lg-12 -->
         <div class="col-lg-12">
             <div class="form-group">
-                <input type="submit" value="Edit Profile" href="<?= site_url('customer/edit_profile') ?>" class="btn btn-primary" />
-
-
+                <input type="submit" value="Edit Profile" class="btn btn-primary" name="btnEditProfile" id="btnEditProfile" />
             </div>
         </div>
+        </form>
     </div>
     <!-- /.row -->
 </div>

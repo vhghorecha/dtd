@@ -138,7 +138,73 @@ class Customer extends CI_Controller {
 
 	public function change_pwd()
 	{
-		$this->load->template('customer/change_pwd');
+
+		$is_change = $this->input->post('btnChange');
+		if($is_change == 'Change')
+		{
+			$config = array
+			(
+				array(
+					'field' => 'oldpwd',
+					'label' => 'Old Password',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s'
+					)
+				),
+				array(
+					'field' => 'newpwd',
+					'label' => 'New Password',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s'
+					)
+				),
+				array(
+					'field' => 'confirmpwd',
+					'label' => 'Confirm Password',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s'
+
+					)
+				)
+
+			);
+			$this->form_validation->set_rules($config);
+
+			if ($this->form_validation->run() == FALSE)
+			{
+				//fail validation
+				$error = validation_errors();
+			}
+			else
+			{
+				//pass validation
+				$curpwd=$this->Customer_Model->get_user_pwd();
+				if($curpwd['pwd']==$this->input->post('oldpwd'))
+				{
+					$data=array(
+						'user_pass'=>$this->input->post('newpwd')
+					);
+					$this->db->where('user_id',$this->user_model->get_current_user_id());
+					$this->db->update('dtd_users',$data);
+					$this->session->set_flashdata('msg', '<div class="alert alert-success text-center">Password Successfully Changed!!!</div>');
+				}
+				else
+				{
+					$error="Old Password does not match";
+				}
+			}
+			$data['error'] = $error;
+			$this->load->template('customer/change_pwd',$data);
+		}
+		else
+		{
+
+			$this->load->template('customer/change_pwd');
+		}
+
 	}
 	public function confirm_order()
 	{
@@ -147,7 +213,17 @@ class Customer extends CI_Controller {
 	
 	public function profile()
 	{
-		$this->load->template('customer/profile');              
+		$is_profile=$this->input->post('btnEditProfile');
+		if($is_profile=="Edit Profile")
+		{
+
+		}
+		else
+		{
+			$data['profile']=$this->Customer_Model->get_user_profile();
+			$this->load->template('customer/profile',$data);
+		}
+
 	}
 	public function orders()
 	{
@@ -158,7 +234,8 @@ class Customer extends CI_Controller {
 	}
 	public function account()
 	{
-
+		$data['charges']=$this->Customer_Model->get_user_charges();
+		$data['deposit']=$this->Customer_Model->get_user_deposit();
 		$this->load->template('customer/account');              
 	}
 }

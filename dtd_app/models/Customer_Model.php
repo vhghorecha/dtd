@@ -50,6 +50,29 @@ class Customer_Model extends CI_Model{
         return $result;
 
     }
+    public function get_user_profile()
+    {
+        $this->db->select('user_name');
+        $this->db->select('user_email');
+        $this->db->select('user_add');
+        $this->db->select('user_zipcode');
+        $this->db->select('user_tel');
+        $this->db->select('user_mobile');
+        $this->db->select('user_staffname');
+        $this->db->select('user_stafftel');
+        $this->db->select('user_memo');
+    }
+
+    public function get_user_pwd()
+    {
+        $this->db->select('user_pass');
+        $this->db->from('dtd_users');
+        $this->db->where('user_id', $this->user_model->get_current_user_id());
+        $query=$this->db->get();
+        $pwd['pwd']=current($query->row_array());
+        return $pwd;
+
+    }
     public function get_today()
     {
         //counting today's total order
@@ -98,9 +121,17 @@ class Customer_Model extends CI_Model{
 
         return $month;
     }
+
+    public function get_user_charges()
+    {
+        $this->db->select_sum('order_amount');
+        $this->db->where('order_custid', $this->user_model->get_current_user_id());
+        $this->db->like('order_date', date('Y-m'));
+        $query = $this->db->get('dtd_order');
+        $month['amount']=current($query->row_array());
+    }
     public function get_all_orders()
     {
-
         $this->db->select('order_id');
         $this->db->from('dtd_order');
         $this->db->where('order_custid', $this->user_model->get_current_user_id());

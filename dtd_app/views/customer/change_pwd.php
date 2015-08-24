@@ -5,7 +5,13 @@
             <div class="col-lg-12">
                 <h1 class="page-header">Change Password</h1>
             </div>
-            <form role="form">
+            <?php if(!empty($error)) { ?>
+                <div class="alert alert-danger fade in"><?=$error;?></div>
+            <?php } ?>
+            <?php echo form_open('customer/change_pwd', array(
+                'id' => 'frmchangepwd',
+                'role' => 'form'
+            ));?>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label>Old Password*</label>
@@ -24,9 +30,9 @@
 
                 <div class="col-lg-12">
                     <div class="form-group">
-                        <button type="submit" href="<?= site_url('customer/change_pwd') ?>" class="btn btn-primary">
-                            Save
-                        </button>
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary" name="btnChange" id="btnChange" value="Change">
+                        </div>
                     </div>
                 </div>
             </form>
