@@ -32,22 +32,24 @@
                     </tfoot>
 
                     <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>20-07-2015</td>
-                        <td>Hardik</td>
-                        <td>9898989898</td>
-                        <td>A</td>
-                        <td>Pending</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>20-07-2015</td>
-                        <td>Hardik</td>
-                        <td>9898989898</td>
-                        <td>B</td>
-                        <td>Delivered</td>
-                    </tr>
+                    <?php
+                    $i=0;
+                    while($i < count($order))
+                    {
+                        ?>
+                        <tr>
+                            <td><?php echo $order[$i]->order_id; ?></td>
+                            <td><?php echo $order[$i]->order_date; ?></td>
+                            <td><?php echo $order[$i]->order_recipient; ?></td>
+                            <td><?php echo $order[$i]->order_mobno; ?></td>
+                            <td><?php echo $order[$i]->order_typeid; ?></td>
+                            <td><?php echo $order[$i]->order_status; ?></td>
+                        </tr>
+                        <?php
+                        $i++;
+                    }
+                    ?>
+
                     </tbody>
                 </table>
             </div>
@@ -80,8 +82,8 @@
 
                         <tbody>
                         <tr>
-                            <td>3</td>
-                            <td>550</td>
+                            <td><?php echo $today['count']; ?></td>
+                            <td>$<?php echo $today['sum']; ?></td>
 
                         </tr>
 
@@ -120,10 +122,10 @@
 
                         <tbody>
                         <tr>
-                            <td>15</td>
-                            <td>8</td>
-                            <td>7</td>
-                            <td>650</td>
+                            <td><?php echo $month['month-count']; ?></td>
+                            <td><?php echo $month['deliver']; ?></td>
+                            <td><?php echo $month['pending']; ?></td>
+                            <td>$<?php echo $month['amount']; ?></td>
 
                         </tr>
 

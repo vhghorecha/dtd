@@ -10,18 +10,15 @@
 
     if ($current_page == "customer") {
         echo "<title>DTD - Customer</title>";
-    }
-    else if ($current_page == "vendor") {
+    } else if ($current_page == "vendor") {
         echo "<title>DTD - Vendor</title>";
-    }
-    else if ($current_page == "site") {
+    } else if ($current_page == "site") {
         echo "<title>DTD - Login</title>";
-    }
-    else if ($current_page == "admin") {
+    } else if ($current_page == "admin") {
         echo "<title>DTD - Admin</title>";
-    }else if($current_page == "register"){
-		echo "<title>DTD - Registration</title>";
-	}
+    } else if ($current_page == "register") {
+        echo "<title>DTD - Registration</title>";
+    }
     ?>
 
     <!-- Bootstrap Core CSS -->
@@ -89,7 +86,7 @@ if ($current_page != "site")
                 <?php
 
                 if ($current_page == "customer") {
-                    echo '<a class="navbar-brand" href="">Welcome, Customer</a>';
+                    echo '<a class="navbar-brand" href="">Welcome,'.$user_info['username'].'</a>';
                 }
                 if ($current_page == "vendor") {
                     echo '<a class="navbar-brand" href="">Welcome, Vendor</a>';

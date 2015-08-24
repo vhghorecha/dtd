@@ -11,7 +11,8 @@ class Login extends CI_Controller {
 	{
 		$is_login = $this->input->post('btnLogin');
 
-		if($is_login == 'Login'){
+		if($is_login == 'Login')
+		{
 			$config = array(
 				array(
 						'field' => 'txtemail',
@@ -32,24 +33,33 @@ class Login extends CI_Controller {
 				)
 			);
 			$this->form_validation->set_rules($config);
-			if ($this->form_validation->run() == true) {
+			if ($this->form_validation->run() == true)
+			{
 				$data = $this->user_model->validate();
-				if($data['validated']){
+				if($data['validated'])
+				{
 					$this->session->set_userdata('userinfo', $data);
-					if($data['userrole'] == 'vendor'){
+					if($data['userrole'] == 'vendor')
+					{
 						redirect('vendor');
 					}else{
 						redirect('customer');
 					}
-				}else{
+				}
+				else
+				{
 					$error = "Invalid Email or Password";
 				}
-			}else{
+			}
+			else
+			{
 				$error = validation_errors();
 			}
 			$data['error'] = $error;
 			$this->load->template('login',$data);		
-		}else{
+		}
+		else
+		{
 			$this->load->template('login');         
 		}
 	}

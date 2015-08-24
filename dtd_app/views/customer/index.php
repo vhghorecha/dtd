@@ -14,12 +14,12 @@
                                     <i class="fa fa-envelope fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">3</div>
+                                    <div class="huge"><?php echo $all['count']; ?></div>
                                     <div>Request sent</div>
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="<?=site_url('customer/orders');?>">
                             <div class="panel-footer">
                                 <span class="pull-left">View Details</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -36,12 +36,12 @@
                                     <i class="fa fa-thumbs-o-up fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">1</div>
+                                    <div class="huge"><?php echo $all['deliver']; ?></div>
                                     <div>Request Processed</div>
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="<?=site_url('customer/orders');?>">
                             <div class="panel-footer">
                                 <span class="pull-left">View Details</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -58,12 +58,12 @@
                                     <i class="fa fa-lock fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">1</div>
+                                    <div class="huge"><?php echo $all['pending']; ?></div>
                                     <div>Request Pending</div>
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="<?=site_url('customer/orders');?>">
                             <div class="panel-footer">
                                 <span class="pull-left">View Details</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

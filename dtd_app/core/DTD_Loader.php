@@ -9,7 +9,7 @@ class DTD_Loader extends CI_Loader {
 		define("RES_URL", base_url() . "dtd_asset/");
 		$router =& load_class('Router', 'core');
 		$CI =& get_instance();
-		$vars['user_info'] = $CI->session->userdata('user_info');
+		$vars['user_info'] = $CI->session->userdata('userinfo');
 		$vars['current_page'] = $router->fetch_class();
 		$vars['current_action'] = $router->fetch_method();
         if($return):
