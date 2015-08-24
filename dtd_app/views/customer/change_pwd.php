@@ -9,15 +9,15 @@
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label>Old Password*</label>
-                        <input class="form-control" placeholder="Enter Old Password" name="oldpwd" autofocus>
+                        <input class="form-control" placeholder="Enter Old Password" type="password" id="oldpwd" name="oldpwd" autofocus>
                     </div>
                     <div class="form-group">
                         <label>New Password*</label>
-                        <input class="form-control" placeholder="Enter New Password" name="newpwd">
+                        <input class="form-control" placeholder="Enter New Password" type="password" id="newpwd" name="newpwd">
                     </div>
                     <div class="form-group">
                         <label>Cofirm Password*</label>
-                        <input class="form-control" placeholder="Re-type New Password" name="confirmpwd">
+                        <input class="form-control" placeholder="Re-type New Password" type="password" id="confirmpwd" name="confirmpwd">
                     </div>
 
                 </div>
