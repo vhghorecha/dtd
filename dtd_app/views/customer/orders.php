@@ -8,7 +8,7 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <table id="c_orders" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <thead>
                     <tr>
                         <th>Order ID</th>
@@ -19,38 +19,6 @@
                         <th>Status</th>
                     </tr>
                     </thead>
-
-                    <tfoot>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Date</th>
-                        <th>Recipient Name</th>
-                        <th>Mobile No</th>
-                        <th>Parcel Type</th>
-                        <th>Status</th>
-                    </tr>
-                    </tfoot>
-
-                    <tbody>
-                    <?php
-                    $i=0;
-                    while($i < count($order))
-                    {
-                        ?>
-                        <tr>
-                            <td><?php echo $order[$i]->order_id; ?></td>
-                            <td><?php echo $order[$i]->order_date; ?></td>
-                            <td><?php echo $order[$i]->order_recipient; ?></td>
-                            <td><?php echo $order[$i]->order_mobno; ?></td>
-                            <td><?php echo $order[$i]->order_typeid; ?></td>
-                            <td><?php echo $order[$i]->order_status; ?></td>
-                        </tr>
-                        <?php
-                        $i++;
-                    }
-                    ?>
-
-                    </tbody>
                 </table>
             </div>
             <!-- /.col-lg-12 -->
@@ -64,7 +32,7 @@
                     Today's Order
                 </div>
                 <div class="panel-body">
-                    <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                    <table id="example" class="table dttable table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                         <tr>
                             <th>No. of Order</th>
@@ -101,7 +69,7 @@
                     Monthly Order
                 </div>
                 <div class="panel-body">
-                    <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                    <table id="example" class="table dttable table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                         <tr>
                             <th>Total Order</th>

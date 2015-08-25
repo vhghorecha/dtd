@@ -54,7 +54,7 @@ class User_Model extends CI_Model{
 		$user_data = $this->session->userdata('userinfo');
 		return $user_data['userrole'] == 'admin';
 	}
-	
+
 	public function get_current_user(){
 		$user_data = $this->session->userdata('userinfo');
 		return $user_data;
@@ -68,5 +68,10 @@ class User_Model extends CI_Model{
 	public function user_insert($data){
 		$this->db->insert('users',$data);
 	}
+
+    public function update_pwd($data){
+        $this->db->where('user_id',$this->get_current_user_id());
+        $this->db->update('dtd_users',$data);
+    }
 }
 ?>

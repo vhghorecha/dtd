@@ -31,6 +31,7 @@
     <!-- Custom CSS -->
     <link href="<?= RES_URL; ?>css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="<?= RES_URL; ?>css/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="<?= RES_URL; ?>css/dataTables.responsive.css" rel="stylesheet">
     <link href="<?= RES_URL; ?>css/sb-admin-2.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
@@ -89,7 +90,7 @@ if ($current_page != "site")
                     echo '<a class="navbar-brand" href="">Welcome,'.$user_info['username'].'</a>';
                 }
                 if ($current_page == "vendor") {
-                    echo '<a class="navbar-brand" href="">Welcome, Vendor</a>';
+                    echo '<a class="navbar-brand" href="">Welcome, '.$user_info['username'].'</a>';
                 }
                 if ($current_page == "site") {
                     echo '<a class="navbar-brand" href="">Welcome to DTD</a>';

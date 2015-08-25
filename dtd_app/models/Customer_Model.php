@@ -5,6 +5,7 @@ class Customer_Model extends CI_Model{
 
     function __construct(){
         parent::__construct();
+        $this->load->library('Datatables');
     }
 
     public function get_item_type()
@@ -36,18 +37,12 @@ class Customer_Model extends CI_Model{
 
     public function get_user_orders()
     {
-        $this->db->select('order_id');
-        $this->db->select('order_date');
-        $this->db->select('order_recipient');
-        $this->db->select('order_mobno');
-        $this->db->select('order_typeid');
-        $this->db->select('order_status');
-        $this->db->from('dtd_order');
-        $this->db->where('order_custid', $this->user_model->get_current_user_id());
-
-        $query = $this->db->get();
-        $result = $query->result();
-        return $result;
+        $cust_id = $this->User_Model->get_current_user_id();
+        $this->datatables->select("dtd_order.order_id, DATE_FORMAT(dtd_order.order_date,'%d-%m-%Y') as order_date, dtd_order.order_recipient, dtd_order.order_telno, dtd_item_type.type_name, dtd_order.order_status")
+            ->from('dtd_order')
+            ->join('dtd_item_type','dtd_item_type.type_id=dtd_order.order_typeid')
+            ->where('dtd_order.order_custid',$cust_id);
+        return $this->datatables->generate();
 
     }
     public function get_user_profile()
@@ -71,7 +66,6 @@ class Customer_Model extends CI_Model{
         $query=$this->db->get();
         $pwd['pwd']=current($query->row_array());
         return $pwd;
-
     }
     public function get_today()
     {
