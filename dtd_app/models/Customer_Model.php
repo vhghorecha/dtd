@@ -147,5 +147,26 @@ class Customer_Model extends CI_Model{
 
         return $all;
     }
+
+    public function get_user_account()
+    {
+        $cust_id = $this->user_model->get_current_user_id();
+        $this->datatables->select("SELECT * FROM (
+SELECT cust_id, DATE_FORMAT( dtd_order.order_date, '%M-%Y' ) AS ord_date, COUNT( order_id ), SUM(order_amount), count(dep_id), sum(dep_amount)
+FROM dtd_cust
+LEFT OUTER JOIN dtd_order ON dtd_order.order_custid = dtd_cust.cust_id
+LEFT OUTER JOIN dtd_custdep ON dtd_custdep.dep_custid = dtd_cust.cust_id  AND DATE_FORMAT(dtd_custdep.dep_date, '%M-%Y') = DATE_FORMAT( dtd_order.order_date, '%M-%Y' )
+GROUP BY ord_date
+HAVING dtd_cust.cust_id = 2
+UNION
+SELECT cust_id, DATE_FORMAT( dtd_custdep.dep_date, '%M-%Y' ) AS ord_date, COUNT( order_id ), SUM(order_amount), count(dep_id), sum(dep_amount)
+FROM dtd_cust
+LEFT OUTER JOIN dtd_custdep ON dtd_custdep.dep_custid = dtd_cust.cust_id
+LEFT OUTER JOIN dtd_order ON dtd_order.order_custid = dtd_cust.cust_id AND DATE_FORMAT(dtd_custdep.dep_date, '%M-%Y') = DATE_FORMAT( dtd_order.order_date, '%M-%Y' )
+GROUP BY ord_date
+HAVING dtd_cust.cust_id = 2
+)");
+        return $this->datatables->generate();
+    }
     }
 ?>

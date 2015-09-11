@@ -252,6 +252,7 @@ HAVING dtd_cust.cust_id = 2
 		 */
 		/*$data['charges']=$this->Customer_Model->get_user_charges();
 		$data['deposit']=$this->Customer_Model->get_user_deposit();*/
+		$data['account'] = $this->Customer_Model->get_user_account();
 		$this->load->template('customer/account');              
 	}
 }

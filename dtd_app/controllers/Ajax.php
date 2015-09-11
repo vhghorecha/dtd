@@ -19,4 +19,7 @@ class Ajax extends CI_Controller {
 	public function c_orders(){
 		die($this->Customer_Model->get_user_orders());
 	}
+	public function c_account(){
+		die($this->Customer_Model->get_user_account());
+	}
 }
