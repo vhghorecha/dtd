@@ -23,6 +23,27 @@
                         <th>Amount</th>
                     </tr>
                     </thead>
+                    <tbody>
+                    <?php
+                    $n=count($account);
+                    $i=0;
+                    do {
+                        ?>
+                        <tr>
+                            <td><? echo $account[$i]['ord_date']; ?></td>
+                            <td><? echo $account[$i]['COUNT( order_id )']; ?></td>
+                            <td><? echo $account[$i]['SUM(order_amount)']; ?></td>
+                            <td><? echo $account[$i]['count(dep_id)']; ?></td>
+                            <td><? echo $account[$i]['sum(dep_amount)']; ?></td>
+                            <td></td>
+                        </tr>
+                        <?php
+                        $i++;
+                    }while($i<$n)
+                    ?>
+
+
+                    </tbody>
                 </table>
             </div>
             <!-- /.col-lg-12 -->

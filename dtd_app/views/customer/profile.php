@@ -33,34 +33,35 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>Company Name</td>
-                                    <td>Vimal Pvt. Ltd.</td>
+
+                                    <td>Name</td>
+                                    <td><input class="form-control" value="<? echo $profile['user_name']; ?>" name="username" id="username"></td>
 
                                 </tr>
                                 <tr>
                                     <td>Email</td>
-                                    <td>vimal.ghorecha@gmail.com</td>
+                                    <td><? echo $profile['user_email']; ?></td>
 
                                 </tr>
                                 <tr>
                                     <td>Telephone Number</td>
-                                    <td>9999999999</td>
+                                    <td><input class="form-control" value="<? echo $profile['user_tel']; ?>" name="usertel" id="usertel"></td>
                                 </tr>
                                 <tr>
                                     <td>Mobile Number</td>
-                                    <td>9999999999</td>
+                                    <td><input class="form-control" value="<? echo $profile['user_mob']; ?>" name="usermob" id="usermob"></td>
                                 </tr>
                                 <tr>
                                     <td>Website</td>
-                                    <td>www.vhghorecha.in</td>
+                                    <td><input class="form-control" value="<? echo $profile['user_site']; ?>" name="usersite" id="usersite"></td>
                                 </tr>
                                 <tr>
                                     <td>Staff Name</td>
-                                    <td>Vimal Ghorecha</td>
+                                    <td><input class="form-control" value="<? echo $profile['user_staffname']; ?>" name="userstaff" id="userstaff"></td>
                                 </tr>
                                 <tr>
                                     <td>Staff Telephone No</td>
-                                    <td>22113344</td>
+                                    <td><input class="form-control" value="<? echo $profile['user_stafftel']; ?>" name="userstafftel" id="userstafftel"></td>
                                 </tr>
 
                                 </tbody>
@@ -97,12 +98,12 @@
                                 <tbody>
                                 <tr>
                                     <td>Mailing Address</td>
-                                    <td>XYZ CITY, COUNTRY</td>
+                                    <td><input class="form-control" value="<? echo $profile['user_add']; ?>" name="useradd" id="useradd"></td>
 
                                 </tr>
                                 <tr>
                                     <td>Zip Code</td>
-                                    <td>123456</td>
+                                    <td><input class="form-control" value="<? echo $profile['user_zipcode']; ?>" name="userzip" id="userzip"></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -126,18 +127,9 @@
                     <div class="panel-body">
                         <div class="table-responsive">
                             <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>Memo</th>
-
-
-                                </tr>
-                                </thead>
                                 <tbody>
                                 <tr>
-                                    <td>Description of Memo</td>
-
-
+                                    <textarea class="form-control" value="<? echo $profile['user_memo']; ?>" rows="3" name="usermemo" id="usermemo"></textarea>
                                 </tr>
 
                                 </tbody>
@@ -154,7 +146,7 @@
         <!-- /.col-lg-12 -->
         <div class="col-lg-12">
             <div class="form-group">
-                <input type="submit" value="Edit Profile" class="btn btn-primary" name="btnEditProfile" id="btnEditProfile" />
+                <input type="submit" value="Update Profile" class="btn btn-primary" name="btnEditProfile" id="btnEditProfile" />
             </div>
         </div>
         </form>
