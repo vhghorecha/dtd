@@ -23,7 +23,7 @@
                     </tr>
                     </thead>
                 </table>
-                <a href="<?=site_url('vendor/view_order')?>" class="btn btn-primary pull-right">Download</a>
+                <a href="<?=site_url('vendor/download')?>" class="btn btn-primary pull-right">Download</a>
             </div>
             <!-- /.col-lg-12 -->
             <div class="row">

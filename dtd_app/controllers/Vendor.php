@@ -5,8 +5,12 @@ class Vendor extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		$this->load->model('User_Model');
+		$this->load->model('user_model');
 		$this->load->model('Vendor_Model');
+
+		if(!$this->user_model->is_vendor()){
+			redirect('/');
+		}
 	}
 	public function index()
 	{
@@ -64,7 +68,7 @@ class Vendor extends CI_Controller {
 					$data=array(
 						'user_pass'=>$this->input->post('newpwd')
 					);
-					$this->User_Model->update_pwd($data);
+					$this->user_model->update_pwd($data);
 					$msg = 'Password Successfully Changed!!!';
 				}
 				else
@@ -87,10 +91,6 @@ class Vendor extends CI_Controller {
 		$data['orders'] = $this->Vendor_Model->get_orders();
 		$this->load->template('vendor/orders_received',$data);
 	}
-	public function view_order()
-	{
-		$this->load->template('vendor/view_order');
-	}
 	public function update_order()
 	{
 		$this->load->template('vendor/update_order');
@@ -108,7 +108,7 @@ class Vendor extends CI_Controller {
 		}
 		else
 		{
-			$user_id = $this->User_Model->get_current_user_id();
+			$user_id = $this->user_model->get_current_user_id();
 			$data=$this->Vendor_Model->get_vendor_profile($user_id);
 			$this->load->template('vendor/profile',$data);
 		}
@@ -116,11 +116,16 @@ class Vendor extends CI_Controller {
 	}
 	public function orders()
 	{
-		$orders = $this->Vendor_Model->get_orders();
+		$orders['daily'] = $this->Vendor_Model->get_daily_orders();
+		$orders['monthly'] = $this->Vendor_Model->get_monthly_orders();
 		$this->load->template('vendor/orders',$orders);
 	}
 	public function account()
 	{
 		$this->load->template('vendor/account');
+	}
+	public function download()
+	{
+		$this->load->template('vendor/download');
 	}
 }
