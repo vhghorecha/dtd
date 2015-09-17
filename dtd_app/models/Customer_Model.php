@@ -144,7 +144,7 @@ class Customer_Model extends CI_Model
         $this->db->select('order_status');
         $this->db->from('dtd_order');
         $this->db->where('order_custid', $this->user_model->get_current_user_id());
-        $this->db->where('order_status', 'Deliver');
+        $this->db->where('order_status', 'Delivered');
         $all['deliver'] = $this->db->count_all_results();
 
 

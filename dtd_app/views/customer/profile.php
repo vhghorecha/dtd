@@ -129,7 +129,7 @@
                             <table class="table">
                                 <tbody>
                                 <tr>
-                                    <textarea class="form-control" value="<? echo $profile['user_memo']; ?>" rows="3" name="usermemo" id="usermemo"></textarea>
+                                    <textarea class="form-control"rows="3" name="usermemo" id="usermemo"><? echo $profile['user_memo']; ?></textarea>
                                 </tr>
 
                                 </tbody>

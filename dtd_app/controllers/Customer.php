@@ -217,15 +217,16 @@ class Customer extends CI_Controller {
 		if($is_profile=="Update Profile")
 		{
 			$data1=array(
-				'user_name'=>$this->input->post['username'],
-				'user_add'=>$this->input->post['useradd'],
-				'user_zipcode'=>$this->input->post['userzipcode'],
-				'user_tel'=>$this->input->post['usertel'],
-				'user_mob'=>$this->input->post['usermob'],
-				'user_site'=>$this->input->post['usersite'],
-				'user_staffname'=>$this->input->post['userstaffname'],
-				'user_stafftel'=>$this->input->post['userstafftel'],
-				'user_memo'=>$this->input->post['usermemo']
+
+				'user_name'=>$this->input->post('username'),
+				'user_add'=>$this->input->post('useradd'),
+				'user_zipcode'=>$this->input->post('userzip'),
+				'user_tel'=>$this->input->post('usertel'),
+				'user_mob'=>$this->input->post('usermob'),
+				'user_site'=>$this->input->post('usersite'),
+				'user_staffname'=>$this->input->post('userstaff'),
+				'user_stafftel'=>$this->input->post('userstafftel'),
+				'user_memo'=>$this->input->post('usermemo')
 			);
 			$this->db->where('user_id',$this->user_model->get_current_user_id() );
 			$this->db->update('dtd_users', $data1);
