@@ -30,7 +30,7 @@
                                 <input type="submit" class="btn btn-lg btn-success btn-block" name="btnLogin" id="btnLogin" value="Login">
 								<div class="form-group">
                                     <label>
-                                        <a href="<?=site_url('register');?>">New User, Click Here</a>
+                                        <a href="<?=site_url('user/register');?>">New User, Click Here</a>
                                     </label>
                                 </div>
                             </fieldset>
