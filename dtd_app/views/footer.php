@@ -48,6 +48,11 @@
 				"bServerSide": true,
 				"sAjaxSource": "<?=site_url('ajax/v_ord_rec');?>",
 				"responsive" : true,
+				"drawCallback" : function(){
+					$('.update_order').click(function(){
+						alert($(this).data('orderid'));
+					});
+				},
 				"columns": [
 					{ "data": "order_date" },
 					{ "data": "order_id" },
@@ -57,7 +62,8 @@
 					{ "data": "type_name" },
 					{ "data": "order_itemname" },
 					{ "data": "user_sercomp" },
-					{ "data": "user_mob" }
+					{ "data": "user_mob" },
+					{ "data": "order_status" },
 				]
 			} );
 		</script>

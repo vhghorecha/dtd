@@ -112,7 +112,6 @@ class Vendor extends CI_Controller {
 			$data=$this->Vendor_Model->get_vendor_profile($user_id);
 			$this->load->template('vendor/profile',$data);
 		}
-		//$this->load->template('vendor/profile');
 	}
 	public function orders()
 	{
@@ -122,7 +121,9 @@ class Vendor extends CI_Controller {
 	}
 	public function account()
 	{
-		$this->load->template('vendor/account');
+		$data['account'] = $this->Vendor_Model->get_user_account();
+		$data['payhist'] = $this->Vendor_Model->get_payment_history();
+		$this->load->template('vendor/account',$data);
 	}
 	public function download()
 	{

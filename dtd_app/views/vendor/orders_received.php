@@ -20,6 +20,7 @@
                         <th>Item name</th>
                         <th>Company name</th>
                         <th>Phone</th>
+                        <th>Status</th>
                     </tr>
                     </thead>
                 </table>
@@ -63,6 +64,5 @@
         </div>
     </div>
     <!-- /.container-fluid -->
-
 </div>
 <!-- /#page-wrapper -->

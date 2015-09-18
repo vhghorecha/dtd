@@ -24,27 +24,32 @@
                             <th>Amount</th>
                         </tr>
                     </thead>
-                    <tfoot>
-                        <tr>
-                           <th>Total</th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
                     <tbody>
+                    <?PHP foreach($account as $row){
+                        if($row['charge']['date']!="" || $row['recived']['num']!=""){?>
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td><?PHP echo $row['date'];?></td>
+                            <td><?PHP if($row['charge']['date']!="") echo $row['charge']['num']; else echo "0";?></td>
+                            <td><?PHP if($row['charge']['amount']!="") echo $row['charge']['amount']; else echo "0";?></td>
+                            <td><?PHP if($row['recived']['num']!="") echo $row['recived']['num']; else echo "0";?></td>
+                            <td><?PHP if($row['recived']['amount']!="") echo $row['recived']['amount']; else echo "0";?></td>
+                            <td><?PHP echo $row['charge']['amount']-$row['recived']['amount'];?></td>
                         </tr>
+                        <?PHP }?>
+                    <?PHP }?>
                     </tbody>
+                    <tfoot>
+                    <tr>
+                        <th>Total</th>
+                        <th><?PHP echo array_sum(array_column(array_column($account,'charge'),'num')); ?></th>
+                        <th><?PHP echo $cha = array_sum(array_column(array_column($account,'charge'),'amount')); ?></th>
+                        <th><?PHP echo array_sum(array_column(array_column($account,'recived'),'num')); ?></th>
+                        <th><?PHP echo $rec = array_sum(array_column(array_column($account,'recived'),'amount')); ?></th>
+                        <th><?PHP echo $cha-$rec;?></th>
+                    </tr>
+                    </tfoot>
                 </table>
+                <!--
                 <h3>Customer Statistics:</h3>
                 <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <thead>
@@ -82,6 +87,7 @@
                     </tr>
                     </tbody>
                 </table>
+                -->
             </div>
             <!-- /.col-lg-12 -->
         </div>
@@ -96,24 +102,25 @@
                             <thead>
                             <tr>
                                 <th>Date</th>
-                                <th>Amount</th>
                                 <th>Name of Bank</th>
+                                <th>Amount</th>
                             </tr>
                             </thead>
+                            <tbody>
+                            <?PHP foreach($payhist as $row){?>
+                                <tr>
+                                    <td><?PHP echo $row['pdate'];?></td>
+                                    <td><?PHP echo $row['pay_bankname'];?></td>
+                                    <td><?PHP echo $row['pay_amount'];?></td>
+                                </tr>
+                            <?PHP }?>
+                            </tbody>
                             <tfoot>
                             <tr>
-                                <th>Total</th>
-                                <th></th>
-                                <th></th>
+                                <th colspan="2">Total</th>
+                                <th><?PHP echo array_sum(array_column($payhist,'pay_amount')); ?></th>
                             </tr>
                             </tfoot>
-                            <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            </tbody>
                         </table>
                     </div>
                     <div class="panel-footer">
