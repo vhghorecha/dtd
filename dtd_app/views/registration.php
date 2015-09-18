@@ -10,77 +10,67 @@
                     <?php if (!empty($error)) { ?>
                         <div class="alert alert-danger fade in"><?= $error; ?></div>
                     <?php } ?>
-                    <?php echo form_open('registration', array(
+                    <?php echo form_open(current_url(), array(
                         'id' => 'frmregistration',
                         'role' => 'form'
                     )); ?>
                     <fieldset>
                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-
                             <div class="form-group">
-                                <input class="form-control" placeholder="Email address" name="txtusername"
-                                       id="txtusername"
-                                       type="text" value="" maxlength="25" required  autofocus>
+								<label>Username (Email)</label>
+                                <input class="form-control" placeholder="Email address" name="txtusername" id="txtusername" type="text" value="<?=@$txtusername;?>" required  autofocus>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" placeholder="Password" name="txtpass" id="txtpass"
-                                       type="password" value="" maxlength="15" required>
+								<label>Password</label>
+                                <input class="form-control" placeholder="Password" name="txtpass" id="txtpass" type="password"  value="<?=@$txtpass;?>" required>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" placeholder="Re-type Password" name="txtcpass" id="txtcpass"
-                                       type="password" value="" maxlength="15" required>
+								<label>Re-Type Password</label>
+                                <input class="form-control" placeholder="Re-type Password" name="txtcpass" id="txtcpass" type="password" value="<?=@$txtcpass;?>" required>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" placeholder="Name" name="txtname" id="txtname" type="text"
-                                       value="" required>
+								<label>Name</label>
+                                <input class="form-control" placeholder="Name" name="txtname" id="txtname" type="text" value="<?=@$txtname;?>" required>
                             </div>
                             <div class="form-group">
-                                    <textarea name="txtaddress" class="form-control" placeholder="Enter address"
-                                              id="txtaddress"
-                                              row="3" required></textarea>
+								<label>Address</label>
+                                <textarea name="txtaddress" class="form-control" placeholder="Address" id="txtaddress" row="3" required><?=@$txtaddress;?></textarea>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" placeholder="ZipCode" name="txtzip" id="txtzip" type="text"
-                                       value="" required>
+								<label>ZipCode</label>
+                                <input class="form-control" placeholder="ZipCode" name="txtzip" id="txtzip" type="text" value="<?=@$txtzip;?>" required>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <div class="form-group">
-                                <input class="form-control" placeholder="Telephone Number" name="txttel" id="txttel"
-                                       type="text"
-                                       value="" required>
+								<label>Telephone No.</label>
+                                <input class="form-control" placeholder="Telephone Number" name="txttel" id="txttel" type="text" value="<?=@$txttel;?>" required>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" placeholder="Mobile Number" name="txtmobile" id="txtmobile"
-                                       type="text"
-                                       value="" required>
+								<label>Mobile</label>
+                                <input class="form-control" placeholder="Mobile Number" name="txtmobile" id="txtmobile" type="text" value="<?=@$txtmobile;?>" required>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" placeholder="Website Address" name="txtsite" id="txtsite"
-                                       type="text"
-                                       value="" required>
+								<label>Website Address</label>
+                                <input class="form-control" placeholder="Website Address" name="txtsite" id="txtsite" type="text" value="<?=@$txtsite;?>" required>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" placeholder="Contact Person Name" name="txtperson"
-                                       id="txtperson"
-                                       type="text" value="" required>
+								<label>Contact Person</label>
+                                <input class="form-control" placeholder="Contact Person Name" name="txtperson" id="txtperson" type="text" value="<?=@$txtperson;?>" required>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" placeholder="Contact Person Number" name="txtpmob"
-                                       id="txtpmob"
-                                       type="text" value="" required>
+								<label>Contact Person Number</label>
+                                <input class="form-control" placeholder="Contact Person Number" name="txtpmob" id="txtpmob" type="text" value="<?=@$txtpmob;?>" required>
                             </div>
                             <div class="form-group">
-                                <lable>Registration Type</lable>
+                                <label>Registration Type</label>
                                 <br/>
-                                <input type="radio" name="user_type" value="male"> Customer
-                                <input type="radio" name="user_type" value="female"> Vendor
+                                <input type="radio" name="user_type" value="customer"> Customer
+                                <input type="radio" name="user_type" value="vendor"> Vendor
                             </div>
                         </div>
                         <div class="col-lg-12">
-                            <input type="submit" class="btn btn-mg btn-success " name="btnLogin" id="btnLogin"
-                                   value="Register Me">
-
+                            <input type="submit" class="btn btn-mg btn-success " name="btnRegister" id="btnRegister" value="Register">
                             <div class="form-group">
                                 <label>
                                     <a href="<?= site_url('login'); ?>">Already Register. Click Here</a>
@@ -92,5 +82,3 @@
                 </div>
             </div>
         </div>
-
-

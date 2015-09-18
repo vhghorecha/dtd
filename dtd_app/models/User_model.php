@@ -67,6 +67,7 @@ class User_Model extends CI_Model{
 	
 	public function user_insert($data){
 		$this->db->insert('users',$data);
+		return $this->db->insert_id();
 	}
 
     public function update_pwd($data){
