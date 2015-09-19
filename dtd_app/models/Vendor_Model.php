@@ -8,6 +8,10 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
         $this->load->library('Datatables');
         $this->load->model('user_model');
     }
+	public function insert($data){
+		$this->db->insert('vendor',$data);
+		return $this->db->insert_id();
+	}
     public function get_vendor_profile($user_id){
         $this->db->select('t1.user_name,t1.user_email,t1.user_mob,t1.user_add,t1.user_site,t1.user_memo,t2.vendor_comp,t2.vendor_hq1,t2.vendor_hq2,t2.vendor_hq3,t2.vendor_taxno');
         $this->db->from('dtd_users t1');
