@@ -42,18 +42,22 @@
                                     <th>Charge amount</th>
                                 </tr>
                                 </thead>
+                                <tbody>
+                                <?php foreach($dorders as $order){?>
+                                <tr>
+                                    <td><?PHP echo $order['user_name']; ?></td>
+                                    <td><?PHP echo $order['num']; ?></td>
+                                    <td><?PHP echo $order['amount']; ?></td>
+                                </tr>
+                                <?PHP }?>
+                                </tbody>
                                 <tfoot>
                                 <tr>
-                                    <th colspan="2">Total</th>
-                                    <th>XXXX</th>
+                                    <th>Total</th>
+                                    <th><?PHP echo array_sum(array_column($dorders,'num'));?></th>
+                                    <th><?PHP echo array_sum(array_column($dorders,'amount'));?></th>
                                 </tr>
                                 </tfoot>
-                                <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                </tbody>
                             </table>
                         </div>
                         <div class="panel-footer">

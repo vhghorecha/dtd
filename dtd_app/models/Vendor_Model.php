@@ -43,6 +43,15 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             ->edit_column('order_status','$1', 'callback_order_status(order_status,order_id)');
         return $this->datatables->generate();
     }
+    public function get_day_orders(){
+        $vendor_id = $this->user_model->get_current_user_id();
+         $query = $this->db->query("
+         SELECT user_name,COUNT(order_id) as num,SUM(order_amount) as amount
+         FROM dtd_order JOIN dtd_users ON order_custid=user_id
+         WHERE order_vendorid=$vendor_id AND order_date LIKE '".date('Y-m-d')."%' GROUP BY user_name");
+        $result = $query->result_array();
+        return $result;
+    }
     public function get_daily_orders(){
         $this->db->select("DATE_FORMAT(dto.order_date, '%M-%d') as date,du.user_name as cust_name,
         (SELECT count(dto.order_id)from dtd_order do2 where do2.order_status = 'Delivered'
@@ -97,7 +106,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
                 FROM dtd_vendorpay
                 WHERE pay_date = '".$date->format("Y-m-d")."%' AND pay_vendorid = ".$this->user_model->get_current_user_id()."
                 GROUP BY pay_date");
-                $data['recived'] = $query->first_row('array');
+                $data['recived'] = $query->row_array();
 
                 $result[]=$data;
             }

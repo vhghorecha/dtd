@@ -80,7 +80,7 @@
                                     <i class="fa fa-dollar  fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">20000</div>
+                                    <div class="huge">25</div>
                                     <div>Balance</div>
                                 </div>
                             </div>
