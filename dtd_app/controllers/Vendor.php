@@ -14,7 +14,8 @@ class Vendor extends CI_Controller {
 	}
 	public function index()
 	{
-		$this->load->template('vendor/index');
+		$data['all']=$this->Vendor_Model->get_summary_info();
+		$this->load->template('vendor/index',$data);
 	}
 	public function change_pwd()
 	{
@@ -102,17 +103,33 @@ class Vendor extends CI_Controller {
 	}
 	public function profile()
 	{
+		$user_id = $this->user_model->get_current_user_id();
 		$is_profile=$this->input->post('btnEditProfile');
-		if($is_profile=="Edit Profile")
+		if($is_profile=="Update Profile")
 		{
+			$data1=array(
+				'user_name'=>$this->input->post('username'),
+				'user_mob'=>$this->input->post('usermob'),
+				'user_add'=>$this->input->post('useradd'),
+				'user_zipcode'=>$this->input->post('userzip'),
+				'user_site'=>$this->input->post('usersite'),
+				'user_memo'=>$this->input->post('usermemo')
+			);
+			$this->db->where('user_id',$user_id);
+			$this->db->update('dtd_users', $data1);
+			$data2=array(
+				'vendor_comp'=>$this->input->post('compname'),
+				'vendor_hq1'=>$this->input->post('hq1'),
+				'vendor_hq2'=>$this->input->post('hq2'),
+				'vendor_hq3'=>$this->input->post('hq3'),
+			);
+			$this->db->where('user_id',$user_id);
+			$this->db->update('dtd_vendor', $data2);
 
 		}
-		else
-		{
-			$user_id = $this->user_model->get_current_user_id();
-			$data=$this->Vendor_Model->get_vendor_profile($user_id);
-			$this->load->template('vendor/profile',$data);
-		}
+		$data['profile']=$this->Vendor_Model->get_vendor_profile($user_id);
+		$this->load->template('vendor/profile',$data);
+
 	}
 	public function orders()
 	{

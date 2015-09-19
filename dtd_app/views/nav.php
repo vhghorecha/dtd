@@ -38,7 +38,7 @@
                             <a href="<?=site_url('customer/change_pwd');?>"><i class="fa fa-cogs fa-fw"></i> Change Password</a>
                         </li>
 						<li>
-                            <a href="<?=site_url();?>"><i class="fa fa-sign-out fa-fw"></i> Log Out</a>
+                            <a href="<?=site_url('user/logout');?>"><i class="fa fa-sign-out fa-fw"></i> Log Out</a>
                         </li>
 
 

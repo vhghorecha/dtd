@@ -37,6 +37,26 @@
 
 	<?php if($current_page == 'vendor' && $current_action == 'orders_received') { ?>
 		<script>
+			$(document).ready(function(){
+				$('#btn_up_code').click(function(){
+					$orderid = $('#up_orderid').val();
+					$up_code = $('#up_code').val();
+					$.ajax({
+						type:'POST',
+						url: '<?=site_url("ajax/update_order");?>',
+						dataType: 'json',
+						data: {order_id : $orderid, up_code : $up_code},
+						success:function(data, textStatus, jqXHR){
+							if(typeof data.message !== 'undefined'){
+								$('#update_res').html('<div class="alert alert-success">' + data.message + '</div>')
+							}else{
+								$('#update_res').html('<div class="alert alert-error">' + data.error + '</div>')
+							}
+							table.fnDraw(false);
+						}
+					});
+				});
+			});
 			var table = $('#v_ord_rec').dataTable( {
 				"sDom": '<"top"pl>rt<"bottom"><"clear">',
 				"aaSorting": [[0, "desc"]],
@@ -49,7 +69,8 @@
 				"responsive" : true,
 				"drawCallback" : function(){
 					$('.update_order').click(function(){
-						alert($(this).data('orderid'));
+						$('#up_orderid').val($(this).data('orderid'));
+						$('#pop_up_order').modal('show');
 					});
 				},
 				"columns": [

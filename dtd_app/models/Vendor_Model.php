@@ -7,13 +7,14 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
         parent::__construct();
         $this->load->library('Datatables');
         $this->load->model('user_model');
+        $this->load->model('general_model');
     }
 	public function insert($data){
 		$this->db->insert('vendor',$data);
 		return $this->db->insert_id();
 	}
     public function get_vendor_profile($user_id){
-        $this->db->select('t1.user_name,t1.user_email,t1.user_mob,t1.user_add,t1.user_site,t1.user_memo,t2.vendor_comp,t2.vendor_hq1,t2.vendor_hq2,t2.vendor_hq3,t2.vendor_taxno');
+        $this->db->select('t1.user_name,t1.user_email,t1.user_mob,t1.user_add,t1.user_zipcode,t1.user_site,t1.user_memo,t2.vendor_comp,t2.vendor_hq1,t2.vendor_hq2,t2.vendor_hq3,t2.vendor_taxno');
         $this->db->from('dtd_users t1');
         $this->db->join('dtd_vendor t2',' t1.user_id=t2.user_id');
         $this->db->where("t1.user_id=$user_id");
@@ -122,6 +123,33 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             FROM dtd_vendorpay WHERE pay_vendorid=3 GROUP BY pdate ORDER BY pay_date");
             $result = $query->result_array();
             return $result;
+        }
+        public function get_summary_info(){
+            $user_id = $this->user_model->get_current_user_id();
+            $vendor_id = $this->get_vendor_id($user_id);
+            $this->db->select('order_id');
+            $this->db->where('order_vendorid', $vendor_id);
+            $this->db->from('order');
+            $data['count'] = $this->db->count_all_results();
+
+            $this->db->select('order_id');
+            $this->db->where(array('order_vendorid' => $vendor_id, 'order_status' => 'Pending'));
+            $this->db->from('order');
+            $data['pending'] = $this->db->count_all_results();
+
+            $this->db->select('order_id');
+            $this->db->where(array('order_vendorid' => $vendor_id, 'order_status' => 'Delivered'));
+            $this->db->from('order');
+            $data['deliver'] = $this->db->count_all_results();
+
+            $data['balance'] = $this->general_model->get_single_val('user_balance', 'users', array('user_id' => $user_id));
+            return $data;
+        }
+
+        public function update_order($data,$order_id){
+            $this->db->where('order_id',$order_id);
+            $this->db->update('order', $data);
+            return $this->db->affected_rows();
         }
 }
 ?>

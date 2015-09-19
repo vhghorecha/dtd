@@ -14,7 +14,7 @@
                                     <i class="fa fa-envelope fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">3</div>
+                                    <div class="huge"><?php echo $all['count']; ?></div>
                                     <div>Request Received</div>
                                 </div>
                             </div>
@@ -36,7 +36,7 @@
                                     <i class="fa fa-thumbs-o-up fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">1</div>
+                                    <div class="huge"><?php echo $all['deliver']; ?></div>
                                     <div>Request Processed</div>
                                 </div>
                             </div>
@@ -58,7 +58,7 @@
                                     <i class="fa fa-lock fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">1</div>
+                                    <div class="huge"><?php echo $all['pending']; ?></div>
                                     <div>Request Pending</div>
                                 </div>
                             </div>
@@ -80,7 +80,7 @@
                                     <i class="fa fa-dollar  fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">25</div>
+                                    <div class="huge"><?=$all['balance'];?></div>
                                     <div>Balance</div>
                                 </div>
                             </div>

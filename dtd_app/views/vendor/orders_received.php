@@ -70,3 +70,21 @@
     <!-- /.container-fluid -->
 </div>
 <!-- /#page-wrapper -->
+<div class="modal fade" role="dialog" id="pop_up_order">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header alert alert-info">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Update Order</h4>
+            </div>
+            <div class="modal-body">
+                <div id="update_res"></div>
+                <input type="hidden" id="up_orderid"/>
+                <input type="text" id="up_code" name="up_code" placeholder="Enter Update Code" />
+                <input type="button" id="btn_up_code" name="btn_up_code" value="Update"/>
+            </div>
+        </div>
+    </div>
+</div>

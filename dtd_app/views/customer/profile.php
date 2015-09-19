@@ -28,20 +28,16 @@
                                 <tr>
                                     <th>Item</th>
                                     <th>Description</th>
-
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
-
                                     <td>Name</td>
                                     <td><input class="form-control" value="<? echo $profile['user_name']; ?>" name="username" id="username"></td>
-
                                 </tr>
                                 <tr>
                                     <td>Email</td>
                                     <td><? echo $profile['user_email']; ?></td>
-
                                 </tr>
                                 <tr>
                                     <td>Telephone Number</td>
@@ -63,7 +59,6 @@
                                     <td>Staff Telephone No</td>
                                     <td><input class="form-control" value="<? echo $profile['user_stafftel']; ?>" name="userstafftel" id="userstafftel"></td>
                                 </tr>
-
                                 </tbody>
                             </table>
                         </div>
@@ -92,14 +87,12 @@
                                 <tr>
                                     <th>Item</th>
                                     <th>Description</th>
-
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
                                     <td>Mailing Address</td>
                                     <td><input class="form-control" value="<? echo $profile['user_add']; ?>" name="useradd" id="useradd"></td>
-
                                 </tr>
                                 <tr>
                                     <td>Zip Code</td>
@@ -117,7 +110,6 @@
             <!-- /.col-lg-6 -->
         </div>
         <div class="row">
-
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -131,7 +123,6 @@
                                 <tr>
                                     <textarea class="form-control"rows="3" name="usermemo" id="usermemo"><? echo $profile['user_memo']; ?></textarea>
                                 </tr>
-
                                 </tbody>
                             </table>
                         </div>

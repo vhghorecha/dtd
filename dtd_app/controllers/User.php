@@ -114,4 +114,9 @@ class User extends CI_Controller {
 			$this->load->template('registration');
 		}
 	}
+
+	public function logout(){
+		$this->session->unset_userdata('userinfo');
+		redirect("/");
+	}
 }
