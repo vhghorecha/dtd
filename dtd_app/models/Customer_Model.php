@@ -9,6 +9,11 @@ class Customer_Model extends CI_Model
         parent::__construct();
         $this->load->library('Datatables');
     }
+	
+	public function insert($data){
+		$this->db->insert('cust',$data);
+		return $this->db->insert_id();
+	}
 
     public function get_item_type()
     {

@@ -36,18 +36,22 @@ class Login extends CI_Controller {
 			if ($this->form_validation->run() == true)
 			{
 				$data = $this->user_model->validate();
-				if($data['validated'])
-				{
-					$this->session->set_userdata('userinfo', $data);
-					if($data['userrole'] == 'vendor')
+				if($data['validated']){
+					if($data['is_active'])
 					{
-						redirect('vendor');
-					}else{
-						redirect('customer');
+						$this->session->set_userdata('userinfo', $data);
+						if($data['userrole'] == 'vendor')
+						{
+							redirect('vendor');
+						}else{
+							redirect('customer');
+						}
 					}
-				}
-				else
-				{
+					else
+					{
+						$error = "Your account not activated by Admin";
+					}
+				}else{
 					$error = "Invalid Email or Password";
 				}
 			}

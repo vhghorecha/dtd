@@ -5,6 +5,8 @@ class User extends CI_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->load->model('user_model');
+		$this->load->model('customer_model');
+		$this->load->model('vendor_model');
 		$this->load->library('encryption');
 	}
 	
@@ -25,10 +27,11 @@ class User extends CI_Controller {
 				array(
 					'field' => 'txtusername',
 					'label' => 'E-mail',
-					'rules' => 'required|valid_email',
+					'rules' => 'required|valid_email|is_unique[users.user_email]',
 					'errors' => array(
 						'required' => 'You must provide a %s',
-						'valid_email' => 'You must provide a valid %s'
+						'valid_email' => 'You must provide a valid %s',
+						'is_unique' => 'Email address already registered...',
 					)
 				),
 				array(
@@ -79,25 +82,33 @@ class User extends CI_Controller {
 				$data['user_stafftel'] = $this->input->post('txtpmob');
 				$data['user_role'] = $this->input->post('user_type');
 				$user_id = $this->user_model->user_insert($data);
-				$user_data = array(
-					'userid' => $user_id,
-					'username' => $data['user_name'],
-					'userrole' => $data['user_role'],
-					'validated' => true
-				);
-				$this->session->set_userdata('userinfo', $user_data);
-				if($data['user_role'] == 'vendor')
-				{
-					redirect('vendor');
-				}else{
-					redirect('customer');
+				if($user_id > 0){
+					$user_data = array(
+						'userid' => $user_id,
+						'username' => $data['user_name'],
+						'userrole' => $data['user_role'],
+						'validated' => true
+					);
+					$this->session->set_userdata('userinfo', $user_data);
+					$ins_data['user_id'] = $user_id;
+					if($data['user_role'] == 'vendor')
+					{
+						$this->vendor_model->insert($ins_data);
+					}else{
+						$this->customer_model->insert($ins_data);
+					}
+					$message = "Register successfully. Admin will activate your account.";
 				}
-				
 			}else{
 				$error = validation_errors();
 			}
-			$data = $_POST;
-			$data['error'] = $error;
+			if(!empty($error)){
+				$data = $_POST;
+				$data['error'] = $error;
+			}
+			if(!empty($message)){
+				$data['message'] = $message;
+			}
 			$this->load->template('registration',$data);
 		}else{
 			$this->load->template('registration');

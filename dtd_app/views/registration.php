@@ -10,6 +10,9 @@
                     <?php if (!empty($error)) { ?>
                         <div class="alert alert-danger fade in"><?= $error; ?></div>
                     <?php } ?>
+					<?php if (!empty($message)) { ?>
+                        <div class="alert alert-success fade in"><?= $message; ?></div>
+                    <?php } ?>
                     <?php echo form_open(current_url(), array(
                         'id' => 'frmregistration',
                         'role' => 'form'

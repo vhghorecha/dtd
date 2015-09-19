@@ -26,6 +26,7 @@ class User_Model extends CI_Model{
 				'userid' => $row->user_id,
 				'username' => $row->user_name,
 				'userrole' => $row->user_role,
+				'is_active' => $row->is_active,
 				'validated' => true
 			);
             return $data;
