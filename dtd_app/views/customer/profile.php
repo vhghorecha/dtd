@@ -77,7 +77,7 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Address Information
+                        Company Information
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
@@ -90,6 +90,18 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                <tr>
+                                    <td>Company Name</td>
+                                    <td><input class="form-control" value="<? echo $profile['user_sercomp']; ?>" name="sercomp" id="sercomp"></td>
+                                </tr>
+                                <tr>
+                                    <td>Registration No.</td>
+                                    <td><input class="form-control" value="<? echo $profile['user_lob']; ?>" name="lob" id="lob"></td>
+                                </tr>
+                                <tr>
+                                    <td>Line of Business</td>
+                                    <td><input class="form-control" value="<? echo $profile['user_regno']; ?>" name="regno" id="regno"></td>
+                                </tr>
                                 <tr>
                                     <td>Mailing Address</td>
                                     <td><input class="form-control" value="<? echo $profile['user_add']; ?>" name="useradd" id="useradd"></td>

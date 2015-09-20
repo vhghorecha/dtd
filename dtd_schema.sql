@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 19, 2015 at 05:39 AM
+-- Generation Time: Sep 20, 2015 at 12:01 PM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -55,16 +55,14 @@ CREATE TABLE IF NOT EXISTS `dtd_cust` (
   `user_lob` varchar(45) DEFAULT NULL,
   `user_sercomp` varchar(100) NOT NULL,
   PRIMARY KEY (`cust_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `dtd_cust`
 --
 
 INSERT INTO `dtd_cust` (`cust_id`, `user_id`, `user_regno`, `vendor_id`, `user_grade`, `user_lob`, `user_sercomp`) VALUES
-(1, 2, '4564689847', 1, 1, 'Shopping', 'Snapdeal'),
-(2, 4, '656598742', 1, 2, 'Misc', 'Virgo Tysen'),
-(3, 4, '4564689847', 2, 1, 'Shopping', 'Flopkart');
+(1, 2, 'E-Commerce', NULL, NULL, 'US-REG-OS258694', 'Flipcarto Inc.');
 
 -- --------------------------------------------------------
 
@@ -137,15 +135,7 @@ CREATE TABLE IF NOT EXISTS `dtd_item_type` (
   `type_id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `type_name` varchar(20) NOT NULL,
   PRIMARY KEY (`type_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
-
---
--- Dumping data for table `dtd_item_type`
---
-
-INSERT INTO `dtd_item_type` (`type_id`, `type_name`) VALUES
-(1, 'Mobile'),
-(2, 'Box');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -174,23 +164,7 @@ CREATE TABLE IF NOT EXISTS `dtd_order` (
   `order_status` varchar(20) NOT NULL,
   `order_updatecode` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`order_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
-
---
--- Dumping data for table `dtd_order`
---
-
-INSERT INTO `dtd_order` (`order_id`, `order_custid`, `order_vendorid`, `order_date`, `order_recipient`, `order_address`, `order_zipcode`, `order_telp`, `order_telno`, `order_mobp`, `order_mobno`, `order_typeid`, `order_amount`, `order_itemname`, `order_desc`, `order_memo`, `order_status`, `order_updatecode`) VALUES
-(1, 1, 1, '2015-01-29 18:30:00', 'Bharat Patel', 'Rasala Road', '0', '0', '221617', '0', '9427157507', 1, '100.00', 'LG Mobile', '', 'Is it compulsory to write any thing in memo?', 'Delivered', NULL),
-(2, 1, 1, '2015-11-07 18:30:00', 'Vimal Ghorecha', 'Rajkot', '0', '0', '101010', '0', '9898989898', 2, '100.00', 'LG Mobile', '', 'Nothign', 'Pending', NULL),
-(3, 2, 3, '2015-09-18 18:30:00', 'Hardik Mehta', 'Wankaner', '0', '0', '0222', '0', '9427157507', 1, '100.00', 'Mobile', 'Mobile', 'Mobile', 'Pending', NULL),
-(4, 2, 3, '2015-09-19 04:14:13', 'Vimal Ghorecha', 'Rajkot', '0', '0', '221617', '0', '9898986555', 1, '100.00', 'Mobile', 'Mobile Descritpin', 'Memo Description', 'Delivered', NULL),
-(5, 2, 3, '2015-09-19 04:14:11', 'Hardik Mehta', 'Wankaner', '0', '0', '221617', '0', '9427157507', 1, '100.00', 'Mobile', 'Mobile', 'Mobile', 'Pending', NULL),
-(6, 1, 1, '2015-09-29 18:30:00', 'Bharat Patel', 'Rasala Road', '0', '0', '221617', '0', '9427157507', 1, '100.00', 'LG Mobile', '', 'Is it compulsory to write any thing in memo?', 'Delivered', NULL),
-(7, 1, 1, '2015-01-29 18:30:00', 'Bharat Patel', 'Rasala Road', '0', '0', '221617', '0', '9427157507', 1, '100.00', 'LG Mobile', '', 'Is it compulsory to write any thing in memo?', 'Delivered', NULL),
-(8, 1, 1, '2015-11-07 18:30:00', 'Vimal Ghorecha', 'Rajkot', '0', '0', '101010', '0', '9898989898', 2, '100.00', 'LG Mobile', '', 'Nothign', 'Pending', NULL),
-(9, 4, 3, '2015-09-19 04:14:13', 'Vimal Ghorecha', 'Rajkot', '0', '0', '221617', '0', '9898986555', 1, '100.00', 'Mobile', 'Mobile Descritpin', 'Memo Description', 'Delivered', NULL),
-(10, 1, 1, '2015-11-07 18:30:00', 'Vimal Ghorecha', 'Rajkot', '0', '0', '101010', '0', '9898989898', 2, '100.00', 'LG Mobile', '', 'Nothign', 'Pending', NULL);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -217,17 +191,15 @@ CREATE TABLE IF NOT EXISTS `dtd_users` (
   `user_role` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_email_UNIQUE` (`user_email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `dtd_users`
 --
 
 INSERT INTO `dtd_users` (`user_id`, `user_name`, `user_email`, `user_pass`, `user_add`, `user_zipcode`, `user_tel`, `user_mob`, `user_site`, `user_balance`, `user_staffname`, `user_stafftel`, `user_memo`, `is_active`, `user_role`) VALUES
-(2, 'Vimal Ghorecha', 'vimal14569@gmail.com', 'vigour', '', '36005', '', '7405100630', '', '0.00', '', '', '', 1, 'customer'),
-(3, 'Chirag Bhatt', 'chiragbhattmca@gmail.com', 'abc', 'park street London', '36000', '2589654', '36925874145', 'www.flipkarto.com', '0.00', NULL, NULL, 'This is the first demo of Vendor Profile', 1, 'vendor'),
-(4, 'Hardik Mehta', 'hsm007@gmail.com', 'vigour', NULL, '36005', NULL, '7405100630', NULL, '0.00', NULL, NULL, NULL, 1, 'customer'),
-(5, 'JOHN CENA', 'johncena@wwe.com', 'abc', 'park street London', '36000', '2589654', '36925874145', 'www.flipkarto.com', '0.00', NULL, NULL, 'This is the first demo of Vendor Profile', 1, 'vendor');
+(1, 'DFX Courier Service', 'chiragbhattmca@gmail.com', 'abc', 'Park Street, 178 Lane, New Joursey', '36000', '011-586-933004', '9685472356', 'www.dfx.com', '0.00', 'Mr. CHIRAG BHATT', '98765432100', 'This is a Vendor who can provide the service', 1, 'vendor'),
+(2, 'Flipcarto Inc.', 'vimalghorecha@gmail.com', 'vhg', 'Arcane Complex, 122 Lane, Wall Street, Callifornia', '36985', '055-987-635-41', '074-7532-698', 'www.flipcarto.com', '0.00', 'Vimal Ghorecha', '074-3214-578', 'This is Customer who can use the courier service from allocated vendor', 1, 'customer');
 
 -- --------------------------------------------------------
 
@@ -247,15 +219,14 @@ CREATE TABLE IF NOT EXISTS `dtd_vendor` (
   `pay_bankacno` varchar(30) NOT NULL,
   `pay_bankname` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`vendor_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `dtd_vendor`
 --
 
 INSERT INTO `dtd_vendor` (`vendor_id`, `user_id`, `vendor_taxno`, `vendor_comp`, `vendor_hq1`, `vendor_hq2`, `vendor_hq3`, `pay_bankacno`, `pay_bankname`) VALUES
-(1, 3, 'PLOKI1144586DER', 'Flipkarto', 'NEW YORK', 'LAS VEGAS', 'CALLIFORNIA', 'NYNSB1598622473', 'NEW YORK NAGRIK SAHKARI BANK'),
-(2, 5, 'XXXER55440LOP', 'Flipkarto', 'NEW YORK', 'LAS VEGAS', 'CALLIFORNIA', 'NYNSB1598622473', 'NEW YORK NAGRIK SAHKARI BANK');
+(1, 1, 'AQDLLOP234EERRT6G', 'DFX Inc', 'New Joursey', 'New York', 'Filadelphia', '526335589472563', 'New York Cooperative Bank');
 
 -- --------------------------------------------------------
 
@@ -273,17 +244,7 @@ CREATE TABLE IF NOT EXISTS `dtd_vendorpay` (
   `pay_bankacno` varchar(30) NOT NULL,
   `pay_bankname` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`dep_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
-
---
--- Dumping data for table `dtd_vendorpay`
---
-
-INSERT INTO `dtd_vendorpay` (`dep_id`, `pay_vendorid`, `pay_date`, `pay_amount`, `pay_transno`, `pay_bankacno`, `pay_bankname`) VALUES
-(1, 1, '2015-02-18 00:00:00', '100.00', 'AQ3456FF', '10999', 'SBI'),
-(2, 2, '2015-09-09 00:00:00', '125.00', 'DESw34567JJU', '12999', 'ICICI'),
-(3, 3, '2015-08-19 00:00:00', '225.00', 'AQ3456FF', '10999', 'SBI'),
-(4, 3, '2015-09-09 00:00:00', '75.00', 'TR555YU6', '10999', 'SBI');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 

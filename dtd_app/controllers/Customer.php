@@ -217,7 +217,6 @@ class Customer extends CI_Controller {
 		if($is_profile=="Update Profile")
 		{
 			$data1=array(
-
 				'user_name'=>$this->input->post('username'),
 				'user_add'=>$this->input->post('useradd'),
 				'user_zipcode'=>$this->input->post('userzip'),
@@ -226,10 +225,17 @@ class Customer extends CI_Controller {
 				'user_site'=>$this->input->post('usersite'),
 				'user_staffname'=>$this->input->post('userstaff'),
 				'user_stafftel'=>$this->input->post('userstafftel'),
-				'user_memo'=>$this->input->post('usermemo')
+				'user_memo'=>$this->input->post('usermemo'),
 			);
 			$this->db->where('user_id',$this->user_model->get_current_user_id() );
-			$this->db->update('dtd_users', $data1);
+			$this->db->update('users', $data1);
+			$data2=array(
+				'user_sercomp'=>$this->input->post('sercomp'),
+				'user_lob'=>$this->input->post('lob'),
+				'user_regno'=>$this->input->post('regno'),
+			);
+			$this->db->where('user_id',$this->user_model->get_current_user_id() );
+			$this->db->update('cust', $data2);
 		}
 		$data['profile']=$this->Customer_Model->get_user_profile();
 		$this->load->template('customer/profile',$data);

@@ -113,7 +113,7 @@ class Vendor extends CI_Controller {
 				'user_add'=>$this->input->post('useradd'),
 				'user_zipcode'=>$this->input->post('userzip'),
 				'user_site'=>$this->input->post('usersite'),
-				'user_memo'=>$this->input->post('usermemo')
+				'user_memo'=>$this->input->post('umemo')
 			);
 			$this->db->where('user_id',$user_id);
 			$this->db->update('dtd_users', $data1);
@@ -122,6 +122,10 @@ class Vendor extends CI_Controller {
 				'vendor_hq1'=>$this->input->post('hq1'),
 				'vendor_hq2'=>$this->input->post('hq2'),
 				'vendor_hq3'=>$this->input->post('hq3'),
+				'vendor_taxno'=>$this->input->post('taxrno'),
+				'pay_bankacno'=>$this->input->post('bankacno'),
+				'pay_bankname'=>$this->input->post('bankname'),
+
 			);
 			$this->db->where('user_id',$user_id);
 			$this->db->update('dtd_vendor', $data2);
