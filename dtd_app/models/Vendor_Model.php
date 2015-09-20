@@ -38,7 +38,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
     public function get_orders(){
         $this->load->helper('Datatable');
-        $vendor_id = $this->get_vendor_id($this->user_model->get_current_user_id());
+        $vendor_id = $this->user_model->get_current_user_id();
         $this->datatables->select("DATE_FORMAT(dtd_order.order_date,'%b-%d')as order_date,dtd_order.order_id,dtd_users.user_name,dtd_order.order_recipient,dtd_order.order_telno,dtd_item_type.type_name,dtd_order.order_itemname,dtd_cust.user_sercomp,dtd_users.user_mob,dtd_order.order_status")
             ->from('dtd_order')
             ->join('dtd_cust','dtd_cust.cust_id=dtd_order.order_custid')
@@ -125,8 +125,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             return $result;
         }
         public function get_summary_info(){
-            $user_id = $this->user_model->get_current_user_id();
-            $vendor_id = $this->get_vendor_id($user_id);
+            $vendor_id = $this->user_model->get_current_user_id();
             $this->db->select('order_id');
             $this->db->where('order_vendorid', $vendor_id);
             $this->db->from('order');

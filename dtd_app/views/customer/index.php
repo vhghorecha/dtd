@@ -80,7 +80,7 @@
                                     <i class="fa fa-dollar  fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">1200</div>
+                                    <div class="huge"><?=$all['balance'];?></div>
                                     <div>Balance</div>
                                 </div>
                             </div>

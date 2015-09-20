@@ -25,24 +25,17 @@
                     </thead>
                     <tbody>
                     <?php
-                    $n=count($account);
-                    $i=0;
-                    do {
+                    foreach($account as $acc) {
                         ?>
                         <tr>
-                            <td><? echo $account[$i]['ord_date']; ?></td>
-                            <td><? echo $account[$i]['COUNT( order_id )']; ?></td>
-                            <td><? echo $account[$i]['SUM(order_amount)']; ?></td>
-                            <td><? echo $account[$i]['count(dep_id)']; ?></td>
-                            <td><? echo $account[$i]['sum(dep_amount)']; ?></td>
+                            <td><? echo $acc['ord_date']; ?></td>
+                            <td><? echo $acc['COUNT( order_id )']; ?></td>
+                            <td><? echo $acc['SUM(order_amount)']; ?></td>
+                            <td><? echo $acc['count(dep_id)']; ?></td>
+                            <td><? echo $acc['sum(dep_amount)']; ?></td>
                             <td></td>
                         </tr>
-                        <?php
-                        $i++;
-                    }while($i<$n)
-                    ?>
-
-
+                        <?php } ?>
                     </tbody>
                 </table>
             </div>

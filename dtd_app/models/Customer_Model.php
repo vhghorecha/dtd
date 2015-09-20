@@ -8,6 +8,7 @@ class Customer_Model extends CI_Model
     {
         parent::__construct();
         $this->load->library('Datatables');
+        $this->load->model('general_model');
     }
 	
 	public function insert($data){
@@ -134,25 +135,26 @@ class Customer_Model extends CI_Model
 
     public function get_all_orders()
     {
+        $user_id = $this->user_model->get_current_user_id();
         $this->db->select('order_id');
         $this->db->from('dtd_order');
-        $this->db->where('order_custid', $this->user_model->get_current_user_id());
+        $this->db->where('order_custid', $user_id);
         //$this->db->like('order_date', date('Y-m-d'));
         $all['count'] = $this->db->count_all_results();
 
         $this->db->select('order_status');
         $this->db->from('dtd_order');
-        $this->db->where('order_custid', $this->user_model->get_current_user_id());
+        $this->db->where('order_custid', $user_id);
         $this->db->where('order_status', 'Pending');
         $all['pending'] = $this->db->count_all_results();
 
         $this->db->select('order_status');
         $this->db->from('dtd_order');
-        $this->db->where('order_custid', $this->user_model->get_current_user_id());
+        $this->db->where('order_custid', $user_id);
         $this->db->where('order_status', 'Delivered');
         $all['deliver'] = $this->db->count_all_results();
 
-
+        $all['balance'] = $this->general_model->get_single_val('user_balance', 'users', array('user_id' => $user_id));
         return $all;
     }
 
@@ -165,7 +167,7 @@ FROM dtd_cust
 LEFT OUTER JOIN dtd_order ON dtd_order.order_custid = dtd_cust.cust_id
 LEFT OUTER JOIN dtd_custdep ON dtd_custdep.dep_custid = dtd_cust.cust_id  AND DATE_FORMAT(dtd_custdep.dep_date, '%M-%Y') = DATE_FORMAT( dtd_order.order_date, '%M-%Y' )
 GROUP BY ord_date
-HAVING dtd_cust.cust_id = 2
+HAVING dtd_cust.cust_id = ?
 UNION
 SELECT cust_id, DATE_FORMAT( dtd_custdep.dep_date, '%M-%Y' ) AS ord_date, COUNT( order_id ), SUM(order_amount), count(dep_id), sum(dep_amount)
 FROM dtd_cust
@@ -173,7 +175,7 @@ LEFT OUTER JOIN dtd_custdep ON dtd_custdep.dep_custid = dtd_cust.cust_id
 LEFT OUTER JOIN dtd_order ON dtd_order.order_custid = dtd_cust.cust_id AND DATE_FORMAT(dtd_custdep.dep_date, '%M-%Y') = DATE_FORMAT( dtd_order.order_date, '%M-%Y' )
 GROUP BY ord_date
 HAVING dtd_cust.cust_id = ?
-) account",$cust_id);
+) account",array($cust_id,$cust_id));
         return $query->result_array();
 
     }
