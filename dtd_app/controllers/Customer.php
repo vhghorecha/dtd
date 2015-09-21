@@ -22,70 +22,98 @@ class Customer extends CI_Controller {
 	}
 	public function book_order()
 	{
+		$data = array();
+		$data['item_type'] = $this->Customer_Model->get_item_type();
 		$is_order = $this->input->post('btnOrder');
 		if($is_order == 'Book Order')
 		{
-			$config = array(
-				array(
-					'field' => 'recname',
-					'label' => 'Recipient Name',
-					'rules' => 'required',
-					'errors' => array(
-						'required' => 'You must provide a %s'
-					)
-				),
-				array(
-					'field' => 'address',
-					'label' => 'Address',
-					'rules' => 'required',
-					'errors' => array(
-						'required' => 'You must provide a %s'
-					)
-				),
-				array(
-					'field' => 'mobile',
-					'label' => 'Mobile Number',
-					'rules' => 'required|numeric',
-					'errors' => array(
-						'required' => 'You must provide a %s',
-						'numeric' => '%s must be numeric'
-					)
-				),
-				array(
-					'field' => 'telephone',
-					'label' => 'Telephone Number',
-					'rules' => 'required|numeric',
-					'errors' => array(
-						'required' => 'You must provide a %s',
-						'numeric' => '%s must be numeric'
-					)
-				),
-				array(
-					'field' => 'itemname',
-					'label' => 'Item Name',
-					'rules' => 'required',
-					'errors' => array(
-						'required' => 'You must provide a %s'
-					)
-				),
-				array(
-					'field' => 'itemdesc',
-					'label' => 'Item Description',
-					'rules' => 'required',
-					'errors' => array(
-						'required' => 'You must provide a %s'
-					)
-				),
-				array(
-					'field' => 'itemmemo',
-					'label' => 'Item Memo',
-					'rules' => 'required',
-					'errors' => array(
-						'required' => 'You must provide a %s'
-					)
-				)
+			$config = $this->order_validation();
+			$this->form_validation->set_rules($config);
+			if ($this->form_validation->run() == FALSE)
+			{
+				$data['error'] = validation_errors();
+				$data['action'] = 'customer/book_order';
+			}
+			else {
+				$data['action'] = 'customer/cnf_order';
+			}
+		}else{
+			$data['action'] = 'customer/book_order';
+		}
+		$this->load->template('customer/book_order',$data);
+	}
 
-			);
+	public function order_validation(){
+		$config = array(
+			array(
+				'field' => 'recname',
+				'label' => 'Recipient Name',
+				'rules' => 'required',
+				'errors' => array(
+					'required' => 'You must provide a %s'
+				)
+			),
+			array(
+				'field' => 'address',
+				'label' => 'Address',
+				'rules' => 'required',
+				'errors' => array(
+					'required' => 'You must provide a %s'
+				)
+			),
+			array(
+				'field' => 'mobile',
+				'label' => 'Mobile Number',
+				'rules' => 'required|numeric',
+				'errors' => array(
+					'required' => 'You must provide a %s',
+					'numeric' => '%s must be numeric'
+				)
+			),
+			array(
+				'field' => 'telephone',
+				'label' => 'Telephone Number',
+				'rules' => 'required|numeric',
+				'errors' => array(
+					'required' => 'You must provide a %s',
+					'numeric' => '%s must be numeric'
+				)
+			),
+			array(
+				'field' => 'itemname',
+				'label' => 'Item Name',
+				'rules' => 'required',
+				'errors' => array(
+					'required' => 'You must provide a %s'
+				)
+			),
+			array(
+				'field' => 'itemdesc',
+				'label' => 'Item Description',
+				'rules' => 'required',
+				'errors' => array(
+					'required' => 'You must provide a %s'
+				)
+			),
+			array(
+				'field' => 'itemmemo',
+				'label' => 'Item Memo',
+				'rules' => 'required',
+				'errors' => array(
+					'required' => 'You must provide a %s'
+				)
+			)
+
+		);
+		return $config;
+	}
+
+	public function cnf_order()
+	{
+		$is_order = $this->input->post('btnOrder');
+		if($is_order == 'Book Order')
+		{
+			$config = $this->order_validation();
 			$this->form_validation->set_rules($config);
 
 			if ($this->form_validation->run() == FALSE)

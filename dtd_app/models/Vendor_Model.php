@@ -141,7 +141,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             $this->db->from('order');
             $data['deliver'] = $this->db->count_all_results();
 
-            $data['balance'] = $this->general_model->get_single_val('user_balance', 'users', array('user_id' => $user_id));
+            $data['balance'] = $this->general_model->get_single_val('user_balance', 'users', array('user_id' => $vendor_id));
             return $data;
         }
 

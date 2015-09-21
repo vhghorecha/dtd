@@ -35,15 +35,17 @@
         <option value="$PROJECT_DIR$/dtd_app/views/registration.php" />
         <option value="$PROJECT_DIR$/dtd_app/views/customer/change_pwd.php" />
         <option value="$PROJECT_DIR$/dtd_app/views/header.php" />
-        <option value="$PROJECT_DIR$/dtd_app/models/Vendor_Model.php" />
         <option value="$PROJECT_DIR$/dtd_app/views/customer/orders.php" />
         <option value="$PROJECT_DIR$/dtd_app/views/footer.php" />
         <option value="$PROJECT_DIR$/dtd_app/views/vendor/orders_received.php" />
         <option value="$PROJECT_DIR$/dtd_app/controllers/Ajax.php" />
         <option value="$PROJECT_DIR$/dtd_app/views/customer/account.php" />
-        <option value="$PROJECT_DIR$/dtd_app/controllers/Customer.php" />
         <option value="$PROJECT_DIR$/dtd_app/views/customer/profile.php" />
         <option value="$PROJECT_DIR$/dtd_app/models/Customer_Model.php" />
+        <option value="$PROJECT_DIR$/dtd_app/models/Vendor_Model.php" />
+        <option value="$PROJECT_DIR$/dtd_app/views/customer/cnf_order.php" />
+        <option value="$PROJECT_DIR$/dtd_app/controllers/Customer.php" />
+        <option value="$PROJECT_DIR$/dtd_app/views/customer/book_order.php" />
       </list>
     </option>
   </component>
@@ -59,8 +61,10 @@
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
-    <option name="width" value="1366" />
-    <option name="height" value="738" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1370" />
+    <option name="height" value="744" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -85,8 +89,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -197,6 +199,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -205,6 +209,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\PHPWork\dtd\dtd_app\views\customer" />
       <recent name="F:\Software\Development\xampp\htdocs\dtd\dtd_app\controllers" />
     </key>
   </component>
@@ -250,17 +255,17 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1366" height="738" extended-state="0" />
+    <frame x="-8" y="-8" width="1370" height="744" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2636778" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26366323" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32978722" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -335,9 +340,9 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="7" column="5" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
           <folding>
-            <marker date="1442472852437" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..cust_id..." />
-            <marker date="1442472852437" expanded="true" signature="-1:-1" placeholder="SELECT cust_..dtd_cust..." />
-            <marker date="1442472852437" expanded="true" signature="-1:-1" placeholder="SELECT cust_..dtd_cust..." />
+            <marker date="1442745114745" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..cust_id..." />
+            <marker date="1442745114745" expanded="true" signature="-1:-1" placeholder="SELECT cust_..dtd_cust..." />
+            <marker date="1442745114745" expanded="true" signature="-1:-1" placeholder="SELECT cust_..dtd_cust..." />
           </folding>
         </state>
       </provider>
@@ -405,13 +410,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dtd_app/controllers/Ajax.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.60261196">
-          <caret line="19" column="50" selection-start-line="19" selection-start-column="35" selection-end-line="19" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dtd_app/views/customer/account.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.72727275">
@@ -433,53 +431,92 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dtd_app/views/customer/book_order.php">
+    <entry file="file://$PROJECT_DIR$/dtd_app/views/customer/profile.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4848485">
-          <caret line="70" column="124" selection-start-line="70" selection-start-column="24" selection-end-line="70" selection-end-column="124" />
+        <state vertical-scroll-proportion="-13.923077">
+          <caret line="131" column="138" selection-start-line="131" selection-start-column="138" selection-end-line="131" selection-end-column="138" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dtd_app/models/Vendor_Model.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3939394">
-          <caret line="13" column="45" selection-start-line="9" selection-start-column="8" selection-end-line="13" selection-end-column="45" />
+        <state vertical-scroll-proportion="0.9414802">
+          <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
+          <folding>
+            <marker date="1442745619623" expanded="true" signature="-1:-1" placeholder="SELECT user_..dtd_order..." />
+            <marker date="1442745619623" expanded="true" signature="-1:-1" placeholder="SELECT DATE_..." />
+            <marker date="1442745619623" expanded="true" signature="-1:-1" placeholder="SELECT COUNT..dtd_vendorpay..." />
+            <marker date="1442745619623" expanded="true" signature="-1:-1" placeholder="SELECT DATE_..dtd_vendorpay..." />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dtd_app/views/customer/profile.php">
+    <entry file="file://$PROJECT_DIR$/dtd_app/controllers/User.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.923077">
-          <caret line="131" column="138" selection-start-line="131" selection-start-column="138" selection-end-line="131" selection-end-column="138" />
+        <state vertical-scroll-proportion="0.9414802">
+          <caret line="122" column="0" selection-start-line="122" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dtd_app/models/User_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.70740104">
+          <caret line="70" column="19" selection-start-line="70" selection-start-column="19" selection-end-line="70" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dtd_app/views/registration.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.4545455">
-          <caret line="12" column="34" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="34" />
+        <state vertical-scroll-proportion="-15.038462">
+          <caret line="23" column="184" selection-start-line="23" selection-start-column="32" selection-end-line="23" selection-end-column="184" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dtd_app/views/customer/cnf_order.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.615385">
+          <caret line="54" column="22" selection-start-line="54" selection-start-column="22" selection-end-line="54" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dtd_app/models/Customer_Model.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="3.878788">
-          <caret line="146" column="51" selection-start-line="146" selection-start-column="51" selection-end-line="146" selection-end-column="51" />
+        <state vertical-scroll-proportion="-10.461538">
+          <caret line="31" column="19" selection-start-line="31" selection-start-column="19" selection-end-line="31" selection-end-column="19" />
           <folding>
-            <marker date="1442472852437" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..cust_id..." />
-            <marker date="1442472852437" expanded="true" signature="-1:-1" placeholder="SELECT cust_..dtd_cust..." />
-            <marker date="1442472852437" expanded="true" signature="-1:-1" placeholder="SELECT cust_..dtd_cust..." />
+            <marker date="1442745114745" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..cust_id..." />
+            <marker date="1442745114745" expanded="true" signature="-1:-1" placeholder="SELECT cust_..dtd_cust..." />
+            <marker date="1442745114745" expanded="true" signature="-1:-1" placeholder="SELECT cust_..dtd_cust..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dtd_app/controllers/Customer.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.47574627">
-          <caret line="18" column="33" selection-start-line="18" selection-start-column="33" selection-end-line="18" selection-end-column="33" />
+        <state vertical-scroll-proportion="-4.4905663">
+          <caret line="156" column="54" selection-start-line="156" selection-start-column="44" selection-end-line="156" selection-end-column="54" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dtd_app/views/customer/book_order.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1442752588208" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1442752588208" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1442752588208" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1442752588208" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1442752588208" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1442752588208" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1442752588208" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1442752588208" expanded="true" signature="-1:-1" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -9,15 +9,46 @@
             <?php if(!empty($error)) { ?>
                 <div class="alert alert-danger fade in"><?=$error;?></div>
             <?php } ?>
-            <?php echo form_open('customer/book_order', array(
+            <?php echo form_open($action, array(
                 'id' => 'frmbook_order',
                 'role' => 'form'
             ));?>
-
+            <?php if($action == 'customer/cnf_order') { ?>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="disabledSelect">Today's no of delivery</label>
+                        <input class="form-control" id="disabledInput" type="text" placeholder="" name="todayno"
+                               disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="disabledSelect">Today's charge of delivery</label>
+                        <input class="form-control" id="disabledInput" type="text" placeholder="" name="todaycharge"
+                               disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="disabledSelect">Monthly no of delivery</label>
+                        <input class="form-control" id="disabledInput" type="text" placeholder="" name="monthlyno"
+                               disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="disabledSelect">Monthly charge of delivery</label>
+                        <input class="form-control" id="disabledInput" type="text" placeholder="" name="monthlycharge"
+                               disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="disabledSelect">Balance</label>
+                        <input class="form-control" id="disabledInput" type="text" placeholder="" name="balance"
+                               disabled>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Confirm Order</button>
+                    </div>
+                </div>
+            <?php } ?>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label>Recipient Name*</label>
-                        <input class="form-control" placeholder="Enter Name" name="recname" id="recname" autofocus>
+                        <input class="form-control" placeholder="Enter Name" name="recname" id="recname" value="<?=set_value('recname');?>" autofocus>
                     </div>
                     <!-- <div class="form-group">
                         <label>Zip Code*</label>
@@ -38,9 +69,6 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-
-
-
 
                     <div class="form-group">
                         <label>Date</label>
