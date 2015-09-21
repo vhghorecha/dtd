@@ -36,6 +36,11 @@ class Customer extends CI_Controller {
 			}
 			else {
 				$data['action'] = 'customer/cnf_order';
+				$data['today']=$this->Customer_Model->get_today();
+				$data['month']=$this->Customer_Model->get_monthly();
+				$data['balance']=$this->Customer_Model->get_user_balance();
+				$data['charge']=$this->Customer_Model->get_item_price($this->input->post('item_type'));
+
 			}
 		}else{
 			$data['action'] = 'customer/book_order';

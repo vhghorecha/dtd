@@ -16,30 +16,36 @@
             <?php if($action == 'customer/cnf_order') { ?>
                 <div class="col-xs-12">
                     <div class="form-group">
-                        <label for="disabledSelect">Today's no of delivery</label>
-                        <input class="form-control" id="disabledInput" type="text" placeholder="" name="todayno"
+                        <label for="disabledSelect">Total Number of Order (Today)</label>
+                        <input class="form-control" id="disabledInput" type="text" placeholder="" name="todayno" value="<?php echo $today['count']; ?>"
                                disabled>
                     </div>
                     <div class="form-group">
-                        <label for="disabledSelect">Today's charge of delivery</label>
-                        <input class="form-control" id="disabledInput" type="text" placeholder="" name="todaycharge"
+                        <label for="disabledSelect">Total Charges (Today)</label>
+                        <input class="form-control" id="disabledInput" type="text" placeholder="" name="todaycharge" value="$<?php echo $today['sum']; ?>"
                                disabled>
                     </div>
                     <div class="form-group">
-                        <label for="disabledSelect">Monthly no of delivery</label>
-                        <input class="form-control" id="disabledInput" type="text" placeholder="" name="monthlyno"
+                        <label for="disabledSelect">Total Number of Order (Current Month)</label>
+                        <input class="form-control" id="disabledInput" type="text" placeholder="" name="monthlyno" value="<?php echo $month['month-count']; ?>"
                                disabled>
                     </div>
                     <div class="form-group">
-                        <label for="disabledSelect">Monthly charge of delivery</label>
-                        <input class="form-control" id="disabledInput" type="text" placeholder="" name="monthlycharge"
+                        <label for="disabledSelect">Total Charges (Current Month)</label>
+                        <input class="form-control" id="disabledInput" type="text" placeholder="" name="monthlycharge" value="<?php echo $month['amount']; ?>"
                                disabled>
                     </div>
                     <div class="form-group">
                         <label for="disabledSelect">Balance</label>
-                        <input class="form-control" id="disabledInput" type="text" placeholder="" name="balance"
+                        <input class="form-control" id="disabledInput" type="text" placeholder="" name="balance" value="<?php echo $balance['bal']; ?>"
                                disabled>
                     </div>
+                    <div class="form-group">
+                        <label for="disabledSelect">Current Order Charge</label>
+                        <input class="form-control" id="disabledInput" type="text" placeholder="" name="currentcharge" value="<?php echo $charge['charge']; ?>"
+                               disabled>
+                    </div>
+
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Confirm Order</button>
                     </div>
@@ -56,16 +62,18 @@
                     </div> -->
                     <div class="form-group">
                         <label>Recipient Address*</label>
-                        <textarea class="form-control" placeholder="Enter Address" rows="3" name="address" id="address"></textarea>
+                        <textarea class="form-control" placeholder="Enter Address" rows="3" name="address" id="address">
+                            <?=set_value('address');?>
+                        </textarea>
                     </div>
 
                     <div class="form-group">
                         <label>Mobile Number</label>
-                        <input class="form-control" placeholder="Enter Mobile Number" name="mobile" id="mobile">
+                        <input class="form-control" placeholder="Enter Mobile Number" name="mobile" id="mobile" value="<?=set_value('mobile');?>">
                     </div>
                     <div class="form-group">
                         <label>Telephone Number</label>
-                        <input class="form-control" placeholder="Enter Telephone Number" name="telephone" id="telephone">
+                        <input class="form-control" placeholder="Enter Telephone Number" name="telephone" id="telephone" value="<?=set_value('telephone');?>">
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -84,11 +92,13 @@
 
                     <div class="form-group">
                         <label>Item Name</label>
-                        <input class="form-control" placeholder="Enter Item Name" name="itemname" id="itemname">
+                        <input class="form-control" placeholder="Enter Item Name" name="itemname" id="itemname" value="<?=set_value('itemname');?>">
                     </div>
                     <div class="form-group">
                         <label>Item Description</label>
-                        <textarea class="form-control" placeholder="Description" rows="3" name="itemdesc" id="itemdesc"></textarea>
+                        <textarea class="form-control" placeholder="Description" rows="3" name="itemdesc" id="itemdesc">
+                            <?=set_value('itemdesc');?>
+                        </textarea>
                     </div>
 
 
@@ -96,7 +106,9 @@
                 <div class="col-lg-12">
                     <div class="form-group">
                         <label>Memo</label>
-                        <textarea class="form-control" placeholder="Memo" rows="3" name="itemmemo" id="itemmemo"></textarea>
+                        <textarea class="form-control" placeholder="Memo" rows="3" name="itemmemo" id="itemmemo">
+                            <?=set_value('itemmemo');?>
+                        </textarea>
                     </div>
                 </div>
 

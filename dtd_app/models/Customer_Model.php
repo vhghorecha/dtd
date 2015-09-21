@@ -74,6 +74,47 @@ class Customer_Model extends CI_Model
         return $pwd;
     }
 
+    public function get_user_balance()
+    {
+        $user_id=$this->user_model->get_current_user_id();
+        $this->db->select('user_balance');
+        $this->db->from('dtd_users');
+        $this->db->where('user_id', $user_id);
+        $query=$this->db->get();
+        $balance['bal']=current($query->row_array());
+        return $balance;
+    }
+
+    public function get_item_price($item_id)
+    {
+        $user_grade=$this->get_user_grade();
+        $this->db->select('gi_price');
+        $this->db->from('dtd_itemprice');
+        $this->db->where('gi_type', $item_id);
+        $query=$this->db->get();
+        $item_price=current($query->row_array());
+
+        $this->db->select('gp_disc');
+        $this->db->from('dtd_gradeprice');
+        $this->db->where('gp_id', $user_grade['grade']);
+        $query=$this->db->get();
+        $item_discount=current($query->row_array());
+
+        $charges['charge']=$item_price - (($item_price*$item_discount)/100);
+        return $charges;
+
+
+    }
+    public function get_user_grade()
+    {
+        $user_id=$this->user_model->get_current_user_id();
+        $this->db->select('user_grade');
+        $this->db->from('dtd_cust');
+        $this->db->where('user_id', $user_id);
+        $query=$this->db->get();
+        $user_grade['grade']=current($query->row_array());
+        return $user_grade;
+    }
     public function get_today()
     {
         //counting today's total order
