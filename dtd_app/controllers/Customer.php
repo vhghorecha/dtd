@@ -115,8 +115,8 @@ class Customer extends CI_Controller {
 
 	public function cnf_order()
 	{
-		$is_order = $this->input->post('btnOrder');
-		if($is_order == 'Book Order')
+		$is_order = $this->input->post('btnCnfOrder');
+		if($is_order == 'Confirm Order')
 		{
 			$config = $this->order_validation();
 			$this->form_validation->set_rules($config);
@@ -129,10 +129,22 @@ class Customer extends CI_Controller {
 			else
 			{
 				//pass validation
+				$order_status="";
+
+				$curbalance=$this->input->post('balance');
+				$curcharge=$this->input->post('currentcharge');
+				$newbalance=$curbalance - $curcharge;
+				if($newbalance < 0)
+				{
+					$order_status="Created";
+				}
+				else
+				{
+					$order_status="Pending";
+				}
 				$data = array(
 					'order_custid' => $this->user_model->get_current_user_id(),
-					'order_vendorid' => '1',
-
+					'order_vendorid' => $this->Customer_Model->get_user_vendor_id(),
 					'order_recipient' => $this->input->post('recname'),
 					'order_address' => $this->input->post('address'),
 					'order_zipcode' => '0',
@@ -141,20 +153,18 @@ class Customer extends CI_Controller {
 					'order_mobp' => '0',
 					'order_mobno' => $this->input->post('mobile'),
 					'order_typeid' => $this->input->post('item_type'),
-					'order_amount' => '100',
+					'order_amount' => $curcharge,
 					'order_itemname' => $this->input->post('itemname'),
 					'order_desc' => $this->input->post('itemdesc'),
 					'order_memo' => $this->input->post('itemmemo'),
-					'order_status' => 'Pending'
-
-
+					'order_status' => $order_status
 				);
 
 				//insert the form data into database
 				$this->db->insert('dtd_order', $data);
-
+				$this->Customer_Model->set_user_balance($newbalance);
 				//display success message
-				$this->session->set_flashdata('msg', '<div class="alert alert-success text-center">Employee details added to Database!!!</div>');
+				$this->session->set_flashdata('msg', '<div class="alert alert-success text-center">Your Order Successfully submitted!!!</div>');
 				redirect('customer/');
 			}
 			$data['error'] = $error;

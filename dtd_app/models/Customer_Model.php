@@ -10,11 +10,12 @@ class Customer_Model extends CI_Model
         $this->load->library('Datatables');
         $this->load->model('general_model');
     }
-	
-	public function insert($data){
-		$this->db->insert('cust',$data);
-		return $this->db->insert_id();
-	}
+
+    public function insert($data)
+    {
+        $this->db->insert('cust', $data);
+        return $this->db->insert_id();
+    }
 
     public function get_item_type()
     {
@@ -59,8 +60,8 @@ class Customer_Model extends CI_Model
     {
         $this->db->select('t1.user_name,t1.user_email,t1.user_add,t1.user_zipcode,t1.user_tel,t1.user_mob,t1.user_site,t1.user_staffname,t1.user_stafftel,t1.user_memo,t2.user_regno,t2.user_lob,t2.user_sercomp');
         $this->db->from('dtd_users t1');
-        $this->db->join('dtd_cust t2',' t1.user_id=t2.user_id');
-        $this->db->where("t1.user_id",$this->user_model->get_current_user_id());
+        $this->db->join('dtd_cust t2', ' t1.user_id=t2.user_id');
+        $this->db->where("t1.user_id", $this->user_model->get_current_user_id());
         return $this->db->get()->row_array();
     }
 
@@ -76,45 +77,65 @@ class Customer_Model extends CI_Model
 
     public function get_user_balance()
     {
-        $user_id=$this->user_model->get_current_user_id();
+        $user_id = $this->user_model->get_current_user_id();
         $this->db->select('user_balance');
         $this->db->from('dtd_users');
         $this->db->where('user_id', $user_id);
-        $query=$this->db->get();
-        $balance['bal']=current($query->row_array());
+        $query = $this->db->get();
+        $balance['bal'] = current($query->row_array());
         return $balance;
     }
 
     public function get_item_price($item_id)
     {
-        $user_grade=$this->get_user_grade();
+        $user_grade = $this->get_user_grade();
         $this->db->select('gi_price');
         $this->db->from('dtd_itemprice');
         $this->db->where('gi_type', $item_id);
-        $query=$this->db->get();
-        $item_price=current($query->row_array());
+        $query = $this->db->get();
+        $item_price = current($query->row_array());
 
         $this->db->select('gp_disc');
         $this->db->from('dtd_gradeprice');
         $this->db->where('gp_id', $user_grade['grade']);
-        $query=$this->db->get();
-        $item_discount=current($query->row_array());
+        $query = $this->db->get();
+        $item_discount = current($query->row_array());
 
-        $charges['charge']=$item_price - (($item_price*$item_discount)/100);
+        $charges['charge'] = $item_price - (($item_price * $item_discount) / 100);
         return $charges;
-
-
     }
+
+    public function set_user_balance($newbalance)
+    {
+        $user_id = $this->user_model->get_current_user_id();
+        $data = array(
+            'user_balance' => $newbalance
+        );
+        $this->db->where('user_id', $user_id);
+        $this->db->update('dtd_users', $data);
+    }
+    public function get_user_vendor_id()
+    {
+        $user_id = $this->user_model->get_current_user_id();
+        $this->db->select('vendor_id');
+        $this->db->from('dtd_cust');
+        $this->db->where('user_id', $user_id);
+        $query = $this->db->get();
+        $vendor_id= current($query->row_array());
+        return $vendor_id;
+    }
+
     public function get_user_grade()
     {
-        $user_id=$this->user_model->get_current_user_id();
+        $user_id = $this->user_model->get_current_user_id();
         $this->db->select('user_grade');
         $this->db->from('dtd_cust');
         $this->db->where('user_id', $user_id);
-        $query=$this->db->get();
-        $user_grade['grade']=current($query->row_array());
+        $query = $this->db->get();
+        $user_grade['grade'] = current($query->row_array());
         return $user_grade;
     }
+
     public function get_today()
     {
         //counting today's total order
@@ -202,7 +223,7 @@ class Customer_Model extends CI_Model
     public function get_user_account()
     {
         $cust_id = $this->user_model->get_current_user_id();
-        $query=$this->db->query("SELECT * FROM (
+        $query = $this->db->query("SELECT * FROM (
 SELECT cust_id, DATE_FORMAT( dtd_order.order_date, '%M-%Y' ) AS ord_date, COUNT( order_id ), SUM(order_amount), count(dep_id), sum(dep_amount)
 FROM dtd_cust
 LEFT OUTER JOIN dtd_order ON dtd_order.order_custid = dtd_cust.cust_id
@@ -216,7 +237,7 @@ LEFT OUTER JOIN dtd_custdep ON dtd_custdep.dep_custid = dtd_cust.cust_id
 LEFT OUTER JOIN dtd_order ON dtd_order.order_custid = dtd_cust.cust_id AND DATE_FORMAT(dtd_custdep.dep_date, '%M-%Y') = DATE_FORMAT( dtd_order.order_date, '%M-%Y' )
 GROUP BY ord_date
 HAVING dtd_cust.cust_id = ?
-) account",array($cust_id,$cust_id));
+) account", array($cust_id, $cust_id));
         return $query->result_array();
 
     }

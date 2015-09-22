@@ -15,40 +15,44 @@
             ));?>
             <?php if($action == 'customer/cnf_order') { ?>
                 <div class="col-xs-12">
-                    <div class="form-group">
-                        <label for="disabledSelect">Total Number of Order (Today)</label>
-                        <input class="form-control" id="disabledInput" type="text" placeholder="" name="todayno" value="<?php echo $today['count']; ?>"
-                               disabled>
-                    </div>
-                    <div class="form-group">
-                        <label for="disabledSelect">Total Charges (Today)</label>
-                        <input class="form-control" id="disabledInput" type="text" placeholder="" name="todaycharge" value="$<?php echo $today['sum']; ?>"
-                               disabled>
-                    </div>
-                    <div class="form-group">
-                        <label for="disabledSelect">Total Number of Order (Current Month)</label>
-                        <input class="form-control" id="disabledInput" type="text" placeholder="" name="monthlyno" value="<?php echo $month['month-count']; ?>"
-                               disabled>
-                    </div>
-                    <div class="form-group">
-                        <label for="disabledSelect">Total Charges (Current Month)</label>
-                        <input class="form-control" id="disabledInput" type="text" placeholder="" name="monthlycharge" value="<?php echo $month['amount']; ?>"
-                               disabled>
-                    </div>
-                    <div class="form-group">
-                        <label for="disabledSelect">Balance</label>
-                        <input class="form-control" id="disabledInput" type="text" placeholder="" name="balance" value="<?php echo $balance['bal']; ?>"
-                               disabled>
-                    </div>
-                    <div class="form-group">
-                        <label for="disabledSelect">Current Order Charge</label>
-                        <input class="form-control" id="disabledInput" type="text" placeholder="" name="currentcharge" value="<?php echo $charge['charge']; ?>"
-                               disabled>
-                    </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            Your Account Statistics
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label for="disabledSelect">Total Number of Order (Today)</label>
+                                <input class="form-control" id="disabledInput" type="text" placeholder="" name="todayno" value="<?php echo $today['count']; ?>"
+                                       disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="disabledSelect">Total Charges (Today)</label>
+                                <input class="form-control" id="disabledInput" type="text" placeholder="" name="todaycharge" value="$<?php echo $today['sum']; ?>"
+                                       disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="disabledSelect">Total Number of Order (Current Month)</label>
+                                <input class="form-control" id="disabledInput" type="text" placeholder="" name="monthlyno" value="<?php echo $month['month-count']; ?>"
+                                       disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="disabledSelect">Total Charges (Current Month)</label>
+                                <input class="form-control" id="disabledInput" type="text" placeholder="" name="monthlycharge" value="$<?php echo $month['amount']; ?>"
+                                       disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="disabledSelect">Balance</label>
+                                <input class="form-control" type="text" name="balance" id="balance" value="$<?php echo $balance['bal']; ?>"
+                                       readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="disabledSelect">Current Order Charge</label>
+                                <input class="form-control" type="text" name="currentcharge" id="currentcharge" value="$<?php echo round($charge['charge'],2); ?>" readonly>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
 
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Confirm Order</button>
-                    </div>
+                        </div>
                 </div>
             <?php } ?>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -112,10 +116,17 @@
                     </div>
                 </div>
 
+
                 <div class="col-lg-12">
+                    <?php if($action == 'customer/cnf_order') { ?>
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary" name="btnCnfOrder" id="btnCnfOrder" value="Confirm Order">
+                    </div>
+                    <?php } else { ?>
                     <div class="form-group">
                         <input type="submit" class="btn btn-primary" name="btnOrder" id="btnOrder" value="Book Order">
                     </div>
+                    <?php } ?>
                 </div>
 
             </form>
