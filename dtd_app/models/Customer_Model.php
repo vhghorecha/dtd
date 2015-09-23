@@ -223,23 +223,30 @@ class Customer_Model extends CI_Model
     public function get_user_account()
     {
         $cust_id = $this->user_model->get_current_user_id();
-        $query = $this->db->query("SELECT * FROM (
-SELECT cust_id, DATE_FORMAT( dtd_order.order_date, '%M-%Y' ) AS ord_date, COUNT( order_id ), SUM(order_amount), count(dep_id), sum(dep_amount)
-FROM dtd_cust
-LEFT OUTER JOIN dtd_order ON dtd_order.order_custid = dtd_cust.cust_id
-LEFT OUTER JOIN dtd_custdep ON dtd_custdep.dep_custid = dtd_cust.cust_id  AND DATE_FORMAT(dtd_custdep.dep_date, '%M-%Y') = DATE_FORMAT( dtd_order.order_date, '%M-%Y' )
-GROUP BY ord_date
-HAVING dtd_cust.cust_id = ?
-UNION
-SELECT cust_id, DATE_FORMAT( dtd_custdep.dep_date, '%M-%Y' ) AS ord_date, COUNT( order_id ), SUM(order_amount), count(dep_id), sum(dep_amount)
-FROM dtd_cust
-LEFT OUTER JOIN dtd_custdep ON dtd_custdep.dep_custid = dtd_cust.cust_id
-LEFT OUTER JOIN dtd_order ON dtd_order.order_custid = dtd_cust.cust_id AND DATE_FORMAT(dtd_custdep.dep_date, '%M-%Y') = DATE_FORMAT( dtd_order.order_date, '%M-%Y' )
-GROUP BY ord_date
-HAVING dtd_cust.cust_id = ?
-) account", array($cust_id, $cust_id));
-        return $query->result_array();
+        $result = array();
+		$start = new DateTime("first day of this month");
+		$end = new DateTime();
+		$end = $end->modify("+1 day");
+		$dates = new DatePeriod($start,new DateInterval("P1D"),$end);
+		foreach($dates as $date){
+			$data['date']=$date->format('M d');
+			$query=$this->db->query("
+			SELECT DATE_FORMAT(order_date,'%M-%d') as date, COUNT(Order_id) as num,SUM(order_amount) as amount
+			FROM dtd_order
+			WHERE order_date LIKE '".$date->format("Y-m-d")."%' AND order_custid = ". $cust_id ."
+			GROUP BY order_date");
+			$data['charge']= $query->row_array();
 
+			$query=$this->db->query("
+			SELECT COUNT(dep_id) as num, SUM(dep_amount) as amount
+			FROM dtd_custdep
+			WHERE dep_date LIKE '".$date->format("Y-m-d")."%' AND dep_custid = ". $cust_id ."
+			GROUP BY dep_date");
+			$data['recived'] = $query->row_array();
+
+			$result[]=$data;
+		}
+		return $result;
     }
 }
 
