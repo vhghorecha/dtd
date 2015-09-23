@@ -9,32 +9,26 @@
 						<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 							<div class="form-group">
                                 <label>Customer Name*</label>
-                                    <select class="form-control" name="custname" required autofocus>
-                                        <option>Vimal Ghorecha (Rajkot)</option>
-                                        <option>Chirag Bhatt (Rajkot)</option>
-                                        <option>Hardik Mehta (Wankaner)</option>
-                                        
-                                        </select>
+                                <?PHP
+                                    $attributes = 'class="form-control" name="custname" required autofocus';
+                                    echo form_dropdown('custname',$customers,set_value('custname'),$attributes);
+                                ?>
                             </div>
 							<div class="form-group">
                                 <label>Vendor Name*</label>
-                                    <select class="form-control" name="venname" required autofocus>
-                                        <option>Vimal Ghorecha (Rajkot)</option>
-                                        <option>Chirag Bhatt (Rajkot)</option>
-                                        <option>Hardik Mehta (Wankaner)</option>
-                                        
-                                        </select>
+                                <?PHP
+                                    $attributes = 'class="form-control" name="vendname" required autofocus';
+                                    echo form_dropdown('vendname',$vendors,set_value('vendname'),$attributes);
+                                ?>
                             </div>
 							
 						</div>
 						<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-							
-							
-							
+
 						</div>
 						<div class="col-lg-12">
 							<div class="form-group">
-								<button type="submit" href="<?=site_url('customer/confirm_order')?>" class="btn btn-primary">Allocate</button>
+								<button type="submit" href="<?=site_url('admin/allocation')?>" class="btn btn-primary" name="btnAllocate" id="btnAllocate" value="Allocate">Allocate</button>
 							</div>
 						</div>
 					</form>

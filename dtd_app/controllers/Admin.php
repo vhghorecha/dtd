@@ -2,7 +2,10 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Admin extends CI_Controller {
-	
+	function __construct(){
+		parent::__construct();
+		$this->load->model('Admin_Model');
+	}
 	public function index()
 	{
 		$this->load->template('admin/index');
@@ -26,13 +29,40 @@ class Admin extends CI_Controller {
 	}
 	public function allocation()
 	{
-		$this->load->template('admin/allocation');
- 
+		$is_reg = $this->input->post('btnAllocate');
+		if($is_reg=='Allocate'){
+			$config = array(
+				array(
+					'field' => 'custname',
+					'label' => 'Customer Name',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+					)
+				),
+				array(
+					'field' => 'venname',
+					'label' => 'Vendor Name',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+					)
+				)
+			);
+			$this->form_validation->set_rules($config);
+			if ($this->form_validation->run() == true) {
+				$data['user_name'] = $this->input->post('txtname');
+				$data['user_email'] = $this->input->post('txtusername');}
+		}
+
+		$data['vendors'] = $this->Admin_Model->get_vendors();
+		$data['customers'] = $this->Admin_Model->get_customers();
+		$this->load->template('admin/allocation',$data);
+
 	}
 	public function grade()
 	{
 		$this->load->template('admin/grade');
- 
 	}
 	public function customers()
 	{
