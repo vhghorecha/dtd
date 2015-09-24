@@ -5,7 +5,37 @@ class User_Model extends CI_Model{
         parent::__construct();
 		$this->load->library('encryption');
     }
-    
+
+	public function adminvalidate()
+	{
+		$email = $this->security->xss_clean($this->input->post('txtemail'));
+		$password = $this->security->xss_clean($this->input->post('txtpass'));
+		// Prep the query
+		$this->db->where('admin_user', $email);
+		$this->db->where('admin_pass', $password);
+
+		// Run the query
+		$query = $this->db->get('admin');
+
+		// Let's check if there are any results
+		if($query->num_rows() > 0)
+		{
+			// If there is a user, then create session data
+			$row = $query->row();
+			$data = array(
+				'adminid' => $row->admin_id,
+				'adminname' => $row->admin_name,
+				'adminuser' => $row->user_role,
+				'is_active' => $row->is_active,
+				'validated' => true
+			);
+			return $data;
+		}
+		// If the previous process did not validate
+		// then return false.
+		return array('validated' => false);
+
+	}
     public function validate(){
         // grab user input
         $email = $this->security->xss_clean($this->input->post('txtemail'));
@@ -35,6 +65,8 @@ class User_Model extends CI_Model{
         // then return false.
         return array('validated' => false);
     }
+
+
 	
 	public function is_logged(){
 		$user_data = $this->session->userdata('userinfo');
@@ -64,6 +96,12 @@ class User_Model extends CI_Model{
 	public function get_current_user_id(){
 		$user_data = $this->session->userdata('userinfo');
 		return $user_data['userid'];
+	}
+
+	//Created by Hardik Mehta
+	public function get_admin_id(){
+		$user_data=$this->session->userdata('userinfo');
+		return $user_data['adminid'];
 	}
 	
 	public function user_insert($data){

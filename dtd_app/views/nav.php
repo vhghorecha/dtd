@@ -89,7 +89,7 @@
                             <a href="<?=site_url('vendor/change_pwd');?>"><i class="fa fa-cogs fa-fw"></i> Change Password</a>
                         </li>
                         <li>
-                            <a href="<?=site_url();?>"><i class="fa fa-sign-out fa-fw"></i> Log Out</a>
+                            <a href="<?=site_url('user/logout');?>"><i class="fa fa-sign-out fa-fw"></i> Log Out</a>
                         </li>
 
 
@@ -117,7 +117,7 @@
                             </div>
                         </li>
                         <li>
-                            <a href="<?=site_url('admin');?>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                            <a href="<?=site_url('admin/dashboard');?>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
                             <a href="<?=site_url('admin/allocation');?>"><i class="fa fa-edit fa-fw"></i> Customer-Vendor allocation</a>
@@ -131,17 +131,40 @@
 						<li>
                             <a href="<?=site_url('admin/price');?>"><i class="fa fa-area-chart fa-fw"></i> Pricing Scheme</a>
                         </li>
-						<li>
-                            <a href="<?=site_url('admin/customers');?>"><i class="fa fa-users fa-fw"></i> Customers</a>
+
+                        <li>
+                            <a href="#"><i class="fa fa-users fa-fw"></i> Customers<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="<?=site_url('admin/app-customer');?>">Approve Customer</a>
+                                </li>
+                                <li>
+                                    <a href="<?=site_url('admin/customers');?>">View Customers</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
                         </li>
 						<li>
-                            <a href="<?=site_url('admin/vendors');?>"><i class="fa fa-user fa-fw"></i> Vendors</a>
+                            <a href="#"><i class="fa fa-user fa-fw"></i> Vendors<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="<?=site_url('admin/app_vendor');?>">Approve Vendor</a>
+                                </li>
+                                <li>
+                                    <a href="<?=site_url('admin/vendors');?>">View Vendors</a>
+                                </li>
+                                <li>
+                                    <a href="<?=site_url('admin/vendor_customer');?>">View Customers</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
                         </li>
+
                         <li>
                             <a href="<?=site_url('admin/change_pwd');?>"><i class="fa fa-cogs fa-fw"></i> Change Password</a>
                         </li>
                         <li>
-                            <a href="<?=site_url();?>"><i class="fa fa-sign-out fa-fw"></i> Log Out</a>
+                            <a href="<?=site_url('user/logout');?>"><i class="fa fa-sign-out fa-fw"></i> Log Out</a>
                         </li>
 
 

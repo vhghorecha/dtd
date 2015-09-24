@@ -15,21 +15,21 @@ class Login extends CI_Controller {
 		{
 			$config = array(
 				array(
-						'field' => 'txtemail',
-						'label' => 'E-mail',
-						'rules' => 'required|valid_email',
-						'errors' => array(
-							'required' => 'You must provide a %s',
-							'valid_email' => 'You must provide a valid %s'
-						)
+					'field' => 'txtemail',
+					'label' => 'E-mail',
+					'rules' => 'required|valid_email',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+						'valid_email' => 'You must provide a valid %s'
+					)
 				),
 				array(
-						'field' => 'txtpass',
-						'label' => 'Password',
-						'rules' => 'required',
-						'errors' => array(
-							'required' => 'You must provide a %s',
-						)
+					'field' => 'txtpass',
+					'label' => 'Password',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+					)
 				)
 			);
 			$this->form_validation->set_rules($config);
@@ -60,11 +60,11 @@ class Login extends CI_Controller {
 				$error = validation_errors();
 			}
 			$data['error'] = $error;
-			$this->load->template('login',$data);		
+			$this->load->template('login',$data);
 		}
 		else
 		{
-			$this->load->template('login');         
+			$this->load->template('login');
 		}
 	}
 }

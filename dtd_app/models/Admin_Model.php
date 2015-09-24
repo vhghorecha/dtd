@@ -38,5 +38,15 @@ class Admin_Model extends CI_Model{
         }
         return array_combine($vendids,$vendnames);
     }
+
+    //Created By Hardik Mehta
+    public function get_adm_pwd(){
+        $this->db->select('admin_pass');
+        $this->db->from('dtd_admin');
+        $this->db->where('admin_id', $this->user_model->get_admin_id());
+        $query = $this->db->get();
+        $pwd['pwd'] = current($query->row_array());
+        return $pwd;
+    }
 }
 ?>
