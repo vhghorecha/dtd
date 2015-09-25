@@ -9,6 +9,7 @@ class Ajax extends CI_Controller {
 		$this->load->model('Vendor_Model');
 		$this->load->model('User_Model');
 		$this->load->model('Customer_Model');
+		$this->load->model('Admin_Model');
 	}
 
 	public function update_order(){
@@ -33,6 +34,25 @@ class Ajax extends CI_Controller {
 	public function c_orders(){
 		die($this->Customer_Model->get_user_orders());
 	}
+
+	public function a_pending_vendors(){
+		die($this->Admin_Model->get_pending_vendors());
+	}
+	public function a_pending_customers(){
+		die($this->Admin_Model->get_pending_customers());
+	}
+
+	public function a_customers(){
+		die($this->Admin_Model->get_all_customers());
+	}
+	public function a_vendors(){
+		die($this->Admin_Model->get_all_vendors());
+	}
+	public function a_vendor_customers(){
+		die($this->Admin_Model->get_vendor_customers());
+	}
+
+
 	public function c_account(){
 		die($this->Customer_Model->get_user_account());
 	}

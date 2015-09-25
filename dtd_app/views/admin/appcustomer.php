@@ -3,7 +3,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header"> Customer List:</h1>
+                <h1 class="page-header"> New Customer Registration List:</h1>
             </div>
         </div>
         <div class="row">
@@ -14,7 +14,7 @@
 
                         </div>
                         <div class="panel-body">
-                            <table id="a_customers" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                            <table id="a_pending_customers" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                 <thead>
                                 <tr>
                                     <th>User Name</th>
@@ -25,7 +25,6 @@
                                     <th>Website</th>
                                     <th>Staff Name</th>
                                     <th>Staff Telephone</th>
-                                    <th>Balance</th>
                                 </tr>
                                 </thead>
                             </table>

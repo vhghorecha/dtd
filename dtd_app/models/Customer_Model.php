@@ -56,6 +56,8 @@ class Customer_Model extends CI_Model
 
     }
 
+
+
     public function get_user_profile()
     {
         $this->db->select('t1.user_name,t1.user_email,t1.user_add,t1.user_zipcode,t1.user_tel,t1.user_mob,t1.user_site,t1.user_staffname,t1.user_stafftel,t1.user_memo,t2.user_regno,t2.user_lob,t2.user_sercomp');

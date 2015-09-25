@@ -113,7 +113,141 @@
 		</script>
 	<?php } ?>
 
-		
+<?php if($current_page == 'admin' && $current_action == 'app_vendor') { ?>
+	<script>
+		var table = $('#a_pending_vendors').dataTable( {
+			"sDom": '<"top"pl>rt<"bottom"><"clear">',
+			"aaSorting": [[0, "desc"]],
+			"oLanguage": {
+				"sLengthMenu": "_MENU_ records per page"
+			},
+			"bProcessing": true,
+			"bServerSide": true,
+			"sAjaxSource": "<?=site_url('ajax/a_pending_vendors');?>",
+			"responsive" : true,
+			"columns": [
+				{ "data": "user_name" },
+				{ "data": "user_email" },
+				{ "data": "user_add" },
+				{ "data": "user_tel" },
+				{ "data": "user_mob" },
+				{ "data": "user_site" },
+				{ "data": "user_staffname" },
+				{ "data": "user_stafftel" },
+			]
+		} );
+	</script>
+<?php } ?>
+
+<?php if($current_page == 'admin' && $current_action == 'app_customer') { ?>
+	<script>
+		var table = $('#a_pending_customers').dataTable( {
+			"sDom": '<"top"pl>rt<"bottom"><"clear">',
+			"aaSorting": [[0, "desc"]],
+			"oLanguage": {
+				"sLengthMenu": "_MENU_ records per page"
+			},
+			"bProcessing": true,
+			"bServerSide": true,
+			"sAjaxSource": "<?=site_url('ajax/a_pending_customers');?>",
+			"responsive" : true,
+			"columns": [
+				{ "data": "user_name" },
+				{ "data": "user_email" },
+				{ "data": "user_add" },
+				{ "data": "user_tel" },
+				{ "data": "user_mob" },
+				{ "data": "user_site" },
+				{ "data": "user_staffname" },
+				{ "data": "user_stafftel" },
+			]
+		} );
+	</script>
+<?php } ?>
+
+<?php if($current_page == 'admin' && $current_action == 'customers') { ?>
+	<script>
+		var table = $('#a_customers').dataTable( {
+			"sDom": '<"top"pl>rt<"bottom"><"clear">',
+			"aaSorting": [[0, "desc"]],
+			"oLanguage": {
+				"sLengthMenu": "_MENU_ records per page"
+			},
+			"bProcessing": true,
+			"bServerSide": true,
+			"sAjaxSource": "<?=site_url('ajax/a_customers');?>",
+			"responsive" : true,
+			"columns": [
+				{ "data": "user_name" },
+				{ "data": "user_email" },
+				{ "data": "user_add" },
+				{ "data": "user_tel" },
+				{ "data": "user_mob" },
+				{ "data": "user_site" },
+				{ "data": "user_staffname" },
+				{ "data": "user_stafftel" },
+				{ "data": "user_balance"},
+			]
+		} );
+	</script>
+<?php } ?>
+
+<?php if($current_page == 'admin' && $current_action == 'vendors') { ?>
+	<script>
+		var table = $('#a_vendors').dataTable( {
+			"sDom": '<"top"pl>rt<"bottom"><"clear">',
+			"aaSorting": [[0, "desc"]],
+			"oLanguage": {
+				"sLengthMenu": "_MENU_ records per page"
+			},
+			"bProcessing": true,
+			"bServerSide": true,
+			"sAjaxSource": "<?=site_url('ajax/a_vendors');?>",
+			"responsive" : true,
+			"columns": [
+				{ "data": "user_name" },
+				{ "data": "user_email" },
+				{ "data": "user_add" },
+				{ "data": "user_tel" },
+				{ "data": "user_mob" },
+				{ "data": "user_site" },
+				{ "data": "user_staffname" },
+				{ "data": "user_stafftel" },
+				{ "data": "user_balance"},
+			]
+		} );
+	</script>
+<?php } ?>
+
+<?php if($current_page == 'admin' && $current_action == 'vendor_customer') { ?>
+	<script>
+		var table = $('#a_vendor_customers').dataTable( {
+			"sDom": '<"top"pl>rt<"bottom"><"clear">',
+			"aaSorting": [[0, "desc"]],
+			"oLanguage": {
+				"sLengthMenu": "_MENU_ records per page"
+			},
+			"bProcessing": true,
+			"bServerSide": true,
+			"sAjaxSource": "<?=site_url('ajax/a_vendor_customers');?>",
+			"responsive" : true,
+			"columns": [
+				{ "data": "user_name" },
+				{ "data": "user_email" },
+				{ "data": "user_add" },
+				{ "data": "user_tel" },
+				{ "data": "user_mob" },
+				{ "data": "user_site" },
+				{ "data": "user_staffname" },
+				{ "data": "user_stafftel" },
+				{ "data": "user_balance"},
+			]
+		} );
+	</script>
+<?php } ?>
+
+
+
 </body>
 
 </html>

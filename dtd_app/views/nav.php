@@ -136,7 +136,7 @@
                             <a href="#"><i class="fa fa-users fa-fw"></i> Customers<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="<?=site_url('admin/app-customer');?>">Approve Customer</a>
+                                    <a href="<?=site_url('admin/app_customer');?>">Approve Customer</a>
                                 </li>
                                 <li>
                                     <a href="<?=site_url('admin/customers');?>">View Customers</a>

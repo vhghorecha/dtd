@@ -14,54 +14,23 @@
 									
 								</div>
 								<div class="panel-body">
-                <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th>Vendor Name</th>
-                        <th>Mobile Number</th>
-                        <th>Balance</th>
-                        
-						<th>Edit</th>
-						<th>Delete</th>
-                    </tr>
-                    </thead>
-
-                    <tfoot>
-						<tr>
-                        <th>Vendor Name</th>
-                        <th>Mobile Number</th>
-                        <th>Balance</th>
-                        
-						<th>Edit</th>
-						<th>Delete</th>
-                        
-                        
-                    </tr>
-                    </tfoot>
-
-                    <tbody>
-                    <tr>
-                        <td>Hardik</td>
-                        <td>9898989898</td>
-                        <td>500</td>
-                        
-                        <td><a href="<?=site_url('admin/vendor_detail');?>">Edit</a></td>
-						<td><a href="<?=site_url('admin/vendor_delete');?>">Delete</a></td>
-                    </tr>
-					                    <tr>
-                        <td>Vimal</td>
-                        <td>9898989898</td>
-                        <td>500</td>
-                        
-                        <td><a href="<?=site_url('admin/vendor_detail');?>">Edit</a></td>
-						<td><a href="<?=site_url('admin/vendor_delete');?>">Delete</a></td>
-                    </tr>
-                    
-                    </tbody>
-                </table>
-				</div>
+                                    <table id="a_pending_vendors" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                        <thead>
+                                        <tr>
+                                            <th>User Name</th>
+                                            <th>Email</th>
+                                            <th>Address</th>
+                                            <th>Telephone No</th>
+                                            <th>Mobile No</th>
+                                            <th>Website</th>
+                                            <th>Staff Name</th>
+                                            <th>Staff Telephone</th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+				                </div>
 				<div class="panel-footer">
-									<a href="<?=site_url('admin/vendor_detail');?>">New Vendor</a>
+
 								</div>
             </div>
 			</div>

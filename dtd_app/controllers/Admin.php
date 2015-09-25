@@ -88,7 +88,11 @@ class Admin extends CI_Controller {
 	//Created by Hardik Mehta
 	public function app_vendor(){
 		$this->load->template('admin/appvendor');
-}
+	}
+
+	public function app_customer(){
+		$this->load->template('admin/appcustomer');
+	}
 
 	//Created by Hardik Mehta
 	public function change_pwd()
@@ -215,6 +219,11 @@ class Admin extends CI_Controller {
 	{
 		$this->load->template('admin/vendors');
  
+	}
+	public function vendor_customer()
+	{
+		$this->load->template('admin/vendor_cust');
+
 	}
 	public function price()
 	{

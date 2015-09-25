@@ -48,5 +48,54 @@ class Admin_Model extends CI_Model{
         $pwd['pwd'] = current($query->row_array());
         return $pwd;
     }
+
+    //Created by Hardik Mehta
+    public function get_pending_vendors()
+    {
+        $this->datatables->select("user_name, user_email, user_add, user_tel, user_mob, user_site, user_staffname, user_stafftel")
+            ->from("dtd_users")
+            ->where("is_active",0)
+        ->where("user_role","vendor");
+        return $this->datatables->generate();
+
+    }
+
+    //Created by Hardik Mehta
+    public function get_pending_customers()
+    {
+        $this->datatables->select("user_name, user_email, user_add, user_tel, user_mob, user_site, user_staffname, user_stafftel")
+            ->from("dtd_users")
+            ->where("is_active",0)
+            ->where("user_role","customer");
+        return $this->datatables->generate();
+
+    }
+
+    //Created by Hardik Mehta
+    public function get_all_customers()
+    {
+        $this->datatables->select("user_name, user_email, user_add, user_tel, user_mob, user_site, user_staffname, user_stafftel, user_balance")
+            ->from("dtd_users")
+            ->where("is_active",1)
+            ->where("user_role","customer");
+        return $this->datatables->generate();
+    }
+
+    //Created by Hardik Mehta
+    public function get_all_vendors()
+    {
+        $this->datatables->select("user_name, user_email, user_add, user_tel, user_mob, user_site, user_staffname, user_stafftel, user_balance")
+            ->from("dtd_users")
+            ->where("is_active",1)
+            ->where("user_role","vendor");
+        return $this->datatables->generate();
+    }
+    public function get_vendor_customers(){
+        $this->datatables->select("user_name, user_email, user_add, user_tel, user_mob, user_site, user_staffname, user_stafftel, user_balance")
+            ->from("dtd_users")
+            ->where("is_active",1)
+            ->where("user_role","customer");
+        return $this->datatables->generate();
+    }
 }
 ?>
