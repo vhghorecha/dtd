@@ -222,8 +222,8 @@ class Admin extends CI_Controller {
 	}
 	public function vendor_customer()
 	{
-		$this->load->template('admin/vendor_cust');
-
+		$data['vendors'] = $this->Admin_Model->get_vendor_json();
+		$this->load->template('admin/vendor_cust',$data);
 	}
 	public function price()
 	{

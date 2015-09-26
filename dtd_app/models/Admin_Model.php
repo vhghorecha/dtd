@@ -81,6 +81,18 @@ class Admin_Model extends CI_Model{
         return $this->datatables->generate();
     }
 
+    public function get_vendor_json(){
+        $this->db->select('user_id,user_name');
+        $this->db->where('user_role','vendor');
+        $this->db->from('users');
+        $query = $this->db->get();
+        $states = array();
+        foreach($query->result_array() as $state){
+            $states[] = array($state['user_id'], $state['user_name']);
+        }
+        return json_encode($query->result_array());
+    }
+
     //Created by Hardik Mehta
     public function get_all_vendors()
     {
@@ -91,8 +103,9 @@ class Admin_Model extends CI_Model{
         return $this->datatables->generate();
     }
     public function get_vendor_customers(){
-        $this->datatables->select("user_name, user_email, user_add, user_tel, user_mob, user_site, user_staffname, user_stafftel, user_balance")
+        $this->datatables->select("vendor_id, user_name, user_email, user_add, user_tel, user_mob, user_site, user_staffname, user_stafftel, user_balance")
             ->from("dtd_users")
+            ->join("dtd_cust", "dtd_users.user_id = dtd_cust.user_id")
             ->where("is_active",1)
             ->where("user_role","customer");
         return $this->datatables->generate();

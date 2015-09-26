@@ -14,9 +14,11 @@
 
                         </div>
                         <div class="panel-body">
+                            <div id="cbo_vendor"></div>
                             <table id="a_vendor_customers" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                 <thead>
                                 <tr>
+                                    <th>Vendor</th>
                                     <th>User Name</th>
                                     <th>Email</th>
                                     <th>Address</th>

@@ -16,6 +16,7 @@
     <script type="text/javascript" language="javascript" src="<?=RES_URL;?>js/jquery.dataTables.min.js"></script>
 	<script type="text/javascript" language="javascript" src="<?=RES_URL;?>js/dataTables.bootstrap.js"></script>
 	<script type="text/javascript" language="javascript" src="<?=RES_URL;?>js/dataTables.responsive.js"></script>
+	<script type="text/javascript" language="javascript" src="<?=RES_URL;?>js/jquery.columnFilter.js"></script>
 	<script type="text/javascript">
 		// When the document is ready
 		$(document).ready(function () {
@@ -219,7 +220,7 @@
 	</script>
 <?php } ?>
 
-<?php if($current_page == 'admin' && $current_action == 'vendor_customer') { ?>
+<?php if($current_page == 'admin' && $current_action == 'vendor_customer_') { ?>
 	<script>
 		var table = $('#a_vendor_customers').dataTable( {
 			"sDom": '<"top"pl>rt<"bottom"><"clear">',
@@ -242,7 +243,58 @@
 				{ "data": "user_stafftel" },
 				{ "data": "user_balance"},
 			]
-		} );
+		}
+		);
+	</script>
+<?php } ?>
+
+<?php if($current_page == 'admin' && $current_action == 'vendor_customer') { ?>
+	<script>
+		var vendors = $.parseJSON('<?=$vendors;?>');
+		var table = $('#a_vendor_customers').dataTable( {
+				"sDom": '<"top"pl>rt<"bottom"><"clear">',
+				"aaSorting": [[0, "desc"]],
+				"oLanguage": {
+					"sLengthMenu": "_MENU_ records per page"
+				},
+				"bProcessing": true,
+				"bServerSide": true,
+				"sAjaxSource": "<?=site_url('ajax/a_vendor_customers');?>",
+				"responsive" : true,
+				"columns": [
+					{ "data": "vendor_id", "visible": false },
+					{ "data": "user_name" },
+					{ "data": "user_email" },
+					{ "data": "user_add" },
+					{ "data": "user_tel" },
+					{ "data": "user_mob" },
+					{ "data": "user_site" },
+					{ "data": "user_staffname" },
+					{ "data": "user_stafftel" },
+					{ "data": "user_balance"},
+				],
+				"initComplete": function(settings, json) {
+					this.api().columns(0).every( function () {
+						var column = this;
+						var select = $('<select><option value=""></option></select>')
+							.appendTo( $('#cbo_vendor').empty() )
+							.on( 'change', function () {
+								var val = $.fn.dataTable.util.escapeRegex(
+									$(this).val()
+								);
+
+								column
+									.search( val  )
+									.draw();
+							} );
+
+						$.each( vendors, function( index, value ){
+							select.append( '<option value="'+value.user_id+'">'+value.user_name+'</option>' )
+						} );
+					} );
+				},
+			}
+		);
 	</script>
 <?php } ?>
 
