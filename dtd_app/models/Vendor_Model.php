@@ -102,14 +102,14 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
                 $query=$this->db->query("
                 SELECT DATE_FORMAT(order_date,'%M-%d') as date, COUNT(Order_id) as num,SUM(order_amount) as amount
                 FROM dtd_order
-                WHERE order_date = '".$date->format("Y-m-d")."%' AND order_vendorid = ".$this->user_model->get_current_user_id()."
+                WHERE order_date LIKE '".$date->format("Y-m-d")."%' AND order_vendorid = ".$this->user_model->get_current_user_id()."
                 GROUP BY order_date");
                 $data['charge']= $query->row_array();
 
                 $query=$this->db->query("
                 SELECT COUNT(dep_id) as num, SUM(pay_amount) as amount
                 FROM dtd_vendorpay
-                WHERE pay_date = '".$date->format("Y-m-d")."%' AND pay_vendorid = ".$this->user_model->get_current_user_id()."
+                WHERE pay_date LIKE '".$date->format("Y-m-d")."%' AND pay_vendorid = ".$this->user_model->get_current_user_id()."
                 GROUP BY pay_date");
                 $data['recived'] = $query->row_array();
 
