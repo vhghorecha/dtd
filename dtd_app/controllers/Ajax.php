@@ -56,4 +56,9 @@ class Ajax extends CI_Controller {
 	public function c_account(){
 		die($this->Customer_Model->get_user_account());
 	}
+	
+	public function a_get_bank(){
+		$vendorid = $this->input->post('vendor_id');
+		die($this->Admin_Model->get_vendor_bank($vendorid));
+	}
 }

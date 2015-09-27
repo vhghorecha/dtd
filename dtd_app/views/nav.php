@@ -101,7 +101,7 @@
 
             </nav>
             
-			<?php } elseif($current_page == "admin") { ?>
+			<?php } elseif($current_page == "admin" && $current_action != 'login') { ?>
 
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">

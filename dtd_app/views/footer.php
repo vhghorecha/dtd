@@ -23,6 +23,9 @@
 			$('.datepicker').datepicker({
 				format: "dd/mm/yyyy"
 			});
+			$('.datepicker').on('changeDate', function(ev){
+				$(this).datepicker('hide');
+			});
 		});
     </script>
 
@@ -298,6 +301,31 @@
 	</script>
 <?php } ?>
 
+<?php if($current_page == 'admin' && $current_action == 'payment') { ?>
+		<script>
+			$('#vendname').change(function(){
+				$venid = $(this).val();
+				if($venid > 0) {
+					$.ajax({
+						type: 'POST',
+						dataType: 'json',
+						url: '<?php echo site_url('ajax/a_get_bank' )?>',
+						data: {'vendor_id': $venid},
+						success: function (data) {
+							if (typeof data.pay_bankacno !== 'undefined') {
+								$('#paybankacno').val(data.pay_bankacno);
+								$('#paybankname').val(data.pay_bankname);
+							}
+						}
+					});
+				}
+				else{
+					$('#paybankacno').val('');
+					$('#paybankname').val('');
+				}
+			});
+		</script>
+	<? } ?>
 
 
 </body>

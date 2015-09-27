@@ -12,7 +12,7 @@ class User_Model extends CI_Model{
 		$password = $this->security->xss_clean($this->input->post('txtpass'));
 		// Prep the query
 		$this->db->where('admin_user', $email);
-		$this->db->where('admin_pass', $password);
+		$this->db->where('admin_pass', md5($password));
 
 		// Run the query
 		$query = $this->db->get('admin');

@@ -48,7 +48,7 @@
 
 <body>
 <?php
-if ($current_page != "site")
+if ($current_page != "site" && $current_action != 'login')
 {
 ?>
 <div id="wrapper">
