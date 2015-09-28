@@ -16,15 +16,15 @@
                             'id' => 'frmallocation',
                             'role' => 'form'
                         )); ?>
-							<div class="form-group">
-                                <label>Customer Name<font color="red"> *</font></label>
+							<div class="form-group required">
+                                <label>Customer Name</label>
                                 <?PHP
                                     $attributes = 'class="form-control" name="custname" required autofocus';
                                     echo form_dropdown('custname',$customers,set_value('custname'),$attributes);
                                 ?>
                             </div>
-							<div class="form-group">
-                                <label>Vendor Name<font color="red"> *</font></label>
+							<div class="form-group required">
+                                <label>Vendor Name</label>
                                 <?PHP
                                     $attributes = 'class="form-control" name="vendname" required autofocus';
                                     echo form_dropdown('vendname',$vendors,set_value('vendname'),$attributes);
@@ -40,7 +40,6 @@
 								<button type="submit" href="<?=site_url('admin/allocation')?>" class="btn btn-primary" name="btnAllocate" id="btnAllocate" value="Allocate">Allocate</button>
 							</div>
 						</div>
-					</form>
                     <!-- /.col-lg-12 -->
                 </div>
                 <!-- /.row -->

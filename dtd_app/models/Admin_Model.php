@@ -55,7 +55,7 @@ class Admin_Model extends CI_Model{
 	public function get_vendor_bank($vendorid){
         $this->db->select('pay_bankacno,pay_bankname');
         $this->db->from('vendor');
-        $this->db->where('vendor_id',$vendorid);
+        $this->db->where('user_id',$vendorid);
         $query = $this->db->get();
         return json_encode($query->row_array());
     }
@@ -71,6 +71,18 @@ class Admin_Model extends CI_Model{
     public function customer_deposit($data){
         $this->db->insert('custdep',$data);
         return $this->db->insert_id();
+    }
+    public function get_daily_deposits(){
+        $this->datatables->select('DATE_FORMAT(dep_date,"%b-%d")as depdate,user_name,,dep_amount,dep_transno,dep_bankname')
+            ->from('custdep')
+            ->join('users','users.user_id=custdep.dep_custid');
+        return $this->datatables->generate();
+    }
+    public function get_daily_payments(){
+        $this->datatables->select('DATE_FORMAT(pay_date,"%b-%d")as paydate,user_name,pay_amount,pay_transno,pay_bankname')
+            ->from('dtd_vendorpay')
+            ->join('users','users.user_id=vendorpay.pay_vendorid');
+        return $this->datatables->generate();
     }
     public function get_vendorid($userid){
         $vendid = $this->general_model->get_single_val('vendor_id','vendor',array('user_id' => $userid));

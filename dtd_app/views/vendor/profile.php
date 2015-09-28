@@ -106,11 +106,11 @@
                                     <td><input class="form-control" value="<? echo $profile['vendor_taxno']; ?>" name="taxrno" id="taxrno"></td>
                                 </tr>
                                 <tr>
-                                    <td>Tax Registration Number</td>
+                                    <td>Bank A/c. Number</td>
                                     <td><input class="form-control" value="<? echo $profile['pay_bankacno']; ?>" name="bankacno" id="bankacno"></td>
                                 </tr>
                                 <tr>
-                                    <td>Tax Registration Number</td>
+                                    <td>Bank Name</td>
                                     <td><input class="form-control" value="<? echo $profile['pay_bankname']; ?>" name="bankname" id="bankname"></td>
                                 </tr>
                                 </tbody>

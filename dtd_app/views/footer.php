@@ -325,9 +325,53 @@
 				}
 			});
 		</script>
-	<? } ?>
+	<?PHP } ?>
 
+<?php if($current_page == 'admin' && $current_action == 'deposit') { ?>
+	<script>
+		var table = $('#a_daily_deposits').dataTable( {
+			"sDom": '<"top"pl>rt<"bottom"><"clear">',
+			"aaSorting": [[0, "asc"],[1, "asc"]],
+			"oLanguage": {
+				"sLengthMenu": "_MENU_ records per page"
+			},
+			"bProcessing": true,
+			"bServerSide": true,
+			"sAjaxSource": "<?=site_url('ajax/a_daily_deposits');?>",
+			"responsive" : true,
+			"columns": [
+				{ "data": "depdate" },
+				{ "data": "user_name" },
+				{ "data": "dep_amount" },
+				{ "data": "dep_transno" },
+				{ "data": "dep_bankname" },
+			]
+		} );
+	</script>
+<?php } ?>
 
+<?php if($current_page == 'admin' && $current_action == 'payment') { ?>
+    <script>
+        var table = $('#a_daily_payments').dataTable( {
+            "sDom": '<"top"pl>rt<"bottom"><"clear">',
+            "aaSorting": [[0, "asc"],[1, "asc"]],
+            "oLanguage": {
+                "sLengthMenu": "_MENU_ records per page"
+            },
+            "bProcessing": true,
+            "bServerSide": true,
+            "sAjaxSource": "<?=site_url('ajax/a_daily_payments');?>",
+            "responsive" : true,
+            "columns": [
+                { "data": "paydate" },
+                { "data": "user_name" },
+                { "data": "pay_amount" },
+                { "data": "pay_transno" },
+                { "data": "pay_bankname" },
+            ]
+        } );
+    </script>
+<?php } ?>
 </body>
 
 </html>

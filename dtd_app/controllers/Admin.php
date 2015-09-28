@@ -275,7 +275,7 @@ class Admin extends CI_Controller {
 				array(
 					'field' => 'payreference',
 					'label' => 'Transaction Reference',
-					'rules' => 'required|alpha_numeric|is_unique[custdep.dep_transno]',
+					'rules' => 'required|alpha_numeric|is_unique[dtd_vendorpay.pay_transno]',
 					'errors' => array(
 						'required' => 'You must provide a %s',
 						'alpha_numeric' => 'Only alpha numeric values are allowed in Transaction Reference',

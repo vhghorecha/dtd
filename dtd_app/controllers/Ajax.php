@@ -30,18 +30,15 @@ class Ajax extends CI_Controller {
 	{
 		die($this->Vendor_Model->get_orders());
 	}
-
 	public function c_orders(){
 		die($this->Customer_Model->get_user_orders());
 	}
-
 	public function a_pending_vendors(){
 		die($this->Admin_Model->get_pending_vendors());
 	}
 	public function a_pending_customers(){
 		die($this->Admin_Model->get_pending_customers());
 	}
-
 	public function a_customers(){
 		die($this->Admin_Model->get_all_customers());
 	}
@@ -51,12 +48,16 @@ class Ajax extends CI_Controller {
 	public function a_vendor_customers(){
 		die($this->Admin_Model->get_vendor_customers());
 	}
-
-
+	public function a_daily_deposits(){
+		die($this->Admin_Model->get_daily_deposits());
+	}
+	public function a_daily_payments(){
+		die($this->Admin_Model->get_daily_payments());
+	}
 	public function c_account(){
 		die($this->Customer_Model->get_user_account());
 	}
-	
+
 	public function a_get_bank(){
 		$vendorid = $this->input->post('vendor_id');
 		die($this->Admin_Model->get_vendor_bank($vendorid));
