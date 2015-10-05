@@ -54,6 +54,30 @@ class Ajax extends CI_Controller {
 	public function a_daily_payments(){
 		die($this->Admin_Model->get_daily_payments());
 	}
+	public function a_customer_grade(){
+		die($this->Admin_Model->get_customer_grade());
+	}
+	public function a_item_price(){
+		die($this->Admin_Model->get_item_price());
+	}
+	public function a_vendor_price(){
+		die($this->Admin_Model->get_vendor_price());
+	}
+	public function edit_item(){
+		$result = array();
+		$type_id = $this->input->post('type_id');
+		$data['type_name'] = $this->input->post('type_name');
+		$res = $this->Admin_Model->edit_item($data,$type_id);
+		if($res){
+			$result['message'] = 'Item updated successfully.';
+		}else{
+			$result['error'] = 'Either your Item is already updated or there is database error';
+		}
+		die(json_encode($result));
+	}
+	public function a_item_list(){
+		die($this->Admin_Model->get_items());
+	}
 	public function c_account(){
 		die($this->Customer_Model->get_user_account());
 	}

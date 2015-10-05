@@ -92,7 +92,69 @@ class Admin_Model extends CI_Model{
         $this->db->insert('vendorpay',$data);
         return $this->db->insert_id();
     }
-
+    public function vendor_price($data){
+        $this->db->insert('vendorprice',$data);
+        return $this->db->insert_id();
+    }
+    public function get_vendor_price(){
+        $this->datatables->select('vp_id,user_id,user_name,type_id,type_name,gp_price,(gi_price-gp_price) as profit')
+            ->from('vendorprice')
+            ->join('users','users.user_id=vendorprice.gp_vendorid')
+            ->join('itemprice','vendorprice.gp_typeid=itemprice.gi_type')
+            ->join('item_type','itemprice.gi_type=item_type.type_id')
+            ->add_column('edit','<a href="'.base_url().'admin/vendorprice">Edit</a> / <a href="#">Delete</a>');
+        return $this->datatables->generate();
+    }
+    public function get_customer_grade(){
+        $this->datatables->select('gp_id,CONCAT(DATE_FORMAT(gp_fromdt,"%d-%m-%Y")," to ",DATE_FORMAT(gp_todt,"%d-%m-%Y")) as term,gp_no_order,grade_name,gp_disc')
+             ->from('gradeprice')
+             ->join('cust_grade','gradeprice.gp_grade=cust_grade.grade_id')
+             ->add_column('edit','<a href="'.base_url().'admin/grade">Edit</a> / <a href="#">Delete</a>');
+        return $this->datatables->generate();
+    }
+    public function get_item_price(){
+        $this->datatables->select('gi_id,type_name,gi_price,gi_type')
+            ->from('itemprice')
+            ->join('item_type','item_type.type_id=itemprice.gi_type')
+            ->add_column('edit','<a href="'.base_url().'admin/item/$1">Edit</a> / <a href="#">Delete</a>');
+        return $this->datatables->generate();
+    }
+    public function item_price($data){
+        $this->db->where('gi_type', $data['gi_type']);
+        $this->db->update('itemprice', $data);
+        if($this->db->affected_rows()<1){
+            $this->db->insert('itemprice', $data);
+            return $this->db->insert_id();
+        }
+        return $this->db->affected_rows();
+    }
+    public function add_item($data){
+        $this->db->insert('item_type', $data);
+        return $this->db->insert_id();
+    }
+    public function edit_item($data,$type_id){
+        $this->db->where('type_id',$type_id);
+        $this->db->update('item_type', $data);
+        return $this->db->affected_rows();
+    }
+    public function get_item_type(){
+        $this->db->select('type_id,type_name');
+        $this->db->from('item_type');
+        $query = $this->db->get();
+        $itemids = array('');
+        $itemnames = array('Select Item Type');
+        foreach($query->result_array() as $item){
+            $itemids[] = $item['type_id'];
+            $itemnames[] = $item['type_name'];
+        }
+        return array_combine($itemids,$itemnames);
+    }
+    public function get_items(){
+        $this->datatables->select('type_id,type_name')
+             ->from('item_type')
+            ->add_column('edit','<a href="#" class="edit_item" data-typeid="type_id" data-typename="type_name">Edit</a>');
+        return $this->datatables->generate();
+    }
     //Created By Hardik Mehta
     public function get_adm_pwd(){
         $this->db->select('admin_pass');
@@ -111,7 +173,6 @@ class Admin_Model extends CI_Model{
             ->where("is_active",0)
         ->where("user_role","vendor");
         return $this->datatables->generate();
-
     }
 
     //Created by Hardik Mehta

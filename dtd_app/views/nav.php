@@ -91,16 +91,13 @@
                         <li>
                             <a href="<?=site_url('user/logout');?>"><i class="fa fa-sign-out fa-fw"></i> Log Out</a>
                         </li>
-
-
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
             </div>
             <!-- /.navbar-static-side -->
-
             </nav>
-            
+
 			<?php } elseif($current_page == "admin" && $current_action != 'login') { ?>
 
             <div class="navbar-default sidebar" role="navigation">
@@ -159,7 +156,18 @@
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
-
+                        <li>
+                            <a href="#"><i class="fa fa-adn fa-fw"></i> Manage<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="<?=site_url('admin/item');?>">Item</a>
+                                </li>
+                                <li>
+                                    <a href="<?=site_url('admin/grade');?>">Grade</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
                         <li>
                             <a href="<?=site_url('admin/change_pwd');?>"><i class="fa fa-cogs fa-fw"></i> Change Password</a>
                         </li>

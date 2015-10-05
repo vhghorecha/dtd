@@ -13,7 +13,6 @@ class Admin extends CI_Controller {
 	public function index()
 	{
 		redirect('admin/login');
- 
 	}
 
 	//Cretaed By Hardik Mehta
@@ -57,7 +56,6 @@ class Admin extends CI_Controller {
 					{
 						$this->session->set_userdata('userinfo', $data);
 							redirect('admin/dashboard');
-
 					}
 					else
 					{
@@ -230,16 +228,12 @@ class Admin extends CI_Controller {
 					$data['error'] = $error;
 				}
 			}
-
 			$this->load->template('admin/change_pwd',$data);
 		}
 		else
 		{
-
 			$this->load->template('admin/change_pwd');
 		}
-
-
 	}
 
 	public function payment()
@@ -385,12 +379,10 @@ class Admin extends CI_Controller {
 	public function customers()
 	{
 		$this->load->template('admin/customers');
- 
 	}
 	public function vendors()
 	{
 		$this->load->template('admin/vendors');
- 
 	}
 	public function vendor_customer()
 	{
@@ -400,37 +392,158 @@ class Admin extends CI_Controller {
 	public function price()
 	{
 		$this->load->template('admin/price');
- 
 	}
 	public function item()
 	{
-		$this->load->template('admin/item');
- 
+		$is_save = $this->input->post('btnSave');
+		if($is_save=='save'){
+			$config = array(
+				array(
+					'field' => 'itemtype',
+					'label' => 'Item Type',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+					)
+				),
+				array(
+					'field' => 'price',
+					'label' => 'Price',
+					'rules' => 'required|numeric',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+						'numeric' => 'Only Numbers are allowed in Price',
+					)
+				),
+			);
+			$this->form_validation->set_rules($config);
+			if ($this->form_validation->run() == true) {
+				$data['gi_type'] = $this->input->post('itemtype');
+				$data['gi_price'] = $this->input->post('price');
+				$this->Admin_Model->item_price($data);
+				$message = "Item Price inserted successfully done.";
+			}else{
+				$error = validation_errors();
+			}
+			if(!empty($error)){
+				$data = $_POST;
+				$data['error'] = $error;
+			}
+			if(!empty($message)){
+				$data['message'] = $message;
+			}
+			$data['itemtypes'] = $this->Admin_Model->get_item_type();
+			$this->load->template('admin/item',$data);
+		}else {
+			$data['itemtypes'] = $this->Admin_Model->get_item_type();
+			$this->load->template('admin/item',$data);
+		}
+	}
+	public function newitem(){
+		$is_save = $this->input->post('btnSave');
+		if($is_save=='save'){
+			$config = array(
+				array(
+					'field' => 'typename',
+					'label' => 'Item Type Name',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+					)
+				),
+			);
+			$this->form_validation->set_rules($config);
+			if ($this->form_validation->run() == true) {
+				$data['type_name'] = $this->input->post('typename');
+				$this->Admin_Model->add_item($data);
+				$message = "New Item Type inserted successfully done.";
+			}else{
+				$error = validation_errors();
+			}
+			if(!empty($error)){
+				$data = $_POST;
+				$data['error'] = $error;
+			}
+			if(!empty($message)){
+				$data['message'] = $message;
+			}
+			$this->load->template('admin/newitem', $data);
+		}else {
+			$this->load->template('admin/newitem');
+		}
 	}
 	public function vendorprice()
 	{
-		$this->load->template('admin/vendorprice');
- 
+		$is_save = $this->input->post('btnSave');
+		if($is_save=='save'){
+			$config = array(
+				array(
+					'field' => 'vendname',
+					'label' => 'Vendor Name',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+					)
+				),
+				array(
+					'field' => 'itemtype',
+					'label' => 'Item Type',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+					)
+				),
+				array(
+					'field' => 'price',
+					'label' => 'Price',
+					'rules' => 'required|numeric',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+						'numeric' => 'Only Numbers are allowed in Price',
+					)
+				),
+			);
+			$this->form_validation->set_rules($config);
+			if ($this->form_validation->run() == true) {
+				$data['gp_vendorid'] = $this->input->post('vendname');
+				$data['gp_typeid'] = $this->input->post('itemtype');
+				$data['gp_price'] = $this->input->post('price');
+				$this->Admin_Model->vendor_price($data);
+				$message = "Vendor price inserted successfully done.";
+			}else{
+				$error = validation_errors();
+			}
+
+			if(!empty($error)){
+				$data = $_POST;
+				$data['error'] = $error;
+			}
+			if(!empty($message)){
+				$data['message'] = $message;
+			}
+			$data['itemtypes'] = $this->Admin_Model->get_item_type();
+			$data['vendors'] = $this->Admin_Model->get_vendors();
+			$this->load->template('admin/vendorprice',$data);
+		}else{
+			$data['itemtypes'] = $this->Admin_Model->get_item_type();
+			$data['vendors'] = $this->Admin_Model->get_vendors();
+			$this->load->template('admin/vendorprice', $data);
+		}
 	}
 	public function money_received()
 	{
 		$this->load->template('admin/money_received');
- 
 	}
 	public function money_paid()
 	{
 		$this->load->template('admin/money_paid');
- 
 	}
 	public function account()
 	{
 		$this->load->template('admin/account');
- 
 	}
-	
 	public function orders_pending()
 	{
 		$this->load->template('admin/orders_pending');		
 	}
-	
 }

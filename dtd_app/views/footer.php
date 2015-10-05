@@ -117,144 +117,115 @@
 		</script>
 	<?php } ?>
 
-<?php if($current_page == 'admin' && $current_action == 'app_vendor') { ?>
-	<script>
-		var table = $('#a_pending_vendors').dataTable( {
-			"sDom": '<"top"pl>rt<"bottom"><"clear">',
-			"aaSorting": [[0, "desc"]],
-			"oLanguage": {
-				"sLengthMenu": "_MENU_ records per page"
-			},
-			"bProcessing": true,
-			"bServerSide": true,
-			"sAjaxSource": "<?=site_url('ajax/a_pending_vendors');?>",
-			"responsive" : true,
-			"columns": [
-				{ "data": "user_name" },
-				{ "data": "user_email" },
-				{ "data": "user_add" },
-				{ "data": "user_tel" },
-				{ "data": "user_mob" },
-				{ "data": "user_site" },
-				{ "data": "user_staffname" },
-				{ "data": "user_stafftel" },
-			]
-		} );
-	</script>
-<?php } ?>
+	<?php if($current_page == 'admin' && $current_action == 'app_vendor') { ?>
+		<script>
+			var table = $('#a_pending_vendors').dataTable( {
+				"sDom": '<"top"pl>rt<"bottom"><"clear">',
+				"aaSorting": [[0, "desc"]],
+				"oLanguage": {
+					"sLengthMenu": "_MENU_ records per page"
+				},
+				"bProcessing": true,
+				"bServerSide": true,
+				"sAjaxSource": "<?=site_url('ajax/a_pending_vendors');?>",
+				"responsive" : true,
+				"columns": [
+					{ "data": "user_name" },
+					{ "data": "user_email" },
+					{ "data": "user_add" },
+					{ "data": "user_tel" },
+					{ "data": "user_mob" },
+					{ "data": "user_site" },
+					{ "data": "user_staffname" },
+					{ "data": "user_stafftel" },
+				]
+			} );
+		</script>
+	<?php } ?>
 
-<?php if($current_page == 'admin' && $current_action == 'app_customer') { ?>
-	<script>
-		var table = $('#a_pending_customers').dataTable( {
-			"sDom": '<"top"pl>rt<"bottom"><"clear">',
-			"aaSorting": [[0, "desc"]],
-			"oLanguage": {
-				"sLengthMenu": "_MENU_ records per page"
-			},
-			"bProcessing": true,
-			"bServerSide": true,
-			"sAjaxSource": "<?=site_url('ajax/a_pending_customers');?>",
-			"responsive" : true,
-			"columns": [
-				{ "data": "user_name" },
-				{ "data": "user_email" },
-				{ "data": "user_add" },
-				{ "data": "user_tel" },
-				{ "data": "user_mob" },
-				{ "data": "user_site" },
-				{ "data": "user_staffname" },
-				{ "data": "user_stafftel" },
-			]
-		} );
-	</script>
-<?php } ?>
+	<?php if($current_page == 'admin' && $current_action == 'app_customer') { ?>
+		<script>
+			var table = $('#a_pending_customers').dataTable( {
+				"sDom": '<"top"pl>rt<"bottom"><"clear">',
+				"aaSorting": [[0, "desc"]],
+				"oLanguage": {
+					"sLengthMenu": "_MENU_ records per page"
+				},
+				"bProcessing": true,
+				"bServerSide": true,
+				"sAjaxSource": "<?=site_url('ajax/a_pending_customers');?>",
+				"responsive" : true,
+				"columns": [
+					{ "data": "user_name" },
+					{ "data": "user_email" },
+					{ "data": "user_add" },
+					{ "data": "user_tel" },
+					{ "data": "user_mob" },
+					{ "data": "user_site" },
+					{ "data": "user_staffname" },
+					{ "data": "user_stafftel" },
+				]
+			} );
+		</script>
+	<?php } ?>
 
-<?php if($current_page == 'admin' && $current_action == 'customers') { ?>
-	<script>
-		var table = $('#a_customers').dataTable( {
-			"sDom": '<"top"pl>rt<"bottom"><"clear">',
-			"aaSorting": [[0, "desc"]],
-			"oLanguage": {
-				"sLengthMenu": "_MENU_ records per page"
-			},
-			"bProcessing": true,
-			"bServerSide": true,
-			"sAjaxSource": "<?=site_url('ajax/a_customers');?>",
-			"responsive" : true,
-			"columns": [
-				{ "data": "user_name" },
-				{ "data": "user_email" },
-				{ "data": "user_add" },
-				{ "data": "user_tel" },
-				{ "data": "user_mob" },
-				{ "data": "user_site" },
-				{ "data": "user_staffname" },
-				{ "data": "user_stafftel" },
-				{ "data": "user_balance"},
-			]
-		} );
-	</script>
-<?php } ?>
+	<?php if($current_page == 'admin' && $current_action == 'customers') { ?>
+		<script>
+			var table = $('#a_customers').dataTable( {
+				"sDom": '<"top"pl>rt<"bottom"><"clear">',
+				"aaSorting": [[0, "desc"]],
+				"oLanguage": {
+					"sLengthMenu": "_MENU_ records per page"
+				},
+				"bProcessing": true,
+				"bServerSide": true,
+				"sAjaxSource": "<?=site_url('ajax/a_customers');?>",
+				"responsive" : true,
+				"columns": [
+					{ "data": "user_name" },
+					{ "data": "user_email" },
+					{ "data": "user_add" },
+					{ "data": "user_tel" },
+					{ "data": "user_mob" },
+					{ "data": "user_site" },
+					{ "data": "user_staffname" },
+					{ "data": "user_stafftel" },
+					{ "data": "user_balance"},
+				]
+			} );
+		</script>
+	<?php } ?>
 
-<?php if($current_page == 'admin' && $current_action == 'vendors') { ?>
-	<script>
-		var table = $('#a_vendors').dataTable( {
-			"sDom": '<"top"pl>rt<"bottom"><"clear">',
-			"aaSorting": [[0, "desc"]],
-			"oLanguage": {
-				"sLengthMenu": "_MENU_ records per page"
-			},
-			"bProcessing": true,
-			"bServerSide": true,
-			"sAjaxSource": "<?=site_url('ajax/a_vendors');?>",
-			"responsive" : true,
-			"columns": [
-				{ "data": "user_name" },
-				{ "data": "user_email" },
-				{ "data": "user_add" },
-				{ "data": "user_tel" },
-				{ "data": "user_mob" },
-				{ "data": "user_site" },
-				{ "data": "user_staffname" },
-				{ "data": "user_stafftel" },
-				{ "data": "user_balance"},
-			]
-		} );
-	</script>
-<?php } ?>
+	<?php if($current_page == 'admin' && $current_action == 'vendors') { ?>
+		<script>
+			var table = $('#a_vendors').dataTable( {
+				"sDom": '<"top"pl>rt<"bottom"><"clear">',
+				"aaSorting": [[0, "desc"]],
+				"oLanguage": {
+					"sLengthMenu": "_MENU_ records per page"
+				},
+				"bProcessing": true,
+				"bServerSide": true,
+				"sAjaxSource": "<?=site_url('ajax/a_vendors');?>",
+				"responsive" : true,
+				"columns": [
+					{ "data": "user_name" },
+					{ "data": "user_email" },
+					{ "data": "user_add" },
+					{ "data": "user_tel" },
+					{ "data": "user_mob" },
+					{ "data": "user_site" },
+					{ "data": "user_staffname" },
+					{ "data": "user_stafftel" },
+					{ "data": "user_balance"},
+				]
+			} );
+		</script>
+	<?php } ?>
 
-<?php if($current_page == 'admin' && $current_action == 'vendor_customer_') { ?>
-	<script>
-		var table = $('#a_vendor_customers').dataTable( {
-			"sDom": '<"top"pl>rt<"bottom"><"clear">',
-			"aaSorting": [[0, "desc"]],
-			"oLanguage": {
-				"sLengthMenu": "_MENU_ records per page"
-			},
-			"bProcessing": true,
-			"bServerSide": true,
-			"sAjaxSource": "<?=site_url('ajax/a_vendor_customers');?>",
-			"responsive" : true,
-			"columns": [
-				{ "data": "user_name" },
-				{ "data": "user_email" },
-				{ "data": "user_add" },
-				{ "data": "user_tel" },
-				{ "data": "user_mob" },
-				{ "data": "user_site" },
-				{ "data": "user_staffname" },
-				{ "data": "user_stafftel" },
-				{ "data": "user_balance"},
-			]
-		}
-		);
-	</script>
-<?php } ?>
-
-<?php if($current_page == 'admin' && $current_action == 'vendor_customer') { ?>
-	<script>
-		var vendors = $.parseJSON('<?=$vendors;?>');
-		var table = $('#a_vendor_customers').dataTable( {
+	<?php if($current_page == 'admin' && $current_action == 'vendor_customer_') { ?>
+		<script>
+			var table = $('#a_vendor_customers').dataTable( {
 				"sDom": '<"top"pl>rt<"bottom"><"clear">',
 				"aaSorting": [[0, "desc"]],
 				"oLanguage": {
@@ -265,7 +236,6 @@
 				"sAjaxSource": "<?=site_url('ajax/a_vendor_customers');?>",
 				"responsive" : true,
 				"columns": [
-					{ "data": "vendor_id", "visible": false },
 					{ "data": "user_name" },
 					{ "data": "user_email" },
 					{ "data": "user_add" },
@@ -275,103 +245,245 @@
 					{ "data": "user_staffname" },
 					{ "data": "user_stafftel" },
 					{ "data": "user_balance"},
-				],
-				"initComplete": function(settings, json) {
-					this.api().columns(0).every( function () {
-						var column = this;
-						var select = $('<select><option value=""></option></select>')
-							.appendTo( $('#cbo_vendor').empty() )
-							.on( 'change', function () {
-								var val = $.fn.dataTable.util.escapeRegex(
-									$(this).val()
-								);
-
-								column
-									.search( val  )
-									.draw();
-							} );
-
-						$.each( vendors, function( index, value ){
-							select.append( '<option value="'+value.user_id+'">'+value.user_name+'</option>' )
-						} );
-					} );
-				},
+				]
 			}
-		);
-	</script>
-<?php } ?>
+			);
+		</script>
+	<?php } ?>
 
-<?php if($current_page == 'admin' && $current_action == 'payment') { ?>
+	<?php if($current_page == 'admin' && $current_action == 'vendor_customer') { ?>
 		<script>
-			$('#vendname').change(function(){
-				$venid = $(this).val();
-				if($venid > 0) {
-					$.ajax({
-						type: 'POST',
-						dataType: 'json',
-						url: '<?php echo site_url('ajax/a_get_bank' )?>',
-						data: {'vendor_id': $venid},
-						success: function (data) {
-							if (typeof data.pay_bankacno !== 'undefined') {
-								$('#paybankacno').val(data.pay_bankacno);
-								$('#paybankname').val(data.pay_bankname);
+			var vendors = $.parseJSON('<?=$vendors;?>');
+			var table = $('#a_vendor_customers').dataTable( {
+					"sDom": '<"top"pl>rt<"bottom"><"clear">',
+					"aaSorting": [[0, "desc"]],
+					"oLanguage": {
+						"sLengthMenu": "_MENU_ records per page"
+					},
+					"bProcessing": true,
+					"bServerSide": true,
+					"sAjaxSource": "<?=site_url('ajax/a_vendor_customers');?>",
+					"responsive" : true,
+					"columns": [
+						{ "data": "vendor_id", "visible": false },
+						{ "data": "user_name" },
+						{ "data": "user_email" },
+						{ "data": "user_add" },
+						{ "data": "user_tel" },
+						{ "data": "user_mob" },
+						{ "data": "user_site" },
+						{ "data": "user_staffname" },
+						{ "data": "user_stafftel" },
+						{ "data": "user_balance"},
+					],
+					"initComplete": function(settings, json) {
+						this.api().columns(0).every( function () {
+							var column = this;
+							var select = $('<select><option value=""></option></select>')
+								.appendTo( $('#cbo_vendor').empty() )
+								.on( 'change', function () {
+									var val = $.fn.dataTable.util.escapeRegex(
+										$(this).val()
+									);
+
+									column
+										.search( val  )
+										.draw();
+								} );
+
+							$.each( vendors, function( index, value ){
+								select.append( '<option value="'+value.user_id+'">'+value.user_name+'</option>' )
+							} );
+						} );
+					},
+				}
+			);
+		</script>
+	<?php } ?>
+
+	<?php if($current_page == 'admin' && $current_action == 'payment') { ?>
+			<script>
+				$('#vendname').change(function(){
+					$venid = $(this).val();
+					if($venid > 0) {
+						$.ajax({
+							type: 'POST',
+							dataType: 'json',
+							url: '<?php echo site_url('ajax/a_get_bank' )?>',
+							data: {'vendor_id': $venid},
+							success: function (data) {
+								if (typeof data.pay_bankacno !== 'undefined') {
+									$('#paybankacno').val(data.pay_bankacno);
+									$('#paybankname').val(data.pay_bankname);
+								}
 							}
+						});
+					}
+					else{
+						$('#paybankacno').val('');
+						$('#paybankname').val('');
+					}
+				});
+			</script>
+		<?PHP } ?>
+
+	<?php if($current_page == 'admin' && $current_action == 'deposit') { ?>
+		<script>
+			var table = $('#a_daily_deposits').dataTable( {
+				"sDom": '<"top"pl>rt<"bottom"><"clear">',
+				"aaSorting": [[0, "asc"],[1, "asc"]],
+				"oLanguage": {
+					"sLengthMenu": "_MENU_ records per page"
+				},
+				"bProcessing": true,
+				"bServerSide": true,
+				"sAjaxSource": "<?=site_url('ajax/a_daily_deposits');?>",
+				"responsive" : true,
+				"columns": [
+					{ "data": "depdate" },
+					{ "data": "user_name" },
+					{ "data": "dep_amount" },
+					{ "data": "dep_transno" },
+					{ "data": "dep_bankname" },
+				]
+			} );
+		</script>
+	<?php } ?>
+
+	<?php if($current_page == 'admin' && $current_action == 'payment') { ?>
+		<script>
+			var table = $('#a_daily_payments').dataTable( {
+				"sDom": '<"top"pl>rt<"bottom"><"clear">',
+				"aaSorting": [[0, "asc"],[1, "asc"]],
+				"oLanguage": {
+					"sLengthMenu": "_MENU_ records per page"
+				},
+				"bProcessing": true,
+				"bServerSide": true,
+				"sAjaxSource": "<?=site_url('ajax/a_daily_payments');?>",
+				"responsive" : true,
+				"columns": [
+					{ "data": "paydate" },
+					{ "data": "user_name" },
+					{ "data": "pay_amount" },
+					{ "data": "pay_transno" },
+					{ "data": "pay_bankname" },
+				]
+			} );
+		</script>
+	<?php } ?>
+	<?php if($current_page == 'admin' && $current_action == 'price') { ?>
+		<script>
+			var table = $('#a_customer_grade').dataTable( {
+				"sDom": '<"top"pl>rt<"bottom"><"clear">',
+				"aaSorting": [[0, "asc"],[1, "asc"]],
+				"oLanguage": {
+					"sLengthMenu": "_MENU_ records per page"
+				},
+				"bProcessing": true,
+				"bServerSide": true,
+				"sAjaxSource": "<?=site_url('ajax/a_customer_grade');?>",
+				"responsive" : true,
+				"columns": [
+					{ "data": "term"},
+					{ "data": "gp_no_order" },
+					{ "data": "grade_name" },
+					{ "data": "gp_disc" },
+					{ "data": "edit" },
+				]
+			} );
+		</script>
+	<?php } ?>
+	<?php if($current_page == 'admin' && $current_action == 'price') { ?>
+		<script>
+			var table = $('#a_item_price').dataTable( {
+				"sDom": '<"top"pl>rt<"bottom"><"clear">',
+				"aaSorting": [[0, "asc"],[1, "asc"]],
+				"oLanguage": {
+					"sLengthMenu": "_MENU_ records per page"
+				},
+				"bProcessing": true,
+				"bServerSide": true,
+				"sAjaxSource": "<?=site_url('ajax/a_item_price');?>",
+				"responsive" : true,
+				"columns": [
+					{ "data": "type_name"},
+					{ "data": "gi_price" },
+					{ "data": "edit" },
+				]
+			} );
+		</script>
+	<?php } ?>
+	<?php if($current_page == 'admin' && $current_action == 'price') { ?>
+		<script>
+			var table = $('#a_vendor_price').dataTable( {
+				"sDom": '<"top"pl>rt<"bottom"><"clear">',
+				"aaSorting": [[0, "asc"]],
+				"oLanguage": {
+					"sLengthMenu": "_MENU_ records per page"
+				},
+				"bProcessing": true,
+				"bServerSide": true,
+				"sAjaxSource": "<?=site_url('ajax/a_vendor_price');?>",
+				"responsive" : true,
+				"columns": [
+					{ "data": "user_name"},
+					{ "data": "type_name" },
+					{ "data": "gp_price" },
+					{ "data": "profit" },
+					{ "data": "edit" },
+				]
+			} );
+		</script>
+	<?php } ?>
+	<?php if($current_page == 'admin' && $current_action == 'item') { ?>
+		<script>
+			$(document).ready(function(){
+				$('#btn_up_item').click(function(){
+					$typeid = $('#up_itemid').val();
+					$typename = $('#up_itemname').val();
+					$.ajax({
+						type:'POST',
+						url: '<?=site_url("ajax/edit_item");?>',
+						dataType: 'json',
+						data: {type_id : $typeid, type_name : $typename},
+						success:function(data, textStatus, jqXHR){
+							if(typeof data.message !== 'undefined'){
+								$('#update_item').html('<div class="alert alert-success">' + data.message + '</div>')
+							}else{
+								$('#update_item').html('<div class="alert alert-error">' + data.error + '</div>')
+							}
+							table.fnDraw(false);
 						}
 					});
-				}
-				else{
-					$('#paybankacno').val('');
-					$('#paybankname').val('');
-				}
+				});
 			});
+			var table = $('#a_item_list').dataTable( {
+				"sDom": '<"top"pl>rt<"bottom"><"clear">',
+				"aaSorting": [[0, "asc"]],
+				"oLanguage": {
+					"sLengthMenu": "_MENU_ records per page"
+				},
+				"drawCallback" : function(){
+					$('.edit_item').click(function(){
+						$('#up_itemid').val($(this).data('typeid'));
+						alert($(this).data('typeid'));
+						$('#up_itemname').val($(this).data('typename'));
+						$('#pop_up_item').modal('show');
+					});
+				},
+				"bProcessing": true,
+				"bServerSide": true,
+				"sAjaxSource": "<?=site_url('ajax/a_item_list');?>",
+				"responsive" : true,
+				"columns": [
+					{ "data": "type_id"},
+					{ "data": "type_name" },
+					{ "data": "edit" },
+				]
+			} );
 		</script>
-	<?PHP } ?>
-
-<?php if($current_page == 'admin' && $current_action == 'deposit') { ?>
-	<script>
-		var table = $('#a_daily_deposits').dataTable( {
-			"sDom": '<"top"pl>rt<"bottom"><"clear">',
-			"aaSorting": [[0, "asc"],[1, "asc"]],
-			"oLanguage": {
-				"sLengthMenu": "_MENU_ records per page"
-			},
-			"bProcessing": true,
-			"bServerSide": true,
-			"sAjaxSource": "<?=site_url('ajax/a_daily_deposits');?>",
-			"responsive" : true,
-			"columns": [
-				{ "data": "depdate" },
-				{ "data": "user_name" },
-				{ "data": "dep_amount" },
-				{ "data": "dep_transno" },
-				{ "data": "dep_bankname" },
-			]
-		} );
-	</script>
-<?php } ?>
-
-<?php if($current_page == 'admin' && $current_action == 'payment') { ?>
-    <script>
-        var table = $('#a_daily_payments').dataTable( {
-            "sDom": '<"top"pl>rt<"bottom"><"clear">',
-            "aaSorting": [[0, "asc"],[1, "asc"]],
-            "oLanguage": {
-                "sLengthMenu": "_MENU_ records per page"
-            },
-            "bProcessing": true,
-            "bServerSide": true,
-            "sAjaxSource": "<?=site_url('ajax/a_daily_payments');?>",
-            "responsive" : true,
-            "columns": [
-                { "data": "paydate" },
-                { "data": "user_name" },
-                { "data": "pay_amount" },
-                { "data": "pay_transno" },
-                { "data": "pay_bankname" },
-            ]
-        } );
-    </script>
-<?php } ?>
+	<?php } ?>
 </body>
 
 </html>
