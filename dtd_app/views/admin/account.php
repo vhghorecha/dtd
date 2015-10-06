@@ -11,7 +11,6 @@
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 							<div class="panel panel-primary">
 								<div class="panel-heading">
-									
 								</div>
 								<div class="panel-body">
                 <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -21,8 +20,6 @@
                         <th>Money Received</th>
                         <th>Money Paid</th>
                         <th>Balance</th>
-						
-						
                     </tr>
                     </thead>
 

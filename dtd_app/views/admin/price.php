@@ -24,7 +24,7 @@
                         </table>
                     </div>
                     <div class="panel-footer">
-                        <a href="<?= site_url('admin/newitem'); ?>">New Item price</a>
+                        <a href="<?= site_url('admin/newitemprice'); ?>">New Item price</a>
                     </div>
                 </div>
             </div>
@@ -32,7 +32,7 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        Customer Grade Price
+                        Customer Grades and Discount
                     </div>
                     <div class="panel-body">
                         <table id="a_customer_grade" class="table table-striped table-bordered example" cellspacing="0"
@@ -49,7 +49,7 @@
                         </table>
                     </div>
                     <div class="panel-footer">
-                        <a href="<?= site_url('admin/grade'); ?>">New Grade Price</a>
+                        <a href="<?= site_url('admin/newgradediscount'); ?>">New Grade Discount</a>
                     </div>
                 </div>
             </div>

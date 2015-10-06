@@ -63,6 +63,11 @@ class Ajax extends CI_Controller {
 	public function a_vendor_price(){
 		die($this->Admin_Model->get_vendor_price());
 	}
+	public function delete_item(){
+		$type_id = $this->input->post('type_id');
+		$data['deleted'] = $this->Admin_Model->delete_item($type_id);
+		die(json_encode($data));
+	}
 	public function edit_item(){
 		$result = array();
 		$type_id = $this->input->post('type_id');
@@ -77,6 +82,26 @@ class Ajax extends CI_Controller {
 	}
 	public function a_item_list(){
 		die($this->Admin_Model->get_items());
+	}
+	public function delete_grade(){
+		$grade_id = $this->input->post('grade_id');
+		$data['deleted'] = $this->Admin_Model->delete_grade($grade_id);
+		die(json_encode($data));
+	}
+	public function edit_grade(){
+		$result = array();
+		$grade_id = $this->input->post('grade_id');
+		$data['grade_name'] = $this->input->post('grade_name');
+		$res = $this->Admin_Model->edit_grade($data,$grade_id);
+		if($res){
+			$result['message'] = 'Customer grade updated successfully.';
+		}else{
+			$result['error'] = 'Either your customer grade is already updated or there is database error';
+		}
+		die(json_encode($result));
+	}
+	public function a_grade_list(){
+		die($this->Admin_Model->get_grades());
 	}
 	public function c_account(){
 		die($this->Customer_Model->get_user_account());

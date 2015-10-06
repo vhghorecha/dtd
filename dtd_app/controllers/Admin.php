@@ -374,7 +374,54 @@ class Admin extends CI_Controller {
 	}
 	public function grade()
 	{
-		$this->load->template('admin/grade');
+		$is_save = $this->input->post('btnSave');
+		if($is_save=='save'){
+			$config = array(
+				array(
+					'field' => 'depositdate',
+					'label' => 'Date of Deposit',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+					)
+				),
+				array(
+					'field' => 'depamount',
+					'label' => 'Amount',
+					'rules' => 'required|numeric',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+						'numeric' => 'Only Numbers are allowed in Amount',
+					)
+				),
+				array(
+					'field' => 'gradename',
+					'label' => 'Grade Name',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+					)
+				),
+			);
+			$this->form_validation->set_rules($config);
+			if ($this->form_validation->run() == true) {
+				$data['grade_name'] = $this->input->post('gradename');
+				$this->Admin_Model->add_grade($data);
+				$message = "New Customer Grade inserted successfully done.";
+			}else{
+				$error = validation_errors();
+			}
+			if(!empty($error)){
+				$data = $_POST;
+				$data['error'] = $error;
+			}
+			if(!empty($message)){
+				$data['message'] = $message;
+			}
+			$this->load->template('admin/grade', $data);
+		}else {
+			$this->load->template('admin/grade');
+		}
 	}
 	public function customers()
 	{
@@ -393,7 +440,82 @@ class Admin extends CI_Controller {
 	{
 		$this->load->template('admin/price');
 	}
-	public function item()
+	public function newgradediscount(){
+		$is_save = $this->input->post('btnSave');
+		if($is_save=='save'){
+			$config = array(
+				array(
+					'field' => 'frmdate',
+					'label' => 'From Date',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+					)
+				),
+				array(
+					'field' => 'todate',
+					'label' => 'To Date',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+					)
+				),
+				array(
+					'field' => 'nooforders',
+					'label' => 'No. of Orders',
+					'rules' => 'required|numeric',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+						'numeric' => 'Only Numbers are allowed in %s',
+					)
+				),
+				array(
+					'field' => 'gradename',
+					'label' => 'Grade Name',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+					)
+				),
+				array(
+					'field' => 'discount',
+					'label' => 'Discount',
+					'rules' => 'required|numeric',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+						'numeric' => 'Only Numbers are allowed in %s',
+					)
+				),
+			);
+			$this->form_validation->set_rules($config);
+			if ($this->form_validation->run() == true) {
+				$date = DateTime::createFromFormat('d/m/Y',$this->input->post('frmdate'));
+				$data['gp_fromdt'] = $date->format('Y-m-d');
+				$date = DateTime::createFromFormat('d/m/Y',$this->input->post('todate'));
+				$data['gp_todt'] = $date->format('Y-m-d');
+				$data['gp_no_order'] = $this->input->post('nooforders');
+				$data['gp_grade'] = $this->input->post('gradename');
+				$data['gp_disc'] = $this->input->post('discount');
+				$this->Admin_Model->grade_price($data);
+				$message = "Grade Price inserted successfully done.";
+			}else{
+				$error = validation_errors();
+			}
+			if(!empty($error)){
+				$data = $_POST;
+				$data['error'] = $error;
+			}
+			if(!empty($message)){
+				$data['message'] = $message;
+			}
+			$data['grades'] = $this->Admin_Model->get_cust_grade();
+			$this->load->template('admin/newgradediscount',$data);
+		}else {
+			$data['grades'] = $this->Admin_Model->get_cust_grade();
+			$this->load->template('admin/newgradediscount',$data);
+		}
+	}
+	public function newitemprice()
 	{
 		$is_save = $this->input->post('btnSave');
 		if($is_save=='save'){
@@ -407,7 +529,7 @@ class Admin extends CI_Controller {
 					)
 				),
 				array(
-					'field' => 'price',
+					'field' => 'itemprice',
 					'label' => 'Price',
 					'rules' => 'required|numeric',
 					'errors' => array(
@@ -419,7 +541,7 @@ class Admin extends CI_Controller {
 			$this->form_validation->set_rules($config);
 			if ($this->form_validation->run() == true) {
 				$data['gi_type'] = $this->input->post('itemtype');
-				$data['gi_price'] = $this->input->post('price');
+				$data['gi_price'] = $this->input->post('itemprice');
 				$this->Admin_Model->item_price($data);
 				$message = "Item Price inserted successfully done.";
 			}else{
@@ -433,13 +555,13 @@ class Admin extends CI_Controller {
 				$data['message'] = $message;
 			}
 			$data['itemtypes'] = $this->Admin_Model->get_item_type();
-			$this->load->template('admin/item',$data);
+			$this->load->template('admin/newitemprice',$data);
 		}else {
 			$data['itemtypes'] = $this->Admin_Model->get_item_type();
-			$this->load->template('admin/item',$data);
+			$this->load->template('admin/newitemprice',$data);
 		}
 	}
-	public function newitem(){
+	public function item(){
 		$is_save = $this->input->post('btnSave');
 		if($is_save=='save'){
 			$config = array(
@@ -467,9 +589,9 @@ class Admin extends CI_Controller {
 			if(!empty($message)){
 				$data['message'] = $message;
 			}
-			$this->load->template('admin/newitem', $data);
+			$this->load->template('admin/item', $data);
 		}else {
-			$this->load->template('admin/newitem');
+			$this->load->template('admin/item');
 		}
 	}
 	public function vendorprice()

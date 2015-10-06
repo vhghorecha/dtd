@@ -137,9 +137,16 @@ class Admin_Model extends CI_Model{
         $this->db->update('item_type', $data);
         return $this->db->affected_rows();
     }
+    public function delete_item($type_id){
+        $this->db->where('type_id',$type_id);
+        $this->db->delete('item_type');
+        return $this->db->affected_rows();
+    }
     public function get_item_type(){
+        $type_ids = $this->general_model->get_single_val('GROUP_CONCAT(`gi_type`) as gi_type','itemprice');
         $this->db->select('type_id,type_name');
         $this->db->from('item_type');
+        $this->db->where_not_in('type_id',explode(",",$type_ids));
         $query = $this->db->get();
         $itemids = array('');
         $itemnames = array('Select Item Type');
@@ -149,10 +156,50 @@ class Admin_Model extends CI_Model{
         }
         return array_combine($itemids,$itemnames);
     }
+    public function grade_price($data){
+        $this->db->insert('gradeprice', $data);
+        return $this->db->insert_id();
+    }
+    public function get_cust_grade(){
+        $grade_ids = $this->general_model->get_single_val('GROUP_CONCAT(`gp_grade`) as gp_grade','gradeprice');
+        $this->db->select('grade_id,grade_name');
+        $this->db->from('cust_grade');
+        $this->db->where_not_in('grade_id',explode(",",$grade_ids));
+        $query = $this->db->get();
+        $gradeids = array('');
+        $gradenames = array('Select Grade');
+        foreach($query->result_array() as $grade){
+            $gradeids[] = $grade['grade_id'];
+            $gradenames[] = $grade['grade_name'];
+        }
+        return array_combine($gradeids,$gradenames);
+    }
     public function get_items(){
+        $this->load->helper('Datatable');
         $this->datatables->select('type_id,type_name')
              ->from('item_type')
-            ->add_column('edit','<a href="#" class="edit_item" data-typeid="type_id" data-typename="type_name">Edit</a>');
+            ->add_column('edit','$1','callback_edit_item(type_id,type_name)');
+        return $this->datatables->generate();
+    }
+    public function add_grade($data){
+        $this->db->insert('cust_grade', $data);
+        return $this->db->insert_id();
+    }
+    public function edit_grade($data,$grade_id){
+        $this->db->where('grade_id',$grade_id);
+        $this->db->update('cust_grade', $data);
+        return $this->db->affected_rows();
+    }
+    public function delete_grade($grade_id){
+        $this->db->where('grade_id',$grade_id);
+        $this->db->delete('cust_grade');
+        return $this->db->affected_rows();
+    }
+    public function get_grades(){
+        $this->load->helper('Datatable');
+        $this->datatables->select('grade_id,grade_name')
+            ->from('cust_grade')
+            ->add_column('edit','$1','callback_edit_grade(grade_id,grade_name)');
         return $this->datatables->generate();
     }
     //Created By Hardik Mehta

@@ -3,7 +3,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Item Price</h1>
+                        <h1 class="page-header">New Item Pricing</h1>
                     </div>
 						<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <?php if (!empty($error)) { ?>
@@ -16,12 +16,20 @@
                                 'id' => 'frmadditem',
                                 'role' => 'form'
                             )); ?>
-							<div class="form-group required">
+                            <div class="form-group required">
                                 <label>Item Type Name</label>
-                                <input class="form-control" placeholder="Enter Type Name" name="typename" id="typename" required>
+                                <?PHP
+                                    $attributes = 'class="form-control" name="itemtype" required autofocus';
+                                    echo form_dropdown('itemtype',$itemtypes,set_value('itemtype'),$attributes);
+                                ?>
+                            </div>
+							<div class="form-group required">
+                                <label>Price</label>
+                                <input class="form-control" placeholder="Enter Item Price" name="itemprice" id="itemprice" required>
                             </div>
                             <div class="form-group">
-                                <button type="submit" href="<?=site_url('admin/newitem')?>" class="btn btn-primary" name="btnSave" id="btnSave" value="save">Save</button>
+                                <button type="submit" href="<?=site_url('admin/newitemprice')?>" class="btn btn-primary" name="btnSave" id="btnSave" value="save">Save</button>
+                                <a href="<?=site_url('admin/price')?>"><button type="button" class="btn btn-primary" name="btnBack" id="btnBack" value="Back">Back</button></a>
                             </div>
 						</div>
                     <!-- /.col-lg-12 -->
