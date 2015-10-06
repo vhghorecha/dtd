@@ -138,7 +138,25 @@
 					{ "data": "user_site" },
 					{ "data": "user_staffname" },
 					{ "data": "user_stafftel" },
-				]
+					{ "data": "user_id" },
+				],
+				"drawCallback" : function(){
+					$('.approve_user').click(function(){
+						$user_id = $(this).data('userid');
+						$isDelete = confirm('Are you sure you want to Approve?');
+						if($isDelete){
+							$.ajax({
+								type:'POST',
+								url: '<?=site_url("ajax/approve_user");?>',
+								dataType: 'json',
+								data: {user_id : $user_id},
+								success:function(data, textStatus, jqXHR){
+									table.fnDraw(false);
+								}
+							});
+						}
+					});
+				},
 			} );
 		</script>
 	<?php } ?>
@@ -164,7 +182,25 @@
 					{ "data": "user_site" },
 					{ "data": "user_staffname" },
 					{ "data": "user_stafftel" },
-				]
+					{ "data": "user_id" },
+				],
+				"drawCallback" : function(){
+					$('.approve_user').click(function(){
+						$user_id = $(this).data('userid');
+						$isDelete = confirm('Are you sure you want to Approve?');
+						if($isDelete){
+							$.ajax({
+								type:'POST',
+								url: '<?=site_url("ajax/approve_user");?>',
+								dataType: 'json',
+								data: {user_id : $user_id},
+								success:function(data, textStatus, jqXHR){
+									table.fnDraw(false);
+								}
+							});
+						}
+					});
+				},
 			} );
 		</script>
 	<?php } ?>

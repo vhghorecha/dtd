@@ -10,7 +10,6 @@ class Customer extends CI_Controller {
 
 		if(!$this->user_model->is_cust()){
 			redirect('/');
-
 		}
     }
 	

@@ -5,12 +5,14 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Admin_Model extends CI_Model{
     function __construct(){
         parent::__construct();
+        $this->load->helper('Datatable');
         $this->load->library('Datatables');
         $this->load->model('user_model');
         $this->load->model('general_model');
         $this->load->model('Vendor_Model');
         $this->load->model('Customer_Model');
     }
+
     public function get_customers(){
         $this->db->select('users.user_id,user_name');
         $this->db->from('cust');
@@ -24,6 +26,7 @@ class Admin_Model extends CI_Model{
         }
         return array_combine($custids,$custnames);
     }
+
 	public function get_unallocated_customers(){
         $this->db->select('users.user_id,user_name');
         $this->db->from('cust');
@@ -38,6 +41,7 @@ class Admin_Model extends CI_Model{
         }
         return array_combine($custids,$custnames);
     }
+
     public function get_vendors(){
         $this->db->select('users.user_id,user_name');
         $this->db->from('users');
@@ -59,43 +63,52 @@ class Admin_Model extends CI_Model{
         $query = $this->db->get();
         return json_encode($query->row_array());
     }
+
     public function vendor_allocate($data,$userid){
         $this->db->where('user_id',$userid);
         $this->db->set('vendor_id',$data);
         $this->db->update('cust');
     }
+
     public function get_customerid($userid){
         $custid = $this->general_model->get_single_val('cust_id','cust',array('user_id' => $userid));
         return $custid;
     }
+
     public function customer_deposit($data){
         $this->db->insert('custdep',$data);
         return $this->db->insert_id();
     }
+
     public function get_daily_deposits(){
         $this->datatables->select('DATE_FORMAT(dep_date,"%b-%d")as depdate,user_name,,dep_amount,dep_transno,dep_bankname')
             ->from('custdep')
             ->join('users','users.user_id=custdep.dep_custid');
         return $this->datatables->generate();
     }
+
     public function get_daily_payments(){
         $this->datatables->select('DATE_FORMAT(pay_date,"%b-%d")as paydate,user_name,pay_amount,pay_transno,pay_bankname')
             ->from('dtd_vendorpay')
             ->join('users','users.user_id=vendorpay.pay_vendorid');
         return $this->datatables->generate();
     }
+
     public function get_vendorid($userid){
         $vendid = $this->general_model->get_single_val('vendor_id','vendor',array('user_id' => $userid));
         return $vendid;
     }
+
     public function vendor_pay($data){
         $this->db->insert('vendorpay',$data);
         return $this->db->insert_id();
     }
+
     public function vendor_price($data){
         $this->db->insert('vendorprice',$data);
         return $this->db->insert_id();
     }
+
     public function get_vendor_price(){
         $this->datatables->select('vp_id,user_id,user_name,type_id,type_name,gp_price,(gi_price-gp_price) as profit')
             ->from('vendorprice')
@@ -105,6 +118,7 @@ class Admin_Model extends CI_Model{
             ->add_column('edit','<a href="'.base_url().'admin/vendorprice">Edit</a> / <a href="#">Delete</a>');
         return $this->datatables->generate();
     }
+
     public function get_customer_grade(){
         $this->datatables->select('gp_id,CONCAT(DATE_FORMAT(gp_fromdt,"%d-%m-%Y")," to ",DATE_FORMAT(gp_todt,"%d-%m-%Y")) as term,gp_no_order,grade_name,gp_disc')
              ->from('gradeprice')
@@ -112,6 +126,7 @@ class Admin_Model extends CI_Model{
              ->add_column('edit','<a href="'.base_url().'admin/grade">Edit</a> / <a href="#">Delete</a>');
         return $this->datatables->generate();
     }
+
     public function get_item_price(){
         $this->datatables->select('gi_id,type_name,gi_price,gi_type')
             ->from('itemprice')
@@ -119,6 +134,7 @@ class Admin_Model extends CI_Model{
             ->add_column('edit','<a href="'.base_url().'admin/item/$1">Edit</a> / <a href="#">Delete</a>');
         return $this->datatables->generate();
     }
+
     public function item_price($data){
         $this->db->where('gi_type', $data['gi_type']);
         $this->db->update('itemprice', $data);
@@ -128,22 +144,26 @@ class Admin_Model extends CI_Model{
         }
         return $this->db->affected_rows();
     }
+
     public function add_item($data){
         $this->db->insert('item_type', $data);
         return $this->db->insert_id();
     }
+
     public function edit_item($data,$type_id){
         $this->db->where('type_id',$type_id);
         $this->db->update('item_type', $data);
         return $this->db->affected_rows();
     }
+
     public function delete_item($type_id){
         $this->db->where('type_id',$type_id);
         $this->db->delete('item_type');
         return $this->db->affected_rows();
     }
+
     public function get_item_type(){
-        $type_ids = $this->general_model->get_single_val('GROUP_CONCAT(`gi_type`) as gi_type','itemprice');
+        $type_ids = $this->general_model->get_single_val('GROUP_CONCAT(`gp_typeid`) as gi_type','vendorprice');
         $this->db->select('type_id,type_name');
         $this->db->from('item_type');
         $this->db->where_not_in('type_id',explode(",",$type_ids));
@@ -156,10 +176,12 @@ class Admin_Model extends CI_Model{
         }
         return array_combine($itemids,$itemnames);
     }
+
     public function grade_price($data){
         $this->db->insert('gradeprice', $data);
         return $this->db->insert_id();
     }
+
     public function get_cust_grade(){
         $grade_ids = $this->general_model->get_single_val('GROUP_CONCAT(`gp_grade`) as gp_grade','gradeprice');
         $this->db->select('grade_id,grade_name');
@@ -174,34 +196,38 @@ class Admin_Model extends CI_Model{
         }
         return array_combine($gradeids,$gradenames);
     }
+
     public function get_items(){
-        $this->load->helper('Datatable');
         $this->datatables->select('type_id,type_name')
              ->from('item_type')
             ->add_column('edit','$1','callback_edit_item(type_id,type_name)');
         return $this->datatables->generate();
     }
+
     public function add_grade($data){
         $this->db->insert('cust_grade', $data);
         return $this->db->insert_id();
     }
+
     public function edit_grade($data,$grade_id){
         $this->db->where('grade_id',$grade_id);
         $this->db->update('cust_grade', $data);
         return $this->db->affected_rows();
     }
+
     public function delete_grade($grade_id){
         $this->db->where('grade_id',$grade_id);
         $this->db->delete('cust_grade');
         return $this->db->affected_rows();
     }
+
     public function get_grades(){
-        $this->load->helper('Datatable');
         $this->datatables->select('grade_id,grade_name')
             ->from('cust_grade')
             ->add_column('edit','$1','callback_edit_grade(grade_id,grade_name)');
         return $this->datatables->generate();
     }
+
     //Created By Hardik Mehta
     public function get_adm_pwd(){
         $this->db->select('admin_pass');
@@ -215,20 +241,22 @@ class Admin_Model extends CI_Model{
     //Created by Hardik Mehta
     public function get_pending_vendors()
     {
-        $this->datatables->select("user_name, user_email, user_add, user_tel, user_mob, user_site, user_staffname, user_stafftel")
+        $this->datatables->select("user_name, user_email, user_add, user_tel, user_mob, user_site, user_staffname, user_stafftel, user_id")
             ->from("dtd_users")
             ->where("is_active",0)
-        ->where("user_role","vendor");
+            ->where("user_role","vendor")
+            ->edit_column('user_id','$1','callback_approve_user(user_id)');
         return $this->datatables->generate();
     }
 
     //Created by Hardik Mehta
     public function get_pending_customers()
     {
-        $this->datatables->select("user_name, user_email, user_add, user_tel, user_mob, user_site, user_staffname, user_stafftel")
+        $this->datatables->select("user_name, user_email, user_add, user_tel, user_mob, user_site, user_staffname, user_stafftel, user_id")
             ->from("dtd_users")
             ->where("is_active",0)
-            ->where("user_role","customer");
+            ->where("user_role","customer")
+            ->edit_column('user_id','$1','callback_approve_user(user_id)');
         return $this->datatables->generate();
 
     }
@@ -264,6 +292,7 @@ class Admin_Model extends CI_Model{
             ->where("user_role","vendor");
         return $this->datatables->generate();
     }
+
     public function get_vendor_customers(){
         $this->datatables->select("vendor_id, user_name, user_email, user_add, user_tel, user_mob, user_site, user_staffname, user_stafftel, user_balance")
             ->from("dtd_users")
@@ -271,6 +300,14 @@ class Admin_Model extends CI_Model{
             ->where("is_active",1)
             ->where("user_role","customer");
         return $this->datatables->generate();
+    }
+
+    public function approve_user(){
+        $user_id = $this->input->post('user_id');
+        $this->db->where('user_id',$user_id);
+        $this->db->set('is_active','1');
+        $this->db->update('users');
+        return $this->db->affected_rows();
     }
 }
 ?>

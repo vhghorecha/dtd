@@ -26,6 +26,7 @@
                                     <th>Website</th>
                                     <th>Staff Name</th>
                                     <th>Staff Telephone</th>
+                                    <th class="all">Approve</th>
                                 </tr>
                                 </thead>
                             </table>

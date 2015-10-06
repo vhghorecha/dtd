@@ -7,6 +7,10 @@ class Admin extends CI_Controller {
 		$this->load->model('Admin_Model');
 		//Created By Hardik Mehta
 		$this->load->model('user_model');
+		if(!$this->user_model->is_admin() && $this->uri->segment(2) != 'login'){
+			echo 'You don\'t have permission to access this page. <a href="admin/login">Login</a>';
+			die();
+		}
 	}
 
 	//Modified By Hardik Mehta

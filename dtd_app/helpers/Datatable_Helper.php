@@ -17,3 +17,7 @@ function callback_edit_grade($grade_id,$grade_name){
     return '<a href="#" class="edit_grade" data-gradeid="'.$grade_id.'" data-gradename="'.$grade_name.'"><i class="fa fa-edit"></i> Edit</a> |
                 <a href="#" class="delete_grade" data-gradeid="'.$grade_id.'"><i class="fa fa-remove"></i> Delete</a>';
 }
+
+function callback_approve_user($user_id){
+    return '<a href="#" class="approve_user" data-userid="'.$user_id.'" data-status="1">Approve</a>';
+}

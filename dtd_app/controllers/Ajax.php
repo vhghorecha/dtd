@@ -88,6 +88,11 @@ class Ajax extends CI_Controller {
 		$data['deleted'] = $this->Admin_Model->delete_grade($grade_id);
 		die(json_encode($data));
 	}
+	public function approve_user(){
+		$user_id = $this->input->post('user_id');
+		$data['approve'] = $this->Admin_Model->approve_user($user_id);
+		die(json_encode($data));
+	}
 	public function edit_grade(){
 		$result = array();
 		$grade_id = $this->input->post('grade_id');
