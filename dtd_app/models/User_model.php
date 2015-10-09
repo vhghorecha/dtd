@@ -25,7 +25,7 @@ class User_Model extends CI_Model{
 			$data = array(
 				'adminid' => $row->admin_id,
 				'adminname' => $row->admin_name,
-				'adminuser' => $row->user_role,
+				'userrole' => 'admin',
 				'is_active' => $row->is_active,
 				'validated' => true
 			);
@@ -42,7 +42,7 @@ class User_Model extends CI_Model{
         $password = $this->security->xss_clean($this->input->post('txtpass'));
         // Prep the query
         $this->db->where('user_email', $email);
-        $this->db->where('user_pass', $password);
+        $this->db->where('user_pass', md5($password));
         
         // Run the query
         $query = $this->db->get('users');

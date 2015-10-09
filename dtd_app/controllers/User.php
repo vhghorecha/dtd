@@ -72,7 +72,7 @@ class User extends CI_Controller {
 			if ($this->form_validation->run() == true) {
 				$data['user_name'] = $this->input->post('txtname');
 				$data['user_email'] = $this->input->post('txtusername');
-				$data['user_pass'] = $this->input->post('txtpass');
+				$data['user_pass'] = md5($this->input->post('txtpass'));
 				$data['user_add'] = $this->input->post('txtaddress');
 				$data['user_zipcode'] = $this->input->post('txtzip');
 				$data['user_tel'] = $this->input->post('txttel');
