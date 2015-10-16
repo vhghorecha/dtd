@@ -1,0 +1,39 @@
+General
+=======
+Search Facility in All Table, if there is date we need date filtering.
+Messaging between all three with File Attachment
+All order will have 10% VAT
+Select2 in all Combobox
+No decimal points in amount, put comma in amount
+
+Customer
+========
+Balance in Customer not update with Deposit and Order
+In Orders page of customer give daily total group by item also
+After successfull delivery request, customer directly go to New Order Page.
+IN delivery request need Modify, Cancel and Delete option.
+Excel Upload in Delivery Request.
+Move change password to Profile Section
+In customer profile display vendor info. 
+
+Vendor
+======
+Balance problem every where in Vendor
+In Orders page of vendor give daily total group by item also
+Use price from Vendor Price Table
+Move change password to Profile Section
+Excel Upload in Order Received.
+Download records with Criteria
+Vendor can see their customer profile
+
+Admin
+=====
+No section for approve less balance order.
+Order Pending need searching facility.
+Full searching in recoreds likes By Customer, Vendor, Type.
+Put Money Recieved and Paid in Transactions Menu
+Give list of Delivered orders in Vendor pay and decide amount automatically.
+Customer Deposit Transaction Number and Bank optional
+Error when saving Korean character in deposit
+Customers, Vendors - Need one more column areaCode (Only admin can update), Delete functionality
+Data Management - Backup
