@@ -42,13 +42,17 @@ class Customer_Model extends CI_Model
         $this->db->select($select);
         $this->db->from($table);
         $this->db->where($where);
-        return current($this->db->get()->row_array());
+        $row = $this->db->get()->row_array();
+        if (!is_null($row)) {
+            return current($row);
+        }
+        return null;
     }
 
     public function get_user_orders()
     {
         $cust_id = $this->User_Model->get_current_user_id();
-        $this->datatables->select("dtd_order.order_id, DATE_FORMAT(dtd_order.order_date,'%d-%m-%Y') as order_date, dtd_order.order_recipient, dtd_order.order_telno, dtd_item_type.type_name, dtd_order.order_status")
+        $this->datatables->select("dtd_order.order_id, DATE_FORMAT(dtd_order.order_date,'%b-%d') as order_date, dtd_order.order_recipient, dtd_order.order_telno, dtd_item_type.type_name, dtd_order.order_status")
             ->from('dtd_order')
             ->join('dtd_item_type', 'dtd_item_type.type_id=dtd_order.order_typeid')
             ->where('dtd_order.order_custid', $cust_id);
@@ -56,13 +60,12 @@ class Customer_Model extends CI_Model
 
     }
 
-
-
     public function get_user_profile()
     {
-        $this->db->select('t1.user_name,t1.user_email,t1.user_add,t1.user_zipcode,t1.user_tel,t1.user_mob,t1.user_site,t1.user_staffname,t1.user_stafftel,t1.user_memo,t2.user_regno,t2.user_lob,t2.user_sercomp');
+        $this->db->select('t1.user_name,t1.user_email,t1.user_add,t1.user_zipcode,t1.user_tel,t1.user_mob,t1.user_site,t1.user_staffname,t1.user_stafftel,t1.user_memo,t2.user_regno,t2.user_lob,t2.user_sercomp,t3.user_name as "vendor_name",t3.user_email as "vendor_email"');
         $this->db->from('dtd_users t1');
         $this->db->join('dtd_cust t2', ' t1.user_id=t2.user_id');
+        $this->db->join('dtd_users t3',' t3.user_id = t2.vendor_id');
         $this->db->where("t1.user_id", $this->user_model->get_current_user_id());
         return $this->db->get()->row_array();
     }
@@ -84,7 +87,7 @@ class Customer_Model extends CI_Model
         $this->db->from('dtd_users');
         $this->db->where('user_id', $user_id);
         $query = $this->db->get();
-        $balance['bal'] = current($query->row_array());
+        $balance = current($query->row_array());
         return $balance;
     }
 
@@ -103,7 +106,7 @@ class Customer_Model extends CI_Model
         $query = $this->db->get();
         $item_discount = current($query->row_array());
 
-        $charges['charge'] = $item_price - (($item_price * $item_discount) / 100);
+        $charges = $item_price - (($item_price * $item_discount) / 100);
         return $charges;
     }
 
@@ -116,6 +119,11 @@ class Customer_Model extends CI_Model
         $this->db->where('user_id', $user_id);
         $this->db->update('dtd_users', $data);
     }
+
+    public function get_user_id_by_email($email){
+        return $this->get_single_val('user_id','users',array('user_email' => $email));
+    }
+
     public function get_user_vendor_id()
     {
         $user_id = $this->user_model->get_current_user_id();
@@ -249,6 +257,17 @@ class Customer_Model extends CI_Model
 			$result[]=$data;
 		}
 		return $result;
+    }
+
+    public function get_daily_orders(){
+        $this->db->select("DATE_FORMAT(dto.order_date, '%M-%d') as date,di.type_name,COUNT(dto.order_id) as subtotal, SUM(order_amount) as subamount");
+        $this->db->from('dtd_order dto');
+        $this->db->join('dtd_item_type di','di.type_id=dto.order_typeid');
+        $this->db->where('dto.order_date >= LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 1 MONTH
+  AND dto.order_date < LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY');
+        $this->db->group_by('dto.order_custid, date, type_name');
+        $query = $this->db->get()->result_array();
+        return $query;
     }
 }
 

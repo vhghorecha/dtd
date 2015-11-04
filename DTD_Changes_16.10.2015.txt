@@ -3,18 +3,24 @@ General
 Search Facility in All Table, if there is date we need date filtering.
 Messaging between all three with File Attachment
 All order will have 10% VAT
-Select2 in all Combobox
-No decimal points in amount, put comma in amount
+Select2 in all Combobox - Done
+No decimal points in amount, put comma in amount (Done step by step)
+ALTER TABLE `dtd_custdep` CHANGE `dep_amount` `dep_amount` DECIMAL( 8, 0 ) NOT NULL;
+ALTER TABLE `dtd_gradeprice` CHANGE `gp_disc` `gp_disc` DECIMAL( 8, 0 ) NOT NULL;
+ALTER TABLE `dtd_itemprice` CHANGE `gi_price` `gi_price` DECIMAL( 8, 0 ) NOT NULL ;
+ALTER TABLE `dtd_order` CHANGE `order_amount` `order_amount` DECIMAL( 8, 0 ) NOT NULL ;
+ALTER TABLE `dtd_users` CHANGE `user_balance` `user_balance` DECIMAL( 8, 0 ) NULL DEFAULT '0';
+ALTER TABLE `dtd_vendorprice` CHANGE `gp_price` `gp_price` DECIMAL( 8, 0 ) NOT NULL;
 
 Customer
 ========
-Balance in Customer not update with Deposit and Order
-In Orders page of customer give daily total group by item also
-After successfull delivery request, customer directly go to New Order Page.
+Balance in Customer not update with Deposit and Order (Done)
+In Orders page of customer give daily total group by item also (Done)
+After successfull delivery request, customer directly go to New Order Page. (done)
 IN delivery request need Modify, Cancel and Delete option.
-Excel Upload in Delivery Request.
-Move change password to Profile Section
-In customer profile display vendor info. 
+Excel Upload in Delivery Request. (Done - validation pending)
+Move change password to Profile Section (Done)
+In customer profile display vendor info. (Done)
 
 Vendor
 ======

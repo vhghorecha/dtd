@@ -21,3 +21,11 @@ function callback_edit_grade($grade_id,$grade_name){
 function callback_approve_user($user_id){
     return '<a href="#" class="approve_user" data-userid="'.$user_id.'" data-status="1">Approve</a>';
 }
+
+function callback_format_amount($amount){
+    if($amount > 0) {
+        return '$' . number_format($amount, 0);
+    }else{
+        return '-$' . number_format(abs($amount),0);
+    }
+}

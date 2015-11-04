@@ -283,7 +283,7 @@ class Datatables
     {
         if ($this->ci->input->get('iSortingCols')) {
             for ($i = 0; $i < intval($this->ci->input->get('iSortingCols')); $i++) {
-                $this->ci->db->order_by($this->ci->input->get('mDataProp_' . ($this->ci->input->get('iSortCol_' . $i))), $this->ci->input->get('sSortDir_' . $i));
+                $this->ci->db->order_by($this->ci->input->get('mDataProp_' . ($this->ci->input->get('iSortCol_' . $i))), $this->ci->input->get('sSortDir_' . $i),false);
             }
         }
 
@@ -320,7 +320,7 @@ class Datatables
         {
             if ( $this->ci->input->get('sSearch_'.$i) != '' )
             {
-                $this->ci->db->or_like($this->columns[$i], $this->ci->input->get('sSearch_' . $i));
+                $this->ci->db->having($this->columns[$i] . " LIKE '%", $this->ci->input->get('sSearch_' . $i) . "%'", FALSE);
             }
         }
     }
@@ -346,7 +346,7 @@ class Datatables
     {
         $aaData = array();
         $rResult = $this->get_display_result();
-
+        //echo $this->last_query();
         if ($output == 'json') {
             $iTotal = $this->get_total_results();
             $iFilteredTotal = $this->get_total_results(TRUE);

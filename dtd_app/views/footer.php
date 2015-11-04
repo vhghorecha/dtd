@@ -17,15 +17,20 @@
 	<script type="text/javascript" language="javascript" src="<?=RES_URL;?>js/dataTables.bootstrap.js"></script>
 	<script type="text/javascript" language="javascript" src="<?=RES_URL;?>js/dataTables.responsive.js"></script>
 	<script type="text/javascript" language="javascript" src="<?=RES_URL;?>js/jquery.columnFilter.js"></script>
+	<script type="text/javascript" language="javascript" src="<?=RES_URL;?>js/select2.min.js"></script>
 	<script type="text/javascript">
 		// When the document is ready
 		$(document).ready(function () {
 			$('.datepicker').datepicker({
 				format: "dd/mm/yyyy"
 			});
-			$('.datepicker').on('changeDate', function(ev){
+            $('.tdatepicker').datepicker({
+                format: "M-dd"
+            });
+			$('.datepicker, .tdatepicker').on('changeDate', function(ev){
 				$(this).datepicker('hide');
 			});
+			$('select').select2();
 		});
     </script>
 
@@ -78,7 +83,7 @@
 					});
 				},
 				"columns": [
-					{ "data": "order_date" },
+					{ "data": "ord_date" },
 					{ "data": "order_id" },
 					{ "data": "user_name" },
 					{ "data": "order_recipient" },
@@ -90,6 +95,17 @@
 					{ "data": "order_status" },
 				]
 			} );
+
+            // Setup - add a text input to each footer cell
+            $('#v_ord_rec tfoot th').each( function () {
+                //var title = $('#example thead th').eq( $(this).index() ).text();
+                if($(this).index() != 0 ){
+                    $(this).html( '<input type="text" style="width:100%" />' );
+                }else{
+                    $(this).html( '<input type="text" style="width:100%" class="tdatepicker" />' );
+                }
+
+            } );
 		</script>
 	<?php } ?>
 
@@ -113,6 +129,17 @@
 					{ "data": "type_name" },
 					{ "data": "order_status" },
 				]
+			} );
+
+			// Setup - add a text input to each footer cell
+			$('#c_orders tfoot th').each( function () {
+				//var title = $('#example thead th').eq( $(this).index() ).text();
+				if($(this).index() != 1 ){
+					$(this).html( '<input type="text" style="width:100%" />' );
+				}else{
+					$(this).html( '<input type="text" style="width:100%" class="tdatepicker" />' );
+				}
+
 			} );
 		</script>
 	<?php } ?>
@@ -594,11 +621,28 @@
 			} );
 		</script>
 	<?php } ?>
-	<?php if($current_page == 'admin' && $current_action == 'newgradediscount') { ?>
 	<script>
-
+        if(typeof table !== 'undefined'){
+            table.DataTable().columns().every( function () {
+                var that = this;
+                $( 'input', this.footer() ).on( 'keyup change', function () {
+                    if ( that.search() !== this.value ) {
+                        that
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+            } );
+            function fnResetAllFilters() {
+                var oSettings = table.fnSettings();
+                for (iCol = 0; iCol < oSettings.aoPreSearchCols.length; iCol++) {
+                    oSettings.aoPreSearchCols[iCol].sSearch = '';
+                }
+                table.fnDraw();
+            }
+            $('<button class="btn btn-primary pull-right">Clear Search</button>').click( function () {$('input').val('');fnResetAllFilters();}).insertBefore( 'div.dataTables_wrapper');
+        }
 	</script>
-	<?php } ?>
 </body>
 
 </html>

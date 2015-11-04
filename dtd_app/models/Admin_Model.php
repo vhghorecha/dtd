@@ -76,21 +76,26 @@ class Admin_Model extends CI_Model{
     }
 
     public function customer_deposit($data){
+        $this->db->set('user_balance', 'user_balance + ' . $data['dep_custid'], false);
+        $this->db->where('user_id', $data['dep_custid']);
+        $this->db->update('users');
         $this->db->insert('custdep',$data);
         return $this->db->insert_id();
     }
 
     public function get_daily_deposits(){
-        $this->datatables->select('DATE_FORMAT(dep_date,"%b-%d")as depdate,user_name,,dep_amount,dep_transno,dep_bankname')
+        $this->datatables->select('DATE_FORMAT(dep_date,"%b-%d")as depdate,user_name,dep_amount,dep_transno,dep_bankname')
             ->from('custdep')
-            ->join('users','users.user_id=custdep.dep_custid');
+            ->join('users','users.user_id=custdep.dep_custid')
+            ->edit_column('dep_amount','$1','callback_format_amount(dep_amount)');
         return $this->datatables->generate();
     }
 
     public function get_daily_payments(){
         $this->datatables->select('DATE_FORMAT(pay_date,"%b-%d")as paydate,user_name,pay_amount,pay_transno,pay_bankname')
             ->from('dtd_vendorpay')
-            ->join('users','users.user_id=vendorpay.pay_vendorid');
+            ->join('users','users.user_id=vendorpay.pay_vendorid')
+            ->edit_column('pay_amount','$1','callback_format_amount(pay_amount)');
         return $this->datatables->generate();
     }
 
@@ -115,6 +120,8 @@ class Admin_Model extends CI_Model{
             ->join('users','users.user_id=vendorprice.gp_vendorid')
             ->join('itemprice','vendorprice.gp_typeid=itemprice.gi_type')
             ->join('item_type','itemprice.gi_type=item_type.type_id')
+            ->edit_column('gp_price','$1','callback_format_amount(gp_price)')
+            ->edit_column('profit','$1','callback_format_amount(profit)')
             ->add_column('edit','<a href="'.base_url().'admin/vendorprice">Edit</a> / <a href="#">Delete</a>');
         return $this->datatables->generate();
     }
@@ -123,6 +130,7 @@ class Admin_Model extends CI_Model{
         $this->datatables->select('gp_id,CONCAT(DATE_FORMAT(gp_fromdt,"%d-%m-%Y")," to ",DATE_FORMAT(gp_todt,"%d-%m-%Y")) as term,gp_no_order,grade_name,gp_disc')
              ->from('gradeprice')
              ->join('cust_grade','gradeprice.gp_grade=cust_grade.grade_id')
+             ->edit_column('gp_disc','$1','callback_format_amount(gp_disc)')
              ->add_column('edit','<a href="'.base_url().'admin/grade">Edit</a> / <a href="#">Delete</a>');
         return $this->datatables->generate();
     }
@@ -131,6 +139,7 @@ class Admin_Model extends CI_Model{
         $this->datatables->select('gi_id,type_name,gi_price,gi_type')
             ->from('itemprice')
             ->join('item_type','item_type.type_id=itemprice.gi_type')
+            ->edit_column('gi_price','$1','callback_format_amount(gi_price)')
             ->add_column('edit','<a href="'.base_url().'admin/item/$1">Edit</a> / <a href="#">Delete</a>');
         return $this->datatables->generate();
     }

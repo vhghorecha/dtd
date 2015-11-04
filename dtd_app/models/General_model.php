@@ -15,5 +15,9 @@ class General_Model extends CI_Model{
         }
 		return current($this->db->get()->row_array());
     }
+
+    public function get_item_id_from_type($type_name){
+        return $this->get_single_val('type_id', 'item_type', array('type_name' => $type_name));
+    }
 }
 ?>

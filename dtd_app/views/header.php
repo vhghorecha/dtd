@@ -33,6 +33,7 @@
     <link href="<?= RES_URL; ?>css/dataTables.bootstrap.css" rel="stylesheet">
     <link href="<?= RES_URL; ?>css/dataTables.responsive.css" rel="stylesheet">
     <link href="<?= RES_URL; ?>css/sb-admin-2.css" rel="stylesheet">
+    <link href="<?= RES_URL; ?>css/select2.min.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="<?= RES_URL; ?>css/font-awesome.min.css" rel="stylesheet" type="text/css">

@@ -7,8 +7,13 @@
             </div>
 
             <?php if(!empty($error)) { ?>
-                <div class="alert alert-danger fade in"><?=$error;?></div>
+                <div class="col-xs-12"><div class="alert alert-danger fade in"><?=$error;?></div></div>
             <?php } ?>
+            <?php $msg = $this->session->flashdata('msg');
+                if(!empty($msg)){
+                    echo '<div class="col-xs-12">'.$msg.'</div>';
+                }
+            ?>
             <?php echo form_open($action, array(
                 'id' => 'frmbook_order',
                 'role' => 'form'
@@ -27,7 +32,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="disabledSelect">Total Charges (Today)</label>
-                                <input class="form-control" id="disabledInput" type="text" placeholder="" name="todaycharge" value="$<?php echo $today['sum']; ?>"
+                                <input class="form-control" id="disabledInput" type="text" placeholder="" name="todaycharge" value="<?php echo $today['sum']; ?>"
                                        disabled>
                             </div>
                             <div class="form-group">
@@ -37,17 +42,17 @@
                             </div>
                             <div class="form-group">
                                 <label for="disabledSelect">Total Charges (Current Month)</label>
-                                <input class="form-control" id="disabledInput" type="text" placeholder="" name="monthlycharge" value="$<?php echo $month['amount']; ?>"
+                                <input class="form-control" id="disabledInput" type="text" placeholder="" name="monthlycharge" value="<?php echo $month['amount']; ?>"
                                        disabled>
                             </div>
                             <div class="form-group">
                                 <label for="disabledSelect">Balance</label>
-                                <input class="form-control" type="text" name="balance" id="balance" value="$<?php echo $balance['bal']; ?>"
+                                <input class="form-control" type="text" name="balance" id="balance" value="<?php echo $balance; ?>"
                                        readonly>
                             </div>
                             <div class="form-group">
                                 <label for="disabledSelect">Current Order Charge</label>
-                                <input class="form-control" type="text" name="currentcharge" id="currentcharge" value="$<?php echo round($charge['charge'],2); ?>" readonly>
+                                <input class="form-control" type="text" name="currentcharge" id="currentcharge" value="<?php echo round($charge,2); ?>" readonly>
                             </div>
                         </div>
                         <div class="panel-footer">

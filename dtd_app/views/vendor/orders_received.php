@@ -7,7 +7,6 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-12">
                 <table id="v_ord_rec" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <thead>
                     <tr>
@@ -23,9 +22,24 @@
                         <th>Status</th>
                     </tr>
                     </thead>
+                    <tfoot>
+                    <tr>
+                        <th>Date</th>
+                        <th>Order id</th>
+                        <th>Customer</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Item type</th>
+                        <th>Item name</th>
+                        <th>Company name</th>
+                        <th>Phone</th>
+                        <th>Status</th>
+                    </tr>
+                    </tfoot>
                 </table>
                 <a href="<?=site_url('vendor/download')?>" class="btn btn-primary pull-right">Download</a>
             </div>
+            <br/>
             <!-- /.col-lg-12 -->
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">

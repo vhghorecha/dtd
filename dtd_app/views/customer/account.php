@@ -29,10 +29,10 @@
                         <tr>
                             <td><?PHP echo $row['date'];?></td>
                             <td><?PHP if($row['charge']['date']!="") echo $row['charge']['num']; else echo "0";?></td>
-                            <td><?PHP if($row['charge']['amount']!="") echo $row['charge']['amount']; else echo "0";?></td>
+                            <td><?PHP if($row['charge']['amount']!="") echo callback_format_amount($row['charge']['amount']); else echo "0";?></td>
                             <td><?PHP if($row['recived']['num']!="") echo $row['recived']['num']; else echo "0";?></td>
-                            <td><?PHP if($row['recived']['amount']!="") echo $row['recived']['amount']; else echo "0";?></td>
-                            <td><?PHP echo $row['recived']['amount']-$row['charge']['amount'];?></td>
+                            <td><?PHP if($row['recived']['amount']!="") echo callback_format_amount($row['recived']['amount']); else echo "0";?></td>
+                            <td><?PHP echo callback_format_amount($row['recived']['amount']-$row['charge']['amount']);?></td>
                         </tr>
                         <?PHP }?>
                     <?PHP }?>
@@ -41,10 +41,10 @@
                     <tr>
                         <th>Total</th>
                         <th><?PHP echo array_sum(array_column(array_column($account,'charge'),'num')); ?></th>
-                        <th><?PHP echo $cha = array_sum(array_column(array_column($account,'charge'),'amount')); ?></th>
+                        <th><?PHP $cha = array_sum(array_column(array_column($account,'charge'),'amount')); echo callback_format_amount($cha); ?></th>
                         <th><?PHP echo array_sum(array_column(array_column($account,'recived'),'num')); ?></th>
-                        <th><?PHP echo $rec = array_sum(array_column(array_column($account,'recived'),'amount')); ?></th>
-                        <th><?PHP echo $rec-$cha;?></th>
+                        <th><?PHP $rec = array_sum(array_column(array_column($account,'recived'),'amount')); echo callback_format_amount($rec); ?></th>
+                        <th><?PHP echo callback_format_amount($rec-$cha);?></th>
                     </tr>
                     </tfoot>
                 </table>

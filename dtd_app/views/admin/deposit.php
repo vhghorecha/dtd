@@ -60,6 +60,15 @@
                                         <th>Bank Name</th>
                                     </tr>
                                     </thead>
+                                    <tfoot>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Customer Name</th>
+                                        <th>Amount</th>
+                                        <th>Transaction No.</th>
+                                        <th>Bank Name</th>
+                                    </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                             <div class="panel-footer">

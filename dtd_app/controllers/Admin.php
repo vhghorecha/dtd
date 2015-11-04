@@ -133,8 +133,8 @@ class Admin extends CI_Controller {
 			);
 			$this->form_validation->set_rules($config);
 			if ($this->form_validation->run() == true) {
-				$custid = $this->Admin_Model->get_customerid($this->input->post('custname'));
-				$data['dep_custid'] = $custid;
+				//$custid = $this->Admin_Model->get_customerid($this->input->post('custname'));
+				$data['dep_custid'] = $this->input->post('custname');
 				$date = DateTime::createFromFormat('d/m/Y',$this->input->post('depositdate'));
 				$data['dep_date'] = $date->format('Y-m-d');
 				$data['dep_amount'] = $this->input->post('depamount');
@@ -300,8 +300,8 @@ class Admin extends CI_Controller {
 			);
 			$this->form_validation->set_rules($config);
 			if ($this->form_validation->run() == true) {
-				$vendid = $this->Admin_Model->get_vendorid($this->input->post('vendname'));
-				$data['pay_vendorid'] = $vendid;
+				//$vendid = $this->Admin_Model->get_vendorid($this->input->post('vendname'));
+				$data['pay_vendorid'] = $this->input->post('vendname');
 				$date = DateTime::createFromFormat('d/m/Y',$this->input->post('paydate'));
 				$data['pay_date'] = $date->format('Y-m-d');
 				$data['pay_amount'] = $this->input->post('payamount');
