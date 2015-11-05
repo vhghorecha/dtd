@@ -311,6 +311,94 @@ class Customer extends CI_Controller {
 		$data['daily'] = $this->Customer_Model->get_daily_orders();
 		$this->load->template('customer/orders',$data);
 	}
+
+	public function deleteorder($order_id=null)
+	{
+
+		$deleteorder=$this->Customer_Model->get_delete_order($order_id);
+		$oldbalance=$this->Customer_Model->get_user_balance();
+		if($deleteorder['order_status']=="Pending")
+		{
+			$newbalance=$oldbalance + $deleteorder['order_amount'];
+			$this->Customer_Model->set_user_balance($newbalance);
+		}
+		$this->db->where('order_id',$order_id);
+		$this->db->delete('dtd_order');
+		redirect("customer/orders");
+	}
+
+
+	public function editorder($order_id=null)
+	{
+		$data=array();
+		$is_order = $this->input->post('btnUpdateOrder');
+		if($is_order == 'Update Order') {
+			$config = $this->order_validation();
+			$this->form_validation->set_rules($config);
+
+			if ($this->form_validation->run() == FALSE) {
+				//fail validation
+				$data['error'] = validation_errors();
+			} else {
+				$data = array(
+					'order_recipient' => $this->input->post('recname'),
+					'order_address' => $this->input->post('address'),
+					'order_mobno' => $this->input->post('mobile'),
+					'order_telno' => $this->input->post('telephone'),
+					'order_date' => $this->input->post('oda'),
+					'order_itemname' => $this->input->post('itemname'),
+					'order_desc' => $this->input->post('itemdesc'),
+					'order_memo' => $this->input->post('itemmemo'),
+
+				);
+				$this->db->where('order_id', $this->input->post('order_id'));
+				$this->db->update('dtd_order', $data);
+				$data['msg'] = "Order Updated Successfully!!";
+			}
+		}
+		$data['order']=$this->Customer_Model->get_edit_order($order_id);
+		$this->load->template('customer/editorder',$data);
+
+	}
+	public function updateorder()
+	{
+		$data=array();
+		$is_order = $this->input->post('btnUpdateOrder');
+		if($is_order == 'Update Order')
+		{
+			$config = $this->order_validation();
+			$this->form_validation->set_rules($config);
+
+			if ($this->form_validation->run() == FALSE)
+			{
+				//fail validation
+				$error = validation_errors();
+
+			}
+			else
+			{
+				$data=array(
+					'order_recipient'=>$this->input->post('recname'),
+					'order_address'=>$this->input->post('address'),
+					'order_mobno'=>$this->input->post('mobile'),
+					'order_telno'=>$this->input->post('telephone'),
+					'order_date'=>$this->input->post('oda'),
+					'order_itemname'=>$this->input->post('itemname'),
+					'order_desc'=>$this->input->post('itemdesc'),
+					'order_memo'=>$this->input->post('itemmemo'),
+
+				);
+				$this->db->where('order_id',$this->input->post('order_id'));
+				$this->db->update('dtd_order',$data);
+
+			}
+
+
+
+
+
+			}
+	}
 	public function account()
 	{
 		$data['account'] = $this->Customer_Model->get_user_account();
