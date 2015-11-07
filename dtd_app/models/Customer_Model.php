@@ -55,9 +55,19 @@ class Customer_Model extends CI_Model
         $this->datatables->select("dtd_order.order_id, DATE_FORMAT(dtd_order.order_date,'%b-%d') as order_date, dtd_order.order_recipient, dtd_order.order_telno, dtd_item_type.type_name, dtd_order.order_status")
             ->from('dtd_order')
             ->join('dtd_item_type', 'dtd_item_type.type_id=dtd_order.order_typeid')
+            ->add_column('modify','<a href="'.site_url('customer/editorder/$1').'">Edit</a> | <a href="'.site_url('customer/deleteorder/$1').'" onClick="return confirm(\'Are you sure?\')">Delete</a>','order_id')
             ->where('dtd_order.order_custid', $cust_id);
         return $this->datatables->generate();
 
+    }
+    public function get_edit_order($order_id)
+    {
+        $this->db->select('order_id, order_recipient, order_address, order_telno, order_mobno, order_date, order_itemname, order_desc, order_memo,type_name')
+            ->from('dtd_order')
+            ->join('dtd_item_type','dtd_order.order_typeid=dtd_item_type.type_id')
+            ->where('order_id',$order_id)
+            ->where_in('order_status',array('Created','Pending'));
+        return $this->db->get()->row_array();
     }
 
     public function get_user_profile()
@@ -68,6 +78,17 @@ class Customer_Model extends CI_Model
         $this->db->join('dtd_users t3',' t3.user_id = t2.vendor_id');
         $this->db->where("t1.user_id", $this->user_model->get_current_user_id());
         return $this->db->get()->row_array();
+    }
+
+    public function set_vendor_price($typeid=null,$vendor_id=null)
+    {
+        $this->db->select('gp_price');
+        $this->db->from('dtd_vendorprice');
+        $this->db->where('gp_vendorid',$vendor_id);
+        $this->db->where_in('gp_typeid',$typeid);
+        $query=$this->db->get();
+        return current($query->row_array());
+
     }
 
     public function get_user_pwd()
@@ -230,6 +251,17 @@ class Customer_Model extends CI_Model
         return $all;
     }
 
+    public function get_delete_order($order_id=null)
+    {
+        $this->db->select('order_status, order_amount');
+        $this->db->from('dtd_order');
+        $this->db->where('order_id',$order_id);
+        return $this->db->get()->row_array();
+
+
+
+
+    }
     public function get_user_account()
     {
         $cust_id = $this->user_model->get_current_user_id();

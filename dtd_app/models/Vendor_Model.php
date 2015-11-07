@@ -41,7 +41,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
         $vendor_id = $this->user_model->get_current_user_id();
         $this->datatables->select("DATE_FORMAT(dtd_order.order_date,'%b-%d') as ord_date,dtd_order.order_id,dtd_users.user_name,dtd_order.order_recipient,dtd_order.order_telno,dtd_item_type.type_name,dtd_order.order_itemname,dtd_cust.user_sercomp,dtd_users.user_mob,dtd_order.order_status")
             ->from('dtd_order')
-            ->join('dtd_cust','dtd_cust.cust_id=dtd_order.order_custid')
+            ->join('dtd_cust','dtd_cust.user_id=dtd_order.order_custid')
             ->join('dtd_users','dtd_users.user_id=dtd_cust.user_id')
             ->join('dtd_item_type','dtd_item_type.type_id=dtd_order.order_typeid')
             ->where('dtd_order.order_vendorid',$vendor_id)
@@ -65,7 +65,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
     public function get_day_orders(){
         $vendor_id = $this->user_model->get_current_user_id();
          $query = $this->db->query("
-         SELECT user_name,COUNT(order_id) as num,SUM(order_amount) as amount
+         SELECT user_name,COUNT(order_id) as num,SUM(vendor_amount) as amount
          FROM dtd_order JOIN dtd_users ON order_custid=user_id
          WHERE order_vendorid=$vendor_id AND order_date LIKE '".date('Y-m-d')."%' GROUP BY user_name");
         $result = $query->result_array();
@@ -114,11 +114,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             foreach($dates as $date){
                 $data['date']=$date->format('M d');
                 $query=$this->db->query("
-<<<<<<< HEAD
                 SELECT DATE_FORMAT(order_date,'%M-%d') as date, COUNT(order_id) as num,SUM(vendor_amount) as amount
-=======
-                SELECT DATE_FORMAT(order_date,'%M-%d') as date, COUNT(Order_id) as num,SUM(order_amount) as amount
->>>>>>> origin/master
                 FROM dtd_order
                 WHERE order_date LIKE '".$date->format("Y-m-d")."%' AND order_vendorid = ".$this->user_model->get_current_user_id()."
                 GROUP BY order_date");

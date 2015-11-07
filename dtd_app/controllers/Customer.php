@@ -142,9 +142,12 @@ class Customer extends CI_Controller {
 				{
 					$order_status="Pending";
 				}
+				$typeid=$this->input->post('item_type');
+				$vendor_id=$this->Customer_Model->get_user_vendor_id();
+				$vendor_amount=$this->Customer_Model->set_vendor_price($typeid,$vendor_id);
 				$data = array(
 					'order_custid' => $this->user_model->get_current_user_id(),
-					'order_vendorid' => $this->Customer_Model->get_user_vendor_id(),
+					'order_vendorid' => $vendor_id,
 					'order_recipient' => $this->input->post('recname'),
 					'order_address' => $this->input->post('address'),
 					'order_zipcode' => '0',
@@ -152,25 +155,22 @@ class Customer extends CI_Controller {
 					'order_telno' => $this->input->post('telephone'),
 					'order_mobp' => '0',
 					'order_mobno' => $this->input->post('mobile'),
-					'order_typeid' => $this->input->post('item_type'),
+					'order_typeid' => $typeid,
 					'order_amount' => $curcharge,
 					'order_itemname' => $this->input->post('itemname'),
 					'order_desc' => $this->input->post('itemdesc'),
 					'order_memo' => $this->input->post('itemmemo'),
-					'order_status' => $order_status
+					'order_status' => $order_status,
+					'vendor_amount' => $vendor_amount
 				);
 
 				//insert the form data into database
 				$this->db->insert('dtd_order', $data);
-<<<<<<< HEAD
 				//$order_id=$this->db->insert_id();
 				if($newbalance >= 0)
 				{
 					$this->Customer_Model->set_user_balance(-$curcharge);
 				}
-=======
-				$this->Customer_Model->set_user_balance($newbalance);
->>>>>>> origin/master
 				//display success message
 				$this->session->set_flashdata('msg', '<div class="alert alert-success text-center">Your Order Successfully submitted!!!</div>');
 				redirect('customer/book_order');
@@ -319,7 +319,6 @@ class Customer extends CI_Controller {
 		$data['daily'] = $this->Customer_Model->get_daily_orders();
 		$this->load->template('customer/orders',$data);
 	}
-<<<<<<< HEAD
 
 	public function deleteorder($order_id=null)
 	{
@@ -407,8 +406,6 @@ class Customer extends CI_Controller {
 
 			}
 	}
-=======
->>>>>>> origin/master
 	public function account()
 	{
 		$data['account'] = $this->Customer_Model->get_user_account();

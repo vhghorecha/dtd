@@ -17,7 +17,7 @@ Customer
 Balance in Customer not update with Deposit and Order (Done)
 In Orders page of customer give daily total group by item also (Done)
 After successfull delivery request, customer directly go to New Order Page. (done)
-IN delivery request need Modify, Cancel and Delete option. (Done)
+IN delivery request need Modify, Cancel and Delete option.
 Excel Upload in Delivery Request. (Done - validation pending)
 Move change password to Profile Section (Done)
 In customer profile display vendor info. (Done)
