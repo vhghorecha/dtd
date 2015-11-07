@@ -178,7 +178,6 @@
 					{ "data": "order_telno" },
 					{ "data": "type_name" },
 					{ "data": "order_status" },
-					{ "data" : "modify"},
 				]
 			} );
 

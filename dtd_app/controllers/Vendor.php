@@ -102,6 +102,7 @@ class Vendor extends CI_Controller {
 		$this->load->template('vendor/orders_processed');
 	}
 	public function profile()
+<<<<<<< HEAD
 	{	$user_id = $this->user_model->get_current_user_id();
 		$is_change = $this->input->post('btnChange');
 		if($is_change == 'Change')
@@ -169,6 +170,12 @@ class Vendor extends CI_Controller {
 			$this->load->template('vendor/profile',$data);
 		}
 		elseif($this->input->post('btnEditProfile')=="Update Profile")
+=======
+	{
+		$user_id = $this->user_model->get_current_user_id();
+		$is_profile=$this->input->post('btnEditProfile');
+		if($is_profile=="Update Profile")
+>>>>>>> origin/master
 		{
 			$data1=array(
 				'user_name'=>$this->input->post('username'),
@@ -192,14 +199,11 @@ class Vendor extends CI_Controller {
 			);
 			$this->db->where('user_id',$user_id);
 			$this->db->update('dtd_vendor', $data2);
-			$data['profile']=$this->Vendor_Model->get_vendor_profile($user_id);
-			$this->load->template('vendor/profile',$data);
+
 		}
-		else
-		{
 		$data['profile']=$this->Vendor_Model->get_vendor_profile($user_id);
 		$this->load->template('vendor/profile',$data);
-		}
+
 	}
 	public function orders()
 	{

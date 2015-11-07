@@ -17,7 +17,6 @@
                         <th>Mobile No</th>
                         <th>Parcel Type</th>
                         <th>Status</th>
-                        <th>Modify</th>
                     </tr>
                     </thead>
                     <tfoot>
@@ -28,7 +27,6 @@
                         <th>Mobile No</th>
                         <th>Parcel Type</th>
                         <th>Status</th>
-                        <th>Modify</th>
                     </tr>
                     </tfoot>
                 </table>
