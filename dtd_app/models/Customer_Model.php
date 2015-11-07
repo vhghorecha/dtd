@@ -80,6 +80,17 @@ class Customer_Model extends CI_Model
         return $this->db->get()->row_array();
     }
 
+    public function set_vendor_price($typeid=null,$vendor_id=null)
+    {
+        $this->db->select('gp_price');
+        $this->db->from('dtd_vendorprice');
+        $this->db->where('gp_vendorid',$vendor_id);
+        $this->db->where_in('gp_typeid',$typeid);
+        $query=$this->db->get();
+        return current($query->row_array());
+
+    }
+
     public function get_user_pwd()
     {
         $this->db->select('user_pass');
