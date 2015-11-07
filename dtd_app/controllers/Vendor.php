@@ -147,10 +147,12 @@ class Vendor extends CI_Controller {
 			{
 				//pass validation
 				$curpwd=$this->Vendor_Model->get_user_pwd();
-				if($curpwd['pwd']==md5($this->input->post('oldpwd')))
+				$oldpwd=md5($this->input->post('oldpwd'));
+				$newpwd=md5($this->input->post('newpwd'));
+				if($curpwd['pwd']==$oldpwd)
 				{
 					$data=array(
-						'user_pass'=>$this->input->post('newpwd')
+						'user_pass'=>$newpwd
 					);
 					$this->user_model->update_pwd($data);
 					$msg = 'Password Successfully Changed!!!';
@@ -214,5 +216,10 @@ class Vendor extends CI_Controller {
 	public function download()
 	{
 		$this->load->template('vendor/download');
+	}
+
+	public function customers()
+	{
+		$this->load->template('vendor/customers');
 	}
 }

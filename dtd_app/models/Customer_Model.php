@@ -131,14 +131,14 @@ class Customer_Model extends CI_Model
         return $charges;
     }
 
-    public function set_user_balance($newbalance)
+    public function set_user_balance($newbalance, $user_id = null)
     {
-        $user_id = $this->user_model->get_current_user_id();
-        $data = array(
-            'user_balance' => $newbalance
-        );
+        if(is_null($user_id)){
+            $user_id = $this->user_model->get_current_user_id();
+        }
+        $this->db->set('user_balance', 'user_balance + ' . $newbalance, false);
         $this->db->where('user_id', $user_id);
-        $this->db->update('dtd_users', $data);
+        $this->db->update('dtd_users');
     }
 
     public function get_user_id_by_email($email){

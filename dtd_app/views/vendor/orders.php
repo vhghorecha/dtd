@@ -92,6 +92,7 @@
                     </tr>
                     </tfoot>
                 </table>
+
             </div>
             <!-- /.col-lg-12 -->
         </div>

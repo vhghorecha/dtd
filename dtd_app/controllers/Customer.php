@@ -167,8 +167,10 @@ class Customer extends CI_Controller {
 				//insert the form data into database
 				$this->db->insert('dtd_order', $data);
 				//$order_id=$this->db->insert_id();
-				$this->Customer_Model->set_user_balance($newbalance);
-
+				if($newbalance >= 0)
+				{
+					$this->Customer_Model->set_user_balance(-$curcharge);
+				}
 				//display success message
 				$this->session->set_flashdata('msg', '<div class="alert alert-success text-center">Your Order Successfully submitted!!!</div>');
 				redirect('customer/book_order');
@@ -325,8 +327,7 @@ class Customer extends CI_Controller {
 		$oldbalance=$this->Customer_Model->get_user_balance();
 		if($deleteorder['order_status']=="Pending")
 		{
-			$newbalance=$oldbalance + $deleteorder['order_amount'];
-			$this->Customer_Model->set_user_balance($newbalance);
+			$this->Customer_Model->set_user_balance($deleteorder['order_amount']);
 		}
 		$this->db->where('order_id',$order_id);
 		$this->db->delete('dtd_order');
@@ -482,6 +483,7 @@ class Customer extends CI_Controller {
 						//insert the form data into database
 						$this->db->insert('dtd_order', $data);
 						if($this->db->insert_id() > 0){
+							//Vimal has to take care
 							$this->Customer_Model->set_user_balance($newbalance);
 							@$data['msg'] .= "Row-$row Order Inserted<br/>";
 						}

@@ -141,6 +141,9 @@ class Admin extends CI_Controller {
 				$data['dep_transno'] = $this->input->post('depreference');
 				$data['dep_bankname'] = $this->input->post('depbank');
 				$this->Admin_Model->customer_deposit($data);
+
+				$this->Customer_Model->set_user_balance($this->input->post('depamount'),$data['dep_custid']);
+
 				$message = "Customer deposit successfully done.";
 			}else{
 				$error = validation_errors();

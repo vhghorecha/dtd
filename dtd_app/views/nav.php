@@ -83,7 +83,7 @@
                             <a href="<?=site_url('vendor/profile');?>"><i class="fa fa-user fa-fw"></i> Profile</a>
                         </li>
                         <li>
-                            <a href="<?=site_url('vendor/change_pwd');?>"><i class="fa fa-cogs fa-fw"></i> Change Password</a>
+                            <a href="<?=site_url('vendor/customers');?>"><i class="fa fa-users fa-fw"></i> View Customers</a>
                         </li>
                         <li>
                             <a href="<?=site_url('user/logout');?>"><i class="fa fa-sign-out fa-fw"></i> Log Out</a>

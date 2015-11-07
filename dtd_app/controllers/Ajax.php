@@ -19,6 +19,8 @@ class Ajax extends CI_Controller {
 		$data['order_status'] = 'Delivered';
 		$res = $this->Vendor_Model->update_order($data,$order_id);
 		if($res){
+			$vendor_amount=$this->Vendor_Model->get_vendor_amount($order_id);
+			$this->Vendor_Model->set_user_balance($vendor_amount);
 			$result['message'] = 'Order updated successfully.';
 		}else{
 			$result['error'] = 'Either your order is already updated or there is database error';
@@ -29,6 +31,13 @@ class Ajax extends CI_Controller {
 	public function v_ord_rec()
 	{
 		die($this->Vendor_Model->get_orders());
+	}
+	public function v_ord_del()
+	{
+		die($this->Vendor_Model->get_del_orders());
+	}
+	public function v_customers(){
+		die($this->Vendor_Model->get_customers());
 	}
 	public function c_orders(){
 		die($this->Customer_Model->get_user_orders());

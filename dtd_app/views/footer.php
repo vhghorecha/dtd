@@ -44,40 +44,90 @@
 		});
 	</script>
 
-	<?php if($current_page == 'vendor' && $current_action == 'orders_received') { ?>
-		<script>
-			$(document).ready(function(){
-				$('#btn_up_code').click(function(){
-					$orderid = $('#up_orderid').val();
-					$up_code = $('#up_code').val();
-					$.ajax({
-						type:'POST',
-						url: '<?=site_url("ajax/update_order");?>',
-						dataType: 'json',
-						data: {order_id : $orderid, up_code : $up_code},
-						success:function(data, textStatus, jqXHR){
-							if(typeof data.message !== 'undefined'){
-								$('#update_res').html('<div class="alert alert-success">' + data.message + '</div>')
-							}else{
-								$('#update_res').html('<div class="alert alert-error">' + data.error + '</div>')
-							}
-							table.fnDraw(false);
+<?php if($current_page == 'vendor' && $current_action == 'orders_received') { ?>
+	<script>
+		$(document).ready(function(){
+			$('#btn_up_code').click(function(){
+				$orderid = $('#up_orderid').val();
+				$up_code = $('#up_code').val();
+				$.ajax({
+					type:'POST',
+					url: '<?=site_url("ajax/update_order");?>',
+					dataType: 'json',
+					data: {order_id : $orderid, up_code : $up_code},
+					success:function(data, textStatus, jqXHR){
+						if(typeof data.message !== 'undefined'){
+							$('#update_res').html('<div class="alert alert-success">' + data.message + '</div>')
+						}else{
+							$('#update_res').html('<div class="alert alert-error">' + data.error + '</div>')
 						}
-					});
+						table.fnDraw(false);
+					}
 				});
 			});
-			var table = $('#v_ord_rec').dataTable( {
+		});
+		var table = $('#v_ord_rec').dataTable( {
+			"sDom": '<"top"pl>rt<"bottom"><"clear">',
+			"aaSorting": [[1, "desc"]],
+			"oLanguage": {
+				"sLengthMenu": "_MENU_ records per page"
+			},
+			"bProcessing": true,
+			"bServerSide": true,
+			"sAjaxSource": "<?=site_url('ajax/v_ord_rec');?>",
+			"responsive" : true,
+			"drawCallback" : function(){
+				$('.update_order').click(function(){
+					$('#update_res').html('');
+					$('#up_code').val('');
+					$('#up_orderid').val($(this).data('orderid'));
+					$('#pop_up_order').modal('show');
+				});
+			},
+			"columns": [
+				{ "data": "ord_date" },
+				{ "data": "order_id" },
+				{ "data": "user_name" },
+				{ "data": "order_recipient" },
+				{ "data": "order_telno" },
+				{ "data": "type_name" },
+				{ "data": "order_itemname" },
+				{ "data": "user_sercomp" },
+				{ "data": "user_mob" },
+				{ "data": "order_status" },
+			]
+		} );
+
+		// Setup - add a text input to each footer cell
+		$('#v_ord_rec tfoot th').each( function () {
+			//var title = $('#example thead th').eq( $(this).index() ).text();
+			if($(this).index() != 0 ){
+				$(this).html( '<input type="text" style="width:100%" />' );
+			}else{
+				$(this).html( '<input type="text" style="width:100%" class="tdatepicker" />' );
+			}
+
+		} );
+	</script>
+<?php } ?>
+
+	<?php if($current_page == 'vendor' && $current_action == 'orders_processed') { ?>
+		<script>
+
+			var table = $('#v_ord_del').dataTable( {
 				"sDom": '<"top"pl>rt<"bottom"><"clear">',
-				"aaSorting": [[0, "desc"]],
+				"aaSorting": [[1, "desc"]],
 				"oLanguage": {
 					"sLengthMenu": "_MENU_ records per page"
 				},
 				"bProcessing": true,
 				"bServerSide": true,
-				"sAjaxSource": "<?=site_url('ajax/v_ord_rec');?>",
+				"sAjaxSource": "<?=site_url('ajax/v_ord_del');?>",
 				"responsive" : true,
 				"drawCallback" : function(){
 					$('.update_order').click(function(){
+						$('#update_res').html('');
+						$('#up_code').val('');
 						$('#up_orderid').val($(this).data('orderid'));
 						$('#pop_up_order').modal('show');
 					});
@@ -97,7 +147,7 @@
 			} );
 
             // Setup - add a text input to each footer cell
-            $('#v_ord_rec tfoot th').each( function () {
+            $('#v_ord_del tfoot th').each( function () {
                 //var title = $('#example thead th').eq( $(this).index() ).text();
                 if($(this).index() != 0 ){
                     $(this).html( '<input type="text" style="width:100%" />' );
@@ -259,6 +309,33 @@
 			} );
 		</script>
 	<?php } ?>
+
+<?php if($current_page == 'vendor' && $current_action == 'customers') { ?>
+	<script>
+		var table = $('#v_customers').dataTable( {
+			"sDom": '<"top"pl>rt<"bottom"><"clear">',
+			"aaSorting": [[0, "desc"]],
+			"oLanguage": {
+				"sLengthMenu": "_MENU_ records per page"
+			},
+			"bProcessing": true,
+			"bServerSide": true,
+			"sAjaxSource": "<?=site_url('ajax/v_customers');?>",
+			"responsive" : true,
+			"columns": [
+				{ "data": "user_name" },
+				{ "data": "user_email" },
+				{ "data": "user_add" },
+				{ "data": "user_tel" },
+				{ "data": "user_mob" },
+				{ "data": "user_site" },
+				{ "data": "user_staffname" },
+				{ "data": "user_stafftel" },
+				{ "data": "user_balance"},
+			]
+		} );
+	</script>
+<?php } ?>
 
 	<?php if($current_page == 'admin' && $current_action == 'vendors') { ?>
 		<script>
