@@ -37,7 +37,10 @@
                     </tr>
                     </tfoot>
                 </table>
-                <a href="<?=site_url('vendor/download')?>" class="btn btn-primary pull-right">Download</a>
+                <div class="pull-right">
+                    <a href="<?=site_url('vendor/upload_code')?>" class="btn btn-primary">Upload Code</a>
+                    <a href="<?=site_url('vendor/download')?>" class="btn btn-primary">Download All</a>
+                </div>
             </div>
             <br/>
             <!-- /.col-lg-12 -->

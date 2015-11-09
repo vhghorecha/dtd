@@ -214,13 +214,87 @@ class Vendor extends CI_Controller {
 		$data['payhist'] = $this->Vendor_Model->get_payment_history();
 		$this->load->template('vendor/account',$data);
 	}
-	public function download()
-	{
-		$this->load->template('vendor/download');
-	}
 
 	public function customers()
 	{
 		$this->load->template('vendor/customers');
+	}
+
+	public function download(){
+		$this->load->dbutil();
+		$vendor_id = $this->user_model->get_current_user_id();
+		$this->db->select("DATE_FORMAT(dtd_order.order_date,'%b-%d') as ord_date,dtd_order.order_id,dtd_users.user_name,dtd_order.order_recipient,dtd_order.order_telno,dtd_item_type.type_name,dtd_order.order_itemname,dtd_cust.user_sercomp,dtd_users.user_mob,dtd_order.order_status")
+			->from('dtd_order')
+			->join('dtd_cust','dtd_cust.user_id=dtd_order.order_custid')
+			->join('dtd_users','dtd_users.user_id=dtd_cust.user_id')
+			->join('dtd_item_type','dtd_item_type.type_id=dtd_order.order_typeid')
+			->where('dtd_order.order_vendorid',$vendor_id)
+			->where_in('dtd_order.order_status','Pending');
+		$query = $this->db->get();
+		$csv_string = $this->dbutil->csv_from_result($query);
+		// Load the download helper and send the file to your desktop
+		$this->load->helper('download');
+		force_download('order_received.csv', $csv_string);
+	}
+
+	public function upload_code()
+	{
+		$is_import = $this->input->post('btnUpload');
+		$data = array();
+		$msg = '';
+		$error = false;
+		if ($is_import == "Upload"){
+			$config['upload_path']          = './tmp/';
+			$config['allowed_types']        = 'xls|xlsx';
+			$config['max_size']             = 10240;
+			$this->load->library('upload', $config);
+			if ( ! $this->upload->do_upload())
+			{
+				$msg = $this->upload->display_errors();
+				$error = true;
+			}
+			else
+			{
+				$upload_data = $this->upload->data();
+				$filepath = $upload_data['full_path'];
+
+				//load the excel library
+				$this->load->library('excel');
+
+				//  Read your Excel workbook
+				try {
+					$inputFileType = PHPExcel_IOFactory::identify($filepath);
+					$objReader = PHPExcel_IOFactory::createReader($inputFileType);
+					$objPHPExcel = $objReader->load($filepath);
+					//  Get worksheet dimensions
+					$sheet = $objPHPExcel->getSheet(0);
+					$highestRow = $sheet->getHighestRow();
+					$highestColumn = $sheet->getHighestColumn();
+					//  Loop through each row of the worksheet in turn
+					for ($row = 2; $row <= $highestRow; $row++){
+
+						$order_id = $objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $row)->getValue();
+						$order_updatecode = $objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2, $row)->getValue();
+
+						//update the form data into database
+						$this->db->set('order_updatecode', $order_updatecode);
+						$this->db->where('order_id', $order_id);
+						$this->db->where('order_status', 'Pending');
+						$update = $this->db->update('dtd_order', $data);
+						if($this->db->affected_rows() > 0){
+							$msg .= "Row-$row Order Updated<br/>";
+						}
+						else
+						{
+							$msg .= "Row-$row Order Not Updated<br/>";
+						}
+					}
+				} catch(Exception $e) {
+					die('Error loading file "'.pathinfo($filepath,PATHINFO_BASENAME).'": '.$e->getMessage());
+				}
+			}
+		}
+		$data['msg'] = $msg;
+		$this->load->template('vendor/upload_code',$data);
 	}
 }
