@@ -28,18 +28,18 @@ Balance problem every where in Vendor(done)
 In Orders page of vendor give daily total group by item also (done)
 Use price from Vendor Price Table (done)
 Move change password to Profile Section(done)
-Excel Upload in Order Received.
-Download records with Criteria
+Excel Upload in Order Received. (done)
+Download records with Criteria (done)
 Vendor can see their customer profile(done)
 
 Admin
 =====
-No section for approve less balance order.
-Order Pending need searching facility.
-Full searching in recoreds likes By Customer, Vendor, Type.
+No section for approve less balance order. (done)
+Order Pending need searching facility. (done)
+Full searching in recoreds likes By Customer, Vendor, Type. (done)
 Put Money Recieved and Paid in Transactions Menu
 Give list of Delivered orders in Vendor pay and decide amount automatically.
-Customer Deposit Transaction Number and Bank optional
-Error when saving Korean character in deposit
+Customer Deposit Transaction Number and Bank optional (done)
+Error when saving Korean character in deposit (done)
 Customers, Vendors - Need one more column areaCode (Only admin can update), Delete functionality
 Data Management - Backup

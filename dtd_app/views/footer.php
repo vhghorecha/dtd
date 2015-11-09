@@ -111,6 +111,106 @@
 	</script>
 <?php } ?>
 
+<?php if($current_page == 'admin' && $current_action == 'orders_pending') { ?>
+	<script>
+
+		var table = $('#a_ord_pen').dataTable( {
+			"sDom": '<"top"pl>rt<"bottom"><"clear">',
+			"aaSorting": [[1, "desc"]],
+			"oLanguage": {
+				"sLengthMenu": "_MENU_ records per page"
+			},
+			"bProcessing": true,
+			"bServerSide": true,
+			"sAjaxSource": "<?=site_url('ajax/a_ord_pen');?>",
+			"responsive" : true,
+
+			"columns": [
+				{ "data": "ord_date" },
+				{ "data": "order_id" },
+				{ "data": "user_name" },
+				{ "data": "order_recipient" },
+				{ "data": "order_telno" },
+				{ "data": "type_name" },
+				{ "data": "order_itemname" },
+				{ "data": "user_sercomp" },
+				{ "data": "user_mob" },
+
+			]
+		} );
+
+		// Setup - add a text input to each footer cell
+		$('#a_ord_pen tfoot th').each( function () {
+			//var title = $('#example thead th').eq( $(this).index() ).text();
+			if($(this).index() != 0 ){
+				$(this).html( '<input type="text" style="width:100%" />' );
+			}else{
+				$(this).html( '<input type="text" style="width:100%" class="tdatepicker" />' );
+			}
+
+		} );
+	</script>
+<?php } ?>
+
+
+<?php if($current_page == 'admin' && $current_action == 'app_order') { ?>
+	<script>
+		var table = $('#a_app_ord').dataTable( {
+			"sDom": '<"top"pl>rt<"bottom"><"clear">',
+			"aaSorting": [[1, "desc"]],
+			"oLanguage": {
+				"sLengthMenu": "_MENU_ records per page"
+			},
+			"bProcessing": true,
+			"bServerSide": true,
+			"sAjaxSource": "<?=site_url('ajax/a_app_ord');?>",
+			"responsive" : true,
+			"drawCallback" : function(){
+				$('.approve_order').click(function(){
+					$orderid = $(this).data('orderid');
+					$.ajax({
+						type:'POST',
+						url: '<?=site_url("ajax/approve_order");?>',
+						dataType: 'json',
+						data: {order_id : $orderid},
+						success:function(data, textStatus, jqXHR){
+							if(typeof data.message !== 'undefined'){
+								$('#update_res').html('<div class="alert alert-success">' + data.message + '</div>')
+							}else{
+								$('#update_res').html('<div class="alert alert-error">' + data.error + '</div>')
+							}
+							table.fnDraw(false);
+						}
+					});
+				});
+			},
+			"columns": [
+				{ "data": "ord_date" },
+				{ "data": "order_id" },
+				{ "data": "user_name" },
+				{ "data": "order_recipient" },
+				{ "data": "order_telno" },
+				{ "data": "type_name" },
+				{ "data": "order_itemname" },
+				{ "data": "user_sercomp" },
+				{ "data": "user_mob" },
+				{ "data": "order_status" },
+			]
+		} );
+
+		// Setup - add a text input to each footer cell
+		$('#a_app_ord tfoot th').each( function () {
+			//var title = $('#example thead th').eq( $(this).index() ).text();
+			if($(this).index() != 0 ){
+				$(this).html( '<input type="text" style="width:100%" />' );
+			}else{
+				$(this).html( '<input type="text" style="width:100%" class="tdatepicker" />' );
+			}
+
+		} );
+	</script>
+<?php } ?>
+
 	<?php if($current_page == 'vendor' && $current_action == 'orders_processed') { ?>
 		<script>
 

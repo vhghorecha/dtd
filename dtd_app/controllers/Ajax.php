@@ -32,6 +32,10 @@ class Ajax extends CI_Controller {
 	{
 		die($this->Vendor_Model->get_orders());
 	}
+	public function a_app_ord()
+	{
+		die($this->Admin_Model->get_created_orders());
+	}
 	public function v_ord_del()
 	{
 		die($this->Vendor_Model->get_del_orders());
@@ -124,5 +128,23 @@ class Ajax extends CI_Controller {
 	public function a_get_bank(){
 		$vendorid = $this->input->post('vendor_id');
 		die($this->Admin_Model->get_vendor_bank($vendorid));
+	}
+	public function a_ord_pen()
+	{
+		die($this->Admin_Model->get_pen_orders());
+	}
+	public function approve_order()
+	{
+		$order_id=$this->input->post('order_id');
+		$this->db->set('order_status','Pending');
+		$this->db->where('order_id',$order_id);
+		$this->db->update('dtd_order');
+		if($this->db->affected_rows()){
+			$this->Admin_Model->set_user_balance($order_id);
+			$result['message'] = 'Order Approve successfully.';
+		}else{
+			$result['error'] = 'Either your order is already approve or there is database error';
+		}
+		die(json_encode($result));
 	}
 }

@@ -22,9 +22,16 @@ class Admin extends CI_Controller {
 	//Cretaed By Hardik Mehta
 	public function dashboard()
 	{
-		$this->load->template("admin/index");
+		$data['pending']=$this->Admin_Model->get_pending_orders();
+		$data['cdeposit']=$this->Admin_Model->get_customer_deposit();
+		$data['vpay']=$this->Admin_Model->get_vendor_payment();
+		$this->load->template("admin/index",$data);
 	}
 
+	public function app_order()
+	{
+		$this->load->template('admin/app_order');
+	}
 	//Created By Hardik Mehta
 	public function login()
 	{

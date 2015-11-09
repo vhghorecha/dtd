@@ -14,7 +14,7 @@
                                     <i class="fa fa-lock fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">3</div>
+                                    <div class="huge"><?php echo $pending; ?></div>
                                     <div>Order Pending</div>
                                 </div>
                             </div>
@@ -36,7 +36,7 @@
                                     <i class="fa fa-plus-square fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">1000</div>
+                                    <div class="huge"><?php echo $cdeposit; ?></div>
                                     <div>Money Received</div>
                                 </div>
                             </div>
@@ -58,7 +58,7 @@
                                     <i class="fa fa-minus-square fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">500</div>
+                                    <div class="huge"><?php echo $vpay; ?></div>
                                     <div>Money Paid</div>
                                 </div>
                             </div>
@@ -80,7 +80,7 @@
                                     <i class="fa fa-dollar  fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">500</div>
+                                    <div class="huge"><?php echo $cdeposit-$vpay; ?></div>
                                     <div>Balance</div>
                                 </div>
                             </div>

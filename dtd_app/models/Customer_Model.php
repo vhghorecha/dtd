@@ -288,11 +288,12 @@ class Customer_Model extends CI_Model
 		foreach($dates as $date){
 			$data['date']=$date->format('M d');
 			$query=$this->db->query("
-			SELECT DATE_FORMAT(order_date,'%M-%d') as date, COUNT(Order_id) as num,SUM(order_amount) as amount
+			SELECT DATE_FORMAT(order_date,'%M-%d') as date, COUNT(order_id) as num,SUM(order_amount) as amount
 			FROM dtd_order
 			WHERE order_date LIKE '".$date->format("Y-m-d")."%' AND order_custid = ". $cust_id ."
-			GROUP BY order_date");
+			GROUP BY date");
 			$data['charge']= $query->row_array();
+
 
 			$query=$this->db->query("
 			SELECT COUNT(dep_id) as num, SUM(dep_amount) as amount

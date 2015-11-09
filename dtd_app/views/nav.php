@@ -114,6 +114,9 @@
                             <a href="<?=site_url('admin/dashboard');?>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
+                            <a href="<?=site_url('admin/app_order');?>"><i class="fa fa-thumbs-o-up fa-fw"></i> Approve Order</a>
+                        </li>
+                        <li>
                             <a href="<?=site_url('admin/allocation');?>"><i class="fa fa-edit fa-fw"></i> Customer-Vendor allocation</a>
                         </li>
 						<li>

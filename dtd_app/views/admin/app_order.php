@@ -3,11 +3,12 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header"> Orders Pending:</h1>
+                <h1 class="page-header"> Approve Order:</h1>
+                <div id="update_res"></div>
             </div>
         </div>
         <div class="row">
-            <table id="a_ord_pen" class="table table-striped table-bordered" cellspacing="0" width="100%">
+            <table id="a_app_ord" class="table table-striped table-bordered" cellspacing="0" width="100%">
                 <thead>
                 <tr>
                     <th>Date</th>
@@ -19,7 +20,7 @@
                     <th>Item name</th>
                     <th>Company name</th>
                     <th>Phone</th>
-
+                    <th>Status</th>
                 </tr>
                 </thead>
                 <tfoot>
@@ -33,7 +34,7 @@
                     <th>Item name</th>
                     <th>Company name</th>
                     <th>Phone</th>
-
+                    <th>Status</th>
                 </tr>
                 </tfoot>
             </table>
