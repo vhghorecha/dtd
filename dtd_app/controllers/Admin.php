@@ -106,13 +106,13 @@ class Admin extends CI_Controller {
 				array(
 					'field' => 'depamount',
 					'label' => 'Amount',
-					'rules' => 'required|numeric',
+					'rules' => 'required',
 					'errors' => array(
 						'required' => 'You must provide a %s',
 						'numeric' => 'Only Numbers are allowed in Amount',
 					)
 				),
-				array(
+				/* array(
 					'field' => 'depreference',
 					'label' => 'Transaction Reference',
 					'rules' => 'required|alpha_numeric|is_unique[custdep.dep_transno]',
@@ -129,7 +129,7 @@ class Admin extends CI_Controller {
 					'errors' => array(
 						'required' => 'You must provide a %s',
 					)
-				),
+				),*/
 			);
 			$this->form_validation->set_rules($config);
 			if ($this->form_validation->run() == true) {
@@ -142,7 +142,7 @@ class Admin extends CI_Controller {
 				$data['dep_bankname'] = $this->input->post('depbank');
 				$this->Admin_Model->customer_deposit($data);
 
-				$this->Customer_Model->set_user_balance($this->input->post('depamount'),$data['dep_custid']);
+				$this->Customer_Model->set_user_balance($data['dep_amount'],$data['dep_custid']);
 
 				$message = "Customer deposit successfully done.";
 			}else{
@@ -273,7 +273,7 @@ class Admin extends CI_Controller {
 						'numeric' => 'Only Numbers are allowed in Amount',
 					)
 				),
-				array(
+				/* array(
 					'field' => 'payreference',
 					'label' => 'Transaction Reference',
 					'rules' => 'required|alpha_numeric|is_unique[dtd_vendorpay.pay_transno]',
@@ -299,7 +299,7 @@ class Admin extends CI_Controller {
 					'errors' => array(
 						'required' => 'You must provide a %s',
 					)
-				),
+				),*/
 			);
 			$this->form_validation->set_rules($config);
 			if ($this->form_validation->run() == true) {
@@ -312,6 +312,7 @@ class Admin extends CI_Controller {
 				$data['pay_bankacno'] = $this->input->post('paybankacno');
 				$data['pay_bankname'] = $this->input->post('paybankname');
 				$this->Admin_Model->vendor_pay($data);
+				$this->Vendor_Model->set_user_balance(-$data['pay_amount'],$data['pay_vendorid']);
 				$message = "Vendor Payment successfully done.";
 			}else{
 				$error = validation_errors();

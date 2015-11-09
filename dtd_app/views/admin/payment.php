@@ -31,17 +31,17 @@
                             <label>Amount</label>
                             <input class="form-control" placeholder="Enter Amount" name="payamount" autofocus required>
                         </div>
-                        <div class="form-group  required">
+                        <div class="form-group  ">
                             <label>Transaction Reference</label>
-                            <input class="form-control" placeholder="Enter Transaction Reference Number" name="payreference" required>
+                            <input class="form-control" placeholder="Enter Transaction Reference Number" name="payreference" >
                         </div>
-                        <div class="form-group  required">
+                        <div class="form-group  ">
                             <label>Bank A/c. Number</label>
-                            <input class="form-control" placeholder="Enter Bank A/c. Number" name="paybankacno" id="paybankacno" required>
+                            <input class="form-control" placeholder="Enter Bank A/c. Number" name="paybankacno" id="paybankacno" >
                         </div>
-                        <div class="form-group  required">
+                        <div class="form-group  ">
                             <label>Bank Name</label>
-                            <input class="form-control" placeholder="Enter Bank Name" name="paybankname" id="paybankname" required>
+                            <input class="form-control" placeholder="Enter Bank Name" name="paybankname" id="paybankname" >
                         </div>
                         <div class="form-group">
                             <button type="submit" href="<?=site_url('admin/payment')?>" class="btn btn-primary" name="btnSave" id="btnSave" value="save">Save</button>

@@ -67,10 +67,19 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
          $query = $this->db->query("
          SELECT user_name,COUNT(order_id) as num,SUM(vendor_amount) as amount
          FROM dtd_order JOIN dtd_users ON order_custid=user_id
-         WHERE order_vendorid=$vendor_id AND order_date LIKE '".date('Y-m-d')."%' GROUP BY user_name");
+         WHERE order_vendorid=$vendor_id AND order_date LIKE '".date('Y-m-d')."%' and order_status!='Created' GROUP BY user_name");
         $result = $query->result_array();
         return $result;
     }
+        public function get_day_iorders(){
+            $vendor_id = $this->user_model->get_current_user_id();
+            $query = $this->db->query("
+         SELECT type_name,COUNT(order_id) as num,SUM(vendor_amount) as amount
+         FROM dtd_order JOIN dtd_item_type ON order_typeid=type_id
+         WHERE order_vendorid=$vendor_id AND order_date LIKE '".date('Y-m-d')."%' and order_status!='Created' GROUP BY type_name");
+            $result = $query->result_array();
+            return $result;
+        }
     public function get_daily_orders(){
         $this->db->select("DATE_FORMAT(dto.order_date, '%M-%d') as date,du.user_name as cust_name,
         (SELECT count(dto.order_id)from dtd_order do2 where do2.order_status = 'Delivered'
@@ -81,8 +90,8 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
         $this->db->from('dtd_order dto');
         $this->db->join('dtd_cust dc','dto.order_custid=dc.cust_id');
         $this->db->join('dtd_users du','dc.user_id=du.user_id');
-        $this->db->where('dto.order_date >= LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 1 MONTH
-  AND dto.order_date < LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY');
+        $this->db->where("dto.order_date >= LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 1 MONTH
+  AND dto.order_date < LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY and order_status!='Created'");
         $this->db->group_by('dto.order_custid, date');
         $query = $this->db->get()->result_array();
         return $query;
@@ -99,7 +108,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
         $this->db->from('dtd_order dto');
         $this->db->join('dtd_cust dc','dto.order_custid=dc.cust_id');
         $this->db->join('dtd_users du','dc.user_id=du.user_id');
-        $this->db->where('YEAR(dto.order_date)=YEAR(CURDATE())');
+        $this->db->where("YEAR(dto.order_date)=YEAR(CURDATE()) and order_status!='Created'");
         $this->db->group_by('dto.order_custid, MONTH(dto.order_date)');
         $query = $this->db->get()->result_array();
         return $query;
@@ -116,9 +125,10 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
                 $query=$this->db->query("
                 SELECT DATE_FORMAT(order_date,'%M-%d') as date, COUNT(order_id) as num,SUM(vendor_amount) as amount
                 FROM dtd_order
-                WHERE order_date LIKE '".$date->format("Y-m-d")."%' AND order_vendorid = ".$this->user_model->get_current_user_id()."
+                WHERE order_status='Delivered' and order_date LIKE '".$date->format("Y-m-d")."%' AND order_vendorid = ".$this->user_model->get_current_user_id()."
                 GROUP BY order_date");
                 $data['charge']= $query->row_array();
+
 
                 $query=$this->db->query("
                 SELECT COUNT(dep_id) as num, SUM(pay_amount) as amount
@@ -132,9 +142,10 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             return $result;
         }
         public function get_payment_history(){
+            $vendor_id=$this->user_model->get_current_user_id();
             $query=$this->db->query("
             SELECT DATE_FORMAT(pay_date,'%d-%m-%Y') as pdate,pay_amount,pay_bankname
-            FROM dtd_vendorpay WHERE pay_vendorid=3 GROUP BY pdate ORDER BY pay_date");
+            FROM dtd_vendorpay WHERE pay_vendorid=$vendor_id GROUP BY pdate ORDER BY pay_date");
             $result = $query->result_array();
             return $result;
         }

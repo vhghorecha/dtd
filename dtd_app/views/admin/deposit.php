@@ -31,14 +31,14 @@
                             <label>Amount</label>
                             <input class="form-control" placeholder="Enter Amount" name="depamount" autofocus required>
                         </div>
-                        <div class="form-group required">
+                        <div class="form-group ">
                             <label>Transaction Reference</label>
-                            <input class="form-control" placeholder="Enter Transaction Reference Number" name="depreference" required>
+                            <input class="form-control" placeholder="Enter Transaction Reference Number" name="depreference">
                         </div>
 
-                        <div class="form-group required">
+                        <div class="form-group ">
                             <label>Bank Name</label>
-                            <input class="form-control" placeholder="Enter Bank Name" name="depbank" required>
+                            <input class="form-control" placeholder="Enter Bank Name" name="depbank" >
                         </div>
                         <div class="form-group">
                             <button type="submit" href="<?=site_url('admin/deposit')?>" class="btn btn-primary" name="btnDeposit" id="btnDeposit" value="Deposit">Deposit</button>

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 07, 2015 at 02:12 PM
+-- Generation Time: Nov 09, 2015 at 01:13 PM
 -- Server version: 5.6.14
 -- PHP Version: 5.5.6
 
@@ -69,8 +69,8 @@ CREATE TABLE IF NOT EXISTS `dtd_cust` (
 --
 
 INSERT INTO `dtd_cust` (`cust_id`, `user_id`, `user_regno`, `vendor_id`, `user_grade`, `user_lob`, `user_sercomp`) VALUES
-(1, 2, 'E-Commerce', 1, 1, 'US-REG-OS258694', 'Flipcarto Inc.'),
-(2, 3, '', NULL, NULL, NULL, '');
+(1, 1, '', 2, 1, NULL, ''),
+(2, 4, '', 3, 2, NULL, '');
 
 -- --------------------------------------------------------
 
@@ -87,17 +87,19 @@ CREATE TABLE IF NOT EXISTS `dtd_custdep` (
   `dep_transno` varchar(45) NOT NULL,
   `dep_bankname` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`dep_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `dtd_custdep`
 --
 
 INSERT INTO `dtd_custdep` (`dep_id`, `dep_custid`, `dep_date`, `dep_amount`, `dep_transno`, `dep_bankname`) VALUES
-(1, 2, '2015-09-14 00:00:00', '100', '2452546', 'Bank of Sanghai'),
-(2, 1, '2015-10-23 00:00:00', '200', 'ddd', 'ddd'),
-(3, 2, '2015-10-27 00:00:00', '3000', '321321465498', 'SBI'),
-(7, 2, '2015-11-07 00:00:00', '561', '123456', 'SBI');
+(1, 1, '2015-11-06 00:00:00', '100', '321321465498', 'SBI'),
+(2, 4, '2015-11-07 00:00:00', '200', '654983216854981', 'Kotak'),
+(3, 1, '2015-11-07 00:00:00', '10', '6514981981', 'SBI'),
+(4, 4, '2015-11-08 00:00:00', '20', '649819165198', 'Kotak'),
+(5, 1, '2015-11-05 00:00:00', '20', '8949498489', 'ICICI'),
+(6, 1, '2015-11-05 00:00:00', '20', '89498494', 'ICICI');
 
 -- --------------------------------------------------------
 
@@ -220,28 +222,15 @@ CREATE TABLE IF NOT EXISTS `dtd_order` (
   `order_updatecode` varchar(100) DEFAULT NULL,
   `vendor_amount` decimal(8,0) NOT NULL,
   PRIMARY KEY (`order_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `dtd_order`
 --
 
 INSERT INTO `dtd_order` (`order_id`, `order_custid`, `order_vendorid`, `order_date`, `order_recipient`, `order_address`, `order_zipcode`, `order_telp`, `order_telno`, `order_mobp`, `order_mobno`, `order_typeid`, `order_amount`, `order_itemname`, `order_desc`, `order_memo`, `order_status`, `order_updatecode`, `vendor_amount`) VALUES
-(1, 2, 1, '2015-09-22 05:37:03', 'Hardik Mehta', '                                              Rasala Road, New York Building, New York                                                          ', '0', '0', '221617', '0', '9427157507', 1, '90', 'Motorola Mobile E', '                            Motorola Mobile E                                                                            ', '                            Motorola Mobile E. Urgent Delivery                                                                            ', 'Delivered', NULL, '0'),
-(2, 2, 1, '2015-09-22 05:39:47', 'Vimal Ghorecha', '                            Paris, Eifel Tower                                                                            ', '0', '0', '221117', '0', '9797232323', 2, '180', 'Moto G', '                            Motorola Mobile. Item Code: Moto G                                                                            ', '                            Motorola Mobile. Item Code: Moto G                                                                            ', 'Created', NULL, '0'),
-(3, 2, 1, '2015-10-16 11:06:58', 'VImal', '                            dfd                                                                            ', '0', '0', '1231321321', '0', '9883716490', 2, '1000', 'asdf', '                            sdfsd                                                                            ', '                            dfssdfd                                                                            ', 'Delivered', '', '0'),
-(4, 2, 1, '2015-10-29 05:20:48', 'VImal', '                                                        sdfsdafsdfdsf                                                                                                    ', '0', '0', '1231321321', '0', '+917405100630', 2, '180', 'asdf', '                                                        asfasf                                                                                                    ', '                                                    asdfadsfdafs                                                                                                        ', 'Delivered', '123', '0'),
-(5, 2, 1, '2015-10-29 05:22:57', 'VImal', '                                                        sdfsdafsdfdsf                                                                                                    ', '0', '0', '1231321321', '0', '+917405100630', 1, '180', 'asdf', '                                                        asfasf                                                                                                    ', '                                                    asdfadsfdafs                                                                                                        ', 'Delivered', '234', '0'),
-(6, 2, 1, '2015-10-29 05:38:51', 'VImal', '                            asdf                                                                            ', '0', '0', '1231321321', '0', '7405410000', 2, '180', 'asdf', '                            sadf                                                                            ', '                            asdf                                                                            ', 'Delivered', '1234', '50'),
-(7, 2, 1, '2015-10-29 09:18:20', 'Chirag Bhatt', 'Naval Nagar', '360004', NULL, '0', NULL, '9033404578', 2, '0', 'Testing', 'Testing', NULL, 'Delivered', '123', '70'),
-(8, 2, 1, '2015-10-29 09:19:50', 'Chirag Bhatt', 'Naval Nagar', '360004', NULL, '0', NULL, '9033404578', 2, '180', 'Testing', 'Testing', NULL, 'Delivered', '123', '0'),
-(9, 2, 1, '2015-10-29 09:20:50', 'Chirag Bhatt', 'Naval Nagar', '360004', NULL, '0', NULL, '9033404578', 2, '180', 'Testing', 'Testing', NULL, 'Pending', NULL, '0'),
-(10, 2, 1, '2015-10-29 09:24:37', 'Hardik Mehta', '                            Naval Nagar                        ', '360004', NULL, '0', NULL, '9033404578', 2, '180', 'Testing', '                            Testing                        ', '                                                    Hardik', 'Delivered', '123', '0'),
-(11, 2, 1, '2015-11-06 13:31:11', 'Hardik Mehta', '                            rajkot                                                                            ', '0', '0', '2211', '0', '9427157507', 2, '180', 'Mobile', '                            hgjhgjhg                                                                            ', '                                                             momo                                           ', 'Pending', NULL, '0'),
-(12, 2, 1, '2015-11-06 13:56:17', 'Yogesh', '                                                        yogesh                                                ', '0', '0', '989', '0', '998', 1, '90', '123', '                            123                                                                            ', '                            123                                                                            ', 'Pending', NULL, '60'),
-(13, 2, 1, '2015-11-06 14:00:02', 'Vimal', '                            kk                                                                            ', '0', '0', '898', '0', '898', 3, '270', '123', '                            123                                                                            ', '                            123                                                                            ', 'Pending', NULL, '100'),
-(14, 2, 1, '2015-11-07 06:15:05', 'Paresh Tanna', '                            Rajkot                                                                            ', '0', '0', '989898', '0', '989898', 1, '90', 'XYZ', '                            XYZ                                                                            ', '                            Memo                                                                            ', 'Delivered', '12abc', '60'),
-(15, 2, 1, '2015-11-07 10:46:50', 'Mehul Shukla', '                            Rajkot                                                                            ', '0', '0', '9898989898', '0', '9898989898', 1, '90', 'xyz', '                            xy                                                                            ', '                            xy                                                                            ', 'Created', NULL, '60');
+(1, 1, 2, '2015-11-09 11:27:35', 'Nirav Bhatt', 'Rajkot                                                                            ', '0', '0', '028121212112', '0', '9863549352', 1, '90', 'Mobile', 'Asus Zenfone                                                                            ', 'Delivery Request test1                                                                            ', 'Delivered', 'VHG01D', '60'),
+(2, 1, 2, '2015-11-09 11:31:58', 'Yogesh Vadsala', '                            Rajkot                                                                            ', '0', '0', '09409182808', '0', '09409182808', 3, '270', 'Chair', '                            Office Chair                        ', '                            Testing                        ', 'Created', NULL, '100');
 
 -- --------------------------------------------------------
 
@@ -268,16 +257,17 @@ CREATE TABLE IF NOT EXISTS `dtd_users` (
   `user_role` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_email_UNIQUE` (`user_email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `dtd_users`
 --
 
 INSERT INTO `dtd_users` (`user_id`, `user_name`, `user_email`, `user_pass`, `user_add`, `user_zipcode`, `user_tel`, `user_mob`, `user_site`, `user_balance`, `user_staffname`, `user_stafftel`, `user_memo`, `is_active`, `user_role`) VALUES
-(1, 'DFX Courier Service', 'chiragbhattmca@gmail.com', '8e55ecef6a2e2b363e7f56fe00d6cd64', 'Park Street, 178 Lane, New Joursey', '36000', '011-586-933004', '9685472356', 'www.dfx.com', '120', 'Mr. CHIRAG BHATT', '98765432100', 'This is a Vendor who can provide the service', 1, 'vendor'),
-(2, 'Flipcarto Inc.', 'vimalghorecha@gmail.com', '900150983cd24fb0d6963f7d28e17f72', 'Arcane Complex, 122 Lane, Wall Street, Callifornia', '36985', '055-987-635-41', '074-7532-698', 'www.flipcarto.com', '489', 'Vimal Ghorecha', '074-3214-578', 'This is Customer who can use the courier service from allocated vendor', 1, 'customer'),
-(3, 'Hardik Mehta', 'hardik.rkcet@gmail.com', 'hsm', 'C/o S. M. Mehta, Rasala Road, ', '36000', '02828', '9427157507', 'www.hsm.in', '0', 'Hardik Mehta', '9427157507', NULL, 1, 'customer');
+(1, 'Vimal Ghorecha', 'vimalghorecha@gmail.com', 'd1e831a08968c589e477cc992f2ef732', 'Harshdip, 5-Punit Nagar, Gondal Road, Rajkot', '36000', '02812121212', '7405100630', 'www.vhghorecha.in', '60', 'Vimal Ghorecha', '9173514735', NULL, 1, 'customer'),
+(2, 'Snapdel India Pvt Ltd', 'hardik.rkcet@gmail.com', '75bc08308363144baf3b29af7c580e0b', 'Boambay', '36000', '022221617', '9427157507', 'www.snapdeal.com', '10', 'Hardik Mehta', '9427157507', NULL, 1, 'vendor'),
+(3, 'ShopClue Pvt Ltd', 'yogesh.vadsola@gmail.com', '284af711fce02acbea4eec70f7ebdea9', 'Rajkot', '36001', '02812435478', '9898535799', 'www.shopclue.com', '0', 'Yogesh Vadsola', '9898564569', NULL, 1, 'vendor'),
+(4, 'Mehul Shukla', 'mehulshukla@gmail.com', 'ee33e909372d935d190f4fcb2a92d542', '5C Ambaji Kadva, Nr. Malaviya College, Rajkot', '36000', '02813131313', '9909076810', 'www.mehul.in', '220', 'Mehul Shukla', '9909076810', NULL, 1, 'customer');
 
 -- --------------------------------------------------------
 
@@ -297,14 +287,15 @@ CREATE TABLE IF NOT EXISTS `dtd_vendor` (
   `pay_bankacno` varchar(30) NOT NULL,
   `pay_bankname` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`vendor_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `dtd_vendor`
 --
 
 INSERT INTO `dtd_vendor` (`vendor_id`, `user_id`, `vendor_taxno`, `vendor_comp`, `vendor_hq1`, `vendor_hq2`, `vendor_hq3`, `pay_bankacno`, `pay_bankname`) VALUES
-(1, 1, 'AQDLLOP234EERRT6G', 'DFX Inc', 'New Joursey', 'New York', 'Filadelphia', '526335589472563', 'New York Cooperative Bank');
+(1, 2, '', '', NULL, NULL, NULL, '', NULL),
+(2, 3, '', '', NULL, NULL, NULL, '', NULL);
 
 -- --------------------------------------------------------
 
@@ -329,7 +320,7 @@ CREATE TABLE IF NOT EXISTS `dtd_vendorpay` (
 --
 
 INSERT INTO `dtd_vendorpay` (`dep_id`, `pay_vendorid`, `pay_date`, `pay_amount`, `pay_transno`, `pay_bankacno`, `pay_bankname`) VALUES
-(1, 1, '2015-10-27 00:00:00', '2000.00', '123456', '526335589472563', 'New York Cooperative Bank');
+(1, 2, '2015-11-09 00:00:00', '50.00', '123456', '526335589472563', 'New York Cooperative Bank');
 
 -- --------------------------------------------------------
 
@@ -343,17 +334,21 @@ CREATE TABLE IF NOT EXISTS `dtd_vendorprice` (
   `gp_vendorid` int(10) unsigned NOT NULL,
   `gp_typeid` smallint(5) unsigned NOT NULL,
   `gp_price` decimal(8,0) NOT NULL,
-  PRIMARY KEY (`vp_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+  PRIMARY KEY (`vp_id`),
+  UNIQUE KEY `gp_vendorid` (`gp_vendorid`,`gp_typeid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `dtd_vendorprice`
 --
 
 INSERT INTO `dtd_vendorprice` (`vp_id`, `gp_vendorid`, `gp_typeid`, `gp_price`) VALUES
-(1, 1, 1, '60'),
-(2, 1, 2, '80'),
-(3, 1, 3, '100');
+(1, 2, 1, '60'),
+(2, 2, 2, '90'),
+(3, 2, 3, '100'),
+(4, 3, 1, '50'),
+(5, 3, 2, '60'),
+(6, 3, 3, '70');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

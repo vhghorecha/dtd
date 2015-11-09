@@ -24,13 +24,13 @@ In customer profile display vendor info. (Done)
 
 Vendor
 ======
-Balance problem every where in Vendor
-In Orders page of vendor give daily total group by item also
-Use price from Vendor Price Table
-Move change password to Profile Section
+Balance problem every where in Vendor(done)
+In Orders page of vendor give daily total group by item also (done)
+Use price from Vendor Price Table (done)
+Move change password to Profile Section(done)
 Excel Upload in Order Received.
 Download records with Criteria
-Vendor can see their customer profile
+Vendor can see their customer profile(done)
 
 Admin
 =====

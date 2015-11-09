@@ -91,6 +91,7 @@ class Vendor extends CI_Controller {
 	{
 		$data['orders'] = $this->Vendor_Model->get_orders();
 		$data['dorders'] = $this->Vendor_Model->get_day_orders();
+		$data['iorders'] = $this->Vendor_Model->get_day_iorders();
 		$this->load->template('vendor/orders_received',$data);
 	}
 	public function update_order()

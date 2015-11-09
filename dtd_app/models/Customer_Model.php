@@ -136,9 +136,12 @@ class Customer_Model extends CI_Model
         if(is_null($user_id)){
             $user_id = $this->user_model->get_current_user_id();
         }
-        $this->db->set('user_balance', 'user_balance + ' . $newbalance, false);
+
+        $this->db->flush_cache();
+        $this->db->set("user_balance", "user_balance+$newbalance", false);
         $this->db->where('user_id', $user_id);
         $this->db->update('dtd_users');
+
     }
 
     public function get_user_id_by_email($email){
@@ -173,12 +176,15 @@ class Customer_Model extends CI_Model
         $this->db->select('order_id');
         $this->db->from('dtd_order');
         $this->db->where('order_custid', $this->user_model->get_current_user_id());
+        $this->db->where('order_status<>', "Created");
         $this->db->like('order_date', date('Y-m-d'));
+
         $today['count'] = $this->db->count_all_results();
 
         //counting the total changes of today
         $this->db->select_sum('order_amount');
         $this->db->where('order_custid', $this->user_model->get_current_user_id());
+        $this->db->where('order_status<>', "Created");
         $this->db->like('order_date', date('Y-m-d'));
         $query = $this->db->get('dtd_order');
         $today['sum'] = current($query->row_array());
@@ -191,6 +197,7 @@ class Customer_Model extends CI_Model
         $this->db->select('order_id');
         $this->db->from('dtd_order');
         $this->db->where('order_custid', $this->user_model->get_current_user_id());
+        $this->db->where('order_status<>', "Created");
         $this->db->like('order_date', date('Y-m'));
         $month['month-count'] = $this->db->count_all_results();
 
@@ -208,8 +215,16 @@ class Customer_Model extends CI_Model
         $this->db->like('order_date', date('Y-m'));
         $month['pending'] = $this->db->count_all_results();
 
+       /* $this->db->select('order_status');
+        $this->db->from('dtd_order');
+        $this->db->where('order_custid', $this->user_model->get_current_user_id());
+        $this->db->where('order_status', 'Created');
+        $this->db->like('order_date', date('Y-m'));
+        $month['created'] = $this->db->count_all_results(); */
+
         $this->db->select_sum('order_amount');
         $this->db->where('order_custid', $this->user_model->get_current_user_id());
+        $this->db->where('order_status<>', "Created");
         $this->db->like('order_date', date('Y-m'));
         $query = $this->db->get('dtd_order');
         $month['amount'] = current($query->row_array());
@@ -297,6 +312,7 @@ class Customer_Model extends CI_Model
         $this->db->join('dtd_item_type di','di.type_id=dto.order_typeid');
         $this->db->where('dto.order_date >= LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL 1 MONTH
   AND dto.order_date < LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY');
+        $this->db->where('order_status<>', "Created");
         $this->db->group_by('dto.order_custid, date, type_name');
         $query = $this->db->get()->result_array();
         return $query;

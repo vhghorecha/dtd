@@ -58,11 +58,11 @@
                                 </thead>
                                 <tbody>
                                 <?php foreach($dorders as $order){?>
-                                <tr>
-                                    <td><?PHP echo $order['user_name']; ?></td>
-                                    <td><?PHP echo $order['num']; ?></td>
-                                    <td><?PHP echo $order['amount']; ?></td>
-                                </tr>
+                                    <tr>
+                                        <td><?PHP echo $order['user_name']; ?></td>
+                                        <td><?PHP echo $order['num']; ?></td>
+                                        <td><?PHP echo $order['amount']; ?></td>
+                                    </tr>
                                 <?PHP }?>
                                 </tbody>
                                 <tfoot>
@@ -70,6 +70,43 @@
                                     <th>Total</th>
                                     <th><?PHP echo array_sum(array_column($dorders,'num'));?></th>
                                     <th><?PHP echo array_sum(array_column($dorders,'amount'));?></th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="panel-footer">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            Daily Statistics on Item
+                        </div>
+                        <div class="panel-body">
+                            <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                <tr>
+                                    <th>Customer</th>
+                                    <th>No. of Order</th>
+                                    <th>Charge amount</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach($iorders as $order){?>
+                                    <tr>
+                                        <td><?PHP echo $order['type_name']; ?></td>
+                                        <td><?PHP echo $order['num']; ?></td>
+                                        <td><?PHP echo $order['amount']; ?></td>
+                                    </tr>
+                                <?PHP }?>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>Total</th>
+                                    <th><?PHP echo array_sum(array_column($iorders,'num'));?></th>
+                                    <th><?PHP echo array_sum(array_column($iorders,'amount'));?></th>
                                 </tr>
                                 </tfoot>
                             </table>

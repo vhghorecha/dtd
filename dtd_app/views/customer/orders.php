@@ -81,7 +81,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     Today's Order
@@ -118,7 +118,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     Monthly Order
@@ -130,6 +130,7 @@
                             <th>Total Order</th>
                             <th>Delivered</th>
                             <th>Pending</th>
+
                             <th>Charge</th>
                         </tr>
                         </thead>
@@ -139,6 +140,7 @@
                             <th>Total Order</th>
                             <th>Delivered</th>
                             <th>Pending</th>
+
                             <th>Charge</th>
                         </tr>
                         </tfoot>
@@ -148,6 +150,7 @@
                             <td><?php echo $month['month-count']; ?></td>
                             <td><?php echo $month['deliver']; ?></td>
                             <td><?php echo $month['pending']; ?></td>
+
                             <td><?php echo callback_format_amount($month['amount']); ?></td>
 
                         </tr>

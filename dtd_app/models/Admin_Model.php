@@ -76,9 +76,6 @@ class Admin_Model extends CI_Model{
     }
 
     public function customer_deposit($data){
-        $this->db->set('user_balance', 'user_balance + ' . $data['dep_custid'], false);
-        $this->db->where('user_id', $data['dep_custid']);
-        $this->db->update('users');
         $this->db->insert('custdep',$data);
         return $this->db->insert_id();
     }
@@ -172,10 +169,10 @@ class Admin_Model extends CI_Model{
     }
 
     public function get_item_type(){
-        $type_ids = $this->general_model->get_single_val('GROUP_CONCAT(`gp_typeid`) as gi_type','vendorprice');
+        //$type_ids = $this->general_model->get_single_val('GROUP_CONCAT(`gp_typeid`) as gi_type','vendorprice',array('gp_vendorid',$this->user_model->get_current_user_id()));
         $this->db->select('type_id,type_name');
         $this->db->from('item_type');
-        $this->db->where_not_in('type_id',explode(",",$type_ids));
+        //$this->db->where_not_in('type_id',explode(",",$type_ids));
         $query = $this->db->get();
         $itemids = array('');
         $itemnames = array('Select Item Type');
