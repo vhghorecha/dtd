@@ -5,6 +5,39 @@
                     <div class="col-lg-12">
                         <h1 class="page-header">Vendor Payment</h1>
                     </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h3>Delivered Orders</h3>
+                            <table id="a_ven_pay" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                <tr>
+                                    <th>Order id</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Customer</th>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>Item type</th>
+                                    <th>Item name</th>
+                                </tr>
+                                </thead>
+                                <tfoot>
+                                <tr>
+                                    <th>Order id</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Customer</th>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>Item type</th>
+                                    <th>Item name</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- /.col-lg-12 -->
+                    </div>
+                    <!-- /.row -->
                     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                         <?php if (!empty($error)) { ?>
                             <div class="alert alert-danger fade in"><?= $error; ?></div>
@@ -29,7 +62,7 @@
                         </div>
                         <div class="form-group  required">
                             <label>Amount</label>
-                            <input class="form-control" placeholder="Enter Amount" name="payamount" autofocus required>
+                            <input type="number" class="form-control" placeholder="Enter Amount" id="payamount" name="payamount" required value="0">
                         </div>
                         <div class="form-group  ">
                             <label>Transaction Reference</label>

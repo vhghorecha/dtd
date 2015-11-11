@@ -373,5 +373,21 @@ class Admin_Model extends CI_Model{
         $this->db->update('users');
         return $this->db->affected_rows();
     }
+
+    public function get_money_paid(){
+        $this->datatables->select("DATE_FORMAT(dtd_vendorpay.pay_date,'%b-%d') as pdate,dtd_users.user_name, dtd_vendorpay.pay_amount, dtd_vendorpay.pay_transno, dtd_vendorpay.pay_bankname")
+            ->from("dtd_vendorpay")
+            ->join("dtd_users", "dtd_users.user_id = dtd_vendorpay.pay_vendorid")
+            ->edit_column('pay_amount','$1','callback_format_amount(pay_amount)');
+        return $this->datatables->generate();
+    }
+
+    public function get_money_received(){
+        $this->datatables->select("DATE_FORMAT(dtd_custdep.dep_date,'%b-%d') as ddate,dtd_users.user_name, dtd_custdep.dep_amount, dtd_custdep.dep_transno, dtd_custdep.dep_bankname")
+            ->from("dtd_custdep")
+            ->join("dtd_users", "dtd_users.user_id = dtd_custdep.dep_custid")
+            ->edit_column('dep_amount','$1','callback_format_amount(dep_amount)');
+        return $this->datatables->generate();
+    }
 }
 ?>

@@ -147,4 +147,20 @@ class Ajax extends CI_Controller {
 		}
 		die(json_encode($result));
 	}
+
+	public function a_ven_pay()
+	{
+		$vendor_id = $_REQUEST['vendor_id'];
+		die($this->Vendor_Model->get_ven_orders($vendor_id));
+	}
+
+	public function a_mon_pay()
+	{
+		die($this->Admin_Model->get_money_paid());
+	}
+
+	public function a_mon_rec()
+	{
+		die($this->Admin_Model->get_money_received());
+	}
 }

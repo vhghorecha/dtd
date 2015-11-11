@@ -178,6 +178,7 @@ abstract class CI_DB_utility {
 		}
 
 		$result = array();
+
 		foreach ($this->db->list_tables() as $table_name)
 		{
 			$res = $this->db->query(sprintf($this->_optimize_table, $this->db->escape_identifiers($table_name)));

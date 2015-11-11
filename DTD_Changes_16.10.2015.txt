@@ -1,6 +1,7 @@
 General
 =======
-Search Facility in All Table, if there is date we need date filtering.
+Most IMP - Registraion form changes as per Registration Issue.xlsx
+Search Facility in All Table, if there is date we need date filtering. (Done)
 Messaging between all three with File Attachment
 All order will have 10% VAT
 Select2 in all Combobox - Done
@@ -37,9 +38,11 @@ Admin
 No section for approve less balance order. (done)
 Order Pending need searching facility. (done)
 Full searching in recoreds likes By Customer, Vendor, Type. (done)
-Put Money Recieved and Paid in Transactions Menu
-Give list of Delivered orders in Vendor pay and decide amount automatically.
+Put Money Recieved and Paid in Transactions Menu (Done)
+Give list of Delivered orders in Vendor pay and decide amount automatically. (Done)
 Customer Deposit Transaction Number and Bank optional (done)
 Error when saving Korean character in deposit (done)
 Customers, Vendors - Need one more column areaCode (Only admin can update), Delete functionality
-Data Management - Backup
+Edit/Delete for All pricing scheme
+Admin will assign customer grade, so need option to edit customer grade
+Data Management - Backup (Done)

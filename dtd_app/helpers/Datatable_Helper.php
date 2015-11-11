@@ -10,6 +10,10 @@ function callback_order_status($order_status,$order_id){
     return $order_status;
 }
 
+function callback_vendor_pay_order($order_id,$order_amount){
+    return '<input type="checkbox" value="' . $order_amount . '" class="a_pay_order_amt"/> ' . $order_id;
+}
+
 function callback_edit_item($type_id,$type_name){
     return '<a href="#" class="edit_item" data-typeid="'.$type_id.'" data-typename="'.$type_name.'"><i class="fa fa-edit"></i> Edit</a> |
                 <a href="#" class="delete_item" data-typeid="'.$type_id.'"><i class="fa fa-remove"></i> Delete</a>';
@@ -25,7 +29,7 @@ function callback_approve_user($user_id){
 }
 
 function callback_format_amount($amount){
-    if($amount > 0) {
+    if($amount >= 0) {
         return '$' . number_format($amount, 0);
     }else{
         return '-$' . number_format(abs($amount),0);

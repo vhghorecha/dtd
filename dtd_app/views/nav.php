@@ -130,6 +130,19 @@
                         </li>
 
                         <li>
+                            <a href="#"><i class="fa fa-money fa-fw"></i> Transactions<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="<?=site_url('admin/money_received');?>">Money Recieved</a>
+                                </li>
+                                <li>
+                                    <a href="<?=site_url('admin/money_paid');?>">Money Paid</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+
+                        <li>
                             <a href="#"><i class="fa fa-users fa-fw"></i> Customers<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
@@ -170,6 +183,9 @@
                         </li>
                         <li>
                             <a href="<?=site_url('admin/change_pwd');?>"><i class="fa fa-cogs fa-fw"></i> Change Password</a>
+                        </li>
+                        <li>
+                            <a href="<?=site_url('admin/backup');?>" target="_blank"><i class="fa fa-cogs fa-save"></i> Backup</a>
                         </li>
                         <li>
                             <a href="<?=site_url('user/logout');?>"><i class="fa fa-sign-out fa-fw"></i> Log Out</a>

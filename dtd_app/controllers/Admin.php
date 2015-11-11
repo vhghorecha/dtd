@@ -8,7 +8,7 @@ class Admin extends CI_Controller {
 		//Created By Hardik Mehta
 		$this->load->model('user_model');
 		if(!$this->user_model->is_admin() && $this->uri->segment(2) != 'login'){
-			echo 'You don\'t have permission to access this page. <a href="admin/login">Login</a>';
+			echo 'You don\'t have permission to access this page. <a href="' . site_url('admin/login') . '">Login</a>';
 			die();
 		}
 	}
@@ -682,5 +682,17 @@ class Admin extends CI_Controller {
 	public function orders_pending()
 	{
 		$this->load->template('admin/orders_pending');		
+	}
+
+	public function backup(){
+		// Load the DB utility class
+		$this->load->dbutil();
+
+		// Backup your entire database and assign it to a variable
+		$backup =& $this->dbutil->backup();
+
+		// Load the download helper and send the file to your desktop
+		$this->load->helper('download');
+		force_download('dtd_schema_backup' . time() . '.sql.gz', $backup);
 	}
 }

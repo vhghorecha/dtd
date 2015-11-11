@@ -152,6 +152,77 @@
 	</script>
 <?php } ?>
 
+<?php if($current_page == 'admin' && $current_action == 'money_paid') { ?>
+	<script>
+
+		var table = $('#a_mon_pay').dataTable( {
+			"sDom": '<"top"pl>rt<"bottom"><"clear">',
+			"aaSorting": [[0, "desc"]],
+			"oLanguage": {
+				"sLengthMenu": "_MENU_ records per page"
+			},
+			"bProcessing": true,
+			"bServerSide": true,
+			"sAjaxSource": "<?=site_url('ajax/a_mon_pay');?>",
+			"responsive" : true,
+
+			"columns": [
+				{ "data": "pdate" },
+				{ "data": "user_name" },
+				{ "data": "pay_amount" },
+				{ "data": "pay_transno" },
+				{ "data": "pay_bankname" },
+			]
+		} );
+
+		// Setup - add a text input to each footer cell
+		$('#a_mon_pay tfoot th').each( function () {
+			//var title = $('#example thead th').eq( $(this).index() ).text();
+			if($(this).index() != 0 ){
+				$(this).html( '<input type="text" style="width:100%" />' );
+			}else{
+				$(this).html( '<input type="text" style="width:100%" class="tdatepicker" />' );
+			}
+
+		} );
+	</script>
+<?php } ?>
+
+<?php if($current_page == 'admin' && $current_action == 'money_received') { ?>
+	<script>
+
+		var table = $('#a_mon_rec').dataTable( {
+			"sDom": '<"top"pl>rt<"bottom"><"clear">',
+			"aaSorting": [[0, "desc"]],
+			"oLanguage": {
+				"sLengthMenu": "_MENU_ records per page"
+			},
+			"bProcessing": true,
+			"bServerSide": true,
+			"sAjaxSource": "<?=site_url('ajax/a_mon_rec');?>",
+			"responsive" : true,
+
+			"columns": [
+				{ "data": "ddate" },
+				{ "data": "user_name" },
+				{ "data": "dep_amount" },
+				{ "data": "dep_transno" },
+				{ "data": "dep_bankname" },
+			]
+		} );
+
+		// Setup - add a text input to each footer cell
+		$('#a_mon_rec tfoot th').each( function () {
+			//var title = $('#example thead th').eq( $(this).index() ).text();
+			if($(this).index() != 0 ){
+				$(this).html( '<input type="text" style="width:100%" />' );
+			}else{
+				$(this).html( '<input type="text" style="width:100%" class="tdatepicker" />' );
+			}
+
+		} );
+	</script>
+<?php } ?>
 
 <?php if($current_page == 'admin' && $current_action == 'app_order') { ?>
 	<script>
@@ -259,6 +330,63 @@
 		</script>
 	<?php } ?>
 
+	<?php if($current_page == 'admin' && $current_action == 'payment') { ?>
+	<script>
+		var table2 = $('#a_ven_pay').dataTable( {
+			"sDom": '<"top"pl>rt<"bottom"><"clear">',
+			"aaSorting": [[0, "desc"]],
+			"oLanguage": {
+				"sLengthMenu": "_MENU_ records per page"
+			},
+			"bProcessing": true,
+			"bServerSide": true,
+			"sAjaxSource": "<?=site_url('ajax/a_ven_pay/');?>",
+			"fnServerParams": function ( aoData ) {
+				aoData.push( { "name": "vendor_id", "value": $('#vendname').val() } );
+			},
+			"responsive" : true,
+			"columns": [
+				{ "data": "order_id" },
+				{ "data": "ord_date" },
+				{ "data": "vendor_amount" },
+				{ "data": "user_name" },
+				{ "data": "order_recipient" },
+				{ "data": "order_telno" },
+				{ "data": "type_name" },
+				{ "data": "order_itemname" },
+			],
+			"drawCallback" : function(){
+				$('.a_pay_order_amt').click(function(){
+					if($('#payamount').val() == ''){
+						$('#payamount').val(0);
+					}
+					if($(this).is(':checked')){
+						$('#payamount').val( parseInt($('#payamount').val()) + parseInt($(this).val()) );
+					}else{
+						$('#payamount').val( parseInt($('#payamount').val()) - parseInt($(this).val()) );
+					}
+				});
+			}
+		} );
+
+		// Setup - add a text input to each footer cell
+		$('#a_ven_pay tfoot th').each( function () {
+			//var title = $('#example thead th').eq( $(this).index() ).text();
+			if($(this).index() != 1 ){
+				$(this).html( '<input type="text" style="width:100%" />' );
+			}else{
+				$(this).html( '<input type="text" style="width:100%" class="tdatepicker" />' );
+			}
+
+		} );
+
+		$('#vendname').change(function(){
+				table2.fnDraw();
+				$('#payamount').val();
+		});
+	</script>
+<?php } ?>
+
 	<?php if($current_page == 'customer' && $current_action == 'orders') { ?>
 		<script>
 			var table = $('#c_orders').dataTable( {
@@ -279,7 +407,7 @@
 					{ "data": "type_name" },
 					{ "data": "order_status" },
 					{ "data" : "modify"},
-				]
+				],
 			} );
 
 			// Setup - add a text input to each footer cell
@@ -820,6 +948,26 @@
             }
             $('<button class="btn btn-primary pull-right">Clear Search</button>').click( function () {$('input').val('');fnResetAllFilters();}).insertBefore( 'div.dataTables_wrapper');
         }
+
+		if(typeof table2 !== 'undefined'){
+			table2.DataTable().columns().every( function () {
+				var that = this;
+				$( 'input', this.footer() ).on( 'keyup change', function () {
+					if ( that.search() !== this.value ) {
+						that
+							.search( this.value )
+							.draw();
+					}
+				} );
+			} );
+			function fnResetAllFilters() {
+				var oSettings = table2.fnSettings();
+				for (iCol = 0; iCol < oSettings.aoPreSearchCols.length; iCol++) {
+					oSettings.aoPreSearchCols[iCol].sSearch = '';
+				}
+				table2.fnDraw();
+			}
+		}
 	</script>
 </body>
 
