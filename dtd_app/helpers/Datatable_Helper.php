@@ -24,6 +24,13 @@ function callback_edit_grade($grade_id,$grade_name){
                 <a href="#" class="delete_grade" data-gradeid="'.$grade_id.'"><i class="fa fa-remove"></i> Delete</a>';
 }
 
+function callback_update_area_code($user_id,$user_areacode){
+    if(!empty($user_areacode)){
+        return '<a href="#" class="update_area_code" data-userid="' . $user_id . '">' . $user_areacode . '</a>';
+    }
+    return '<a href="#" class="update_area_code" data-userid="' . $user_id . '">Enter Code</a>';
+}
+
 function callback_approve_user($user_id){
     return '<a href="#" class="approve_user" data-userid="'.$user_id.'" data-status="1">Approve</a>';
 }

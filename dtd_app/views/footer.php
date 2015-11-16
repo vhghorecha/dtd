@@ -513,6 +513,26 @@
 
 	<?php if($current_page == 'admin' && $current_action == 'customers') { ?>
 		<script>
+			$(document).ready(function(){
+				$('#btn_up_code').click(function(){
+					$userid = $('#up_userid').val();
+					$up_code = $('#up_areacode').val();
+					$.ajax({
+						type:'POST',
+						url: '<?=site_url("ajax/update_areacode");?>',
+						dataType: 'json',
+						data: {user_id : $userid, up_areacode : $up_code},
+						success:function(data, textStatus, jqXHR){
+							if(typeof data.message !== 'undefined'){
+								$('#update_res').html('<div class="alert alert-success">' + data.message + '</div>')
+							}else{
+								$('#update_res').html('<div class="alert alert-error">' + data.error + '</div>')
+							}
+							table.fnDraw(false);
+						}
+					});
+				});
+			});
 			var table = $('#a_customers').dataTable( {
 				"sDom": '<"top"pl>rt<"bottom"><"clear">',
 				"aaSorting": [[0, "desc"]],
@@ -524,6 +544,7 @@
 				"sAjaxSource": "<?=site_url('ajax/a_customers');?>",
 				"responsive" : true,
 				"columns": [
+					{ "data": "user_id" },
 					{ "data": "user_name" },
 					{ "data": "user_email" },
 					{ "data": "user_add" },
@@ -533,7 +554,16 @@
 					{ "data": "user_staffname" },
 					{ "data": "user_stafftel" },
 					{ "data": "user_balance"},
-				]
+					{ "data": "user_areacode"},
+				],
+				"drawCallback" : function(){
+					$('.update_area_code').click(function(){
+						$('#update_res').html('');
+						$('#up_areacode').val('');
+						$('#up_userid').val($(this).data('userid'));
+						$('#pop_up_user').modal('show');
+					});
+				},
 			} );
 		</script>
 	<?php } ?>
@@ -567,6 +597,26 @@
 
 	<?php if($current_page == 'admin' && $current_action == 'vendors') { ?>
 		<script>
+			$(document).ready(function(){
+				$('#btn_up_code').click(function(){
+					$userid = $('#up_userid').val();
+					$up_code = $('#up_areacode').val();
+					$.ajax({
+						type:'POST',
+						url: '<?=site_url("ajax/update_areacode");?>',
+						dataType: 'json',
+						data: {user_id : $userid, up_areacode : $up_code},
+						success:function(data, textStatus, jqXHR){
+							if(typeof data.message !== 'undefined'){
+								$('#update_res').html('<div class="alert alert-success">' + data.message + '</div>')
+							}else{
+								$('#update_res').html('<div class="alert alert-error">' + data.error + '</div>')
+							}
+							table.fnDraw(false);
+						}
+					});
+				});
+			});
 			var table = $('#a_vendors').dataTable( {
 				"sDom": '<"top"pl>rt<"bottom"><"clear">',
 				"aaSorting": [[0, "desc"]],
@@ -578,6 +628,7 @@
 				"sAjaxSource": "<?=site_url('ajax/a_vendors');?>",
 				"responsive" : true,
 				"columns": [
+					{ "data": "user_id" },
 					{ "data": "user_name" },
 					{ "data": "user_email" },
 					{ "data": "user_add" },
@@ -587,7 +638,16 @@
 					{ "data": "user_staffname" },
 					{ "data": "user_stafftel" },
 					{ "data": "user_balance"},
-				]
+					{ "data": "user_areacode"},
+				],
+				"drawCallback" : function(){
+					$('.update_area_code').click(function(){
+						$('#update_res').html('');
+						$('#up_areacode').val('');
+						$('#up_userid').val($(this).data('userid'));
+						$('#pop_up_user').modal('show');
+					});
+				},
 			} );
 		</script>
 	<?php } ?>

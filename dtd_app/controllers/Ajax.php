@@ -28,6 +28,21 @@ class Ajax extends CI_Controller {
 		die(json_encode($result));
 	}
 
+	public function update_areacode(){
+		$result = array();
+		$user_id = $this->input->post('user_id');
+		$user_areacode = $this->input->post('up_areacode');
+		$this->db->set('user_areacode', $user_areacode);
+		$this->db->where('user_id', $user_id);
+		$this->db->update('users');
+		if($this->db->affected_rows() > 0){
+			$result['message'] = 'User area code updated successfully.';
+		}else{
+			$result['error'] = 'There is database error';
+		}
+		die(json_encode($result));
+	}
+
 	public function v_ord_rec()
 	{
 		die($this->Vendor_Model->get_orders());

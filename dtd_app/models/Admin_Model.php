@@ -313,10 +313,11 @@ class Admin_Model extends CI_Model{
     //Created by Hardik Mehta
     public function get_all_customers()
     {
-        $this->datatables->select("user_name, user_email, user_add, user_tel, user_mob, user_site, user_staffname, user_stafftel, user_balance")
+        $this->datatables->select("user_id, user_name, user_email, user_add, user_tel, user_mob, user_site, user_staffname, user_stafftel, user_balance, user_areacode")
             ->from("dtd_users")
             ->where("is_active",1)
-            ->where("user_role","customer");
+            ->where("user_role","customer")
+            ->edit_column('user_areacode',"$1","callback_update_area_code(user_id,user_areacode)");
         return $this->datatables->generate();
     }
 
@@ -350,10 +351,11 @@ class Admin_Model extends CI_Model{
     //Created by Hardik Mehta
     public function get_all_vendors()
     {
-        $this->datatables->select("user_name, user_email, user_add, user_tel, user_mob, user_site, user_staffname, user_stafftel, user_balance")
+        $this->datatables->select("user_id, user_name, user_email, user_add, user_tel, user_mob, user_site, user_staffname, user_stafftel, user_balance, user_areacode")
             ->from("dtd_users")
             ->where("is_active",1)
-            ->where("user_role","vendor");
+            ->where("user_role","vendor")
+            ->edit_column('user_areacode',"$1","callback_update_area_code(user_id,user_areacode)");
         return $this->datatables->generate();
     }
 
