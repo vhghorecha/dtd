@@ -34,6 +34,9 @@
 						<li>
                             <a href="<?=site_url('customer/profile');?>"><i class="fa fa-user fa-fw"></i> Profile</a>
                         </li>
+                        <li>
+                            <a href="<?=site_url('customer/message');?>"><i class="fa fa-envelope fa-fw"></i> Message Board</a>
+                        </li>
 						<li>
                             <a href="<?=site_url('user/logout');?>"><i class="fa fa-sign-out fa-fw"></i> Log Out</a>
                         </li>
@@ -84,6 +87,9 @@
                         </li>
                         <li>
                             <a href="<?=site_url('vendor/customers');?>"><i class="fa fa-users fa-fw"></i> View Customers</a>
+                        </li>
+                        <li>
+                            <a href="<?=site_url('vendor/message');?>"><i class="fa fa-envelope fa-fw"></i> Message Board</a>
                         </li>
                         <li>
                             <a href="<?=site_url('user/logout');?>"><i class="fa fa-sign-out fa-fw"></i> Log Out</a>
@@ -181,12 +187,17 @@
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
+
                         <li>
                             <a href="<?=site_url('admin/change_pwd');?>"><i class="fa fa-cogs fa-fw"></i> Change Password</a>
                         </li>
                         <li>
+                            <a href="<?=site_url('admin/message');?>"><i class="fa fa-envelope fa-fw"></i> Message Board</a>
+                        </li>
+                        <li>
                             <a href="<?=site_url('admin/backup');?>" target="_blank"><i class="fa fa-cogs fa-save"></i> Backup</a>
                         </li>
+
                         <li>
                             <a href="<?=site_url('user/logout');?>"><i class="fa fa-sign-out fa-fw"></i> Log Out</a>
                         </li>

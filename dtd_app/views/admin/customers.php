@@ -22,7 +22,8 @@
                                         <th>Email</th>
                                         <th>Address</th>
                                         <th>Telephone No</th>
-                                        <th>Mobile No</th>
+                                        <th>Compnay Name</th>
+                                        <th>Representive Name</th>
                                         <th>Website</th>
                                         <th>Staff Name</th>
                                         <th>Staff Telephone</th>
@@ -37,7 +38,8 @@
                                     <th>Email</th>
                                     <th>Address</th>
                                     <th>Telephone No</th>
-                                    <th>Mobile No</th>
+                                    <th>Compnay Name</th>
+                                    <th>Representive Name</th>
                                     <th>Website</th>
                                     <th>Staff Name</th>
                                     <th>Staff Telephone</th>

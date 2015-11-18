@@ -14,7 +14,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 		return $this->db->insert_id();
 	}
     public function get_vendor_profile($user_id){
-        $this->db->select('t1.user_name,t1.user_email,t1.user_mob,t1.user_add,t1.user_zipcode,t1.user_site,t1.user_memo,t2.vendor_comp,t2.vendor_hq1,t2.vendor_hq2,t2.vendor_hq3,t2.vendor_taxno,t2.pay_bankacno,t2.pay_bankname');
+        $this->db->select('t1.user_name,t1.user_email,t1.user_tel,t1.user_comp,t1.user_rep,t1.user_add,t1.user_zipcode,t1.user_site,t1.user_memo,t2.vendor_comp,t2.vendor_hq1,t2.vendor_hq2,t2.vendor_hq3,t2.vendor_taxno,t2.pay_bankacno,t2.pay_bankname');
         $this->db->from('dtd_users t1');
         $this->db->join('dtd_vendor t2',' t1.user_id=t2.user_id');
         $this->db->where("t1.user_id=$user_id");
@@ -29,6 +29,21 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
         $pwd['pwd']=current($query->row_array());
         return $pwd;
     }
+        public function get_custmoers($vendor_id=null)
+        {
+            $this->db->select('users.user_id,users.user_name');
+            $this->db->from('users');
+            $this->db->join('cust','users.user_id=cust.user_id');
+            $this->db->where("cust.vendor_id=$vendor_id");
+            $query = $this->db->get();
+            $custids = array('');
+            $custnames = array('Select Customer');
+            foreach($query->result_array() as $cust){
+                $custids[] = $cust['user_id'];
+                $custnames[] = $cust['user_name'];
+            }
+            return array_combine($custids,$custnames);
+        }
     public function get_vendor_id($user_id){
         $this->db->select('vendor_id');
         $this->db->from('dtd_vendor');
@@ -39,7 +54,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
     public function get_orders(){
         $this->load->helper('Datatable');
         $vendor_id = $this->user_model->get_current_user_id();
-        $this->datatables->select("DATE_FORMAT(dtd_order.order_date,'%b-%d') as ord_date,dtd_order.order_id,dtd_users.user_name,dtd_order.order_recipient,dtd_order.order_telno,dtd_item_type.type_name,dtd_order.order_itemname,dtd_cust.user_sercomp,dtd_users.user_mob,dtd_order.order_status")
+        $this->datatables->select("DATE_FORMAT(dtd_order.order_date,'%b-%d') as ord_date,dtd_order.order_id,dtd_users.user_name,dtd_order.order_recipient,dtd_order.order_telno,dtd_item_type.type_name,dtd_order.order_itemname,dtd_cust.user_sercomp,dtd_users.user_comp,dtd_users.user_rep,dtd_order.order_status")
             ->from('dtd_order')
             ->join('dtd_cust','dtd_cust.user_id=dtd_order.order_custid')
             ->join('dtd_users','dtd_users.user_id=dtd_cust.user_id')
@@ -52,7 +67,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
     public function get_del_orders(){
         $this->load->helper('Datatable');
         $vendor_id = $this->user_model->get_current_user_id();
-        $this->datatables->select("DATE_FORMAT(dtd_order.order_date,'%b-%d') as ord_date,dtd_order.order_id,dtd_users.user_name,dtd_order.order_recipient,dtd_order.order_telno,dtd_item_type.type_name,dtd_order.order_itemname,dtd_cust.user_sercomp,dtd_users.user_mob,dtd_order.order_status")
+        $this->datatables->select("DATE_FORMAT(dtd_order.order_date,'%b-%d') as ord_date,dtd_order.order_id,dtd_users.user_name,dtd_order.order_recipient,dtd_order.order_telno,dtd_item_type.type_name,dtd_order.order_itemname,dtd_cust.user_sercomp,dtd_users.user_comp,dtd_users.user_rep,dtd_order.order_status")
             ->from('dtd_order')
             ->join('dtd_cust','dtd_cust.user_id=dtd_order.order_custid')
             ->join('dtd_users','dtd_users.user_id=dtd_cust.user_id')
@@ -181,7 +196,8 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
         {
             $vendor_id = $this->user_model->get_current_user_id();
 
-            $this->datatables->select("user_name, user_email, user_add, user_tel, user_mob, user_site, user_staffname, user_stafftel, user_balance")
+
+            $this->datatables->select("user_name, user_email, user_add, user_tel, user_comp, user_rep, user_site, user_staffname, user_stafftel, user_balance")
                 ->from("dtd_users")
                 ->join('dtd_cust','dtd_cust.user_id=dtd_users.user_id')
                 ->where('dtd_cust.vendor_id',$vendor_id)

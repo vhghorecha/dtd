@@ -19,7 +19,8 @@
                     <th>Item type</th>
                     <th>Item name</th>
                     <th>Company name</th>
-                    <th>Phone</th>
+                    <th>Company Name</th>
+                    <th>Representive Name</th>
                     <th>Status</th>
                 </tr>
                 </thead>
@@ -33,7 +34,8 @@
                     <th>Item type</th>
                     <th>Item name</th>
                     <th>Company name</th>
-                    <th>Phone</th>
+                    <th>Company Name</th>
+                    <th>Representive Name</th>
                     <th>Status</th>
                 </tr>
                 </tfoot>

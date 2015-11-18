@@ -93,7 +93,8 @@
 				{ "data": "type_name" },
 				{ "data": "order_itemname" },
 				{ "data": "user_sercomp" },
-				{ "data": "user_mob" },
+				{ "data": "user_comp" },
+				{ "data": "user_rep" },
 				{ "data": "order_status" },
 			]
 		} );
@@ -134,7 +135,8 @@
 				{ "data": "type_name" },
 				{ "data": "order_itemname" },
 				{ "data": "user_sercomp" },
-				{ "data": "user_mob" },
+				{ "data": "user_comp" },
+				{ "data": "user_rep" },
 
 			]
 		} );
@@ -264,7 +266,8 @@
 				{ "data": "type_name" },
 				{ "data": "order_itemname" },
 				{ "data": "user_sercomp" },
-				{ "data": "user_mob" },
+				{ "data": "user_comp" },
+				{ "data": "user_rep" },
 				{ "data": "order_status" },
 			]
 		} );
@@ -312,7 +315,8 @@
 					{ "data": "type_name" },
 					{ "data": "order_itemname" },
 					{ "data": "user_sercomp" },
-					{ "data": "user_mob" },
+					{ "data": "user_comp" },
+					{ "data": "user_rep" },
 					{ "data": "order_status" },
 				]
 			} );
@@ -440,7 +444,8 @@
 					{ "data": "user_email" },
 					{ "data": "user_add" },
 					{ "data": "user_tel" },
-					{ "data": "user_mob" },
+					{ "data": "user_comp" },
+					{ "data": "user_rep"},
 					{ "data": "user_site" },
 					{ "data": "user_staffname" },
 					{ "data": "user_stafftel" },
@@ -484,7 +489,8 @@
 					{ "data": "user_email" },
 					{ "data": "user_add" },
 					{ "data": "user_tel" },
-					{ "data": "user_mob" },
+					{ "data": "user_comp" },
+					{ "data": "user_rep" },
 					{ "data": "user_site" },
 					{ "data": "user_staffname" },
 					{ "data": "user_stafftel" },
@@ -549,7 +555,9 @@
 					{ "data": "user_email" },
 					{ "data": "user_add" },
 					{ "data": "user_tel" },
-					{ "data": "user_mob" },
+
+					{ "data": "user_comp" },
+					{ "data": "user_rep" },
 					{ "data": "user_site" },
 					{ "data": "user_staffname" },
 					{ "data": "user_stafftel" },
@@ -585,7 +593,8 @@
 				{ "data": "user_email" },
 				{ "data": "user_add" },
 				{ "data": "user_tel" },
-				{ "data": "user_mob" },
+				{ "data": "user_comp" },
+				{ "data": "user_rep" },
 				{ "data": "user_site" },
 				{ "data": "user_staffname" },
 				{ "data": "user_stafftel" },
@@ -633,7 +642,8 @@
 					{ "data": "user_email" },
 					{ "data": "user_add" },
 					{ "data": "user_tel" },
-					{ "data": "user_mob" },
+					{ "data": "user_comp" },
+					{ "data": "user_rep" },
 					{ "data": "user_site" },
 					{ "data": "user_staffname" },
 					{ "data": "user_stafftel" },
@@ -652,6 +662,19 @@
 		</script>
 	<?php } ?>
 
+	<?php if($current_page == 'user' && $current_action == 'register') { ?>
+		<script>
+			$("input[name='user_type']").change(function(){
+				if($(this).val() == 'vendor'){
+					$('#divBank').show();
+					$('#divBank').prop('required',true);
+				}else{
+					$('#divBank').hide();
+					$('#divBank').prop('required',false);
+				}
+			});
+		</script>
+	<?php } ?>
 	<?php if($current_page == 'admin' && $current_action == 'vendor_customer_') { ?>
 		<script>
 			var table = $('#a_vendor_customers').dataTable( {
@@ -669,7 +692,8 @@
 					{ "data": "user_email" },
 					{ "data": "user_add" },
 					{ "data": "user_tel" },
-					{ "data": "user_mob" },
+					{ "data": "user_comp" },
+					{ "data": "user_rep" },
 					{ "data": "user_site" },
 					{ "data": "user_staffname" },
 					{ "data": "user_stafftel" },
@@ -699,7 +723,8 @@
 						{ "data": "user_email" },
 						{ "data": "user_add" },
 						{ "data": "user_tel" },
-						{ "data": "user_mob" },
+						{ "data": "user_comp" },
+						{ "data": "user_rep" },
 						{ "data": "user_site" },
 						{ "data": "user_staffname" },
 						{ "data": "user_stafftel" },

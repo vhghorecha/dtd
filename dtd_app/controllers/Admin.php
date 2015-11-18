@@ -683,6 +683,68 @@ class Admin extends CI_Controller {
 	{
 		$this->load->template('admin/orders_pending');		
 	}
+	public function message()
+	{
+		$is_send = $this->input->post('btnSend');
+		if($is_send=='Send'){
+			$config = array(
+				array(
+					'field' => 'reci',
+					'label' => 'Receipients',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+					)
+				),
+				array(
+					'field' => 'txtsub',
+					'label' => 'Message Subject',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+					)
+				),
+			);
+			$this->form_validation->set_rules($config);
+			if ($this->form_validation->run() == true) {
+				$msg_to=$this->input->post('reci');
+				if($msg_to=='customer')
+				{
+					$msg_to=$this->input->post('custname');
+				}
+				if($msg_to=='vendor')
+				{
+					$msg_to=$this->input->post('vendname');
+				}
+				$date = mdate('%Y-%m-%d %H:%i:%s');
+				$data['msg_date'] = $date;
+				$data['msg_from'] = 0;
+				$data['msg_to'] = $msg_to;
+				$data['msg_title'] = $this->input->post('txtsub');
+				$data['msg_desc'] = $this->input->post('txtmsg');
+				$this->Admin_Model->message_insert($data);
+				$message = "Message successfully sent.";
+			}else{
+				$error = validation_errors();
+			}
+
+			if(!empty($error)){
+				$data = $_POST;
+				$data['error'] = $error;
+			}
+			if(!empty($message)){
+				$data['message'] = $message;
+			}
+			$data['vendors'] = $this->Admin_Model->get_vendors();
+			$data['customers'] = $this->Admin_Model->get_customers();
+			$this->load->template('admin/message',$data);
+		}else{
+			$data['vendors'] = $this->Admin_Model->get_vendors();
+			$data['customers'] = $this->Admin_Model->get_customers();
+			$this->load->template('admin/message',$data);
+		}
+
+	}
 
 	public function backup(){
 		// Load the DB utility class

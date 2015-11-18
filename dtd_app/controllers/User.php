@@ -60,8 +60,32 @@ class User extends CI_Controller {
 					)
 				),
 				array(
-					'field' => 'txtmobile',
-					'label' => 'Zipcode',
+					'field' => 'txtrepname',
+					'label' => 'Representive Name',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+					)
+				),
+				array(
+					'field' => 'txtname',
+					'label' => 'Company Name',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+					)
+				),
+				array(
+					'field' => 'txtaddress',
+					'label' => 'Address',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+					)
+				),
+				array(
+					'field' => 'txttel',
+					'label' => 'Telephone Number',
 					'rules' => 'required',
 					'errors' => array(
 						'required' => 'You must provide a %s',
@@ -76,7 +100,8 @@ class User extends CI_Controller {
 				$data['user_add'] = $this->input->post('txtaddress');
 				$data['user_zipcode'] = $this->input->post('txtzip');
 				$data['user_tel'] = $this->input->post('txttel');
-				$data['user_mob'] = $this->input->post('txtmobile');
+				$data['user_comp'] = $this->input->post('txtname');
+				$data['user_rep'] = $this->input->post('txtrepname');
 				$data['user_site'] = $this->input->post('txtsite');
 				$data['user_staffname'] = $this->input->post('txtperson');
 				$data['user_stafftel'] = $this->input->post('txtpmob');
@@ -91,8 +116,10 @@ class User extends CI_Controller {
 					);
 					$this->session->set_userdata('userinfo', $user_data);
 					$ins_data['user_id'] = $user_id;
+
 					if($data['user_role'] == 'vendor')
 					{
+						$ins_data['pay_bankacno']=$this->input->post('txtbank');
 						$this->vendor_model->insert($ins_data);
 					}else{
 						$this->customer_model->insert($ins_data);

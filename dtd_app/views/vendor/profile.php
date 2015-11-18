@@ -41,8 +41,8 @@
                                 </tr>
                                 <tr>
                                     <td>Contact No</td>
-                                    <td><input class="form-control" value="<? echo $profile['user_mob']; ?>"
-                                               name="usermob" id="usermob"></td>
+                                    <td><input class="form-control" value="<? echo $profile['user_tel']; ?>"
+                                               name="usertel" id="usertel"></td>
                                 </tr>
                                 <tr>
                                     <td>Mailing Address</td>

@@ -7,6 +7,7 @@ class Vendor extends CI_Controller {
 		parent::__construct();
 		$this->load->model('user_model');
 		$this->load->model('Vendor_Model');
+		$this->load->model('Customer_Model');
 
 		if(!$this->user_model->is_vendor()){
 			redirect('/');
@@ -173,7 +174,7 @@ class Vendor extends CI_Controller {
 		{
 			$data1=array(
 				'user_name'=>$this->input->post('username'),
-				'user_mob'=>$this->input->post('usermob'),
+				//company name and representive name pending , check profile page
 				'user_add'=>$this->input->post('useradd'),
 				'user_zipcode'=>$this->input->post('userzip'),
 				'user_site'=>$this->input->post('usersite'),
@@ -208,6 +209,66 @@ class Vendor extends CI_Controller {
 		$orders['monthly'] = $this->Vendor_Model->get_monthly_orders();
 		$this->load->template('vendor/orders',$orders);
 	}
+
+	public function message()
+	{
+		$is_send = $this->input->post('btnSend');
+		if($is_send=='Send'){
+			$config = array(
+				array(
+					'field' => 'reci',
+					'label' => 'Receipients',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+					)
+				),
+				array(
+					'field' => 'txtsub',
+					'label' => 'Message Subject',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+					)
+				),
+			);
+			$this->form_validation->set_rules($config);
+			if ($this->form_validation->run() == true) {
+				$msg_to=$this->input->post('reci');
+				if($msg_to=='customer')
+				{
+					$msg_to =$this->input->post('custname');;
+				}
+
+				$date = mdate('%Y-%m-%d %H:%i:%s');
+				$data['msg_date'] = $date;
+				$data['msg_from'] = $this->user_model->get_current_user_id();;
+				$data['msg_to'] = $msg_to;
+				$data['msg_title'] = $this->input->post('txtsub');
+				$data['msg_desc'] = $this->input->post('txtmsg');
+				$this->Admin_Model->message_insert($data);
+				$message = "Message successfully sent.";
+			}else{
+				$error = validation_errors();
+			}
+
+			if(!empty($error)){
+				$data = $_POST;
+				$data['error'] = $error;
+			}
+			if(!empty($message)){
+				$data['message'] = $message;
+			}
+
+			$vendor_id=$this->user_model->get_current_user_id();
+			$data['customers'] = $this->Vendor_Model->get_customers($vendor_id);
+			$this->load->template('vendor/message',$data);
+		}else{
+			$vendor_id=$this->user_model->get_current_user_id();
+			$data['customers'] = $this->Vendor_Model->get_customers($vendor_id);
+			$this->load->template('vendor/message',$data);
+		}
+	}
 	public function account()
 	{
 		$data['account'] = $this->Vendor_Model->get_user_account();
@@ -223,7 +284,7 @@ class Vendor extends CI_Controller {
 	public function download(){
 		$this->load->dbutil();
 		$vendor_id = $this->user_model->get_current_user_id();
-		$this->db->select("DATE_FORMAT(dtd_order.order_date,'%b-%d') as ord_date,dtd_order.order_id,dtd_users.user_name,dtd_order.order_recipient,dtd_order.order_telno,dtd_item_type.type_name,dtd_order.order_itemname,dtd_cust.user_sercomp,dtd_users.user_mob,dtd_order.order_status")
+		$this->db->select("DATE_FORMAT(dtd_order.order_date,'%b-%d') as ord_date,dtd_order.order_id,dtd_users.user_name,dtd_order.order_recipient,dtd_order.order_telno,dtd_item_type.type_name,dtd_order.order_itemname,dtd_cust.user_sercomp,dtd_users.user_comp,dtd_users.user_rep,dtd_order.order_status")
 			->from('dtd_order')
 			->join('dtd_cust','dtd_cust.user_id=dtd_order.order_custid')
 			->join('dtd_users','dtd_users.user_id=dtd_cust.user_id')

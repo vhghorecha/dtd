@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.2.2
+-- version 4.0.9
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 16, 2015 at 10:01 AM
--- Server version: 5.5.27
--- PHP Version: 5.4.7
+-- Generation Time: Nov 18, 2015 at 02:46 PM
+-- Server version: 5.6.14
+-- PHP Version: 5.5.6
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `dtd_schema`
 --
+CREATE DATABASE IF NOT EXISTS `dtd_schema` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `dtd_schema`;
 
 -- --------------------------------------------------------
 
@@ -92,12 +94,12 @@ CREATE TABLE IF NOT EXISTS `dtd_custdep` (
 --
 
 INSERT INTO `dtd_custdep` (`dep_id`, `dep_custid`, `dep_date`, `dep_amount`, `dep_transno`, `dep_bankname`) VALUES
-(1, 1, '2015-11-06 00:00:00', 100, '321321465498', 'SBI'),
-(2, 4, '2015-11-07 00:00:00', 200, '654983216854981', 'Kotak'),
-(3, 1, '2015-11-07 00:00:00', 10, '6514981981', 'SBI'),
-(4, 4, '2015-11-08 00:00:00', 20, '649819165198', 'Kotak'),
-(5, 1, '2015-11-05 00:00:00', 20, '8949498489', 'ICICI'),
-(6, 1, '2015-11-05 00:00:00', 20, '89498494', 'ICICI');
+(1, 1, '2015-11-06 00:00:00', '100', '321321465498', 'SBI'),
+(2, 4, '2015-11-07 00:00:00', '200', '654983216854981', 'Kotak'),
+(3, 1, '2015-11-07 00:00:00', '10', '6514981981', 'SBI'),
+(4, 4, '2015-11-08 00:00:00', '20', '649819165198', 'Kotak'),
+(5, 1, '2015-11-05 00:00:00', '20', '8949498489', 'ICICI'),
+(6, 1, '2015-11-05 00:00:00', '20', '89498494', 'ICICI');
 
 -- --------------------------------------------------------
 
@@ -143,9 +145,9 @@ CREATE TABLE IF NOT EXISTS `dtd_gradeprice` (
 --
 
 INSERT INTO `dtd_gradeprice` (`gp_id`, `gp_fromdt`, `gp_todt`, `gp_no_order`, `gp_grade`, `gp_disc`) VALUES
-(1, '2015-01-01', '2015-12-31', 1, 1, 10),
-(2, '2015-01-01', '2015-12-31', 1, 2, 20),
-(3, '2015-01-01', '2015-12-31', 1, 3, 30);
+(1, '2015-01-01', '2015-12-31', 1, 1, '10'),
+(2, '2015-01-01', '2015-12-31', 1, 2, '20'),
+(3, '2015-01-01', '2015-12-31', 1, 3, '30');
 
 -- --------------------------------------------------------
 
@@ -166,9 +168,9 @@ CREATE TABLE IF NOT EXISTS `dtd_itemprice` (
 --
 
 INSERT INTO `dtd_itemprice` (`gi_id`, `gi_type`, `gi_price`) VALUES
-(1, 1, 100),
-(2, 2, 200),
-(3, 3, 300);
+(1, 1, '100'),
+(2, 2, '200'),
+(3, 3, '300');
 
 -- --------------------------------------------------------
 
@@ -191,6 +193,42 @@ INSERT INTO `dtd_item_type` (`type_id`, `type_name`) VALUES
 (1, 'Small Box '),
 (2, 'Medium Box'),
 (3, 'Large Box');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dtd_message`
+--
+
+DROP TABLE IF EXISTS `dtd_message`;
+CREATE TABLE IF NOT EXISTS `dtd_message` (
+  `msg_id` bigint(40) unsigned NOT NULL AUTO_INCREMENT,
+  `msg_date` datetime NOT NULL,
+  `msg_title` varchar(255) NOT NULL,
+  `msg_desc` text NOT NULL,
+  `msg_from` int(11) NOT NULL,
+  `msg_to` varchar(5) NOT NULL,
+  `msg_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `msg_ddate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`msg_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+
+--
+-- Dumping data for table `dtd_message`
+--
+
+INSERT INTO `dtd_message` (`msg_id`, `msg_date`, `msg_title`, `msg_desc`, `msg_from`, `msg_to`, `msg_deleted`, `msg_ddate`) VALUES
+(1, '0000-00-00 00:00:00', 'dd', '', 0, 'all', 0, '2015-11-18 12:24:15'),
+(2, '2015-11-18 06:19:52', 'This is title', 'This is message', 0, 'all', 0, '2015-11-18 12:49:52'),
+(3, '2015-11-18 18:20:47', 'This is title', 'This is message', 0, 'all', 0, '2015-11-18 12:50:47'),
+(4, '2015-11-18 18:25:08', 'To all Customer', 'To all Customer', 0, 'allc', 0, '2015-11-18 12:55:08'),
+(5, '2015-11-18 18:25:26', 'to all vendor', 'to all vendor', 0, 'allv', 0, '2015-11-18 12:55:26'),
+(6, '2015-11-18 18:25:51', 'to selected customer', 'to selected customer', 0, '1', 0, '2015-11-18 12:55:51'),
+(7, '2015-11-18 18:26:13', 'to selected vendor', 'to selected vendor', 0, '2', 0, '2015-11-18 12:56:13'),
+(8, '2015-11-18 18:45:16', 'From Vimal Ghorecha to SnapDeal', 'From Vimal Ghorecha to SnapDeal', 1, '2', 0, '2015-11-18 13:15:16'),
+(9, '2015-11-18 18:45:54', 'From Vimal Ghorecha to Admin', 'From Vimal Ghorecha to Admin', 1, '2', 0, '2015-11-18 13:15:54'),
+(10, '2015-11-18 18:48:32', 'From Vimal Ghorecha to Admin', 'admin', 1, '2', 0, '2015-11-18 13:18:32'),
+(11, '2015-11-18 18:49:33', 'From Vimal Ghorecha to Admin', 'admin', 1, '2', 0, '2015-11-18 13:19:33');
 
 -- --------------------------------------------------------
 
@@ -227,8 +265,8 @@ CREATE TABLE IF NOT EXISTS `dtd_order` (
 --
 
 INSERT INTO `dtd_order` (`order_id`, `order_custid`, `order_vendorid`, `order_date`, `order_recipient`, `order_address`, `order_zipcode`, `order_telp`, `order_telno`, `order_mobp`, `order_mobno`, `order_typeid`, `order_amount`, `order_itemname`, `order_desc`, `order_memo`, `order_status`, `order_updatecode`, `vendor_amount`) VALUES
-(1, 1, 2, '2015-11-09 11:27:35', 'Nirav Bhatt', 'Rajkot                                                                            ', '0', '0', '028121212112', '0', '9863549352', 1, 90, 'Mobile', 'Asus Zenfone                                                                            ', 'Delivery Request test1                                                                            ', 'Delivered', 'VHG01D', 60),
-(2, 1, 2, '2015-11-09 11:31:58', 'Yogesh Vadsala', '                            Rajkot                                                                            ', '0', '0', '09409182808', '0', '09409182808', 3, 270, 'Chair', '                            Office Chair                        ', '                            Testing                        ', 'Created', NULL, 100);
+(1, 1, 2, '2015-11-09 11:27:35', 'Nirav Bhatt', 'Rajkot                                                                            ', '0', '0', '028121212112', '0', '9863549352', 1, '90', 'Mobile', 'Asus Zenfone                                                                            ', 'Delivery Request test1                                                                            ', 'Delivered', 'VHG01D', '60'),
+(2, 1, 2, '2015-11-09 11:31:58', 'Yogesh Vadsala', '                            Rajkot                                                                            ', '0', '0', '09409182808', '0', '09409182808', 3, '270', 'Chair', '                            Office Chair                        ', '                            Testing                        ', 'Created', NULL, '100');
 
 -- --------------------------------------------------------
 
@@ -245,7 +283,8 @@ CREATE TABLE IF NOT EXISTS `dtd_users` (
   `user_add` varchar(200) DEFAULT NULL,
   `user_zipcode` varchar(5) NOT NULL,
   `user_tel` varchar(20) DEFAULT NULL,
-  `user_mob` varchar(20) NOT NULL,
+  `user_comp` varchar(50) NOT NULL,
+  `user_rep` varchar(50) NOT NULL,
   `user_site` varchar(255) DEFAULT NULL,
   `user_balance` decimal(8,0) DEFAULT '0',
   `user_staffname` varchar(45) DEFAULT NULL,
@@ -262,11 +301,11 @@ CREATE TABLE IF NOT EXISTS `dtd_users` (
 -- Dumping data for table `dtd_users`
 --
 
-INSERT INTO `dtd_users` (`user_id`, `user_name`, `user_email`, `user_pass`, `user_add`, `user_zipcode`, `user_tel`, `user_mob`, `user_site`, `user_balance`, `user_staffname`, `user_stafftel`, `user_memo`, `is_active`, `user_role`, `user_areacode`) VALUES
-(1, 'Vimal Ghorecha', 'vimalghorecha@gmail.com', 'd1e831a08968c589e477cc992f2ef732', 'Harshdip, 5-Punit Nagar, Gondal Road, Rajkot', '36000', '02812121212', '7405100630', 'www.vhghorecha.in', 60, 'Vimal Ghorecha', '9173514735', NULL, 1, 'customer', ''),
-(2, 'Snapdel India Pvt Ltd', 'hardik.rkcet@gmail.com', '75bc08308363144baf3b29af7c580e0b', 'Boambay', '36000', '022221617', '9427157507', 'www.snapdeal.com', 10, 'Hardik Mehta', '9427157507', NULL, 1, 'vendor', ''),
-(3, 'ShopClue Pvt Ltd', 'yogesh.vadsola@gmail.com', '284af711fce02acbea4eec70f7ebdea9', 'Rajkot', '36001', '02812435478', '9898535799', 'www.shopclue.com', 0, 'Yogesh Vadsola', '9898564569', NULL, 1, 'vendor', 'xyz'),
-(4, 'Mehul Shukla', 'mehulshukla@gmail.com', 'ee33e909372d935d190f4fcb2a92d542', '5C Ambaji Kadva, Nr. Malaviya College, Rajkot', '36000', '02813131313', '9909076810', 'www.mehul.in', 220, 'Mehul Shukla', '9909076810', NULL, 1, 'customer', 'abc');
+INSERT INTO `dtd_users` (`user_id`, `user_name`, `user_email`, `user_pass`, `user_add`, `user_zipcode`, `user_tel`, `user_comp`, `user_rep`, `user_site`, `user_balance`, `user_staffname`, `user_stafftel`, `user_memo`, `is_active`, `user_role`, `user_areacode`) VALUES
+(1, 'Vimal Ghorecha', 'vimalghorecha@gmail.com', 'd1e831a08968c589e477cc992f2ef732', 'Harshdip, 5-Punit Nagar, Gondal Road, Rajkot', '36000', '02812121212', '', '', 'www.vhghorecha.in', '60', 'Vimal Ghorecha', '9173514735', NULL, 1, 'customer', 'xyz'),
+(2, 'Snapdel India Pvt Ltd', 'hardik.rkcet@gmail.com', '75bc08308363144baf3b29af7c580e0b', 'Boambay', '36000', '022221617', '', '', 'www.snapdeal.com', '10', 'Hardik Mehta', '9427157507', '', 1, 'vendor', ''),
+(3, 'ShopClue Pvt Ltd', 'yogesh.vadsola@gmail.com', '284af711fce02acbea4eec70f7ebdea9', 'Rajkot', '36001', '02812435478', '', '', 'www.shopclue.com', '0', 'Yogesh Vadsola', '9898564569', NULL, 1, 'vendor', 'xyz'),
+(4, 'Mehul Shukla', 'mehulshukla@gmail.com', 'ee33e909372d935d190f4fcb2a92d542', '5C Ambaji Kadva, Nr. Malaviya College, Rajkot', '36000', '02813131313', '', '', 'www.mehul.in', '220', 'Mehul Shukla', '9909076810', NULL, 1, 'customer', 'abc');
 
 -- --------------------------------------------------------
 
@@ -293,7 +332,7 @@ CREATE TABLE IF NOT EXISTS `dtd_vendor` (
 --
 
 INSERT INTO `dtd_vendor` (`vendor_id`, `user_id`, `vendor_taxno`, `vendor_comp`, `vendor_hq1`, `vendor_hq2`, `vendor_hq3`, `pay_bankacno`, `pay_bankname`) VALUES
-(1, 2, '', '', NULL, NULL, NULL, '', NULL),
+(1, 2, '', 'Snapdel India Pvt Ltd', '', '', '', '', ''),
 (2, 3, '', '', NULL, NULL, NULL, '', NULL);
 
 -- --------------------------------------------------------
@@ -319,8 +358,8 @@ CREATE TABLE IF NOT EXISTS `dtd_vendorpay` (
 --
 
 INSERT INTO `dtd_vendorpay` (`dep_id`, `pay_vendorid`, `pay_date`, `pay_amount`, `pay_transno`, `pay_bankacno`, `pay_bankname`) VALUES
-(1, 2, '2015-11-09 00:00:00', 50.00, '123456', '526335589472563', 'New York Cooperative Bank'),
-(2, 2, '2015-11-11 00:00:00', 0.00, '', '', '');
+(1, 2, '2015-11-09 00:00:00', '50.00', '123456', '526335589472563', 'New York Cooperative Bank'),
+(2, 2, '2015-11-11 00:00:00', '0.00', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -343,12 +382,12 @@ CREATE TABLE IF NOT EXISTS `dtd_vendorprice` (
 --
 
 INSERT INTO `dtd_vendorprice` (`vp_id`, `gp_vendorid`, `gp_typeid`, `gp_price`) VALUES
-(1, 2, 1, 60),
-(2, 2, 2, 90),
-(3, 2, 3, 100),
-(4, 3, 1, 50),
-(5, 3, 2, 60),
-(6, 3, 3, 70);
+(1, 2, 1, '60'),
+(2, 2, 2, '90'),
+(3, 2, 3, '100'),
+(4, 3, 1, '50'),
+(5, 3, 2, '60'),
+(6, 3, 3, '70');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

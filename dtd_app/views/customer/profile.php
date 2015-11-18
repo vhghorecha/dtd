@@ -44,8 +44,12 @@
                                     <td><input class="form-control" value="<? echo $profile['user_tel']; ?>" name="usertel" id="usertel"></td>
                                 </tr>
                                 <tr>
-                                    <td>Mobile Number</td>
-                                    <td><input class="form-control" value="<? echo $profile['user_mob']; ?>" name="usermob" id="usermob"></td>
+                                    <td>Company Name</td>
+                                    <td><input class="form-control" value="<? echo $profile['user_comp']; ?>" name="usercomp" id="usercomp"></td>
+                                </tr>
+                                <tr>
+                                    <td>Representive Name</td>
+                                    <td><input class="form-control" value="<? echo $profile['user_rep']; ?>" name="userrep" id="userrep"></td>
                                 </tr>
                                 <tr>
                                     <td>Website</td>

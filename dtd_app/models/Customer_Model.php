@@ -72,7 +72,7 @@ class Customer_Model extends CI_Model
 
     public function get_user_profile()
     {
-        $this->db->select('t1.user_name,t1.user_email,t1.user_add,t1.user_zipcode,t1.user_tel,t1.user_mob,t1.user_site,t1.user_staffname,t1.user_stafftel,t1.user_memo,t2.user_regno,t2.user_lob,t2.user_sercomp,t3.user_name as "vendor_name",t3.user_email as "vendor_email"');
+        $this->db->select('t1.user_name,t1.user_email,t1.user_add,t1.user_zipcode,t1.user_tel,t1.user_comp,t1.user_rep,t1.user_site,t1.user_staffname,t1.user_stafftel,t1.user_memo,t2.user_regno,t2.user_lob,t2.user_sercomp,t3.user_name as "vendor_name",t3.user_email as "vendor_email"');
         $this->db->from('dtd_users t1');
         $this->db->join('dtd_cust t2', ' t1.user_id=t2.user_id');
         $this->db->join('dtd_users t3',' t3.user_id = t2.vendor_id');

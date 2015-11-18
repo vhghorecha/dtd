@@ -8,6 +8,7 @@ class Customer extends CI_Controller {
 		$this->load->model('user_model');
 		$this->load->model('Customer_Model');
 		$this->load->model('General_Model');
+		$this->load->model('Admin_Model');
 
 		if(!$this->user_model->is_cust()){
 			redirect('/');
@@ -271,7 +272,7 @@ class Customer extends CI_Controller {
 				'user_add'=>$this->input->post('useradd'),
 				'user_zipcode'=>$this->input->post('userzip'),
 				'user_tel'=>$this->input->post('usertel'),
-				'user_mob'=>$this->input->post('usermob'),
+				//entry of company name and representive name pending change profile
 				'user_site'=>$this->input->post('usersite'),
 				'user_staffname'=>$this->input->post('userstaff'),
 				'user_stafftel'=>$this->input->post('userstafftel'),
@@ -318,6 +319,68 @@ class Customer extends CI_Controller {
 		$data['month']=$this->Customer_Model->get_monthly();
 		$data['daily'] = $this->Customer_Model->get_daily_orders();
 		$this->load->template('customer/orders',$data);
+	}
+
+	public function message()
+	{
+		$is_send = $this->input->post('btnSend');
+		if($is_send=='Send'){
+			$config = array(
+				array(
+					'field' => 'reci',
+					'label' => 'Receipients',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+					)
+				),
+				array(
+					'field' => 'txtsub',
+					'label' => 'Message Subject',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+					)
+				),
+			);
+			$this->form_validation->set_rules($config);
+			if ($this->form_validation->run() == true) {
+				$msg_to=$this->input->post('reci');
+				if($msg_to == 'admin')
+				{
+					$msg_to = 0;
+				}
+				if($msg_to == 'vendor')
+				{
+					$msg_to=$this->Customer_Model->get_user_vendor_id();
+				}
+				$date = mdate('%Y-%m-%d %H:%i:%s');
+				$data['msg_date'] = $date;
+				$data['msg_from'] = $user_id = $this->user_model->get_current_user_id();;
+				$data['msg_to'] = $msg_to;
+				$data['msg_title'] = $this->input->post('txtsub');
+				$data['msg_desc'] = $this->input->post('txtmsg');
+				$this->Admin_Model->message_insert($data);
+				$message = "Message successfully sent.";
+			}else{
+				$error = validation_errors();
+			}
+
+			if(!empty($error)){
+				$data = $_POST;
+				$data['error'] = $error;
+			}
+			if(!empty($message)){
+				$data['message'] = $message;
+			}
+			$data['vendors'] = $this->Admin_Model->get_vendors();
+			$data['customers'] = $this->Admin_Model->get_customers();
+			$this->load->template('customer/message',$data);
+		}else{
+			$data['vendors'] = $this->Admin_Model->get_vendors();
+			$data['customers'] = $this->Admin_Model->get_customers();
+			$this->load->template('customer/message',$data);
+		}
 	}
 
 	public function deleteorder($order_id=null)
