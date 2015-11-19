@@ -210,7 +210,13 @@ class Vendor extends CI_Controller {
 		$orders['monthly'] = $this->Vendor_Model->get_monthly_orders();
 		$this->load->template('vendor/orders',$orders);
 	}
+	public function rec_message(){
+		$this->load->template('rec_message');
+	}
 
+	public function sent_message(){
+		$this->load->template('sent_message');
+	}
 	public function message()
 	{
 		$is_send = $this->input->post('btnSend');

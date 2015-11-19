@@ -455,6 +455,138 @@ class Admin extends CI_Controller {
 	{
 		$this->load->template('admin/price');
 	}
+	public function editgradediscount($gp_id=null)
+	{
+		$is_save = $this->input->post('btnUpdate');
+		if($is_save=='Update'){
+			$config = array(
+				array(
+					'field' => 'frmdate',
+					'label' => 'From Date',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+					)
+				),
+				array(
+					'field' => 'todate',
+					'label' => 'To Date',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+					)
+				),
+				array(
+					'field' => 'nooforders',
+					'label' => 'No. of Orders',
+					'rules' => 'required|numeric',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+						'numeric' => 'Only Numbers are allowed in %s',
+					)
+				),
+				array(
+					'field' => 'gradename',
+					'label' => 'Grade Name',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+					)
+				),
+				array(
+					'field' => 'discount',
+					'label' => 'Discount',
+					'rules' => 'required|numeric',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+						'numeric' => 'Only Numbers are allowed in %s',
+					)
+				),
+			);
+			$this->form_validation->set_rules($config);
+			if ($this->form_validation->run() == true) {
+				$date = DateTime::createFromFormat('d/m/Y',$this->input->post('frmdate'));
+				$data['gp_fromdt'] = $date->format('Y-m-d');
+				$date = DateTime::createFromFormat('d/m/Y',$this->input->post('todate'));
+				$data['gp_todt'] = $date->format('Y-m-d');
+				$data['gp_no_order'] = $this->input->post('nooforders');
+				$data['gp_disc'] = $this->input->post('discount');
+				$this->Admin_Model->edit_grade_price($data,$this->input->post('id'));
+				$message = "Grade Price updated successfully";
+			}else{
+				$error = validation_errors();
+			}
+			if(!empty($error)){
+				$data = $_POST;
+				$data['error'] = $error;
+			}
+			if(!empty($message)){
+				$data['message'] = $message;
+			}
+			$data['edit']=$this->Admin_Model->get_edit_grade_discount($gp_id);
+			$data['grade'] = $this->Admin_Model->get_grade($gp_id);
+			$this->load->template('admin/editgradediscount',$data);
+		}else {
+			$data['edit']=$this->Admin_Model->get_edit_grade_discount($gp_id);
+			$data['grade'] = $this->Admin_Model->get_grade($gp_id);
+			$this->load->template('admin/editgradediscount',$data);
+		}
+
+
+	}
+	public function deletegradediscount($gp_id=null)
+	{
+		$this->db->where('gp_id',$gp_id);
+		$this->db->delete('dtd_gradeprice');
+		redirect("admin/price");
+	}
+	public function deleteprice($gi_id=null)
+	{
+		$this->db->where('gi_id',$gi_id);
+		$this->db->delete('dtd_itemprice');
+		redirect("admin/price");
+	}
+	public function editprice($gi_id=null)
+	{
+		$is_save = $this->input->post('btnUpdate');
+		if($is_save=='Update'){
+			$config = array(
+				array(
+					'field' => 'price',
+					'label' => 'Price',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+					)
+				),
+
+			);
+			$this->form_validation->set_rules($config);
+			if ($this->form_validation->run() == true) {
+				$data=array(
+					'gi_price'=>$this->input->post('price')
+				);
+				$this->db->where('gi_id',$this->input->post('giid'));
+				$this->db->update('dtd_itemprice',$data);
+				$message = "Item Price updated successfully";
+			}else{
+				$error = validation_errors();
+			}
+			$typename=$this->Admin_Model->get_item_types($gi_id);
+			if(!empty($error)){
+				$typename = $_POST;
+				$typename['error'] = $error;
+			}
+			if(!empty($message)){
+				$typename['message'] = $message;
+			}
+
+			$this->load->template('admin/editprice',$typename);
+		}else {
+			$typename=$this->Admin_Model->get_item_types($gi_id);
+			$this->load->template('admin/editprice',$typename);
+		}
+	}
 	public function newgradediscount(){
 		$is_save = $this->input->post('btnSave');
 		if($is_save=='save'){
@@ -609,6 +741,52 @@ class Admin extends CI_Controller {
 			$this->load->template('admin/item');
 		}
 	}
+	public function editvendorprice($vp_id=null)
+	{
+		$is_save = $this->input->post('btnUpdate');
+		if($is_save=='Update'){
+			$config = array(
+				array(
+					'field' => 'price',
+					'label' => 'Price',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+					)
+				),
+			);
+			$this->form_validation->set_rules($config);
+			if ($this->form_validation->run() == true) {
+				$data=array(
+					'gp_price'=>$this->input->post('price')
+				);
+				$this->db->where('vp_id',$this->input->post('vpid'));
+				$this->db->update('dtd_vendorprice',$data);
+				$message = "Vendor Price updated successfully";
+			}else{
+				$error = validation_errors();
+			}
+			if(!empty($error)){
+				$data = $_POST;
+				$data['error'] = $error;
+			}
+			if(!empty($message)){
+				$data['message'] = $message;
+			}
+			$data['edit']=$this->Admin_Model->get_edit_vendor($vp_id);
+			$this->load->template('admin/editvendorprice',$data);
+		}else {
+			$data['edit']=$this->Admin_Model->get_edit_vendor($vp_id);
+			$this->load->template('admin/editvendorprice',$data);
+		}
+
+	}
+	public function deletevendorprice($vp_id=null)
+	{
+		$this->db->where('vp_id',$vp_id);
+		$this->db->delete('dtd_vendorprice');
+		redirect("admin/price");
+	}
 	public function vendorprice()
 	{
 		$is_save = $this->input->post('btnSave');
@@ -682,6 +860,13 @@ class Admin extends CI_Controller {
 	public function orders_pending()
 	{
 		$this->load->template('admin/orders_pending');		
+	}
+	public function rec_message(){
+		$this->load->template('rec_message');
+	}
+
+	public function sent_message(){
+		$this->load->template('sent_message');
 	}
 	public function message()
 	{

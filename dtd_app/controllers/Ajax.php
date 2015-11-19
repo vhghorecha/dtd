@@ -186,4 +186,19 @@ class Ajax extends CI_Controller {
 	public function c_sent_msg(){
 		die($this->Customer_Model->get_sent_message());
 	}
+
+	public function v_rec_msg(){
+		die($this->Vendor_Model->get_rec_message());
+	}
+
+	public function v_sent_msg(){
+		die($this->Customer_Model->get_sent_message());
+	}
+	public function a_rec_msg(){
+		die($this->Admin_Model->get_rec_message());
+	}
+	public function a_sent_msg(){
+		die($this->Admin_Model->get_sent_message());
+	}
+
 }

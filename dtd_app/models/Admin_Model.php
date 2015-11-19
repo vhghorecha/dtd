@@ -32,6 +32,23 @@ class Admin_Model extends CI_Model{
         return $this->db->insert_id();
     }
 
+    public function get_rec_message(){
+
+        $this->datatables->select("msg_id, DATE_FORMAT(msg_date,'%b-%d') as msg_date, msg_title, msg_desc, msg_from")
+            ->from('dtd_message')
+            ->edit_column('msg_from','$1', 'callback_message_from(msg_from)')
+            ->where('msg_to', '0');
+        return $this->datatables->generate();
+    }
+    public function get_sent_message(){
+        $cust_id = '0';
+        $this->datatables->select("msg_id, DATE_FORMAT(msg_date,'%b-%d') as msg_date, msg_title, msg_desc, msg_to")
+            ->from('dtd_message')
+            ->edit_column('msg_to','$1', 'callback_message_to(msg_to)')
+            ->where('msg_from', $cust_id);
+        return $this->datatables->generate();
+    }
+
 	public function get_unallocated_customers(){
         $this->db->select('users.user_id,user_name');
         $this->db->from('cust');
@@ -116,6 +133,16 @@ class Admin_Model extends CI_Model{
         return $this->db->insert_id();
     }
 
+    public function get_edit_vendor($vp_id=null)
+    {
+        $this->db->select('dtd_vendorprice.vp_id,dtd_users.user_name,dtd_item_type.type_name,dtd_vendorprice.gp_price');
+        $this->db->from('dtd_vendorprice');
+        $this->db->join('dtd_users','dtd_users.user_id=dtd_vendorprice.gp_vendorid');
+        $this->db->join('dtd_item_type','dtd_item_type.type_id=dtd_vendorprice.gp_typeid');
+        $this->db->where('dtd_vendorprice.vp_id',$vp_id);
+        $query=$this->db->get();
+        return $query->row_array();
+    }
     public function get_vendor_price(){
         $this->datatables->select('vp_id,user_id,user_name,type_id,type_name,gp_price,(gi_price-gp_price) as profit')
             ->from('vendorprice')
@@ -124,7 +151,7 @@ class Admin_Model extends CI_Model{
             ->join('item_type','itemprice.gi_type=item_type.type_id')
             ->edit_column('gp_price','$1','callback_format_amount(gp_price)')
             ->edit_column('profit','$1','callback_format_amount(profit)')
-            ->add_column('edit','<a href="'.base_url().'admin/vendorprice">Edit</a> / <a href="#">Delete</a>');
+            ->add_column('edit','<a href="'.site_url('admin/editvendorprice/$1').'">Edit</a> | <a href="'.site_url('admin/deletevendorprice/$1').'" onClick="return confirm(\'Are you sure?\')">Delete</a>','vp_id');
         return $this->datatables->generate();
     }
 
@@ -133,7 +160,7 @@ class Admin_Model extends CI_Model{
              ->from('gradeprice')
              ->join('cust_grade','gradeprice.gp_grade=cust_grade.grade_id')
              ->edit_column('gp_disc','$1','callback_format_amount(gp_disc)')
-             ->add_column('edit','<a href="'.base_url().'admin/grade">Edit</a> / <a href="#">Delete</a>');
+            ->add_column('edit','<a href="'.site_url('admin/editgradediscount/$1').'">Edit</a> | <a href="'.site_url('admin/deletegradediscount/$1').'" onClick="return confirm(\'Are you sure?\')">Delete</a>','gp_id');
         return $this->datatables->generate();
     }
 
@@ -142,8 +169,18 @@ class Admin_Model extends CI_Model{
             ->from('itemprice')
             ->join('item_type','item_type.type_id=itemprice.gi_type')
             ->edit_column('gi_price','$1','callback_format_amount(gi_price)')
-            ->add_column('edit','<a href="'.base_url().'admin/item/$1">Edit</a> / <a href="#">Delete</a>');
+            ->add_column('edit','<a href="'.site_url('admin/editprice/$1').'">Edit</a> | <a href="'.site_url('admin/deleteprice/$1').'" onClick="return confirm(\'Are you sure?\')">Delete</a>','gi_id');
         return $this->datatables->generate();
+   }
+
+    public function get_item_types($gi_id=null)
+    {
+        $this->db->select('dtd_itemprice.gi_id,dtd_item_type.type_name,dtd_itemprice.gi_price');
+        $this->db->from('dtd_item_type');
+        $this->db->join('dtd_itemprice','dtd_itemprice.gi_type=dtd_item_type.type_id');
+        $this->db->where('dtd_itemprice.gi_id',$gi_id);
+        $query=$this->db->get();
+        return $query->row_array();
     }
 
     public function item_price($data){
@@ -191,6 +228,32 @@ class Admin_Model extends CI_Model{
     public function grade_price($data){
         $this->db->insert('gradeprice', $data);
         return $this->db->insert_id();
+    }
+
+    public function edit_grade_price($data=null,$gp_id=null)
+    {
+        $this->db->where('gp_id',$gp_id);
+        $this->db->update('dtd_gradeprice',$data);
+    }
+
+    public function get_edit_grade_discount($gp_id=null)
+    {
+        $this->db->select('gp_id,DATE_FORMAT(gp_fromdt,\'%d/%m/%Y\') as gp_fromdt,DATE_FORMAT(gp_todt,\'%d/%m/%Y\') as gp_todt,gp_no_order,gp_disc');
+        $this->db->from('dtd_gradeprice');
+        $this->db->where('gp_id',$gp_id);
+        $query=$this->db->get();
+        return $query->row_array();
+
+    }
+
+    public function get_grade($gp_id=null)
+    {
+        $this->db->select('grade_name');
+        $this->db->from('cust_grade');
+        $this->db->join('dtd_gradeprice','dtd_gradeprice.gp_grade=cust_grade.grade_id');
+        $this->db->where('dtd_gradeprice.gp_id',$gp_id);
+        $query=$this->db->get();
+        return $query->row_array();
     }
 
     public function get_cust_grade(){

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 18, 2015 at 02:46 PM
+-- Generation Time: Nov 19, 2015 at 01:44 PM
 -- Server version: 5.6.14
 -- PHP Version: 5.5.6
 
@@ -138,16 +138,16 @@ CREATE TABLE IF NOT EXISTS `dtd_gradeprice` (
   `gp_grade` smallint(5) unsigned NOT NULL,
   `gp_disc` decimal(8,0) NOT NULL,
   PRIMARY KEY (`gp_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `dtd_gradeprice`
 --
 
 INSERT INTO `dtd_gradeprice` (`gp_id`, `gp_fromdt`, `gp_todt`, `gp_no_order`, `gp_grade`, `gp_disc`) VALUES
-(1, '2015-01-01', '2015-12-31', 1, 1, '10'),
 (2, '2015-01-01', '2015-12-31', 1, 2, '20'),
-(3, '2015-01-01', '2015-12-31', 1, 3, '30');
+(3, '2015-01-01', '2015-12-31', 1, 3, '30'),
+(4, '2015-01-01', '2015-12-31', 1, 1, '10');
 
 -- --------------------------------------------------------
 
@@ -161,16 +161,16 @@ CREATE TABLE IF NOT EXISTS `dtd_itemprice` (
   `gi_type` smallint(5) unsigned NOT NULL,
   `gi_price` decimal(8,0) NOT NULL,
   PRIMARY KEY (`gi_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `dtd_itemprice`
 --
 
 INSERT INTO `dtd_itemprice` (`gi_id`, `gi_type`, `gi_price`) VALUES
-(1, 1, '100'),
 (2, 2, '200'),
-(3, 3, '300');
+(3, 3, '300'),
+(4, 1, '100');
 
 -- --------------------------------------------------------
 
@@ -211,7 +211,7 @@ CREATE TABLE IF NOT EXISTS `dtd_message` (
   `msg_deleted` tinyint(1) NOT NULL DEFAULT '0',
   `msg_ddate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`msg_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
 --
 -- Dumping data for table `dtd_message`
@@ -226,9 +226,14 @@ INSERT INTO `dtd_message` (`msg_id`, `msg_date`, `msg_title`, `msg_desc`, `msg_f
 (6, '2015-11-18 18:25:51', 'to selected customer', 'to selected customer', 0, '1', 0, '2015-11-18 12:55:51'),
 (7, '2015-11-18 18:26:13', 'to selected vendor', 'to selected vendor', 0, '2', 0, '2015-11-18 12:56:13'),
 (8, '2015-11-18 18:45:16', 'From Vimal Ghorecha to SnapDeal', 'From Vimal Ghorecha to SnapDeal', 1, '2', 0, '2015-11-18 13:15:16'),
-(9, '2015-11-18 18:45:54', 'From Vimal Ghorecha to Admin', 'From Vimal Ghorecha to Admin', 1, '2', 0, '2015-11-18 13:15:54'),
-(10, '2015-11-18 18:48:32', 'From Vimal Ghorecha to Admin', 'admin', 1, '2', 0, '2015-11-18 13:18:32'),
-(11, '2015-11-18 18:49:33', 'From Vimal Ghorecha to Admin', 'admin', 1, '2', 0, '2015-11-18 13:19:33');
+(9, '2015-11-18 18:45:54', 'From Vimal Ghorecha to Admin', 'From Vimal Ghorecha to Admin', 1, '0', 0, '2015-11-19 07:04:11'),
+(10, '2015-11-18 18:48:32', 'From Vimal Ghorecha to Admin', 'admin', 1, '0', 0, '2015-11-19 07:04:01'),
+(11, '2015-11-18 18:49:33', 'From Vimal Ghorecha to Admin', 'admin', 1, '0', 0, '2015-11-19 07:04:35'),
+(12, '2015-11-19 12:10:44', 'From Vimal Ghorecha to Admin', 'From V to A', 1, '0', 0, '2015-11-19 06:40:44'),
+(13, '2015-11-19 12:27:01', 'from snapdeal to vimal', 'from snapdeal tovimal', 2, '1', 0, '2015-11-19 06:57:01'),
+(14, '2015-11-19 12:35:34', 'from SnapDeal to Admin', 'from SnapDeal to admin', 2, '0', 0, '2015-11-19 07:09:16'),
+(15, '2015-11-19 12:38:38', 'from SnapDeal to Admin', 'from SnapDeal to Admin', 2, '0', 0, '2015-11-19 07:08:38'),
+(16, '2015-11-19 12:42:13', 'from Admin to Snapdeal', 'from a to s', 0, '2', 0, '2015-11-19 07:12:13');
 
 -- --------------------------------------------------------
 
@@ -375,7 +380,7 @@ CREATE TABLE IF NOT EXISTS `dtd_vendorprice` (
   `gp_price` decimal(8,0) NOT NULL,
   PRIMARY KEY (`vp_id`),
   UNIQUE KEY `gp_vendorid` (`gp_vendorid`,`gp_typeid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `dtd_vendorprice`
@@ -386,8 +391,8 @@ INSERT INTO `dtd_vendorprice` (`vp_id`, `gp_vendorid`, `gp_typeid`, `gp_price`) 
 (2, 2, 2, '90'),
 (3, 2, 3, '100'),
 (4, 3, 1, '50'),
-(5, 3, 2, '60'),
-(6, 3, 3, '70');
+(6, 3, 3, '70'),
+(7, 3, 2, '60');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

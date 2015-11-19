@@ -64,6 +64,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             ->edit_column('order_status','$1', 'callback_order_status(order_status,order_id)');
         return $this->datatables->generate();
     }
+
     public function get_del_orders(){
         $this->load->helper('Datatable');
         $vendor_id = $this->user_model->get_current_user_id();
@@ -237,6 +238,24 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
                 ->where('dtd_order.order_vendorid',$vendor_id)
                 ->where_in('dtd_order.order_status','Delivered')
                 ->edit_column('order_id','$1', 'callback_vendor_pay_order(order_id,vendor_amount)');
+            return $this->datatables->generate();
+        }
+        public function get_rec_message(){
+            $cust_id = $this->User_Model->get_current_user_id();
+            //$vendor_id = $this->get_user_vendor_id();
+            $msg_to = array($cust_id, 'all', 'allv');
+            $this->datatables->select("msg_id, DATE_FORMAT(msg_date,'%b-%d') as msg_date, msg_title, msg_desc, msg_from")
+                ->from('dtd_message')
+                ->edit_column('msg_from','$1', 'callback_message_from(msg_from)')
+                ->where_in('msg_to', $msg_to);
+            return $this->datatables->generate();
+        }
+        public function get_sent_message(){
+            $cust_id = $this->User_Model->get_current_user_id();
+            $this->datatables->select("msg_id, DATE_FORMAT(msg_date,'%b-%d') as msg_date, msg_title, msg_desc, msg_to")
+                ->from('dtd_message')
+                ->edit_column('msg_to','$1', 'callback_message_to(msg_to)')
+                ->where('msg_from', $cust_id);
             return $this->datatables->generate();
         }
 }

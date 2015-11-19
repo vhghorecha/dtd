@@ -20,7 +20,7 @@
                     <label>Select Receipients</label>
                 </div>
                 <div class="form-group">
-                    <input type="radio" name="reci" value="admin"> Administrator  <input type="radio" name="reci" value="allvc"> All Customers
+                    <input type="radio" name="reci" value="0"> Administrator  <input type="radio" name="reci" value="allvc"> All Customers
                     <input type="radio" name="reci" value="customer"> Customer <?PHP
                     $attributes = 'name="custname"';
                     echo form_dropdown('custname',$customers,set_value('custname'),$attributes);
