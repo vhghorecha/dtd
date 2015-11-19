@@ -381,12 +381,27 @@ class Admin_Model extends CI_Model{
     //Created by Hardik Mehta
     public function get_all_customers()
     {
-        $this->datatables->select("user_id, user_name, user_email, user_add, user_tel, user_comp, user_rep, user_site, user_staffname, user_stafftel, user_balance, user_areacode")
+        $this->datatables->select("dtd_users.user_id, user_name, user_email, user_add, user_tel, user_comp, user_rep, user_site, user_staffname, user_stafftel, user_balance, user_areacode, grade_name, user_grade")
             ->from("dtd_users")
+            ->join("dtd_cust", "dtd_cust.user_id=dtd_users.user_id")
+            ->join("dtd_cust_grade", "dtd_cust_grade.grade_id=dtd_cust.user_grade")
             ->where("is_active",1)
             ->where("user_role","customer")
-            ->edit_column('user_areacode',"$1","callback_update_area_code(user_id,user_areacode)");
+            ->add_column('user_modify',"$1","callback_update_customer(user_id,user_areacode,user_grade)");
         return $this->datatables->generate();
+    }
+
+    public function get_grade_drop(){
+        $this->db->select('grade_id,grade_name');
+        $this->db->from('cust_grade');
+        $query = $this->db->get();
+        $gradeids = array('');
+        $gradenames = array('Select Grade');
+        foreach($query->result_array() as $grade){
+            $gradeids[] = $grade['grade_id'];
+            $gradenames[] = $grade['grade_name'];
+        }
+        return array_combine($gradeids,$gradenames);
     }
 
     public function get_vendor_json(){

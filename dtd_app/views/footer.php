@@ -458,6 +458,7 @@
 		} );
 	</script>
 <?php } ?>
+
 <?php if($current_page == 'vendor' && $current_action == 'rec_message') { ?>
 	<script>
 		var table = $('#c_rec_msg').dataTable( {
@@ -666,6 +667,11 @@
 					});
 				},
 			} );
+
+			// Setup - add a text input to each footer cell
+			$('#a_pending_vendors tfoot th').each( function () {
+				$(this).html( txtsearch );
+			} );
 		</script>
 	<?php } ?>
 
@@ -711,6 +717,10 @@
 					});
 				},
 			} );
+			// Setup - add a text input to each footer cell
+			$('#a_pending_customers tfoot th').each( function () {
+				$(this).html( txtsearch );
+			} );
 		</script>
 	<?php } ?>
 
@@ -720,11 +730,12 @@
 				$('#btn_up_code').click(function(){
 					$userid = $('#up_userid').val();
 					$up_code = $('#up_areacode').val();
+					$up_grade = $('#up_grade').val();
 					$.ajax({
 						type:'POST',
 						url: '<?=site_url("ajax/update_areacode");?>',
 						dataType: 'json',
-						data: {user_id : $userid, up_areacode : $up_code},
+						data: {user_id : $userid, up_areacode : $up_code, up_grade: $up_grade},
 						success:function(data, textStatus, jqXHR){
 							if(typeof data.message !== 'undefined'){
 								$('#update_res').html('<div class="alert alert-success">' + data.message + '</div>')
@@ -747,12 +758,10 @@
 				"sAjaxSource": "<?=site_url('ajax/a_customers');?>",
 				"responsive" : true,
 				"columns": [
-					{ "data": "user_id" },
 					{ "data": "user_name" },
 					{ "data": "user_email" },
 					{ "data": "user_add" },
 					{ "data": "user_tel" },
-
 					{ "data": "user_comp" },
 					{ "data": "user_rep" },
 					{ "data": "user_site" },
@@ -760,15 +769,23 @@
 					{ "data": "user_stafftel" },
 					{ "data": "user_balance"},
 					{ "data": "user_areacode"},
+					{ "data": "grade_name"},
+					{ "data": "user_modify"},
 				],
 				"drawCallback" : function(){
-					$('.update_area_code').click(function(){
+					$('.update_customer').click(function(){
 						$('#update_res').html('');
-						$('#up_areacode').val('');
+						$('#up_grade').val($(this).data('usergrade')).trigger("change");
+						$('#up_areacode').val($(this).data('userarea'));
 						$('#up_userid').val($(this).data('userid'));
 						$('#pop_up_user').modal('show');
 					});
 				},
+			} );
+			// Setup - add a text input to each footer cell
+			$('#a_customers tfoot th').each( function () {
+				$(this).html( txtsearch );
+				console.log($(this));
 			} );
 		</script>
 	<?php } ?>
@@ -797,6 +814,10 @@
 				{ "data": "user_stafftel" },
 				{ "data": "user_balance"},
 			]
+		} );
+		// Setup - add a text input to each footer cell
+		$('#v_customers tfoot th').each( function () {
+			$(this).html( txtsearch );
 		} );
 	</script>
 <?php } ?>
@@ -850,11 +871,15 @@
 				"drawCallback" : function(){
 					$('.update_area_code').click(function(){
 						$('#update_res').html('');
-						$('#up_areacode').val('');
+						$('#up_areacode').val($(this).data('userarea'));
 						$('#up_userid').val($(this).data('userid'));
 						$('#pop_up_user').modal('show');
 					});
 				},
+			} );
+			// Setup - add a text input to each footer cell
+			$('#a_vendors tfoot th').each( function () {
+				$(this).html( txtsearch );
 			} );
 		</script>
 	<?php } ?>
@@ -1084,6 +1109,10 @@
 					{ "data": "profit" },
 					{ "data": "edit" },
 				]
+			} );
+			// Setup - add a text input to each footer cell
+			$('#a_vendor_price tfoot th').each( function () {
+				$(this).html( txtsearch );
 			} );
 		</script>
 	<?php } ?>

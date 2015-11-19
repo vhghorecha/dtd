@@ -440,7 +440,8 @@ class Admin extends CI_Controller {
 	}
 	public function customers()
 	{
-		$this->load->template('admin/customers');
+		$data['grades'] = $this->Admin_Model->get_grade_drop();
+		$this->load->template('admin/customers', $data);
 	}
 	public function vendors()
 	{

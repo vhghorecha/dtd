@@ -17,10 +17,9 @@
                             <table id="a_customers" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
-                                        <th>User ID</th>
                                         <th>User Name</th>
                                         <th>Email</th>
-                                        <th>Address</th>
+                                        <th class="none">Address</th>
                                         <th>Telephone No</th>
                                         <th>Compnay Name</th>
                                         <th>Representive Name</th>
@@ -29,14 +28,15 @@
                                         <th>Staff Telephone</th>
                                         <th>Balance</th>
                                         <th class="all">Area Code</th>
+                                        <th class="all">Grade</th>
+                                        <th class="all">Modify</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
                                 <tr>
-                                    <th>User ID</th>
                                     <th>User Name</th>
                                     <th>Email</th>
-                                    <th>Address</th>
+                                    <th class="none">Address</th>
                                     <th>Telephone No</th>
                                     <th>Compnay Name</th>
                                     <th>Representive Name</th>
@@ -45,6 +45,8 @@
                                     <th>Staff Telephone</th>
                                     <th>Balance</th>
                                     <th class="all">Area Code</th>
+                                    <th class="all">Grade</th>
+                                    <th class="all">Modify</th>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -75,6 +77,10 @@
                 <div id="update_res"></div>
                 <input type="hidden" id="up_userid"/>
                 <input type="text" id="up_areacode" name="up_areacode" placeholder="Enter Area Code" />
+                <?PHP
+                $attributes = 'class="form-control" id="up_grade" required';
+                echo form_dropdown('up_grade',$grades,set_value('up_grade'),$attributes);
+                ?>
                 <input type="button" id="btn_up_code" name="btn_up_code" value="Update"/>
             </div>
         </div>

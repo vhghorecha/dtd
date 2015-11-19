@@ -15,11 +15,11 @@
                         <table id="a_item_price" class="table table-striped table-bordered example" cellspacing="0"
                                width="100%">
                             <thead>
-                            <tr>
-                                <th>Item Type</th>
-                                <th>Price</th>
-                                <th>Edit/Delete</th>
-                            </tr>
+                                <tr>
+                                    <th>Item Type</th>
+                                    <th>Price</th>
+                                    <th>Edit/Delete</th>
+                                </tr>
                             </thead>
                         </table>
                     </div>
@@ -38,13 +38,13 @@
                         <table id="a_customer_grade" class="table table-striped table-bordered example" cellspacing="0"
                                width="100%">
                             <thead>
-                            <tr>
-                                <th>Term(Period)</th>
-                                <th>No. of Orders</th>
-                                <th>Grade</th>
-                                <th>Discount</th>
-                                <th>Edit/Delete</th>
-                            </tr>
+                                <tr>
+                                    <th>Term(Period)</th>
+                                    <th>No. of Orders</th>
+                                    <th>Grade</th>
+                                    <th>Discount</th>
+                                    <th>Edit/Delete</th>
+                                </tr>
                             </thead>
                         </table>
                     </div>
@@ -66,6 +66,15 @@
                         <table id="a_vendor_price" class="table table-striped table-bordered example" cellspacing="0"
                                width="100%">
                             <thead>
+                                <tr>
+                                    <th>Vendor Name</th>
+                                    <th>Item Type</th>
+                                    <th>Price</th>
+                                    <th>Admin-Profit</th>
+                                    <th>Edit / Delete</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
                             <tr>
                                 <th>Vendor Name</th>
                                 <th>Item Type</th>
@@ -73,7 +82,7 @@
                                 <th>Admin-Profit</th>
                                 <th>Edit / Delete</th>
                             </tr>
-                            </thead>
+                            </tfoot>
                         </table>
                     </div>
                     <div class="panel-footer">

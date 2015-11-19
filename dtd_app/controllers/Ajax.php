@@ -32,11 +32,18 @@ class Ajax extends CI_Controller {
 		$result = array();
 		$user_id = $this->input->post('user_id');
 		$user_areacode = $this->input->post('up_areacode');
+		$user_grade = $this->input->post('up_grade');
+
+		if(!empty($user_grade)){
+			$this->db->set('user_grade', $user_grade);
+			$this->db->where('user_id', $user_id);
+			$this->db->update('cust');
+		}
 		$this->db->set('user_areacode', $user_areacode);
 		$this->db->where('user_id', $user_id);
-		$this->db->update('users');
-		if($this->db->affected_rows() > 0){
-			$result['message'] = 'User area code updated successfully.';
+		$res = $this->db->update('users');
+		if($res){
+			$result['message'] = 'User updated successfully.';
 		}else{
 			$result['error'] = 'There is database error';
 		}
