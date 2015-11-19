@@ -29,7 +29,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
         $pwd['pwd']=current($query->row_array());
         return $pwd;
     }
-        public function get_custmoers($vendor_id=null)
+        public function get_customer_combo($vendor_id=null)
         {
             $this->db->select('users.user_id,users.user_name');
             $this->db->from('users');

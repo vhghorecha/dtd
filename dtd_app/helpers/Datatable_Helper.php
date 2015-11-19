@@ -42,3 +42,38 @@ function callback_format_amount($amount){
         return '-$' . number_format(abs($amount),0);
     }
 }
+
+function callback_message_from($from){
+    if($from == '0'){
+        $from = 'Administrator';
+    }else{
+        $CI =& get_instance();
+        $CI->load->model('User_Model');
+        $from = $CI->User_Model->get_username($from);
+    }
+    return $from;
+}
+
+function callback_message_to($to){
+    switch($to){
+        case '0':
+            $to = 'Administrator';
+            break;
+        case 'all':
+            $to = 'All';
+            break;
+        case 'allc':
+        case 'allvc':
+            $to = 'All Customers';
+            break;
+        case 'allv':
+            $to = 'All Vendors';
+            break;
+        default:
+            $CI =& get_instance();
+            $CI->load->model('User_Model');
+            $to = $CI->User_Model->get_username($to);
+            break;
+    }
+    return $to;
+}

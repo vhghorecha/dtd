@@ -113,5 +113,15 @@ class User_Model extends CI_Model{
         $this->db->where('user_id',$this->get_current_user_id());
         $this->db->update('dtd_users',$data);
     }
+
+	public function get_username($user_id){
+		$this->db->select('user_name');
+		$this->db->where('user_id', $user_id);
+		$row = $this->db->get('users')->row_array();
+		if(!is_null($row)){
+			return current($row);
+		}
+		return null;
+	}
 }
 ?>

@@ -8,6 +8,7 @@ class Vendor extends CI_Controller {
 		$this->load->model('user_model');
 		$this->load->model('Vendor_Model');
 		$this->load->model('Customer_Model');
+		$this->load->model('Admin_Model');
 
 		if(!$this->user_model->is_vendor()){
 			redirect('/');
@@ -235,7 +236,7 @@ class Vendor extends CI_Controller {
 			$this->form_validation->set_rules($config);
 			if ($this->form_validation->run() == true) {
 				$msg_to=$this->input->post('reci');
-				if($msg_to=='customer')
+				if($msg_to == 'customer')
 				{
 					$msg_to =$this->input->post('custname');;
 				}
@@ -261,11 +262,11 @@ class Vendor extends CI_Controller {
 			}
 
 			$vendor_id=$this->user_model->get_current_user_id();
-			$data['customers'] = $this->Vendor_Model->get_customers($vendor_id);
+			$data['customers'] = $this->Vendor_Model->get_customer_combo($vendor_id);
 			$this->load->template('vendor/message',$data);
 		}else{
 			$vendor_id=$this->user_model->get_current_user_id();
-			$data['customers'] = $this->Vendor_Model->get_customers($vendor_id);
+			$data['customers'] = $this->Vendor_Model->get_customer_combo($vendor_id);
 			$this->load->template('vendor/message',$data);
 		}
 	}

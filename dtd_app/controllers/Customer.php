@@ -321,6 +321,14 @@ class Customer extends CI_Controller {
 		$this->load->template('customer/orders',$data);
 	}
 
+	public function rec_message(){
+		$this->load->template('rec_message');
+	}
+
+	public function sent_message(){
+		$this->load->template('sent_message');
+	}
+
 	public function message()
 	{
 		$is_send = $this->input->post('btnSend');
@@ -350,7 +358,7 @@ class Customer extends CI_Controller {
 				{
 					$msg_to = 0;
 				}
-				if($msg_to == 'vendor')
+				if($msg_to === 'vendor')
 				{
 					$msg_to=$this->Customer_Model->get_user_vendor_id();
 				}

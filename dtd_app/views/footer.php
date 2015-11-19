@@ -32,6 +32,8 @@
 			});
 			$('select').select2();
 		});
+		var txtsearch = '<input type="text" placeholder="Search" style="width:100%" />';
+		var datesearch = '<input type="text" placeholder="Search" style="width:100%" class="tdatepicker" />';
     </script>
 
 	<script type="text/javascript">
@@ -103,9 +105,9 @@
 		$('#v_ord_rec tfoot th').each( function () {
 			//var title = $('#example thead th').eq( $(this).index() ).text();
 			if($(this).index() != 0 ){
-				$(this).html( '<input type="text" style="width:100%" />' );
+				$(this).html( txtsearch );
 			}else{
-				$(this).html( '<input type="text" style="width:100%" class="tdatepicker" />' );
+				$(this).html( datesearch );
 			}
 
 		} );
@@ -145,9 +147,9 @@
 		$('#a_ord_pen tfoot th').each( function () {
 			//var title = $('#example thead th').eq( $(this).index() ).text();
 			if($(this).index() != 0 ){
-				$(this).html( '<input type="text" style="width:100%" />' );
+				$(this).html( txtsearch );
 			}else{
-				$(this).html( '<input type="text" style="width:100%" class="tdatepicker" />' );
+				$(this).html( datesearch );
 			}
 
 		} );
@@ -181,9 +183,9 @@
 		$('#a_mon_pay tfoot th').each( function () {
 			//var title = $('#example thead th').eq( $(this).index() ).text();
 			if($(this).index() != 0 ){
-				$(this).html( '<input type="text" style="width:100%" />' );
+				$(this).html( txtsearch );
 			}else{
-				$(this).html( '<input type="text" style="width:100%" class="tdatepicker" />' );
+				$(this).html( datesearch );
 			}
 
 		} );
@@ -217,9 +219,9 @@
 		$('#a_mon_rec tfoot th').each( function () {
 			//var title = $('#example thead th').eq( $(this).index() ).text();
 			if($(this).index() != 0 ){
-				$(this).html( '<input type="text" style="width:100%" />' );
+				$(this).html( txtsearch );
 			}else{
-				$(this).html( '<input type="text" style="width:100%" class="tdatepicker" />' );
+				$(this).html( datesearch );
 			}
 
 		} );
@@ -276,9 +278,9 @@
 		$('#a_app_ord tfoot th').each( function () {
 			//var title = $('#example thead th').eq( $(this).index() ).text();
 			if($(this).index() != 0 ){
-				$(this).html( '<input type="text" style="width:100%" />' );
+				$(this).html( txtsearch );
 			}else{
-				$(this).html( '<input type="text" style="width:100%" class="tdatepicker" />' );
+				$(this).html( datesearch );
 			}
 
 		} );
@@ -325,9 +327,9 @@
             $('#v_ord_del tfoot th').each( function () {
                 //var title = $('#example thead th').eq( $(this).index() ).text();
                 if($(this).index() != 0 ){
-                    $(this).html( '<input type="text" style="width:100%" />' );
+                    $(this).html( txtsearch );
                 }else{
-                    $(this).html( '<input type="text" style="width:100%" class="tdatepicker" />' );
+                    $(this).html( datesearch );
                 }
 
             } );
@@ -377,9 +379,9 @@
 		$('#a_ven_pay tfoot th').each( function () {
 			//var title = $('#example thead th').eq( $(this).index() ).text();
 			if($(this).index() != 1 ){
-				$(this).html( '<input type="text" style="width:100%" />' );
+				$(this).html( txtsearch );
 			}else{
-				$(this).html( '<input type="text" style="width:100%" class="tdatepicker" />' );
+				$(this).html( datesearch );
 			}
 
 		} );
@@ -388,6 +390,72 @@
 				table2.fnDraw();
 				$('#payamount').val();
 		});
+	</script>
+<?php } ?>
+
+<?php if($current_page == 'customer' && $current_action == 'sent_message') { ?>
+	<script>
+		var table = $('#c_sent_msg').dataTable( {
+			"sDom": '<"top"pl>rt<"bottom"><"clear">',
+			"aaSorting": [[3, "desc"]],
+			"oLanguage": {
+				"sLengthMenu": "_MENU_ records per page"
+			},
+			"bProcessing": true,
+			"bServerSide": true,
+			"sAjaxSource": "<?=site_url('ajax/c_sent_msg');?>",
+			"responsive" : true,
+			"columns": [
+				{ "data": "msg_to", "width": "15%" },
+				{ "data": "msg_title", "width": "25%" },
+				{ "data": "msg_desc", "width": "50%" },
+				{ "data": "msg_date", "width": "10%" },
+			],
+		} );
+
+		// Setup - add a text input to each footer cell
+		$('#c_sent_msg tfoot th').each( function () {
+			//var title = $('#example thead th').eq( $(this).index() ).text();
+			if($(this).index() != 3 ){
+				$(this).html( txtsearch );
+			}else{
+				$(this).html( datesearch );
+			}
+
+		} );
+	</script>
+<?php } ?>
+
+<?php if($current_page == 'customer' && $current_action == 'rec_message') { ?>
+	<script>
+		var table = $('#c_rec_msg').dataTable( {
+			"sDom": '<"top"pl>rt<"bottom"><"clear">',
+			"aaSorting": [[3, "desc"]],
+			"oLanguage": {
+				"sLengthMenu": "_MENU_ records per page"
+			},
+			"bProcessing": true,
+			"bServerSide": true,
+			"sAjaxSource": "<?=site_url('ajax/c_rec_msg');?>",
+			"responsive" : true,
+			"columns": [
+				{ "data": "msg_from", "width": "15%" },
+				{ "data": "msg_title", "width": "25%" },
+				{ "data": "msg_desc", "width": "50%" },
+				{ "data": "msg_date", "width": "10%" },
+			],
+		} );
+
+		// Setup - add a text input to each footer cell
+		$('#c_rec_msg tfoot th').each( function () {
+			//var title = $('#example thead th').eq( $(this).index() ).text();
+			if($(this).index() != 3 ){
+				$(this).html( txtsearch );
+			}else{
+				$(this).html( datesearch );
+			}
+
+		} );
 	</script>
 <?php } ?>
 
@@ -418,9 +486,9 @@
 			$('#c_orders tfoot th').each( function () {
 				//var title = $('#example thead th').eq( $(this).index() ).text();
 				if($(this).index() != 1 ){
-					$(this).html( '<input type="text" style="width:100%" />' );
+					$(this).html( txtsearch );
 				}else{
-					$(this).html( '<input type="text" style="width:100%" class="tdatepicker" />' );
+					$(this).html( datesearch );
 				}
 
 			} );

@@ -35,7 +35,18 @@
                             <a href="<?=site_url('customer/profile');?>"><i class="fa fa-user fa-fw"></i> Profile</a>
                         </li>
                         <li>
-                            <a href="<?=site_url('customer/message');?>"><i class="fa fa-envelope fa-fw"></i> Message Board</a>
+                            <a href="#"><i class="fa fa-envelope fa-fw"></i> Message Board<span class="fa arrow"></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="<?=site_url('customer/message');?>"><i class="fa fa-edit fa-fw"></i> New Message</a>
+                                </li>
+                                <li>
+                                    <a href="<?=site_url('customer/rec_message');?>"><i class="fa fa-envelope-o fa-fw"></i> Received</a>
+                                </li>
+                                <li>
+                                    <a href="<?=site_url('customer/sent_message');?>"><i class="fa fa-send fa-fw"></i> Sent</a>
+                                </li>
+                            </ul>
                         </li>
 						<li>
                             <a href="<?=site_url('user/logout');?>"><i class="fa fa-sign-out fa-fw"></i> Log Out</a>
@@ -89,7 +100,18 @@
                             <a href="<?=site_url('vendor/customers');?>"><i class="fa fa-users fa-fw"></i> View Customers</a>
                         </li>
                         <li>
-                            <a href="<?=site_url('vendor/message');?>"><i class="fa fa-envelope fa-fw"></i> Message Board</a>
+                            <a href="#"><i class="fa fa-envelope fa-fw"></i> Message Board<span class="fa arrow"></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="<?=site_url('vendor/message');?>"><i class="fa fa-edit fa-fw"></i> New Message</a>
+                                </li>
+                                <li>
+                                    <a href="<?=site_url('vendor/rec_message');?>"><i class="fa fa-envelope-o fa-fw"></i> Received</a>
+                                </li>
+                                <li>
+                                    <a href="<?=site_url('vendor/sent_message');?>"><i class="fa fa-send fa-fw"></i> Sent</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <a href="<?=site_url('user/logout');?>"><i class="fa fa-sign-out fa-fw"></i> Log Out</a>
@@ -192,7 +214,18 @@
                             <a href="<?=site_url('admin/change_pwd');?>"><i class="fa fa-cogs fa-fw"></i> Change Password</a>
                         </li>
                         <li>
-                            <a href="<?=site_url('admin/message');?>"><i class="fa fa-envelope fa-fw"></i> Message Board</a>
+                            <a href="#"><i class="fa fa-envelope fa-fw"></i> Message Board<span class="fa arrow"></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="<?=site_url('admin/message');?>"><i class="fa fa-edit fa-fw"></i> New Message</a>
+                                </li>
+                                <li>
+                                    <a href="<?=site_url('admin/rec_message');?>"><i class="fa fa-envelope-o fa-fw"></i> Received</a>
+                                </li>
+                                <li>
+                                    <a href="<?=site_url('admin/sent_message');?>"><i class="fa fa-send fa-fw"></i> Sent</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <a href="<?=site_url('admin/backup');?>" target="_blank"><i class="fa fa-cogs fa-save"></i> Backup</a>

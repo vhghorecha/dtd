@@ -3,7 +3,7 @@ General
 Most IMP - Registraion form changes as per Registration Issue.xlsx
 Search Facility in All Table, if there is date we need date filtering. (Done)
 Messaging between all three with File Attachment
-All order will have 10% VAT
+All order will have 10% VAT - Not required
 Select2 in all Combobox - Done
 No decimal points in amount, put comma in amount (Done step by step)
 ALTER TABLE `dtd_custdep` CHANGE `dep_amount` `dep_amount` DECIMAL( 8, 0 ) NOT NULL;
