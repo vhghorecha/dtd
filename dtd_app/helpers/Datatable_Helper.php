@@ -11,7 +11,7 @@ function callback_order_status($order_status,$order_id){
 }
 
 function callback_vendor_pay_order($order_id,$order_amount){
-    return '<input type="checkbox" value="' . $order_amount . '" class="a_pay_order_amt"/> ' . $order_id;
+    return '<input type="checkbox" name="order_id[' . $order_id . ']" value="' . $order_amount . '" class="a_pay_order_amt"/> ' . $order_id;
 }
 
 function callback_edit_item($type_id,$type_name){

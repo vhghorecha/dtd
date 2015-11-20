@@ -94,7 +94,6 @@
 				{ "data": "order_telno" },
 				{ "data": "type_name" },
 				{ "data": "order_itemname" },
-				{ "data": "user_sercomp" },
 				{ "data": "user_comp" },
 				{ "data": "user_rep" },
 				{ "data": "order_status" },
@@ -267,7 +266,6 @@
 				{ "data": "order_telno" },
 				{ "data": "type_name" },
 				{ "data": "order_itemname" },
-				{ "data": "user_sercomp" },
 				{ "data": "user_comp" },
 				{ "data": "user_rep" },
 				{ "data": "order_status" },
@@ -406,17 +404,18 @@
 			"sAjaxSource": "<?=site_url('ajax/c_sent_msg');?>",
 			"responsive" : true,
 			"columns": [
+				{ "data": "msg_id" },
 				{ "data": "msg_to", "width": "15%" },
 				{ "data": "msg_title", "width": "25%" },
 				{ "data": "msg_desc", "width": "50%" },
 				{ "data": "msg_date", "width": "10%" },
 			],
-		} );
+		});
 
 		// Setup - add a text input to each footer cell
 		$('#c_sent_msg tfoot th').each( function () {
 			//var title = $('#example thead th').eq( $(this).index() ).text();
-			if($(this).index() != 3 ){
+			if($(this).index() != 4 ){
 				$(this).html( txtsearch );
 			}else{
 				$(this).html( datesearch );
@@ -438,18 +437,20 @@
 			"bServerSide": true,
 			"sAjaxSource": "<?=site_url('ajax/c_rec_msg');?>",
 			"responsive" : true,
+
 			"columns": [
+				{ "data": "msg_id" },
 				{ "data": "msg_from", "width": "15%" },
 				{ "data": "msg_title", "width": "25%" },
 				{ "data": "msg_desc", "width": "50%" },
-				{ "data": "msg_date", "width": "10%" },
+				{ "data": "m_date", "width": "10%" },
 			],
 		} );
 
 		// Setup - add a text input to each footer cell
 		$('#c_rec_msg tfoot th').each( function () {
 			//var title = $('#example thead th').eq( $(this).index() ).text();
-			if($(this).index() != 3 ){
+			if($(this).index() != 4 ){
 				$(this).html( txtsearch );
 			}else{
 				$(this).html( datesearch );
@@ -472,6 +473,7 @@
 			"sAjaxSource": "<?=site_url('ajax/v_rec_msg');?>",
 			"responsive" : true,
 			"columns": [
+				{ "data": "msg_id" },
 				{ "data": "msg_from", "width": "15%" },
 				{ "data": "msg_title", "width": "25%" },
 				{ "data": "msg_desc", "width": "50%" },
@@ -482,7 +484,7 @@
 		// Setup - add a text input to each footer cell
 		$('#c_rec_msg tfoot th').each( function () {
 			//var title = $('#example thead th').eq( $(this).index() ).text();
-			if($(this).index() != 3 ){
+			if($(this).index() != 4 ){
 				$(this).html( txtsearch );
 			}else{
 				$(this).html( datesearch );
@@ -504,6 +506,7 @@
 			"sAjaxSource": "<?=site_url('ajax/c_sent_msg');?>",
 			"responsive" : true,
 			"columns": [
+				{ "data": "msg_id" },
 				{ "data": "msg_to", "width": "15%" },
 				{ "data": "msg_title", "width": "25%" },
 				{ "data": "msg_desc", "width": "50%" },
@@ -514,7 +517,7 @@
 		// Setup - add a text input to each footer cell
 		$('#c_sent_msg tfoot th').each( function () {
 			//var title = $('#example thead th').eq( $(this).index() ).text();
-			if($(this).index() != 3 ){
+			if($(this).index() != 4 ){
 				$(this).html( txtsearch );
 			}else{
 				$(this).html( datesearch );
@@ -537,6 +540,7 @@
 			"sAjaxSource": "<?=site_url('ajax/a_rec_msg');?>",
 			"responsive" : true,
 			"columns": [
+				{ "data": "msg_id" },
 				{ "data": "msg_from", "width": "15%" },
 				{ "data": "msg_title", "width": "25%" },
 				{ "data": "msg_desc", "width": "50%" },
@@ -547,7 +551,7 @@
 		// Setup - add a text input to each footer cell
 		$('#c_rec_msg tfoot th').each( function () {
 			//var title = $('#example thead th').eq( $(this).index() ).text();
-			if($(this).index() != 3 ){
+			if($(this).index() != 4 ){
 				$(this).html( txtsearch );
 			}else{
 				$(this).html( datesearch );
@@ -569,6 +573,7 @@
 			"sAjaxSource": "<?=site_url('ajax/a_sent_msg');?>",
 			"responsive" : true,
 			"columns": [
+				{ "data": "msg_id" },
 				{ "data": "msg_to", "width": "15%" },
 				{ "data": "msg_title", "width": "25%" },
 				{ "data": "msg_desc", "width": "50%" },
@@ -579,7 +584,7 @@
 		// Setup - add a text input to each footer cell
 		$('#c_sent_msg tfoot th').each( function () {
 			//var title = $('#example thead th').eq( $(this).index() ).text();
-			if($(this).index() != 3 ){
+			if($(this).index() != 4 ){
 				$(this).html( txtsearch );
 			}else{
 				$(this).html( datesearch );
@@ -1111,9 +1116,9 @@
 				]
 			} );
 			// Setup - add a text input to each footer cell
-			$('#a_vendor_price tfoot th').each( function () {
+			/* $('#a_vendor_price tfoot th').each( function () {
 				$(this).html( txtsearch );
-			} );
+			} );*/
 		</script>
 	<?php } ?>
 	<?php if($current_page == 'admin' && $current_action == 'item') { ?>

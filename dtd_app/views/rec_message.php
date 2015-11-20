@@ -11,6 +11,7 @@
                 <table id="c_rec_msg" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>From</th>
                             <th>Subject</th>
                             <th>Message</th>
@@ -19,6 +20,7 @@
                     </thead>
                     <tfoot>
                         <tr>
+                            <th>ID</th>
                             <th>From</th>
                             <th>Subject</th>
                             <th>Message</th>

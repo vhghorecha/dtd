@@ -320,6 +320,10 @@ class Admin extends CI_Controller {
 				$data['pay_bankname'] = $this->input->post('paybankname');
 				$this->Admin_Model->vendor_pay($data);
 				$this->Vendor_Model->set_user_balance(-$data['pay_amount'],$data['pay_vendorid']);
+				$order_ids = array_keys($this->input->post('order_id'));
+				$this->db->where_in('order_id', $order_ids);
+				$this->db->set('vendor_paid', '1');
+				$this->db->update('order');
 				$message = "Vendor Payment successfully done.";
 			}else{
 				$error = validation_errors();
@@ -855,8 +859,9 @@ class Admin extends CI_Controller {
 		$this->load->template('admin/money_paid');
 	}
 	public function account()
-	{
-		$this->load->template('admin/account');
+	{	$data['account']=$this->Admin_Model->get_admin_account();
+		//print_r($data);
+		$this->load->template('admin/account',$data);
 	}
 	public function orders_pending()
 	{

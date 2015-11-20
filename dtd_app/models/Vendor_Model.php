@@ -54,7 +54,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
     public function get_orders(){
         $this->load->helper('Datatable');
         $vendor_id = $this->user_model->get_current_user_id();
-        $this->datatables->select("DATE_FORMAT(dtd_order.order_date,'%b-%d') as ord_date,dtd_order.order_id,dtd_users.user_name,dtd_order.order_recipient,dtd_order.order_telno,dtd_item_type.type_name,dtd_order.order_itemname,dtd_cust.user_sercomp,dtd_users.user_comp,dtd_users.user_rep,dtd_order.order_status")
+        $this->datatables->select("DATE_FORMAT(dtd_order.order_date,'%b-%d') as ord_date,dtd_order.order_id,dtd_users.user_name,dtd_order.order_recipient,dtd_order.order_telno,dtd_item_type.type_name,dtd_order.order_itemname,dtd_users.user_comp,dtd_users.user_rep,dtd_order.order_status")
             ->from('dtd_order')
             ->join('dtd_cust','dtd_cust.user_id=dtd_order.order_custid')
             ->join('dtd_users','dtd_users.user_id=dtd_cust.user_id')
@@ -136,21 +136,22 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             $end = new DateTime();
             $end = $end->modify("+1 day");
             $dates = new DatePeriod($start,new DateInterval("P1D"),$end);
-            foreach($dates as $date){
+            foreach($dates as $date)
+            {
                 $data['date']=$date->format('M d');
                 $query=$this->db->query("
                 SELECT DATE_FORMAT(order_date,'%M-%d') as date, COUNT(order_id) as num,SUM(vendor_amount) as amount
                 FROM dtd_order
                 WHERE order_status='Delivered' and order_date LIKE '".$date->format("Y-m-d")."%' AND order_vendorid = ".$this->user_model->get_current_user_id()."
-                GROUP BY order_date");
+                GROUP BY date");
                 $data['charge']= $query->row_array();
 
 
                 $query=$this->db->query("
-                SELECT COUNT(dep_id) as num, SUM(pay_amount) as amount
+                SELECT DATE_FORMAT(pay_date,'%M-%d') as date,COUNT(dep_id) as num, SUM(pay_amount) as amount
                 FROM dtd_vendorpay
                 WHERE pay_date LIKE '".$date->format("Y-m-d")."%' AND pay_vendorid = ".$this->user_model->get_current_user_id()."
-                GROUP BY pay_date");
+                GROUP BY date");
                 $data['recived'] = $query->row_array();
 
                 $result[]=$data;
@@ -236,7 +237,8 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
                 ->join('dtd_users','dtd_users.user_id=dtd_cust.user_id')
                 ->join('dtd_item_type','dtd_item_type.type_id=dtd_order.order_typeid')
                 ->where('dtd_order.order_vendorid',$vendor_id)
-                ->where_in('dtd_order.order_status','Delivered')
+                ->where('dtd_order.order_status','Delivered')
+                ->where('dtd_order.vendor_paid', '0')
                 ->edit_column('order_id','$1', 'callback_vendor_pay_order(order_id,vendor_amount)');
             return $this->datatables->generate();
         }
@@ -244,7 +246,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             $cust_id = $this->User_Model->get_current_user_id();
             //$vendor_id = $this->get_user_vendor_id();
             $msg_to = array($cust_id, 'all', 'allv');
-            $this->datatables->select("msg_id, DATE_FORMAT(msg_date,'%b-%d') as msg_date, msg_title, msg_desc, msg_from")
+            $this->datatables->select("msg_id, msg_from, msg_title, msg_desc, DATE_FORMAT(msg_date,'%b-%d') as msg_date")
                 ->from('dtd_message')
                 ->edit_column('msg_from','$1', 'callback_message_from(msg_from)')
                 ->where_in('msg_to', $msg_to);

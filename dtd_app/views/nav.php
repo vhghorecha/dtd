@@ -228,7 +228,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="<?=site_url('admin/backup');?>" target="_blank"><i class="fa fa-cogs fa-save"></i> Backup</a>
+                            <a href="<?=site_url('admin/backup');?>" target="_blank"><i class="fa fa-save fa-fw"></i> Backup</a>
                         </li>
 
                         <li>

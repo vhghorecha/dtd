@@ -13,14 +13,14 @@
                     <thead>
                         <tr>
                             <th rowspan="2">Date</th>
-                            <th colspan="2">Charge</th>
-                            <th colspan="2">Received Amount</th>
+                            <th colspan="2">Your Charges</th>
+                            <th colspan="2">Paid Amount</th>
                             <th rowspan="2">Due Balance</th>
                         </tr>
                         <tr>
-                            <th>Number</th>
+                            <th>Transactions</th>
                             <th>Amount</th>
-                            <th>Number</th>
+                            <th>Transactions</th>
                             <th>Amount</th>
                         </tr>
                     </thead>
@@ -30,10 +30,10 @@
                         <tr>
                             <td><?PHP echo $row['date'];?></td>
                             <td><?PHP if($row['charge']['date']!="") echo $row['charge']['num']; else echo "0";?></td>
-                            <td><?PHP if($row['charge']['amount']!="") echo $row['charge']['amount']; else echo "0";?></td>
+                            <td><?PHP if($row['charge']['amount']!="") echo callback_format_amount($row['charge']['amount']); else echo "0";?></td>
                             <td><?PHP if($row['recived']['num']!="") echo $row['recived']['num']; else echo "0";?></td>
-                            <td><?PHP if($row['recived']['amount']!="") echo $row['recived']['amount']; else echo "0";?></td>
-                            <td><?PHP echo $row['charge']['amount']-$row['recived']['amount'];?></td>
+                            <td><?PHP if($row['recived']['amount']!="") echo callback_format_amount($row['recived']['amount']); else echo "0";?></td>
+                            <td><?PHP echo callback_format_amount($row['charge']['amount']-$row['recived']['amount']);?></td>
                         </tr>
                         <?PHP }?>
                     <?PHP }?>
@@ -42,10 +42,10 @@
                     <tr>
                         <th>Total</th>
                         <th><?PHP echo array_sum(array_column(array_column($account,'charge'),'num')); ?></th>
-                        <th><?PHP echo $cha = array_sum(array_column(array_column($account,'charge'),'amount')); ?></th>
+                        <th><?PHP $cha = array_sum(array_column(array_column($account,'charge'),'amount')); echo callback_format_amount($cha); ?></th>
                         <th><?PHP echo array_sum(array_column(array_column($account,'recived'),'num')); ?></th>
-                        <th><?PHP echo $rec = array_sum(array_column(array_column($account,'recived'),'amount')); ?></th>
-                        <th><?PHP echo $cha-$rec;?></th>
+                        <th><?PHP $rec = array_sum(array_column(array_column($account,'recived'),'amount')); echo callback_format_amount($rec); ?></th>
+                        <th><?PHP echo callback_format_amount($cha-$rec);?></th>
                     </tr>
                     </tfoot>
                 </table>
@@ -111,14 +111,14 @@
                                 <tr>
                                     <td><?PHP echo $row['pdate'];?></td>
                                     <td><?PHP echo $row['pay_bankname'];?></td>
-                                    <td><?PHP echo $row['pay_amount'];?></td>
+                                    <td><?PHP echo callback_format_amount($row['pay_amount']);?></td>
                                 </tr>
                             <?PHP }?>
                             </tbody>
                             <tfoot>
                             <tr>
                                 <th colspan="2">Total</th>
-                                <th><?PHP echo array_sum(array_column($payhist,'pay_amount')); ?></th>
+                                <th><?PHP echo callback_format_amount(array_sum(array_column($payhist,'pay_amount'))); ?></th>
                             </tr>
                             </tfoot>
                         </table>

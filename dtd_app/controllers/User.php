@@ -122,6 +122,7 @@ class User extends CI_Controller {
 						$ins_data['pay_bankacno']=$this->input->post('txtbank');
 						$this->vendor_model->insert($ins_data);
 					}else{
+						$data['user_grade'] = $this->general_model->get_single_val('grade_id','cust_grade');
 						$this->customer_model->insert($ins_data);
 					}
 					$message = "Register successfully. Admin will activate your account.";

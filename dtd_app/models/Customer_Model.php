@@ -323,7 +323,7 @@ class Customer_Model extends CI_Model
         $cust_id = $this->User_Model->get_current_user_id();
         $vendor_id = $this->get_user_vendor_id();
         $msg_to = array($cust_id, 'all', 'allc');
-        $this->datatables->select("msg_id, DATE_FORMAT(msg_date,'%b-%d') as msg_date, msg_title, msg_desc, msg_from")
+        $this->datatables->select("msg_id, msg_from, msg_title, msg_desc, DATE_FORMAT(msg_date,'%b-%d') as m_date")
             ->from('dtd_message')
             ->edit_column('msg_from','$1', 'callback_message_from(msg_from)')
             ->where_in('msg_to', $msg_to)
@@ -334,7 +334,7 @@ class Customer_Model extends CI_Model
 
     public function get_sent_message(){
         $cust_id = $this->User_Model->get_current_user_id();
-        $this->datatables->select("msg_id, DATE_FORMAT(msg_date,'%b-%d') as msg_date, msg_title, msg_desc, msg_to")
+        $this->datatables->select("msg_id, msg_to, msg_title, msg_desc, DATE_FORMAT(msg_date,'%b-%d') as msg_date")
             ->from('dtd_message')
             ->edit_column('msg_to','$1', 'callback_message_to(msg_to)')
             ->where('msg_from', $cust_id);

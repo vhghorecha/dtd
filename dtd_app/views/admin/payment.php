@@ -1,6 +1,10 @@
        <!-- Page Content -->
         <div id="page-wrapper">
             <div class="container-fluid">
+                <?php echo form_open(current_url(), array(
+                    'id' => 'frmvendorpay',
+                    'role' => 'form'
+                )); ?>
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">Vendor Payment</h1>
@@ -45,10 +49,6 @@
                         <?php if (!empty($message)) { ?>
                             <div class="alert alert-success fade in"><?= $message; ?></div>
                         <?php } ?>
-                        <?php echo form_open(current_url(), array(
-                            'id' => 'frmvendorpay',
-                            'role' => 'form'
-                        )); ?>
                         <div class="form-group  required">
                             <label>Vendor Name</label>
                             <?PHP
@@ -62,7 +62,7 @@
                         </div>
                         <div class="form-group  required">
                             <label>Amount</label>
-                            <input type="number" class="form-control" placeholder="Enter Amount" id="payamount" name="payamount" required value="0">
+                            <input type="number" class="form-control" placeholder="Enter Amount" id="payamount" name="payamount" required value="0" readonly>
                         </div>
                         <div class="form-group  ">
                             <label>Transaction Reference</label>

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 19, 2015 at 01:44 PM
+-- Generation Time: Nov 20, 2015 at 12:53 PM
 -- Server version: 5.6.14
 -- PHP Version: 5.5.6
 
@@ -62,15 +62,16 @@ CREATE TABLE IF NOT EXISTS `dtd_cust` (
   `user_lob` varchar(45) DEFAULT NULL,
   `user_sercomp` varchar(100) NOT NULL,
   PRIMARY KEY (`cust_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `dtd_cust`
 --
 
 INSERT INTO `dtd_cust` (`cust_id`, `user_id`, `user_regno`, `vendor_id`, `user_grade`, `user_lob`, `user_sercomp`) VALUES
-(1, 1, '', 2, 1, NULL, ''),
-(2, 4, '', 3, 2, NULL, '');
+(1, 1, 'Software Solutions', 2, 1, '123456', 'Eryushion TechSol Pvt Ltd'),
+(2, 4, '', 3, 1, NULL, ''),
+(3, 5, '', 2, 1, NULL, '');
 
 -- --------------------------------------------------------
 
@@ -87,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `dtd_custdep` (
   `dep_transno` varchar(45) NOT NULL,
   `dep_bankname` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`dep_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `dtd_custdep`
@@ -99,7 +100,8 @@ INSERT INTO `dtd_custdep` (`dep_id`, `dep_custid`, `dep_date`, `dep_amount`, `de
 (3, 1, '2015-11-07 00:00:00', '10', '6514981981', 'SBI'),
 (4, 4, '2015-11-08 00:00:00', '20', '649819165198', 'Kotak'),
 (5, 1, '2015-11-05 00:00:00', '20', '8949498489', 'ICICI'),
-(6, 1, '2015-11-05 00:00:00', '20', '89498494', 'ICICI');
+(6, 1, '2015-11-05 00:00:00', '20', '89498494', 'ICICI'),
+(7, 1, '2015-11-20 00:00:00', '210', '123456', 'ICICI');
 
 -- --------------------------------------------------------
 
@@ -262,6 +264,7 @@ CREATE TABLE IF NOT EXISTS `dtd_order` (
   `order_status` varchar(20) NOT NULL,
   `order_updatecode` varchar(100) DEFAULT NULL,
   `vendor_amount` decimal(8,0) NOT NULL,
+  `vendor_paid` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`order_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
@@ -269,9 +272,9 @@ CREATE TABLE IF NOT EXISTS `dtd_order` (
 -- Dumping data for table `dtd_order`
 --
 
-INSERT INTO `dtd_order` (`order_id`, `order_custid`, `order_vendorid`, `order_date`, `order_recipient`, `order_address`, `order_zipcode`, `order_telp`, `order_telno`, `order_mobp`, `order_mobno`, `order_typeid`, `order_amount`, `order_itemname`, `order_desc`, `order_memo`, `order_status`, `order_updatecode`, `vendor_amount`) VALUES
-(1, 1, 2, '2015-11-09 11:27:35', 'Nirav Bhatt', 'Rajkot                                                                            ', '0', '0', '028121212112', '0', '9863549352', 1, '90', 'Mobile', 'Asus Zenfone                                                                            ', 'Delivery Request test1                                                                            ', 'Delivered', 'VHG01D', '60'),
-(2, 1, 2, '2015-11-09 11:31:58', 'Yogesh Vadsala', '                            Rajkot                                                                            ', '0', '0', '09409182808', '0', '09409182808', 3, '270', 'Chair', '                            Office Chair                        ', '                            Testing                        ', 'Created', NULL, '100');
+INSERT INTO `dtd_order` (`order_id`, `order_custid`, `order_vendorid`, `order_date`, `order_recipient`, `order_address`, `order_zipcode`, `order_telp`, `order_telno`, `order_mobp`, `order_mobno`, `order_typeid`, `order_amount`, `order_itemname`, `order_desc`, `order_memo`, `order_status`, `order_updatecode`, `vendor_amount`, `vendor_paid`) VALUES
+(1, 1, 2, '2015-11-09 11:27:35', 'Nirav Bhatt', 'Rajkot                                                                            ', '0', '0', '028121212112', '0', '9863549352', 1, '90', 'Mobile', 'Asus Zenfone                                                                            ', 'Delivery Request test1                                                                            ', 'Delivered', 'VHG01D', '60', 1),
+(2, 1, 2, '2015-11-09 11:31:58', 'Yogesh Vadsala', '                            Rajkot                                                                            ', '0', '0', '09409182808', '0', '09409182808', 3, '270', 'Chair', '                            Office Chair                        ', '                            Testing                        ', 'Delivered', 'ABCXYZABC', '100', 1);
 
 -- --------------------------------------------------------
 
@@ -300,17 +303,18 @@ CREATE TABLE IF NOT EXISTS `dtd_users` (
   `user_areacode` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_email_UNIQUE` (`user_email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `dtd_users`
 --
 
 INSERT INTO `dtd_users` (`user_id`, `user_name`, `user_email`, `user_pass`, `user_add`, `user_zipcode`, `user_tel`, `user_comp`, `user_rep`, `user_site`, `user_balance`, `user_staffname`, `user_stafftel`, `user_memo`, `is_active`, `user_role`, `user_areacode`) VALUES
-(1, 'Vimal Ghorecha', 'vimalghorecha@gmail.com', 'd1e831a08968c589e477cc992f2ef732', 'Harshdip, 5-Punit Nagar, Gondal Road, Rajkot', '36000', '02812121212', '', '', 'www.vhghorecha.in', '60', 'Vimal Ghorecha', '9173514735', NULL, 1, 'customer', 'xyz'),
-(2, 'Snapdel India Pvt Ltd', 'hardik.rkcet@gmail.com', '75bc08308363144baf3b29af7c580e0b', 'Boambay', '36000', '022221617', '', '', 'www.snapdeal.com', '10', 'Hardik Mehta', '9427157507', '', 1, 'vendor', ''),
+(1, 'Vimal Ghorecha', 'vimalghorecha@gmail.com', 'd1e831a08968c589e477cc992f2ef732', 'Harshdip, 5-Punit Nagar, Gondal Road, Rajkot', '36000', '02812121212', '', '', 'www.vhghorecha.in', '0', 'Vimal Ghorecha', '9173514735', '', 1, 'customer', 'xyz'),
+(2, 'Snapdel India Pvt Ltd', 'hardik.rkcet@gmail.com', '75bc08308363144baf3b29af7c580e0b', 'Boambay', '36000', '022221617', '', '', 'www.snapdeal.com', '-270', 'Hardik Mehta', '9427157507', '', 1, 'vendor', ''),
 (3, 'ShopClue Pvt Ltd', 'yogesh.vadsola@gmail.com', '284af711fce02acbea4eec70f7ebdea9', 'Rajkot', '36001', '02812435478', '', '', 'www.shopclue.com', '0', 'Yogesh Vadsola', '9898564569', NULL, 1, 'vendor', 'xyz'),
-(4, 'Mehul Shukla', 'mehulshukla@gmail.com', 'ee33e909372d935d190f4fcb2a92d542', '5C Ambaji Kadva, Nr. Malaviya College, Rajkot', '36000', '02813131313', '', '', 'www.mehul.in', '220', 'Mehul Shukla', '9909076810', NULL, 1, 'customer', 'abc');
+(4, 'Mehul Shukla', 'mehulshukla@gmail.com', 'ee33e909372d935d190f4fcb2a92d542', '5C Ambaji Kadva, Nr. Malaviya College, Rajkot', '36000', '02813131313', '', '', 'www.mehul.in', '220', 'Mehul Shukla', '9909076810', NULL, 1, 'customer', 'abc'),
+(5, 'N V Bhatt Pvt Ltd', 'nirav.bhatt@gmail.com', '157b65cc2fe1c07faa76b363552ffb79', '2 Hansraj Nagar, Near Railway Station, Rajkot', '36362', '9723455919', 'N V Bhatt Pvt Ltd', 'Nirav Bhatt', 'www.rku.ac.in', '0', 'Nirav Bhatt', '9756899875', NULL, 1, 'customer', 'abc');
 
 -- --------------------------------------------------------
 
@@ -363,8 +367,8 @@ CREATE TABLE IF NOT EXISTS `dtd_vendorpay` (
 --
 
 INSERT INTO `dtd_vendorpay` (`dep_id`, `pay_vendorid`, `pay_date`, `pay_amount`, `pay_transno`, `pay_bankacno`, `pay_bankname`) VALUES
-(1, 2, '2015-11-09 00:00:00', '50.00', '123456', '526335589472563', 'New York Cooperative Bank'),
-(2, 2, '2015-11-11 00:00:00', '0.00', '', '', '');
+(1, 2, '2015-11-19 00:00:00', '60.00', '1', '2', '3'),
+(2, 2, '2015-11-20 00:00:00', '100.00', '2', '3', '3');
 
 -- --------------------------------------------------------
 

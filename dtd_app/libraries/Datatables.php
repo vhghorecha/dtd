@@ -143,6 +143,19 @@ class Datatables
     }
 
     /**
+     * Generates the WHERE NOT IN portion of the query
+     *
+     * @param mixed $key_condition
+     * @param string $val
+     * @return mixed
+     */
+    public function where_not_in($key_condition, $val = NULL)
+    {
+        $this->ci->db->where_not_in($key_condition, $val);
+        return $this;
+    }
+
+    /**
      * Generates the WHERE portion of the query
      *
      * @param mixed $key_condition
