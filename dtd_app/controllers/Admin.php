@@ -170,6 +170,43 @@ class Admin extends CI_Controller {
 			$this->load->template('admin/deposit',$data);
 		}
 	}
+
+	public function editdeposit($dep_id){
+		$is_dep = $this->input->post('btnDeposit');
+		if($is_dep=='Update'){
+			$config = array(
+				array(
+					'field' => 'depositdate',
+					'label' => 'Date of Deposit',
+					'rules' => 'required',
+					'errors' => array(
+						'required' => 'You must provide a %s',
+					)
+				),
+			);
+			$this->form_validation->set_rules($config);
+			if ($this->form_validation->run() == true) {
+				$date = DateTime::createFromFormat('d/m/Y',$this->input->post('depositdate'));
+				$data['dep_date'] = $date->format('Y-m-d');
+				$data['dep_transno'] = $this->input->post('depreference');
+				$data['dep_bankname'] = $this->input->post('depbank');
+				$this->Admin_Model->update_deposit($data, $dep_id);
+
+				$message = "Deposit updated successfully.";
+			}else{
+				$error = validation_errors();
+			}
+		}
+		$data = $this->Admin_Model->get_deposit($dep_id);
+		if(!empty($error)){
+			$data = $_POST;
+			$data['error'] = $error;
+		}
+		if(!empty($message)){
+			$data['message'] = $message;
+		}
+		$this->load->template('admin/editdeposit',$data);
+	}
 	
 	//Created by Hardik Mehta
 	public function app_vendor(){
@@ -396,23 +433,6 @@ class Admin extends CI_Controller {
 		$is_save = $this->input->post('btnSave');
 		if($is_save=='save'){
 			$config = array(
-				array(
-					'field' => 'depositdate',
-					'label' => 'Date of Deposit',
-					'rules' => 'required',
-					'errors' => array(
-						'required' => 'You must provide a %s',
-					)
-				),
-				array(
-					'field' => 'depamount',
-					'label' => 'Amount',
-					'rules' => 'required|numeric',
-					'errors' => array(
-						'required' => 'You must provide a %s',
-						'numeric' => 'Only Numbers are allowed in Amount',
-					)
-				),
 				array(
 					'field' => 'gradename',
 					'label' => 'Grade Name',

@@ -1,5 +1,3 @@
-
-
     <div class="container">
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
@@ -30,7 +28,7 @@
                                 <input type="submit" class="btn btn-lg btn-success btn-block" name="btnLogin" id="btnLogin" value="Login">
 								<div class="form-group">
                                     <label>
-                                        <a href="<?=site_url('user/register');?>">New User, Click Here</a>
+                                        <a href="<?=site_url('user/register');?>">New User, Click Here</a> | <a href="<?=site_url('user/lostpwd');?>">Lost Password?</a>
                                     </label>
                                 </div>
                             </fieldset>

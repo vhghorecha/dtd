@@ -227,6 +227,9 @@ switch (ENVIRONMENT)
 	// Path to the front controller (this file)
 	define('FCPATH', dirname(__FILE__).'/');
 
+	// Path to resources files
+	define('RESPATH', dirname(__FILE__) . DIRECTORY_SEPARATOR . 'dtd_asset' . DIRECTORY_SEPARATOR);
+
 	// Name of the "system folder"
 	define('SYSDIR', trim(strrchr(trim(BASEPATH, '/'), '/'), '/'));
 

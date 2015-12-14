@@ -16,6 +16,7 @@
                         <th>Recipient Name</th>
                         <th>Mobile No</th>
                         <th>Parcel Type</th>
+                        <th>Tracking Code</th>
                         <th>Status</th>
                         <th>Modify</th>
                     </tr>
@@ -27,12 +28,12 @@
                         <th>Recipient Name</th>
                         <th>Mobile No</th>
                         <th>Parcel Type</th>
+                        <th>Tracking Code</th>
                         <th>Status</th>
                         <th>Modify</th>
                     </tr>
                     </tfoot>
                 </table>
-                <a href="<?=site_url('customer/import_order')?>" class="btn btn-primary pull-right">Import Orders</a>
             </div>
             <!-- /.col-lg-12 -->
         </div>

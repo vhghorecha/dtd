@@ -300,6 +300,7 @@ class Vendor extends CI_Controller {
 			->where_in('dtd_order.order_status','Pending');
 		$query = $this->db->get();
 		$csv_string = $this->dbutil->csv_from_result($query);
+		$csv_string = chr(239) . chr(187) . chr(191) . $csv_string;
 		// Load the download helper and send the file to your desktop
 		$this->load->helper('download');
 		force_download('order_received.csv', $csv_string);

@@ -13,7 +13,11 @@ class General_Model extends CI_Model{
         if(!is_null($where)){
             $this->db->where($where);
         }
-		return current($this->db->get()->row_array());
+        $result = $this->db->get()->row_array();
+        if(!is_null($result)){
+            return current($result);
+        }
+		return "";
     }
 
     public function get_item_id_from_type($type_name){

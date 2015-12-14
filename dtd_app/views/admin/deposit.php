@@ -5,7 +5,7 @@
                     <div class="col-lg-12">
                         <h1 class="page-header">Customer Money Deposit</h1>
                     </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <?php if (!empty($error)) { ?>
                                 <div class="alert alert-danger fade in"><?= $error; ?></div>
                             <?php } ?>
@@ -19,32 +19,33 @@
                         <div class="form-group  required">
                             <label>Customer Name</label>
                             <?PHP
-                                $attributes = 'class="form-control" name="custname" required autofocus';
+                                $attributes = 'class="form-control" id="custname" name="custname" required autofocus';
                                 echo form_dropdown('custname',$customers,set_value('custname'),$attributes);
                             ?>
+                            <input type="hidden" name="hiddepid" id="hiddepid" value="0"/>
                         </div>
                         <div class="form-group required">
                             <label>Date of Deposit</label>
-                            <input class="form-control datepicker" placeholder="Click to Select Date" name="depositdate" required>
+                            <input class="form-control datepicker" placeholder="Click to Select Date" name="depositdate" id="depositdate" required>
                         </div>
                         <div class="form-group required">
                             <label>Amount</label>
-                            <input class="form-control" placeholder="Enter Amount" name="depamount" autofocus required>
+                            <input class="form-control" placeholder="Enter Amount" name="depamount"  id="depamount" required>
                         </div>
                         <div class="form-group ">
                             <label>Transaction Reference</label>
-                            <input class="form-control" placeholder="Enter Transaction Reference Number" name="depreference">
+                            <input class="form-control" placeholder="Enter Transaction Reference Number" name="depreference" id="depreference">
                         </div>
 
                         <div class="form-group ">
                             <label>Bank Name</label>
-                            <input class="form-control" placeholder="Enter Bank Name" name="depbank" >
+                            <input class="form-control" placeholder="Enter Bank Name" name="depbank" id="depbank">
                         </div>
                         <div class="form-group">
-                            <button type="submit" href="<?=site_url('admin/deposit')?>" class="btn btn-primary" name="btnDeposit" id="btnDeposit" value="Deposit">Deposit</button>
+                            <button type="submit" class="btn btn-primary" name="btnDeposit" id="btnDeposit" value="Deposit">Deposit</button>
                         </div>
                     </div>
-                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
+                    <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 Daily Deposits from Customers
@@ -58,6 +59,7 @@
                                         <th>Amount</th>
                                         <th>Transaction No.</th>
                                         <th>Bank Name</th>
+                                        <th>Edit/Delete</th>
                                     </tr>
                                     </thead>
                                     <tfoot>
@@ -67,6 +69,7 @@
                                         <th>Amount</th>
                                         <th>Transaction No.</th>
                                         <th>Bank Name</th>
+                                        <th>Edit/Delete</th>
                                     </tr>
                                     </tfoot>
                                 </table>

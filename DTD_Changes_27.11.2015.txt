@@ -1,0 +1,14 @@
+Admin
+
+1) Edit & Delete in Customer Deposit (Done)
+2) Edit & Delete in Vendor Payment
+3) Backup need filtering option.
+4) Delivered Item should not be modified or deleted (Done)
+5) Messages should have Reply and Delete
+6) On resize order request input not working (Done)
+7) Vendor Tracking code display at customer (Done)
+8) Download function break with Korean character (Done)
+9) Upload also ahs korean character problem (Item Not Presnet)
+10) Alert message when low balance at time or Order Request
+11) Forgot Password, Forget ID (Done)
+12) TOC / PP pages content (Done)

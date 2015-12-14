@@ -76,10 +76,10 @@
                         </textarea>
                     </div>
 
-                    <div class="form-group">
+                    <!--div class="form-group">
                         <label>Mobile Number</label>
                         <input class="form-control" placeholder="Enter Mobile Number" name="mobile" id="mobile" value="<?=set_value('mobile');?>">
-                    </div>
+                    </div-->
                     <div class="form-group">
                         <label>Telephone Number</label>
                         <input class="form-control" placeholder="Enter Telephone Number" name="telephone" id="telephone" value="<?=set_value('telephone');?>">
@@ -103,16 +103,16 @@
                         <label>Item Name</label>
                         <input class="form-control" placeholder="Enter Item Name" name="itemname" id="itemname" value="<?=set_value('itemname');?>">
                     </div>
-                    <div class="form-group">
+                    <!--div class="form-group">
                         <label>Item Description</label>
                         <textarea class="form-control" placeholder="Description" rows="3" name="itemdesc" id="itemdesc">
                             <?=set_value('itemdesc');?>
                         </textarea>
-                    </div>
+                    </div-->
 
 
                 </div>
-                <div class="col-lg-12">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label>Memo</label>
                         <textarea class="form-control" placeholder="Memo" rows="3" name="itemmemo" id="itemmemo">
@@ -122,7 +122,7 @@
                 </div>
 
 
-                <div class="col-lg-12">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <?php if($action == 'customer/cnf_order') { ?>
                     <div class="form-group">
                         <input type="submit" class="btn btn-primary" name="btnCnfOrder" id="btnCnfOrder" value="Confirm Order">
@@ -130,6 +130,7 @@
                     <?php } else { ?>
                     <div class="form-group">
                         <input type="submit" class="btn btn-primary" name="btnOrder" id="btnOrder" value="Book Order">
+                        <a href="<?=site_url('customer/import_order')?>" class="btn btn-primary pull-right">Import Orders</a>
                     </div>
                     <?php } ?>
                 </div>

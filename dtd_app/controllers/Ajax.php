@@ -103,6 +103,16 @@ class Ajax extends CI_Controller {
 		$data['deleted'] = $this->Admin_Model->delete_item($type_id);
 		die(json_encode($data));
 	}
+	public function delete_deposit(){
+		$dep_id = $this->input->post('dep_id');
+		$deposit = $this->Admin_Model->get_deposit($dep_id);
+		if(!is_null($deposit)){
+			$this->Customer_Model->set_user_balance(-$deposit['dep_amount'],$deposit['dep_custid']);
+			$data['deleted'] = $this->Admin_Model->delete_deposit($dep_id);
+		}
+		die(json_encode($data));
+	}
+
 	public function edit_item(){
 		$result = array();
 		$type_id = $this->input->post('type_id');
@@ -206,6 +216,11 @@ class Ajax extends CI_Controller {
 	}
 	public function a_sent_msg(){
 		die($this->Admin_Model->get_sent_message());
+	}
+
+	public function get_captcha($id = 0){
+		$this->load->library('Escaptcha', array('id' => $id));
+		return $this->escaptcha->get_html();
 	}
 
 }

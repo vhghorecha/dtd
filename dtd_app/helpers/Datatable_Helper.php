@@ -10,6 +10,13 @@ function callback_order_status($order_status,$order_id){
     return $order_status;
 }
 
+function callback_edit_order($order_status, $order_id){
+    if($order_status != 'Delivered'){
+        return '<a href="' . site_url('customer/editorder') . '/' . $order_id .'">Edit</a> | <a href="' . site_url('customer/deleteorder') . '/' . $order_id . '" onClick="return confirm(\'Are you sure?\')">Delete</a>';
+    }
+    return '---';
+}
+
 function callback_vendor_pay_order($order_id,$order_amount){
     return '<input type="checkbox" name="order_id[' . $order_id . ']" value="' . $order_amount . '" class="a_pay_order_amt"/> ' . $order_id;
 }
@@ -17,6 +24,11 @@ function callback_vendor_pay_order($order_id,$order_amount){
 function callback_edit_item($type_id,$type_name){
     return '<a href="#" class="edit_item" data-typeid="'.$type_id.'" data-typename="'.$type_name.'"><i class="fa fa-edit"></i> Edit</a> |
                 <a href="#" class="delete_item" data-typeid="'.$type_id.'"><i class="fa fa-remove"></i> Delete</a>';
+}
+
+function callback_edit_deposit($dep_id){
+    return '<a href="'. site_url("admin/editdeposit/") . '/' . $dep_id . '" class="edit_item" data-depid="'.$dep_id.'">Edit</a> |
+                <a href="#" class="delete_item" data-depid="'.$dep_id.'">Delete</a>';
 }
 
 function callback_edit_grade($grade_id,$grade_name){

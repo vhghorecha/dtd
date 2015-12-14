@@ -103,11 +103,17 @@ class Admin_Model extends CI_Model{
         return $this->db->insert_id();
     }
 
+    public function update_deposit($data, $dep_id){
+        $this->db->where('dep_id', $dep_id);
+        $this->db->update('custdep', $data);
+    }
+
     public function get_daily_deposits(){
-        $this->datatables->select('DATE_FORMAT(dep_date,"%b-%d")as depdate,user_name,dep_amount,dep_transno,dep_bankname')
+        $this->datatables->select('DATE_FORMAT(dep_date,"%b-%d")as depdate,user_name,dep_amount,dep_transno,dep_bankname,dep_id')
             ->from('custdep')
             ->join('users','users.user_id=custdep.dep_custid')
-            ->edit_column('dep_amount','$1','callback_format_amount(dep_amount)');
+            ->edit_column('dep_amount','$1','callback_format_amount(dep_amount)')
+            ->edit_column('dep_id','$1','callback_edit_deposit(dep_id)');
         return $this->datatables->generate();
     }
 
@@ -208,6 +214,12 @@ class Admin_Model extends CI_Model{
     public function delete_item($type_id){
         $this->db->where('type_id',$type_id);
         $this->db->delete('item_type');
+        return $this->db->affected_rows();
+    }
+
+    public function delete_deposit($dep_id){
+        $this->db->where('dep_id',$dep_id);
+        $this->db->delete('custdep');
         return $this->db->affected_rows();
     }
 
@@ -342,6 +354,18 @@ class Admin_Model extends CI_Model{
         $this->db->from('dtd_order');
         return $this->db->count_all_results();
     }
+
+    public function get_deposit($dep_id = null){
+        if(is_null($dep_id)){
+            $dep_id = $this->input->post('dep_id');
+        }
+        $this->db->select("*, DATE_FORMAT(dep_date,'%d/%m/%Y') as dep_date");
+        $this->db->from('custdep');
+        $this->db->join('users','users.user_id = custdep.dep_custid');
+        $this->db->where('dep_id', $dep_id);
+        return $this->db->get()->row_array();
+    }
+
     public function get_customer_deposit()
     {
         $this->db->select_sum('dep_amount');

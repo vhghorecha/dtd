@@ -123,5 +123,20 @@ class User_Model extends CI_Model{
 		}
 		return null;
 	}
+
+	public function reset_user_pwd($email){
+		$this->db->select('user_id');
+		$this->db->where('user_email', $email);
+		$row = $this->db->get('users')->row_array();
+		if(!is_null($row)){
+			$newpass = rand(11111,999999);
+			$user_id = current($row);
+			$this->db->set('user_pass', md5($newpass));
+			$this->db->where('user_id', $user_id);
+			$this->db->update('dtd_users');
+			return $newpass;
+		}
+		return false;
+	}
 }
 ?>

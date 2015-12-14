@@ -175,6 +175,12 @@
                                 <tr>
                                     <td><?=$profile['vendor_name'];?></td><td><?=$profile['vendor_email'];?></td>
                                 </tr>
+                                <tr>
+                                    <td><?=$profile['vendor_tel'];?></td><td><?=$profile['vendor_rep'];?></td>
+                                </tr>
+                                <tr>
+                                    <td><?=$profile['vendor_add'];?></td><td><?=$profile['vendor_zipcode'];?></td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>

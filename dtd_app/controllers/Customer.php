@@ -68,15 +68,6 @@ class Customer extends CI_Controller {
 				)
 			),
 			array(
-				'field' => 'mobile',
-				'label' => 'Mobile Number',
-				'rules' => 'required|numeric',
-				'errors' => array(
-					'required' => 'You must provide a %s',
-					'numeric' => '%s must be numeric'
-				)
-			),
-			array(
 				'field' => 'telephone',
 				'label' => 'Telephone Number',
 				'rules' => 'required|numeric',
@@ -92,24 +83,7 @@ class Customer extends CI_Controller {
 				'errors' => array(
 					'required' => 'You must provide a %s'
 				)
-			),
-			array(
-				'field' => 'itemdesc',
-				'label' => 'Item Description',
-				'rules' => 'required',
-				'errors' => array(
-					'required' => 'You must provide a %s'
-				)
-			),
-			array(
-				'field' => 'itemmemo',
-				'label' => 'Item Memo',
-				'rules' => 'required',
-				'errors' => array(
-					'required' => 'You must provide a %s'
-				)
 			)
-
 		);
 		return $config;
 	}

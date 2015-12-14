@@ -143,6 +143,59 @@ class User extends CI_Controller {
 		}
 	}
 
+	public function lostpwd(){
+		$data = array();
+		$getpass = $this->input->post('btnReset');
+		if($getpass == 'Get New Password'){
+			$this->load->library('Escaptcha', array('id' => 'lostpwd'));
+			$answer = $this->security->xss_clean($this->input->post('txtcaptcha'));
+			$captcha = $this->escaptcha->check_captcha($answer);
+			if($captcha) {
+				$config = array(
+					array(
+						'field' => 'txtemail',
+						'label' => 'E-mail',
+						'rules' => 'required|valid_email',
+						'errors' => array(
+							'required' => 'You must provide a %s',
+							'valid_email' => 'You must provide a valid %s',
+						)
+					),
+				);
+				$this->form_validation->set_rules($config);
+				if ($this->form_validation->run() == true) {
+					$email = $this->input->post('txtemail');
+					$is_changed = $this->user_model->reset_user_pwd($email);
+					if ($is_changed) {
+						$this->load->library('email');
+
+						$this->email->from('admin@dtd.com', 'Admin');
+						$this->email->to($email);
+
+						$this->email->subject('You New Password for DTD');
+						$this->email->message('You New Password : ' . $is_changed);
+
+						$this->email->send();
+						$message = 'New password sent on your email address';
+					} else {
+						$error = 'Email address not registered...';
+					}
+				} else {
+					$error = validation_errors();
+				}
+			}else{
+				$error = 'Invalid Captcha...';
+			}
+		}
+		if(!empty($error)){
+			$data['error'] = $error;
+		}
+		if(!empty($message)){
+			$data['message'] = $message;
+		}
+		$this->load->template('lostpwd',$data);
+	}
+
 	public function logout(){
 		$this->session->unset_userdata('userinfo');
 		redirect("/");
