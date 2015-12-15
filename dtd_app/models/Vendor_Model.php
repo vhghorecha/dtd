@@ -249,6 +249,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             $this->datatables->select("msg_id, msg_from, msg_title, msg_desc, DATE_FORMAT(msg_date,'%b-%d') as msg_date")
                 ->from('dtd_message')
                 ->edit_column('msg_from','$1', 'callback_message_from(msg_from)')
+                ->edit_column('msg_id','$1', 'callback_edit_message(msg_id,vendor)')
                 ->where_in('msg_to', $msg_to);
             return $this->datatables->generate();
         }

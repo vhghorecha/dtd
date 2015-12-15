@@ -122,14 +122,32 @@ class Customer_Model extends CI_Model
         $this->db->from('dtd_itemprice');
         $this->db->where('gi_type', $item_id);
         $query = $this->db->get();
-        $item_price = current($query->row_array());
+        //$row_price = current($query->row_array());
+        $row_price = $query->row_array();
+        if(!is_null($row_price))
+        {
+            $item_price= current($row_price);
+        }
+        else
+        {
+            $item_price = 0;
+        }
+        //$item_price = current($query->row_array());
 
         $this->db->select('gp_disc');
         $this->db->from('dtd_gradeprice');
         $this->db->where('gp_id', $user_grade['grade']);
         $query = $this->db->get();
-        $item_discount = current($query->row_array());
-
+        $rows_item = $query->row_array();
+        if(!is_null($rows_item))
+        {
+            $item_discount = current($rows_item);
+        }
+        else
+        {
+            $item_discount = 0;
+        }
+        //$item_discount = current($query->row_array());
         $charges = $item_price - (($item_price * $item_discount) / 100);
         return $charges;
     }
@@ -329,6 +347,7 @@ class Customer_Model extends CI_Model
         $this->datatables->select("msg_id, msg_from, msg_title, msg_desc, DATE_FORMAT(msg_date,'%b-%d') as m_date")
             ->from('dtd_message')
             ->edit_column('msg_from','$1', 'callback_message_from(msg_from)')
+            ->edit_column('msg_id','$1', 'callback_edit_message(msg_id,customer)')
             ->where_in('msg_to', $msg_to)
             ->or_where('msg_to', 'allvc')
             ->where('msg_from', $vendor_id);

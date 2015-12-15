@@ -21,6 +21,7 @@
             <?php if($action == 'customer/cnf_order') { ?>
                 <div class="col-xs-12">
                     <div class="panel panel-primary">
+
                         <div class="panel-heading">
                             Your Account Statistics
                         </div>

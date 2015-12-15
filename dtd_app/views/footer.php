@@ -439,12 +439,31 @@
             "responsive" : true,
 
             "columns": [
-                { "data": "msg_id" },
+
                 { "data": "msg_from", "width": "15%" },
                 { "data": "msg_title", "width": "25%" },
                 { "data": "msg_desc", "width": "50%" },
                 { "data": "m_date", "width": "10%" },
+                { "data": "msg_id" },
+
             ],
+            "drawCallback" : function(){
+                $('.delete_item').click(function(){
+                    $msg_id = $(this).data('msgid');
+                    $isDelete = confirm('Are you sure you want to delete this message?');
+                    if($isDelete){
+                        $.ajax({
+                            type:'POST',
+                            url: '<?=site_url("ajax/delete_rec_message");?>',
+                            dataType: 'json',
+                            data: {msg_id : $msg_id},
+                            success:function(data, textStatus, jqXHR){
+                                table.fnDraw(false);
+                            }
+                        });
+                    }
+                });
+            },
         } );
 
         // Setup - add a text input to each footer cell
@@ -473,12 +492,30 @@
             "sAjaxSource": "<?=site_url('ajax/v_rec_msg');?>",
             "responsive" : true,
             "columns": [
-                { "data": "msg_id" },
+
                 { "data": "msg_from", "width": "15%" },
                 { "data": "msg_title", "width": "25%" },
                 { "data": "msg_desc", "width": "50%" },
                 { "data": "msg_date", "width": "10%" },
+                { "data": "msg_id" },
             ],
+            "drawCallback" : function(){
+                $('.delete_item').click(function(){
+                    $msg_id = $(this).data('msgid');
+                    $isDelete = confirm('Are you sure you want to delete this message?');
+                    if($isDelete){
+                        $.ajax({
+                            type:'POST',
+                            url: '<?=site_url("ajax/delete_rec_message");?>',
+                            dataType: 'json',
+                            data: {msg_id : $msg_id},
+                            success:function(data, textStatus, jqXHR){
+                                table.fnDraw(false);
+                            }
+                        });
+                    }
+                });
+            },
         } );
 
         // Setup - add a text input to each footer cell
@@ -540,12 +577,31 @@
             "sAjaxSource": "<?=site_url('ajax/a_rec_msg');?>",
             "responsive" : true,
             "columns": [
-                { "data": "msg_id" },
+
                 { "data": "msg_from", "width": "15%" },
                 { "data": "msg_title", "width": "25%" },
-                { "data": "msg_desc", "width": "50%" },
+                { "data": "msg_desc", "width": "40%" },
                 { "data": "msg_date", "width": "10%" },
+                { "data": "msg_id", "width": "10%" },
             ],
+            "drawCallback" : function(){
+                $('.delete_item').click(function(){
+                    $msg_id = $(this).data('msgid');
+                    $isDelete = confirm('Are you sure you want to delete this message?');
+                    if($isDelete){
+                        $.ajax({
+                            type:'POST',
+                            url: '<?=site_url("ajax/delete_rec_message");?>',
+                            dataType: 'json',
+                            data: {msg_id : $msg_id},
+                            success:function(data, textStatus, jqXHR){
+                                table.fnDraw(false);
+                            }
+                        });
+                    }
+                });
+            },
+
         } );
 
         // Setup - add a text input to each footer cell
@@ -593,7 +649,12 @@
         } );
     </script>
 <?php } ?>
-
+<?php if($current_action == 'message') { ?>
+    <script type="text/javascript" language="javascript" src="<?=RES_URL;?>js/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript">
+        tinymce.init({ selector:'textarea',height: 300 });
+    </script>
+<?php } ?>
 <?php if($current_page == 'customer' && $current_action == 'orders') { ?>
     <script>
         var table = $('#c_orders').dataTable( {
@@ -1077,7 +1138,29 @@
                 { "data": "pay_amount" },
                 { "data": "pay_transno" },
                 { "data": "pay_bankname" },
-            ]
+                { "data": "dep_id" },
+            ],
+            "drawCallback" : function(){
+                $('.delete_item').click(function(){
+                    $delid = $(this).data("depid");
+                    $isDelete = confirm('Are you sure to delete this?');
+                    if($isDelete==true)
+                    {
+                        $.ajax({
+                            type:'POST',
+                            url: '<?=site_url("ajax/delete_payment");?>',
+                            dataType: 'json',
+                            data: {dep_id : $delid},
+                            success:function(data, textStatus, jqXHR){
+                                table.fnDraw(false);
+                            }
+                        });
+                    }
+
+                });//end of delete_item click
+
+            }
+            //end of drawback
         } );
     </script>
 <?php } ?>

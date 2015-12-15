@@ -42,7 +42,7 @@
                         <!-- /.col-lg-12 -->
                     </div>
                     <!-- /.row -->
-                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                         <?php if (!empty($error)) { ?>
                             <div class="alert alert-danger fade in"><?= $error; ?></div>
                         <?php } ?>
@@ -80,7 +80,7 @@
                             <button type="submit" href="<?=site_url('admin/payment')?>" class="btn btn-primary" name="btnSave" id="btnSave" value="save">Save</button>
                         </div>
                     </div>
-                    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
+                    <div class="col-lg-9 col-md-9 col-sm-6 col-xs-12">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 Daily Payments to Vendors
@@ -94,6 +94,7 @@
                                         <th>Amount</th>
                                         <th>Transaction No.</th>
                                         <th>Bank Name</th>
+                                        <th>Edit/Delete</th>
                                     </tr>
                                     </thead>
                                     <tfoot>
@@ -103,6 +104,7 @@
                                         <th>Amount</th>
                                         <th>Transaction No.</th>
                                         <th>Bank Name</th>
+                                        <th>Edit/Delete</th>
                                     </tr>
                                     </tfoot>
                                 </table>

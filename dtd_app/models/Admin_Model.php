@@ -37,8 +37,16 @@ class Admin_Model extends CI_Model{
         $this->datatables->select("msg_id, msg_from,  msg_title, msg_desc, DATE_FORMAT(msg_date,'%b-%d') as msg_date")
             ->from('dtd_message')
             ->edit_column('msg_from','$1', 'callback_message_from(msg_from)')
+            ->edit_column('msg_id','$1', 'callback_edit_message(msg_id,admin)')
             ->where('msg_to', '0');
         return $this->datatables->generate();
+    }
+
+    public function delete_rec_message($msg_id)
+    {
+        $this->db->where('msg_id',$msg_id);
+        $this->db->delete('message');
+        return $this->db->affected_rows();
     }
     public function get_sent_message(){
         $cust_id = '0';
@@ -108,6 +116,11 @@ class Admin_Model extends CI_Model{
         $this->db->update('custdep', $data);
     }
 
+    public function update_payment($data, $dep_id){
+        $this->db->where('dep_id', $dep_id);
+        $this->db->update('vendorpay', $data);
+    }
+
     public function get_daily_deposits(){
         $this->datatables->select('DATE_FORMAT(dep_date,"%b-%d")as depdate,user_name,dep_amount,dep_transno,dep_bankname,dep_id')
             ->from('custdep')
@@ -118,10 +131,11 @@ class Admin_Model extends CI_Model{
     }
 
     public function get_daily_payments(){
-        $this->datatables->select('DATE_FORMAT(pay_date,"%b-%d")as paydate,user_name,pay_amount,pay_transno,pay_bankname')
-            ->from('dtd_vendorpay')
+        $this->datatables->select('DATE_FORMAT(pay_date,"%b-%d")as paydate,user_name,pay_amount,pay_transno,pay_bankname,dep_id')
+            ->from('vendorpay')
             ->join('users','users.user_id=vendorpay.pay_vendorid')
-            ->edit_column('pay_amount','$1','callback_format_amount(pay_amount)');
+            ->edit_column('pay_amount','$1','callback_format_amount(pay_amount)')
+            ->edit_column('dep_id','$1','callback_edit_payment(dep_id)');
         return $this->datatables->generate();
     }
 
@@ -211,6 +225,16 @@ class Admin_Model extends CI_Model{
         return $this->db->affected_rows();
     }
 
+    public function get_message($msgid){
+        $this->db->select("DATE_FORMAT(msg_date,'%d/%m/%Y') as msg_date, msg_from, msg_desc,msg_title");
+        $this->db->where('msg_id',$msgid);
+        $query = $this->db->get('message');
+        $message = $query->row_array();
+        $message['msg_from'] = callback_message_from($message['msg_from']);
+        $txtmessage = '<br/><br/>===============================================================<br/>';
+        $txtmessage .= 'On ' . $message['msg_date'] . ', ' . $message['msg_from'] . ' wrote:<br/>' . $message['msg_desc'];
+        return $txtmessage;
+    }
     public function delete_item($type_id){
         $this->db->where('type_id',$type_id);
         $this->db->delete('item_type');
@@ -220,6 +244,12 @@ class Admin_Model extends CI_Model{
     public function delete_deposit($dep_id){
         $this->db->where('dep_id',$dep_id);
         $this->db->delete('custdep');
+        return $this->db->affected_rows();
+    }
+
+    public function delete_payment($dep_id){
+        $this->db->where('dep_id',$dep_id);
+        $this->db->delete('vendorpay');
         return $this->db->affected_rows();
     }
 
@@ -362,6 +392,17 @@ class Admin_Model extends CI_Model{
         $this->db->select("*, DATE_FORMAT(dep_date,'%d/%m/%Y') as dep_date");
         $this->db->from('custdep');
         $this->db->join('users','users.user_id = custdep.dep_custid');
+        $this->db->where('dep_id', $dep_id);
+        return $this->db->get()->row_array();
+    }
+
+    public function get_payment($dep_id = null){
+        if(is_null($dep_id)){
+            $dep_id = $this->input->post('dep_id');
+        }
+        $this->db->select("*, DATE_FORMAT(pay_date,'%d/%m/%Y') as pay_date");
+        $this->db->from('vendorpay');
+        $this->db->join('users','users.user_id = vendorpay.pay_vendorid');
         $this->db->where('dep_id', $dep_id);
         return $this->db->get()->row_array();
     }

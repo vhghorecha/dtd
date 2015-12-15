@@ -31,6 +31,16 @@ function callback_edit_deposit($dep_id){
                 <a href="#" class="delete_item" data-depid="'.$dep_id.'">Delete</a>';
 }
 
+function callback_edit_payment($dep_id){
+    return '<a href="'. site_url("admin/editpayment/") . '/' . $dep_id . '" class="edit_item" data-depid="'.$dep_id.'">Edit</a> |
+                <a href="#" class="delete_item" data-depid="'.$dep_id.'">Delete</a>';
+}
+
+function callback_edit_message($msg_id,$user){
+    return '<a href="'. site_url("$user/message/") . '/' . $msg_id . '" class="edit_item" data-msgid="'.$msg_id.'">Reply</a> |
+                <a href="#" class="delete_item" data-msgid="'.$msg_id.'">Delete</a>';
+}
+
 function callback_edit_grade($grade_id,$grade_name){
     return '<a href="#" class="edit_grade" data-gradeid="'.$grade_id.'" data-gradename="'.$grade_name.'"><i class="fa fa-edit"></i> Edit</a> |
                 <a href="#" class="delete_grade" data-gradeid="'.$grade_id.'"><i class="fa fa-remove"></i> Delete</a>';

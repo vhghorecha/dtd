@@ -113,6 +113,26 @@ class Ajax extends CI_Controller {
 		die(json_encode($data));
 	}
 
+	public function delete_payment(){
+		$dep_id = $this->input->post('dep_id');
+		$payment = $this->Admin_Model->get_payment($dep_id);
+		if(!is_null($payment)){
+			$this->Customer_Model->set_user_balance(-$payment['pay_amount'],$payment['pay_vendorid']);
+			$data['deleted'] = $this->Admin_Model->delete_payment($dep_id);
+		}
+		die(json_encode($data));
+	}
+
+	public function delete_rec_message()
+	{
+		$msg_id = $this->input->post('msg_id');
+		$message = $this->Admin_Model->get_rec_message($msg_id);
+		if(!is_null($message)){
+			$data['deleted'] = $this->Admin_Model->delete_rec_message($msg_id);
+		}
+		die(json_encode($data));
+	}
+
 	public function edit_item(){
 		$result = array();
 		$type_id = $this->input->post('type_id');
