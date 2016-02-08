@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="2a90dbbf-6954-423a-9530-21cef8cf1366" name="DTD" url="http://aivisgn.cafe24.com">
+        <fileTransfer host="aivisgn.cafe24.com" port="21" rootFolder="/www" password="dfdcdfc3dfc7dfcbdfc6df9adf93df98df9a" username="aivisgn">
+          <advancedOptions>
+            <advancedOptions controlEncoding="utf-8" dataProtectionLevel="Private" passiveMode="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

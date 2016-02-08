@@ -52,8 +52,20 @@ class Ajax extends CI_Controller {
 
 	public function v_ord_rec()
 	{
+		die($this->Vendor_Model->get_ord_rec());
+	}
+
+	public function v_orders(){
 		die($this->Vendor_Model->get_orders());
 	}
+
+	public function v_monthly(){
+		die(json_encode($this->Vendor_Model->get_monthly_orders()));
+	}
+	public function v_today(){
+		die(json_encode($this->Vendor_Model->get_daily_orders()));
+	}
+
 	public function a_app_ord()
 	{
 		die($this->Admin_Model->get_created_orders());
@@ -67,6 +79,12 @@ class Ajax extends CI_Controller {
 	}
 	public function c_orders(){
 		die($this->Customer_Model->get_user_orders());
+	}
+	public function c_monthly(){
+		die(json_encode($this->Customer_Model->get_monthly()));
+	}
+	public function c_today(){
+		die(json_encode($this->Customer_Model->get_today()));
 	}
 	public function a_pending_vendors(){
 		die($this->Admin_Model->get_pending_vendors());

@@ -17,11 +17,18 @@
                     'role' => 'form'
                 )); ?>
                 <div class="form-group">
-                    <label>Select Receipients</label>
-                </div>
-                <div class="form-group">
-                    <input type="radio" name="reci" value="admin" checked> Administrator  <input type="radio" name="reci" value="vendor"> Vendor
-
+                    <?php if(isset($txtreci)){ ?>
+                        <div class="form-group">
+                            <label>To</label>
+                        </div>
+                        <input type="hidden" name="reci" value="<?=$txtreci;?>"/>
+                        <?php echo callback_message_to($txtreci);?>
+                    <?php } else { ?>
+                        <div class="form-group">
+                            <label>Select Receipients</label>
+                        </div>
+                        <input type="radio" name="reci" value="admin" checked> Administrator  <input type="radio" name="reci" value="vendor"> Vendor
+                    <?php } ?>
                 </div>
                 <div class="form-group">
                     <label>Subject*</label>

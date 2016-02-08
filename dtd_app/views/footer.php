@@ -27,7 +27,17 @@
         $('.tdatepicker').datepicker({
             format: "M-dd"
         });
-        $('.datepicker, .tdatepicker').on('changeDate', function(ev){
+        $('.ydatepicker').datepicker({
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years"
+        });
+        $('.mdatepicker').datepicker({
+            format:"yyyy-mm",
+            viewMode: "months",
+            minViewMode: "months"
+        });
+        $('.datepicker, .tdatepicker, .ydatepicker, .mdatepicker').on('changeDate', function(ev){
             $(this).datepicker('hide');
         });
         $('select').select2();
@@ -60,10 +70,11 @@
                     success:function(data, textStatus, jqXHR){
                         if(typeof data.message !== 'undefined'){
                             $('#update_res').html('<div class="alert alert-success">' + data.message + '</div>')
+                            table.fnDraw(false);
+                            $('#pop_up_order').modal('hide');
                         }else{
                             $('#update_res').html('<div class="alert alert-error">' + data.error + '</div>')
                         }
-                        table.fnDraw(false);
                     }
                 });
             });
@@ -110,6 +121,105 @@
             }
 
         } );
+    </script>
+<?php } ?>
+
+<?php if($current_page == 'vendor' && $current_action == 'orders') { ?>
+    <script>
+        var table = $('#v_ord_rec').dataTable( {
+            "sDom": '<"top"pl>rt<"bottom"><"clear">',
+            "aaSorting": [[1, "desc"]],
+            "oLanguage": {
+                "sLengthMenu": "_MENU_ records per page"
+            },
+            "bProcessing": true,
+            "bServerSide": true,
+            "sAjaxSource": "<?=site_url('ajax/v_orders');?>",
+            "responsive" : true,
+            "columns": [
+                { "data": "ord_date" },
+                { "data": "order_id" },
+                { "data": "user_name" },
+                { "data": "order_recipient" },
+                { "data": "order_telno" },
+                { "data": "type_name" },
+                { "data": "order_itemname" },
+                { "data": "order_status" },
+                { "data": "user_comp" },
+                { "data": "user_rep" },
+
+            ]
+        } );
+
+        // Setup - add a text input to each footer cell
+        $('#v_ord_rec tfoot th').each( function () {
+            //var title = $('#example thead th').eq( $(this).index() ).text();
+            if($(this).index() != 0 ){
+                $(this).html( txtsearch );
+            }else{
+                $(this).html( datesearch );
+            }
+        } );
+
+        var v_ord_d = $('#v_ord_d').dataTable( {
+            "bProcessing": true,
+            "responsive" : true,
+        } );
+
+        // Setup - add a text input to each footer cell
+        $('#v_ord_d tfoot th').each( function () {
+            //var title = $('#example thead th').eq( $(this).index() ).text();
+            if($(this).index() == 0){
+                $(this).html( datesearch );
+            }
+
+            if($(this).index() == 1){
+                $(this).html( txtsearch );
+            }
+        } );
+
+        v_ord_d.DataTable().columns().every( function () {
+            var that = this;
+            $( 'input', this.footer() ).on( 'keyup change', function () {
+                if ( that.search() !== this.value ) {
+                    that
+                        .search( this.value )
+                        .draw();
+                }
+            } );
+        } );
+
+        var v_ord_m = $('#v_ord_m').dataTable( {
+            "bProcessing": true,
+            "responsive" : true,
+        } );
+
+        $('#v_ord_m tfoot th').each( function () {
+            //var title = $('#example thead th').eq( $(this).index() ).text();
+            if($(this).index() == 0 || $(this).index() == 1 ){
+                $(this).html( txtsearch );
+            }
+        } );
+
+        v_ord_m.DataTable().columns().every( function () {
+            var that = this;
+            $( 'input', this.footer() ).on( 'keyup change', function () {
+                if ( that.search() !== this.value ) {
+                    that
+                        .search( this.value )
+                        .draw();
+                }
+            } );
+        } );
+
+        $('.mdatepicker').change(function(){
+            $('#frmorders').submit();
+        });
+
+        $('#daypicker').change(function(){
+            $('#frmorders').submit();
+        });
+
     </script>
 <?php } ?>
 
@@ -689,6 +799,34 @@
             }
 
         } );
+
+        $('.mdatepicker').change(function(){
+            $.ajax({
+                type:'POST',
+                url: '<?=site_url("ajax/c_monthly");?>',
+                dataType: 'json',
+                data: {month : $(this).val()},
+                success:function(data, textStatus, jqXHR){
+                    $('#tmonthcount').html(data.monthcount);
+                    $('#tdeliver').html(data.deliver);
+                    $('#tpending').html(data.pending);
+                    $('#tamount').html(data.amount);
+                }
+            });
+        });
+
+        $('#daypicker').change(function(){
+            $.ajax({
+                type:'POST',
+                url: '<?=site_url("ajax/c_today");?>',
+                dataType: 'json',
+                data: {day : $(this).val()},
+                success:function(data, textStatus, jqXHR){
+                    $('#daycount').html(data.count);
+                    $('#daysum').html(data.sum);
+                }
+            });
+        });
     </script>
 <?php } ?>
 
@@ -838,6 +976,7 @@
                 { "data": "user_areacode"},
                 { "data": "grade_name"},
                 { "data": "user_modify"},
+                { "data": "user_vendor"},
             ],
             "drawCallback" : function(){
                 $('.update_customer').click(function(){
@@ -879,7 +1018,6 @@
                 { "data": "user_site" },
                 { "data": "user_staffname" },
                 { "data": "user_stafftel" },
-                { "data": "user_balance"},
             ]
         } );
         // Setup - add a text input to each footer cell

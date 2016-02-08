@@ -916,8 +916,9 @@ class Admin extends CI_Controller {
         $this->load->template('admin/money_paid');
     }
     public function account()
-    {	$data['account']=$this->Admin_Model->get_admin_account();
-        //print_r($data);
+    {
+        $data['account']=$this->Admin_Model->get_admin_account();
+        $data['yaccount']=$this->Admin_Model->get_admin_account_year();
         $this->load->template('admin/account',$data);
     }
     public function orders_pending()
@@ -990,6 +991,8 @@ class Admin extends CI_Controller {
             if(!is_null($msgid))
             {
                 $data["txtmsg"]= $this->Admin_Model->get_message($msgid);
+                $data["txtsub"] = "Re: " . $this->Admin_Model->get_subject($msgid);
+                $data["txtreci"] = $this->Admin_Model->get_from($msgid);
             }
 
             $data['vendors'] = $this->Admin_Model->get_vendors();

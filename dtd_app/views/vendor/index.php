@@ -65,7 +65,7 @@
                         </div>
                         <a href="#">
                             <div class="panel-footer">
-                                <span class="pull-left"><a href="<?=site_url('vendor/orders_received');?>">View Details</a></span>
+                                <span class="pull-left"><a href="<?=site_url('vendor/orders');?>">View Details</a></span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                 <div class="clearfix"></div>
                             </div>

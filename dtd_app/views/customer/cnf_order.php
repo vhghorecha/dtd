@@ -49,9 +49,6 @@
                         <textarea class="form-control" rows="3" name="itemmemo" id="itemmemo" readonly></textarea>
                     </div>
 
-
-
-
                 </div>
                 </fieldset>
 

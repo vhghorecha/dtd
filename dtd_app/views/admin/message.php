@@ -17,19 +17,27 @@
                     'role' => 'form'
                 )); ?>
                 <div class="form-group">
-                    <label>Select Receipients</label>
+                    <?php if(isset($txtreci)){ ?>
+                        <div class="form-group">
+                            <label>To</label>
+                        </div>
+                        <input type="hidden" name="reci" value="<?=$txtreci;?>"/>
+                        <?php echo callback_message_to($txtreci);?>
+                    <?php } else { ?>
+                        <div class="form-group">
+                            <input type="radio" name="reci" value="all" checked> All DTD Users  <input type="radio" name="reci" value="allc"> All Customers  <input type="radio" name="reci" value="allv"> All Vendors
+                            <input type="radio" name="reci" value="customer"> Customer <?PHP
+                            $attributes = 'name="custname"';
+                            echo form_dropdown('custname',$customers,set_value('custname'),$attributes);
+                            ?>
+                            <input type="radio" name="reci" value="vendor"> Vendor <?PHP
+                            $attributes = 'name="vendname"';
+                            echo form_dropdown('vendname',$vendors,set_value('vendname'),$attributes);
+                            ?>
+                        </div>
+                    <?php } ?>
                 </div>
-                <div class="form-group">
-                    <input type="radio" name="reci" value="all" checked> All DTD Users  <input type="radio" name="reci" value="allc"> All Customers  <input type="radio" name="reci" value="allv"> All Vendors
-                    <input type="radio" name="reci" value="customer"> Customer <?PHP
-                    $attributes = 'name="custname"';
-                    echo form_dropdown('custname',$customers,set_value('custname'),$attributes);
-                    ?>
-                    <input type="radio" name="reci" value="vendor"> Vendor <?PHP
-                    $attributes = 'name="vendname"';
-                    echo form_dropdown('vendname',$vendors,set_value('vendname'),$attributes);
-                    ?>
-                </div>
+
                 <div class="form-group">
                     <label>Subject*</label>
                     <input class="form-control" placeholder="Enter Message Subject" name="txtsub" id="txtsub" type="text" value="<?=@$txtsub;?>" required>

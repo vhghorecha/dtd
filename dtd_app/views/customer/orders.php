@@ -39,7 +39,7 @@
         </div>
         <!-- /.row -->
     </div>
-    <div class="row">
+    <?php /*<div class="row">
         <div class="col-lg-12">
             <h3>Daily Processing:</h3>
             <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -80,7 +80,7 @@
 
             </table>
         </div>
-    </div>
+    </div>*/?>
     <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
             <div class="panel panel-primary">
@@ -88,6 +88,10 @@
                     Today's Order
                 </div>
                 <div class="panel-body">
+                    <div class="form-inline text-center">
+                        <label>Day:</label>
+                        <input type="text" id="daypicker" class="form-control datepicker" placeholder="Date" value="<?=date('d/m/Y');?>"/>
+                    </div>
                     <table id="example" class="table dttable table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                         <tr>
@@ -106,16 +110,13 @@
 
                         <tbody>
                         <tr>
-                            <td><?php echo $today['count']; ?></td>
-                            <td><?php echo callback_format_amount($today['sum']); ?></td>
+                            <td id="daycount"><?php echo $today['count']; ?></td>
+                            <td id="daysum"><?php echo $today['sum']; ?></td>
 
                         </tr>
 
                         </tbody>
                     </table>
-                </div>
-                <div class="panel-footer">
-
                 </div>
             </div>
         </div>
@@ -125,6 +126,10 @@
                     Monthly Order
                 </div>
                 <div class="panel-body">
+                    <div class="form-inline text-center">
+                        <label>Month:</label>
+                        <input type="text" class="form-control mdatepicker" size="7" placeholder="Month" value="<?=date('Y-m');?>"/>
+                    </div>
                     <table id="example" class="table dttable table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                         <tr>
@@ -148,12 +153,10 @@
 
                         <tbody>
                         <tr>
-                            <td><?php echo $month['month-count']; ?></td>
-                            <td><?php echo $month['deliver']; ?></td>
-                            <td><?php echo $month['pending']; ?></td>
-
-                            <td><?php echo callback_format_amount($month['amount']); ?></td>
-
+                            <td id="tmonthcount"><?php echo $month['monthcount']; ?></td>
+                            <td id="tdeliver"><?php echo $month['deliver']; ?></td>
+                            <td id="tpending"><?php echo $month['pending']; ?></td>
+                            <td id="tamount"><?php echo $month['amount']; ?></td>
                         </tr>
 
                         </tbody>

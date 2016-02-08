@@ -38,7 +38,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="disabledSelect">Total Number of Order (Current Month)</label>
-                                <input class="form-control" id="disabledInput" type="text" placeholder="" name="monthlyno" value="<?php echo $month['month-count']; ?>"
+                                <input class="form-control" id="disabledInput" type="text" placeholder="" name="monthlyno" value="<?php echo $month['monthcount']; ?>"
                                        disabled>
                             </div>
                             <div class="form-group">
@@ -72,9 +72,7 @@
                     </div> -->
                     <div class="form-group">
                         <label>Recipient Address*</label>
-                        <textarea class="form-control" placeholder="Enter Address" rows="3" name="address" id="address">
-                            <?=set_value('address');?>
-                        </textarea>
+                        <textarea class="form-control" placeholder="Enter Address" rows="3" name="address" id="address"><?=set_value('address');?></textarea>
                     </div>
 
                     <!--div class="form-group">
@@ -116,9 +114,7 @@
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label>Memo</label>
-                        <textarea class="form-control" placeholder="Memo" rows="3" name="itemmemo" id="itemmemo">
-                            <?=set_value('itemmemo');?>
-                        </textarea>
+                        <textarea class="form-control" placeholder="Memo" rows="3" name="itemmemo" id="itemmemo"><?=set_value('itemmemo');?></textarea>
                     </div>
                 </div>
 

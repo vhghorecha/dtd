@@ -372,7 +372,9 @@ class Customer extends CI_Controller {
         }else{
             if(!is_null($msgid))
             {
-                $data["txtmsg"]= $this->Admin_Model->get_message($msgid);
+                $data["txtmsg"] = $this->Admin_Model->get_message($msgid);
+                $data["txtsub"] = "Re: " . $this->Admin_Model->get_subject($msgid);
+                $data["txtreci"] = $this->Admin_Model->get_from($msgid);
             }
             $data['vendors'] = $this->Admin_Model->get_vendors();
             $data['customers'] = $this->Admin_Model->get_customers();
@@ -469,6 +471,7 @@ class Customer extends CI_Controller {
     public function account()
     {
         $data['account'] = $this->Customer_Model->get_user_account();
+        $data['yaccount'] = $this->Customer_Model->get_user_account_year();
         $this->load->template('customer/account',$data);
     }
 

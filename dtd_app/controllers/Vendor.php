@@ -208,6 +208,7 @@ class Vendor extends CI_Controller {
     {
         $orders['daily'] = $this->Vendor_Model->get_daily_orders();
         $orders['monthly'] = $this->Vendor_Model->get_monthly_orders();
+
         $this->load->template('vendor/orders',$orders);
     }
     public function rec_message(){
@@ -275,6 +276,8 @@ class Vendor extends CI_Controller {
             if(!is_null($msgid))
             {
                 $data["txtmsg"]= $this->Admin_Model->get_message($msgid);
+                $data["txtsub"] = "Re: " . $this->Admin_Model->get_subject($msgid);
+                $data["txtreci"] = $this->Admin_Model->get_from($msgid);
             }
 
             $vendor_id=$this->user_model->get_current_user_id();
@@ -285,6 +288,7 @@ class Vendor extends CI_Controller {
     public function account()
     {
         $data['account'] = $this->Vendor_Model->get_user_account();
+        $data['yaccount'] = $this->Vendor_Model->get_user_account_year();
         $data['payhist'] = $this->Vendor_Model->get_payment_history();
         $this->load->template('vendor/account',$data);
     }
@@ -297,7 +301,7 @@ class Vendor extends CI_Controller {
     public function download(){
         $this->load->dbutil();
         $vendor_id = $this->user_model->get_current_user_id();
-        $this->db->select("DATE_FORMAT(dtd_order.order_date,'%b-%d') as ord_date,dtd_order.order_id,dtd_users.user_name,dtd_order.order_recipient,dtd_order.order_telno,dtd_item_type.type_name,dtd_order.order_itemname,dtd_cust.user_sercomp,dtd_users.user_comp,dtd_users.user_rep,dtd_order.order_status")
+        $this->db->select("DATE_FORMAT(dtd_order.order_date,'%Y%b%d') as 'Order Date', dtd_users.user_name as 'Customer Name', dtd_users.user_staffname as 'Customer Representative', dtd_users.user_add as 'Customer Address', dtd_users.user_tel as 'Customer Phone', dtd_order.order_recipient as 'Recipient Name', dtd_order.order_address as 'Order Address', dtd_order.order_telno as 'Order Telephone', dtd_order.order_itemname as 'Order Item', dtd_order.order_memo as 'Memo'")
             ->from('dtd_order')
             ->join('dtd_cust','dtd_cust.user_id=dtd_order.order_custid')
             ->join('dtd_users','dtd_users.user_id=dtd_cust.user_id')
@@ -309,6 +313,12 @@ class Vendor extends CI_Controller {
         $csv_string = chr(239) . chr(187) . chr(191) . $csv_string;
         // Load the download helper and send the file to your desktop
         $this->load->helper('download');
+
+        $this->db->where('order_vendorid', $vendor_id);
+        $this->db->where('order_status', 'Pending');
+        $this->db->set('order_status', 'Processing');
+        $this->db->update('order');
+
         force_download('order_received.csv', $csv_string);
     }
 

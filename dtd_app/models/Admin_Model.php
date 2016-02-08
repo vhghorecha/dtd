@@ -38,6 +38,7 @@ class Admin_Model extends CI_Model{
             ->from('dtd_message')
             ->edit_column('msg_from','$1', 'callback_message_from(msg_from)')
             ->edit_column('msg_id','$1', 'callback_edit_message(msg_id,admin)')
+            ->edit_column('msg_desc','$1','strip_tags(msg_desc)')
             ->where('msg_to', '0');
         return $this->datatables->generate();
     }
@@ -231,10 +232,27 @@ class Admin_Model extends CI_Model{
         $query = $this->db->get('message');
         $message = $query->row_array();
         $message['msg_from'] = callback_message_from($message['msg_from']);
-        $txtmessage = '<br/><br/>===============================================================<br/>';
+        $txtmessage = '<br/><br/>=============================<br/>';
         $txtmessage .= 'On ' . $message['msg_date'] . ', ' . $message['msg_from'] . ' wrote:<br/>' . $message['msg_desc'];
         return $txtmessage;
     }
+
+    public function get_subject($msgid){
+        $this->db->select("msg_title");
+        $this->db->where('msg_id',$msgid);
+        $query = $this->db->get('message');
+        $message = $query->row_array();
+        return $message['msg_title'];
+    }
+
+    public function get_from($msgid){
+        $this->db->select("msg_from");
+        $this->db->where('msg_id',$msgid);
+        $query = $this->db->get('message');
+        $message = $query->row_array();
+        return $message['msg_from'];
+    }
+
     public function delete_item($type_id){
         $this->db->where('type_id',$type_id);
         $this->db->delete('item_type');
@@ -380,7 +398,7 @@ class Admin_Model extends CI_Model{
     public function get_pending_orders()
     {
         $this->db->select('order_id');
-        $this->db->where('order_status','Pending');
+        $this->db->where_in('order_status',array('Pending','Processing'));
         $this->db->from('dtd_order');
         return $this->db->count_all_results();
     }
@@ -453,7 +471,8 @@ class Admin_Model extends CI_Model{
             ->join("dtd_cust_grade", "dtd_cust_grade.grade_id=dtd_cust.user_grade", "left outer")
             ->where("is_active",1)
             ->where("user_role","customer")
-            ->add_column('user_modify',"$1","callback_update_customer(user_id,user_areacode,user_grade)");
+            ->add_column('user_modify',"$1","callback_update_customer(user_id,user_areacode,user_grade)")
+            ->add_column('user_vendor', "$1", "callback_get_vendor(user_id)");
         return $this->datatables->generate();
     }
 
@@ -491,8 +510,7 @@ class Admin_Model extends CI_Model{
             ->join('dtd_cust','dtd_cust.user_id=dtd_order.order_custid')
             ->join('dtd_users','dtd_users.user_id=dtd_cust.user_id')
             ->join('dtd_item_type','dtd_item_type.type_id=dtd_order.order_typeid')
-
-            ->where_in('dtd_order.order_status','Pending');
+            ->where_in('dtd_order.order_status',array('Pending','Processing'));
 
         return $this->datatables->generate();
     }
@@ -543,26 +561,62 @@ class Admin_Model extends CI_Model{
     public function get_admin_account()
     {
         $result = array();
-        $start = new DateTime("first day of this month");
-        $end = new DateTime();
-        $end = $end->modify("+1 day");
-        $dates = new DatePeriod($start,new DateInterval("P1D"),$end);
+        $year = $this->input->post('year');
+        if(empty($year)){
+            $year = date("Y");
+            $end = new DateTime();
+        }else{
+            $end = new DateTime("last day of december" . $year);
+        }
+        $start = new DateTime("first day of january" . $year);
+
+        $dates = new DatePeriod($start,new DateInterval("P1M"),$end);
         foreach($dates as $date)
         {
-            $data['date']=$date->format('M d');
+            $data['date']=$date->format('M-Y');
             $query=$this->db->query("
-                SELECT DATE_FORMAT(dep_date,'%M-%d') as date, COUNT(dep_id) as num,SUM(dep_amount) as amount
+                SELECT DATE_FORMAT(dep_date,'%Y-%M') as date, COUNT(dep_id) as num,SUM(dep_amount) as amount
                 FROM dtd_custdep
-                WHERE dep_date LIKE '".$date->format("Y-m-d")."%'
-                GROUP BY dep_date");
+                WHERE dep_date LIKE '".$date->format("Y-m")."%'
+                GROUP BY date");
             $data['charge']= $query->row_array();
 
 
             $query=$this->db->query("
-                SELECT COUNT(dep_id) as num, SUM(pay_amount) as amount
+                SELECT DATE_FORMAT(pay_date,'%Y-%M') as date, COUNT(dep_id) as num, SUM(pay_amount) as amount
                 FROM dtd_vendorpay
-                WHERE pay_date LIKE '".$date->format("Y-m-d")."%'
-                GROUP BY pay_date");
+                WHERE pay_date LIKE '".$date->format("Y-m")."%'
+                GROUP BY date");
+            $data['recived'] = $query->row_array();
+
+            $result[]=$data;
+        }
+        return $result;
+
+    }
+
+    public function get_admin_account_year()
+    {
+        $result = array();
+        $start = new DateTime("first day of january 2015");
+        $end = new DateTime();
+        $dates = new DatePeriod($start,new DateInterval("P1Y"),$end);
+        foreach($dates as $date)
+        {
+            $data['date']=$date->format('Y');
+            $query=$this->db->query("
+                SELECT DATE_FORMAT(dep_date,'%Y') as date, COUNT(dep_id) as num,SUM(dep_amount) as amount
+                FROM dtd_custdep
+                WHERE dep_date LIKE '".$date->format("Y")."%'
+                GROUP BY date");
+            $data['charge']= $query->row_array();
+
+
+            $query=$this->db->query("
+                SELECT DATE_FORMAT(pay_date,'%Y-%M') as date, COUNT(dep_id) as num, SUM(pay_amount) as amount
+                FROM dtd_vendorpay
+                WHERE pay_date LIKE '".$date->format("Y")."%'
+                GROUP BY date");
             $data['recived'] = $query->row_array();
 
             $result[]=$data;

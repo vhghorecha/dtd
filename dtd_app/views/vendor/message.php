@@ -16,16 +16,24 @@
                     'id' => 'frmmessage',
                     'role' => 'form'
                 )); ?>
-                <div class="form-group">
-                    <label>Select Receipients</label>
-                </div>
-                <div class="form-group">
-                    <input type="radio" name="reci" value="0"> Administrator  <input type="radio" name="reci" value="allvc"> All Customers
-                    <input type="radio" name="reci" value="customer"> Customer <?PHP
-                    $attributes = 'name="custname"';
-                    echo form_dropdown('custname',$customers,set_value('custname'),$attributes);
-                    ?>
 
+                <div class="form-group">
+                    <?php if(isset($txtreci)){ ?>
+                        <div class="form-group">
+                            <label>To</label>
+                        </div>
+                        <input type="hidden" name="reci" value="<?=$txtreci;?>"/>
+                        <?php echo callback_message_to($txtreci);?>
+                    <?php } else { ?>
+                        <div class="form-group">
+                            <label>Select Receipients</label>
+                        </div>
+                        <input type="radio" name="reci" value="0"> Administrator  <input type="radio" name="reci" value="allvc"> All Customers
+                        <input type="radio" name="reci" value="customer"> Customer <?PHP
+                        $attributes = 'name="custname"';
+                        echo form_dropdown('custname',$customers,set_value('custname'),$attributes);
+                        ?>
+                    <?php } ?>
                 </div>
                 <div class="form-group">
                     <label>Subject*</label>

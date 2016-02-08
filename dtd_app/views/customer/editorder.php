@@ -33,9 +33,7 @@
                     </div> -->
                     <div class="form-group">
                         <label>Recipient Address*</label>
-                        <textarea class="form-control" placeholder="Enter Address" rows="3" name="address" id="address">
-                            <?=$order['order_address'];?>
-                        </textarea>
+                        <textarea class="form-control" placeholder="Enter Address" rows="3" name="address" id="address"><?=$order['order_address'];?></textarea>
                     </div>
 
                     <div class="form-group">
@@ -65,9 +63,7 @@
                     </div>
                     <div class="form-group">
                         <label>Item Description</label>
-                        <textarea class="form-control" placeholder="Description" rows="3" name="itemdesc" id="itemdesc">
-                            <?=$order['order_desc'];?>
-                        </textarea>
+                        <textarea class="form-control" placeholder="Description" rows="3" name="itemdesc" id="itemdesc"><?=$order['order_desc'];?></textarea>
                     </div>
 
 
@@ -75,9 +71,7 @@
                 <div class="col-lg-12">
                     <div class="form-group">
                         <label>Memo</label>
-                        <textarea class="form-control" placeholder="Memo" rows="3" name="itemmemo" id="itemmemo">
-                            <?=$order['order_memo'];?>
-                        </textarea>
+                        <textarea class="form-control" placeholder="Memo" rows="3" name="itemmemo" id="itemmemo"><?=$order['order_memo'];?></textarea>
                     </div>
                 </div>
 

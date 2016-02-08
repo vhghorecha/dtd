@@ -25,7 +25,6 @@
                                         <th>Website</th>
                                         <th>Staff Name</th>
                                         <th>Staff Telephone</th>
-                                        <th>Balance</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
@@ -39,7 +38,6 @@
                                         <th>Website</th>
                                         <th>Staff Name</th>
                                         <th>Staff Telephone</th>
-                                        <th>Balance</th>
                                     </tr>
                                 </tfoot>
                             </table>

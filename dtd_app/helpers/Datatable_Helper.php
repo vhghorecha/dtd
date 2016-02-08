@@ -2,7 +2,7 @@
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 function callback_order_status($order_status,$order_id){
-    if($order_status == 'Pending'){
+    if($order_status == 'Pending' || $order_status == 'Processing'){
         return '<a href="#" class="update_order" data-orderid="' . $order_id . '">' . $order_status . '</a>';
     }else if($order_status == 'Created'){
         return '<a href="#" class="approve_order" data-orderid="' . $order_id . '">Approve Order</a>';
@@ -79,6 +79,13 @@ function callback_message_from($from){
         $from = $CI->User_Model->get_username($from);
     }
     return $from;
+}
+
+function callback_get_vendor($user_id){
+    $CI =& get_instance();
+    $CI->load->model('Customer_model');
+    $vendor = $CI->Customer_model->get_user_vendor($user_id);
+    return $vendor['user_id'] . "-" . $vendor['user_name'] . "(" . $vendor['user_email'] . ")";
 }
 
 function callback_message_to($to){

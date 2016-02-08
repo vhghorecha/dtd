@@ -80,6 +80,15 @@ class Customer_Model extends CI_Model
         return $this->db->get()->row_array();
     }
 
+    public function get_user_vendor($user_id){
+        $this->db->select('t3.*');
+        $this->db->from('dtd_users t1');
+        $this->db->join('dtd_cust t2', ' t1.user_id=t2.user_id');
+        $this->db->join('dtd_users t3',' t3.user_id = t2.vendor_id');
+        $this->db->where("t1.user_id", $user_id);
+        return $this->db->get()->row_array();
+    }
+
     public function set_vendor_price($typeid=null,$vendor_id=null)
     {
         $this->db->select('gp_price');
@@ -193,12 +202,19 @@ class Customer_Model extends CI_Model
 
     public function get_today()
     {
+        $qday = $this->input->post('day');
+        if(empty($qday)){
+            $qday = date('Y-m-d');
+        }else{
+            $qday = date_create_from_format("d/m/Y", $qday);
+            $qday = $qday->format("Y-m-d");
+        }
         //counting today's total order
         $this->db->select('order_id');
         $this->db->from('dtd_order');
         $this->db->where('order_custid', $this->user_model->get_current_user_id());
         $this->db->where('order_status<>', "Created");
-        $this->db->like('order_date', date('Y-m-d'));
+        $this->db->like('order_date', $qday);
 
         $today['count'] = $this->db->count_all_results();
 
@@ -206,34 +222,38 @@ class Customer_Model extends CI_Model
         $this->db->select_sum('order_amount');
         $this->db->where('order_custid', $this->user_model->get_current_user_id());
         $this->db->where('order_status<>', "Created");
-        $this->db->like('order_date', date('Y-m-d'));
+        $this->db->like('order_date', $qday);
         $query = $this->db->get('dtd_order');
-        $today['sum'] = current($query->row_array());
+        $today['sum'] = callback_format_amount(current($query->row_array()));
 
         return $today;
     }
 
     public function get_monthly()
     {
+        $qmonth = $this->input->post('month');
+        if(empty($qmonth)){
+            $qmonth = date('Y-m');
+        }
         $this->db->select('order_id');
         $this->db->from('dtd_order');
         $this->db->where('order_custid', $this->user_model->get_current_user_id());
         $this->db->where('order_status<>', "Created");
-        $this->db->like('order_date', date('Y-m'));
-        $month['month-count'] = $this->db->count_all_results();
+        $this->db->like('order_date', $qmonth);
+        $month['monthcount'] = $this->db->count_all_results();
 
         $this->db->select('order_status');
         $this->db->from('dtd_order');
         $this->db->where('order_custid', $this->user_model->get_current_user_id());
         $this->db->where('order_status', 'Delivered');
-        $this->db->like('order_date', date('Y-m'));
+        $this->db->like('order_date', $qmonth);
         $month['deliver'] = $this->db->count_all_results();
 
         $this->db->select('order_status');
         $this->db->from('dtd_order');
         $this->db->where('order_custid', $this->user_model->get_current_user_id());
-        $this->db->where('order_status', 'Pending');
-        $this->db->like('order_date', date('Y-m'));
+        $this->db->where('order_status', 'Processing');
+        $this->db->like('order_date', $qmonth);
         $month['pending'] = $this->db->count_all_results();
 
        /* $this->db->select('order_status');
@@ -246,10 +266,11 @@ class Customer_Model extends CI_Model
         $this->db->select_sum('order_amount');
         $this->db->where('order_custid', $this->user_model->get_current_user_id());
         $this->db->where('order_status<>', "Created");
-        $this->db->like('order_date', date('Y-m'));
+        $this->db->like('order_date', $qmonth);
         $query = $this->db->get('dtd_order');
-        $month['amount'] = current($query->row_array());
 
+        $month['amount'] = callback_format_amount(current($query->row_array()));
+        $month['success'] = true;
         return $month;
     }
 
@@ -274,7 +295,7 @@ class Customer_Model extends CI_Model
         $this->db->select('order_status');
         $this->db->from('dtd_order');
         $this->db->where('order_custid', $user_id);
-        $this->db->where('order_status', 'Pending');
+        $this->db->where_in('order_status', array('Pending','Processing'));
         $all['pending'] = $this->db->count_all_results();
 
         $this->db->select('order_status');
@@ -302,30 +323,64 @@ class Customer_Model extends CI_Model
     {
         $cust_id = $this->user_model->get_current_user_id();
         $result = array();
-		$start = new DateTime("first day of this month");
-		$end = new DateTime();
-		$end = $end->modify("+1 day");
-		$dates = new DatePeriod($start,new DateInterval("P1D"),$end);
+        $year = $this->input->post('year');
+        if(empty($year)){
+            $year = date("Y");
+            $end = new DateTime();
+        }else{
+            $end = new DateTime("last day of december" . $year);
+        }
+		$start = new DateTime("first day of january" . $year);
+
+		$dates = new DatePeriod($start,new DateInterval("P1M"),$end);
 		foreach($dates as $date){
-			$data['date']=$date->format('M d');
+			$data['date']=$date->format('M-Y');
 			$query=$this->db->query("
-			SELECT DATE_FORMAT(order_date,'%M-%d') as date, COUNT(order_id) as num,SUM(order_amount) as amount
+			SELECT DATE_FORMAT(order_date,'%Y-%M') as date, COUNT(order_id) as num,SUM(order_amount) as amount
 			FROM dtd_order
-			WHERE order_date LIKE '".$date->format("Y-m-d")."%' AND order_custid = ". $cust_id ."
+			WHERE order_status <> 'Created' AND order_date LIKE '".$date->format("Y-m")."%' AND order_custid = ". $cust_id ."
 			GROUP BY date");
 			$data['charge']= $query->row_array();
 
 
 			$query=$this->db->query("
-			SELECT COUNT(dep_id) as num, SUM(dep_amount) as amount
+			SELECT DATE_FORMAT(dep_date,'%Y-%M') as date, COUNT(dep_id) as num, SUM(dep_amount) as amount
 			FROM dtd_custdep
-			WHERE dep_date LIKE '".$date->format("Y-m-d")."%' AND dep_custid = ". $cust_id ."
-			GROUP BY dep_date");
+			WHERE dep_date LIKE '".$date->format("Y-m")."%' AND dep_custid = ". $cust_id ."
+			GROUP BY date");
 			$data['recived'] = $query->row_array();
 
 			$result[]=$data;
 		}
 		return $result;
+    }
+
+    public function get_user_account_year(){
+        $cust_id = $this->user_model->get_current_user_id();
+        $result = array();
+        $start = new DateTime("first day of january 2015");
+        $end = new DateTime();
+        $dates = new DatePeriod($start,new DateInterval("P1Y"),$end);
+        foreach($dates as $date){
+            $data['date']=$date->format('Y');
+            $query=$this->db->query("
+			SELECT DATE_FORMAT(order_date,'%Y') as date, COUNT(order_id) as num,SUM(order_amount) as amount
+			FROM dtd_order
+			WHERE order_status <> 'Created' AND order_date LIKE '".$date->format("Y")."%' AND order_custid = ". $cust_id ."
+			GROUP BY date");
+            $data['charge']= $query->row_array();
+
+
+            $query=$this->db->query("
+			SELECT DATE_FORMAT(dep_date,'%Y-%M') as date, COUNT(dep_id) as num, SUM(dep_amount) as amount
+			FROM dtd_custdep
+			WHERE dep_date LIKE '".$date->format("Y")."%' AND dep_custid = ". $cust_id ."
+			GROUP BY date");
+            $data['recived'] = $query->row_array();
+
+            $result[]=$data;
+        }
+        return $result;
     }
 
     public function get_daily_orders(){
@@ -348,6 +403,7 @@ class Customer_Model extends CI_Model
             ->from('dtd_message')
             ->edit_column('msg_from','$1', 'callback_message_from(msg_from)')
             ->edit_column('msg_id','$1', 'callback_edit_message(msg_id,customer)')
+            ->edit_column('msg_desc','$1','strip_tags(msg_desc)')
             ->where_in('msg_to', $msg_to)
             ->or_where('msg_to', 'allvc')
             ->where('msg_from', $vendor_id);
