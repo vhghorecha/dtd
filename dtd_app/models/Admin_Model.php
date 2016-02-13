@@ -63,7 +63,6 @@ class Admin_Model extends CI_Model{
         $this->db->from('cust');
         $this->db->join('users','users.user_id=cust.user_id');
         $this->db->where('cust.vendor_id IS NULL');
-        $this->db->where('is_active!=','0');
         $query = $this->db->get();
         $custids = array('');
         $custnames = array('Select Customer');
@@ -387,8 +386,10 @@ class Admin_Model extends CI_Model{
     //Created by Hardik Mehta
     public function get_pending_customers()
     {
-        $this->datatables->select("user_name, user_email, user_add, user_tel, user_comp, user_rep, user_site, user_staffname, user_stafftel, user_id")
+        $this->datatables->select("user_name, user_email, user_add, user_tel, user_comp, user_rep, user_site, user_staffname, user_stafftel, dtd_users.user_id")
             ->from("dtd_users")
+            ->join("dtd_cust", "dtd_cust.user_id = dtd_users.user_id")
+            ->where("dtd_cust.vendor_id IS NOT NULL")
             ->where("is_active",0)
             ->where("user_role","customer")
             ->edit_column('user_id','$1','callback_approve_user(user_id)');

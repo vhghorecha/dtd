@@ -110,6 +110,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
         return $result;
     }
     public function get_daily_orders(){
+        $vendor_id = $this->user_model->get_current_user_id();
         $qday = $this->input->post('day');
         if(empty($qday)){
             $qday = date('Y-m-d');
@@ -129,6 +130,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
         $this->db->join('dtd_cust dc','dto.order_custid=dc.user_id');
         $this->db->join('dtd_users du','dc.user_id=du.user_id');
         $this->db->like("dto.order_date",$qday);
+        $this->db->where('dto.order_vendorid', $vendor_id);
         $this->db->group_by('cust_name');
         $query = $this->db->get()->result_array();
         return $query;
@@ -136,6 +138,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 
     public function get_monthly_orders(){
+        $vendor_id = $this->user_model->get_current_user_id();
         $qmonth = $this->input->post('month');
         if(empty($qmonth)){
             $qmonth = date('Y-m');
@@ -152,6 +155,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
         $this->db->join('dtd_cust dc','dto.order_custid=dc.user_id');
         $this->db->join('dtd_users du','dc.user_id=du.user_id');
         $this->db->like("dto.order_date", $qmonth);
+        $this->db->where('dto.order_vendorid', $vendor_id);
         $this->db->group_by('cust_name');
         $query = $this->db->get()->result_array();
         return $query;

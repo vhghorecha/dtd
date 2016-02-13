@@ -218,7 +218,7 @@ class Vendor extends CI_Controller {
     public function sent_message(){
         $this->load->template('sent_message');
     }
-    public function message($msgid)
+    public function message($msgid = 0)
     {
         $is_send = $this->input->post('btnSend');
         if($is_send=='Send'){

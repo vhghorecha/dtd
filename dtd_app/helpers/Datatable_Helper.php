@@ -11,7 +11,7 @@ function callback_order_status($order_status,$order_id){
 }
 
 function callback_edit_order($order_status, $order_id){
-    if($order_status != 'Delivered'){
+    if($order_status == 'Pending'){
         return '<a href="' . site_url('customer/editorder') . '/' . $order_id .'">Edit</a> | <a href="' . site_url('customer/deleteorder') . '/' . $order_id . '" onClick="return confirm(\'Are you sure?\')">Delete</a>';
     }
     return '---';
