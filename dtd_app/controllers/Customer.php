@@ -252,46 +252,163 @@ class Customer extends CI_Controller {
         $is_profile=$this->input->post('btnEditProfile');
         if($is_profile=="Update Profile")
         {
-            $data1=array(
-                'user_name'=>$this->input->post('username'),
-                'user_add'=>$this->input->post('useradd'),
-                'user_zipcode'=>$this->input->post('userzip'),
-                'user_tel'=>$this->input->post('usertel'),
-                //entry of company name and representive name pending change profile
-                'user_site'=>$this->input->post('usersite'),
-                'user_staffname'=>$this->input->post('userstaff'),
-                'user_stafftel'=>$this->input->post('userstafftel'),
-                'user_memo'=>$this->input->post('usermemo'),
+
+            $config = array(
+                array(
+                    'field' => 'username',
+                    'label' => 'User Name',
+                    'rules' => 'required',
+                    'errors' => array(
+                        'required' => 'You must provide a %s',
+                    )
+                ),
+                array(
+                    'field' => 'usertel',
+                    'label' => 'User telephone',
+                    'rules' => 'required',
+                    'errors' => array(
+                        'required' => 'You must provide a %s',
+
+                    )
+                ),
+                array(
+                    'field' => 'usercomp',
+                    'label' => 'User Company',
+                    'rules' => 'required',
+                    'errors' => array(
+                        'required' => 'You must provide a %s',
+                    )
+                ),
+
+                array(
+                    'field' => 'userrep',
+                    'label' => 'User Representative',
+                    'rules' => 'required',
+                    'errors' => array(
+                        'required' => 'You must provide a %s',
+                    )
+                ),
+
+                array(
+                    'field' => 'sercomp',
+                    'label' => 'Company Name',
+                    'rules' => 'required',
+                    'errors' => array(
+                        'required' => 'You must provide a %s',
+                    )
+                ),
+
+
+                 array(
+                     'field' => 'useradd',
+                     'label' => 'Address',
+                     'rules' => 'required',
+                     'errors' => array(
+                         'required' => 'You must provide a %s',
+                     )
+                 ),
+
+                array(
+                    'field' => 'userzip',
+                    'label' => 'Zipcode',
+                    'rules' => 'required',
+                    'errors' => array(
+                        'required' => 'You must provide a %s',
+                    )
+                ),
+
+                array(
+                    'field' => 'oldpwd',
+                    'label' => 'Old Password',
+                    'rules' => 'required',
+                    'errors' => array(
+                        'required' => 'You must provide a %s',
+                    )
+                ),
+
+                array(
+                    'field' => 'newpwd',
+                    'label' => 'New Password',
+                    'rules' => 'required',
+                    'errors' => array(
+                        'required' => 'You must provide a %s',
+                    )
+                ),
+                array(
+                    'field' => 'confirmpwd',
+                    'label' => 'Confirm Password',
+                    'rules' => 'required|matches[newpwd]',
+                    'errors' => array(
+                        'required' => 'You must provide a %s',
+                        'matches' => 'Password and Confirm password must same',
+                    )
+                ),
+
             );
 
-            //pass validation
-            if($this->input->post('newpwd') != ''){
-                $curpwd=$this->Customer_Model->get_user_pwd();
-                if($curpwd['pwd']==md5($this->input->post('oldpwd'))){
-                    if($this->input->post('newpwd') == $this->input->post('confirmpwd')){
-                        $data1['user_pass'] = md5($this->input->post('newpwd'));
-                        $data['errorp'] = 'Password Updated Successfully';
+            $this->form_validation->set_rules($config);
+
+            if($this->form_validation->run()==true)
+            {
+                $data1=array(
+                    'user_name'=>$this->input->post('username'),
+                    'user_add'=>$this->input->post('useradd'),
+                    'user_zipcode'=>$this->input->post('userzip'),
+                    'user_comp'=>$this->input->post('usercomp'),
+                    'user_rep'=>$this->input->post('userrep'),
+                    'user_tel'=>$this->input->post('usertel'),
+                    //entry of company name and representive name pending change profile
+                    'user_site'=>$this->input->post('usersite'),
+                    'user_staffname'=>$this->input->post('userstaff'),
+                    'user_stafftel'=>$this->input->post('userstafftel'),
+                    'user_memo'=>$this->input->post('usermemo'),
+                );
+
+                //pass validation
+                if($this->input->post('newpwd') != ''){
+                    $curpwd=$this->Customer_Model->get_user_pwd();
+                    if($curpwd['pwd']==md5($this->input->post('oldpwd'))){
+                        if($this->input->post('newpwd') == $this->input->post('confirmpwd')){
+                            $data1['user_pass'] = md5($this->input->post('newpwd'));
+                            $data['errorp'] = 'Password Updated Successfully';
+                        }else{
+                            $data['errorp'] = 'New Password & Confirm Password should be equal';
+                        }
                     }else{
-                        $data['errorp'] = 'New Password & Confirm Password should be equal';
+                        $data['errorp'] = 'Invalid Old Password';
                     }
-                }else{
-                    $data['errorp'] = 'Invalid Old Password';
                 }
+
+                $this->db->where('user_id',$this->user_model->get_current_user_id() );
+                $this->db->update('users', $data1);
+
+                $data['errorb'] = 'Basic Information Updated Successfully';
+
+                $data2=array(
+                    'user_sercomp'=>$this->input->post('sercomp'),
+                    'user_lob'=>$this->input->post('lob'),
+                    'user_regno'=>$this->input->post('regno'),
+                );
+                $this->db->where('user_id',$this->user_model->get_current_user_id() );
+                $this->db->update('cust', $data2);
+                $data['errorc'] = 'Company Information Updated Successfully';
+
+               // $message = 'Customer profile has been updated successfully.';
             }
 
-            $this->db->where('user_id',$this->user_model->get_current_user_id() );
-            $this->db->update('users', $data1);
+            else{
+                $error = validation_errors();
+            }
 
-            $data['errorb'] = 'Basic Information Updated Successfully';
+            if(!empty($error)){
+                $data = $_POST;
+                $data['error'] = $error;
+            }
+            if(!empty($message)){
+                $data['message'] = $message;
+            }
 
-            $data2=array(
-                'user_sercomp'=>$this->input->post('sercomp'),
-                'user_lob'=>$this->input->post('lob'),
-                'user_regno'=>$this->input->post('regno'),
-            );
-            $this->db->where('user_id',$this->user_model->get_current_user_id() );
-            $this->db->update('cust', $data2);
-            $data['errorc'] = 'Company Information Updated Successfully';
+
         }
         $data['profile']=$this->Customer_Model->get_user_profile();
         $this->load->template('customer/profile',$data);

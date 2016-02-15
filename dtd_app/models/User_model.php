@@ -57,6 +57,7 @@ class User_Model extends CI_Model{
 				'username' => $row->user_name,
 				'userrole' => $row->user_role,
 				'is_active' => $row->is_active,
+				'is_logged' => $row->is_logged,
 				'validated' => true
 			);
             return $data;
@@ -67,6 +68,13 @@ class User_Model extends CI_Model{
     }
 
 
+	public function change_status($id,$status)
+	{
+
+		$this->db->set("is_logged", $status);
+		$this->db->where('user_id', $id);
+		$this->db->update('dtd_users');
+	}
 	
 	public function is_logged(){
 		$user_data = $this->session->userdata('userinfo');

@@ -9,6 +9,9 @@
         <?php if (isset($error) && !empty($error)) { ?>
             <div class="alert alert-danger fade in"><?= $error; ?></div>
         <?php } ?>
+        <?php if (isset($message) && !empty($message)) { ?>
+            <div class="alert alert-danger fade in"><?= $message; ?></div>
+        <?php } ?>
         <?php echo form_open('vendor/profile', array(
             'id' => 'frmprofile',
             'role' => 'form'
@@ -32,7 +35,7 @@
                                 <tbody>
                                 <tr>
                                     <td>Vendor Name</td>
-                                    <td><input class="form-control" value="<? echo $profile['user_name']; ?>"
+                                    <td><input required class="form-control" value="<? echo $profile['user_name']; ?>"
                                                name="username" id="username"></td>
                                 </tr>
                                 <tr>
@@ -41,17 +44,17 @@
                                 </tr>
                                 <tr>
                                     <td>Contact No</td>
-                                    <td><input class="form-control" value="<? echo $profile['user_tel']; ?>"
+                                    <td><input required class="form-control" value="<? echo $profile['user_tel']; ?>"
                                                name="usertel" id="usertel"></td>
                                 </tr>
                                 <tr>
                                     <td>Mailing Address</td>
-                                    <td><input class="form-control" value="<? echo $profile['user_add']; ?>"
+                                    <td><input  class="form-control" value="<? echo $profile['user_add']; ?>"
                                                name="useradd" id="useradd"></td>
                                 </tr>
                                 <tr>
                                     <td>Zip Code</td>
-                                    <td><input class="form-control" value="<? echo $profile['user_zipcode']; ?>"
+                                    <td><input required class="form-control" value="<? echo $profile['user_zipcode']; ?>"
                                                name="userzip" id="userzip"></td>
                                 </tr>
                                 </tbody>
@@ -87,7 +90,7 @@
                                 <tbody>
                                 <tr>
                                     <td>Company Name</td>
-                                    <td><input class="form-control" value="<? echo $profile['vendor_comp']; ?>"
+                                    <td><input required class="form-control" value="<? echo $profile['vendor_comp']; ?>"
                                                name="compname" id="compname"></td>
                                 </tr>
                                 <tr>
@@ -197,15 +200,15 @@
                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <div class="form-group">
                                 <label>Old Password*</label>
-                                <input class="form-control" placeholder="Enter Old Password" type="password" id="oldpwd" name="oldpwd">
+                                <input  class="form-control" placeholder="Enter Old Password" type="password" id="oldpwd" name="oldpwd">
                             </div>
                             <div class="form-group">
                                 <label>New Password*</label>
-                                <input class="form-control" placeholder="Enter New Password" type="password" id="newpwd" name="newpwd">
+                                <input  class="form-control" placeholder="Enter New Password" type="password" id="newpwd" name="newpwd">
                             </div>
                             <div class="form-group">
                                 <label>Cofirm Password*</label>
-                                <input class="form-control" placeholder="Re-type New Password" type="password" id="confirmpwd" name="confirmpwd">
+                                <input  class="form-control" placeholder="Re-type New Password" type="password" id="confirmpwd" name="confirmpwd">
                             </div>
                             <div class="form-group">
                                 <div class="form-group">

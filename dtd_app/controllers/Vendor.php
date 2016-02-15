@@ -173,30 +173,103 @@ class Vendor extends CI_Controller {
         }
         elseif($this->input->post('btnEditProfile')=="Update Profile")
         {
-            $data1=array(
-                'user_name'=>$this->input->post('username'),
-                //company name and representive name pending , check profile page
-                'user_add'=>$this->input->post('useradd'),
-                'user_zipcode'=>$this->input->post('userzip'),
-                'user_site'=>$this->input->post('usersite'),
-                'user_memo'=>$this->input->post('umemo')
-            );
-            $this->db->where('user_id',$user_id);
-            $this->db->update('dtd_users', $data1);
-            $data2=array(
-                'vendor_comp'=>$this->input->post('compname'),
-                'vendor_hq1'=>$this->input->post('hq1'),
-                'vendor_hq2'=>$this->input->post('hq2'),
-                'vendor_hq3'=>$this->input->post('hq3'),
-                'vendor_taxno'=>$this->input->post('taxrno'),
-                'pay_bankacno'=>$this->input->post('bankacno'),
-                'pay_bankname'=>$this->input->post('bankname'),
+
+            $config = array(
+                array(
+                    'field' => 'username',
+                    'label' => 'User Name',
+                    'rules' => 'required',
+                    'errors' => array(
+                        'required' => 'You must provide a %s',
+                    )
+                ),
+                array(
+                    'field' => 'usertel',
+                    'label' => 'User telephone',
+                    'rules' => 'required',
+                    'errors' => array(
+                        'required' => 'You must provide a %s',
+
+                    )
+                ),
+                array(
+                    'field' => 'compname',
+                    'label' => 'Company name',
+                    'rules' => 'required',
+                    'errors' => array(
+                        'required' => 'You must provide a %s',
+                    )
+                ),
+                array(
+                    'field' => 'useradd',
+                    'label' => 'Address',
+                    'rules' => 'required',
+                    'errors' => array(
+                        'required' => 'You must provide a %s',
+                    )
+                ),
+
+                array(
+                    'field' => 'userzip',
+                    'label' => 'Zipcode',
+                    'rules' => 'required',
+                    'errors' => array(
+                        'required' => 'You must provide a %s',
+                    )
+                ),
+
+
 
             );
-            $this->db->where('user_id',$user_id);
-            $this->db->update('dtd_vendor', $data2);
+
+
+
+            $this->form_validation->set_rules($config);
+
+            if($this->form_validation->run()==true)
+            {
+                $data1=array(
+                    'user_name'=>$this->input->post('username'),
+                    //company name and representive name pending , check profile page
+                    'user_add'=>$this->input->post('useradd'),
+                    'user_zipcode'=>$this->input->post('userzip'),
+                    'user_site'=>$this->input->post('usersite'),
+                    'user_memo'=>$this->input->post('umemo')
+                );
+                $this->db->where('user_id',$user_id);
+                $this->db->update('dtd_users', $data1);
+                $data2=array(
+                    'vendor_comp'=>$this->input->post('compname'),
+                    'vendor_hq1'=>$this->input->post('hq1'),
+                    'vendor_hq2'=>$this->input->post('hq2'),
+                    'vendor_hq3'=>$this->input->post('hq3'),
+                    'vendor_taxno'=>$this->input->post('taxrno'),
+                    'pay_bankacno'=>$this->input->post('bankacno'),
+                    'pay_bankname'=>$this->input->post('bankname'),
+
+                );
+                $this->db->where('user_id',$user_id);
+                $this->db->update('dtd_vendor', $data2);
+
+                $message = 'Vendor profile has been updated successfully.';
+
+            }
+            else
+            {
+                $error = validation_errors();
+            }
+
+            if(!empty($error)){
+                $data = $_POST;
+                $data['error'] = $error;
+            }
+            if(!empty($message)){
+                $data['message'] = $message;
+            }
+
             $data['profile']=$this->Vendor_Model->get_vendor_profile($user_id);
             $this->load->template('vendor/profile',$data);
+
         }
         else
         {

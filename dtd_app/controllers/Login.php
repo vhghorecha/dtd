@@ -36,16 +36,28 @@ class Login extends CI_Controller {
 			if ($this->form_validation->run() == true)
 			{
 				$data = $this->user_model->validate();
+
 				if($data['validated']){
 					if($data['is_active'])
 					{
-						$this->session->set_userdata('userinfo', $data);
-						if($data['userrole'] == 'vendor')
+						if($data['is_logged']=='0')
 						{
-							redirect('vendor');
-						}else{
-							redirect('customer');
+							$this->user_model->change_status($data["userid"],'1');
+							$this->session->set_userdata('userinfo', $data);
+							if($data['userrole'] == 'vendor')
+							{
+								redirect('vendor');
+							}else{
+								redirect('customer');
+							}
 						}
+						else
+						{
+							$error = "You are already logged in.";
+						}
+
+
+
 					}
 					else
 					{

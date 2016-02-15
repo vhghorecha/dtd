@@ -88,7 +88,7 @@
 
                     <div class="form-group">
                         <label>Date</label>
-                        <input class="form-control datepicker" placeholder="Click to Select Date" name="oda" id="oda" value="<?php echo date('d-m-Y'); ?>">
+                        <input class="form-control" readonly="readonly" placeholder="Click to Select Date" name="oda" id="oda" value="<?php echo date('d-m-Y'); ?>">
                     </div>
                     <div class="form-group">
                         <label>Item Type</label>

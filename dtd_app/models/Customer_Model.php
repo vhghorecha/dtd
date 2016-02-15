@@ -289,13 +289,14 @@ class Customer_Model extends CI_Model
         $this->db->select('order_id');
         $this->db->from('dtd_order');
         $this->db->where('order_custid', $user_id);
+        $this->db->where('order_status', 'Pending');
         //$this->db->like('order_date', date('Y-m-d'));
         $all['count'] = $this->db->count_all_results();
 
         $this->db->select('order_status');
         $this->db->from('dtd_order');
         $this->db->where('order_custid', $user_id);
-        $this->db->where_in('order_status', array('Pending','Processing'));
+        $this->db->where_in('order_status', array('Processing'));
         $all['pending'] = $this->db->count_all_results();
 
         $this->db->select('order_status');
@@ -415,6 +416,7 @@ class Customer_Model extends CI_Model
         $this->datatables->select("msg_id, msg_to, msg_title, msg_desc, DATE_FORMAT(msg_date,'%b-%d') as msg_date")
             ->from('dtd_message')
             ->edit_column('msg_to','$1', 'callback_message_to(msg_to)')
+            ->edit_column('msg_id','$1', 'callback_send_message_delete(msg_id)')
             ->where('msg_from', $cust_id);
         return $this->datatables->generate();
     }

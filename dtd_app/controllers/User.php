@@ -197,6 +197,10 @@ class User extends CI_Controller {
 	}
 
 	public function logout(){
+
+		//
+		$userid  = $this->user_model->get_current_user_id();
+		$this->user_model->change_status($userid,'0');
 		$this->session->unset_userdata('userinfo');
 		redirect("/");
 	}

@@ -7,6 +7,9 @@
                 <h1 class="page-header">Profile</h1>
             </div>
         </div>
+        <?php if(isset($error) && !empty($error)) { ?>
+            <div class="alert alert-danger fade in"><?=$error;?></div>
+        <?php } ?>
         <?php if(isset($errorb) && !empty($errorb)) { ?>
             <div class="alert alert-danger fade in"><?=$errorb;?></div>
         <?php } ?>
@@ -33,7 +36,7 @@
                                 <tbody>
                                 <tr>
                                     <td>Name</td>
-                                    <td><input class="form-control" value="<? echo $profile['user_name']; ?>" name="username" id="username"></td>
+                                    <td><input required class="form-control" value="<? echo $profile['user_name']; ?>" name="username" id="username"></td>
                                 </tr>
                                 <tr>
                                     <td>Email</td>
@@ -41,27 +44,27 @@
                                 </tr>
                                 <tr>
                                     <td>Telephone Number</td>
-                                    <td><input class="form-control" value="<? echo $profile['user_tel']; ?>" name="usertel" id="usertel"></td>
+                                    <td><input required class="form-control" value="<? echo $profile['user_tel']; ?>" name="usertel" id="usertel"></td>
                                 </tr>
                                 <tr>
                                     <td>Company Name</td>
-                                    <td><input class="form-control" value="<? echo $profile['user_comp']; ?>" name="usercomp" id="usercomp"></td>
+                                    <td><input required  class="form-control" value="<? echo $profile['user_comp']; ?>" name="usercomp" id="usercomp"></td>
                                 </tr>
                                 <tr>
                                     <td>Representive Name</td>
-                                    <td><input class="form-control" value="<? echo $profile['user_rep']; ?>" name="userrep" id="userrep"></td>
+                                    <td><input required class="form-control" value="<? echo $profile['user_rep']; ?>" name="userrep" id="userrep"></td>
                                 </tr>
                                 <tr>
                                     <td>Website</td>
-                                    <td><input class="form-control" value="<? echo $profile['user_site']; ?>" name="usersite" id="usersite"></td>
+                                    <td><input  class="form-control" value="<? echo $profile['user_site']; ?>" name="usersite" id="usersite"></td>
                                 </tr>
                                 <tr>
                                     <td>Staff Name</td>
-                                    <td><input class="form-control" value="<? echo $profile['user_staffname']; ?>" name="userstaff" id="userstaff"></td>
+                                    <td><input  class="form-control" value="<? echo $profile['user_staffname']; ?>" name="userstaff" id="userstaff"></td>
                                 </tr>
                                 <tr>
                                     <td>Staff Telephone No</td>
-                                    <td><input class="form-control" value="<? echo $profile['user_stafftel']; ?>" name="userstafftel" id="userstafftel"></td>
+                                    <td><input  class="form-control" value="<? echo $profile['user_stafftel']; ?>" name="userstafftel" id="userstafftel"></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -97,23 +100,23 @@
                                 <tbody>
                                 <tr>
                                     <td>Company Name</td>
-                                    <td><input class="form-control" value="<? echo $profile['user_sercomp']; ?>" name="sercomp" id="sercomp"></td>
+                                    <td><input required class="form-control" value="<? echo $profile['user_sercomp']; ?>" name="sercomp" id="sercomp"></td>
                                 </tr>
                                 <tr>
                                     <td>Registration No.</td>
-                                    <td><input class="form-control" value="<? echo $profile['user_lob']; ?>" name="lob" id="lob"></td>
+                                    <td><input  class="form-control" value="<? echo $profile['user_lob']; ?>" name="lob" id="lob"></td>
                                 </tr>
                                 <tr>
                                     <td>Line of Business</td>
-                                    <td><input class="form-control" value="<? echo $profile['user_regno']; ?>" name="regno" id="regno"></td>
+                                    <td><input  class="form-control" value="<? echo $profile['user_regno']; ?>" name="regno" id="regno"></td>
                                 </tr>
                                 <tr>
                                     <td>Mailing Address</td>
-                                    <td><input class="form-control" value="<? echo $profile['user_add']; ?>" name="useradd" id="useradd"></td>
+                                    <td><input required class="form-control" value="<? echo $profile['user_add']; ?>" name="useradd" id="useradd"></td>
                                 </tr>
                                 <tr>
                                     <td>Zip Code</td>
-                                    <td><input class="form-control" value="<? echo $profile['user_zipcode']; ?>" name="userzip" id="userzip"></td>
+                                    <td><input required class="form-control" value="<? echo $profile['user_zipcode']; ?>" name="userzip" id="userzip"></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -141,15 +144,15 @@
                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <div class="form-group">
                                 <label>Old Password*</label>
-                                <input class="form-control" placeholder="Enter Old Password" type="password" id="oldpwd" name="oldpwd">
+                                <input required class="form-control" placeholder="Enter Old Password" type="password" id="oldpwd" name="oldpwd">
                             </div>
                             <div class="form-group">
                                 <label>New Password*</label>
-                                <input class="form-control" placeholder="Enter New Password" type="password" id="newpwd" name="newpwd">
+                                <input required class="form-control" placeholder="Enter New Password" type="password" id="newpwd" name="newpwd">
                             </div>
                             <div class="form-group">
                                 <label>Cofirm Password*</label>
-                                <input class="form-control" placeholder="Re-type New Password" type="password" id="confirmpwd" name="confirmpwd">
+                                    <input required class="form-control" placeholder="Re-type New Password" type="password" id="confirmpwd" name="confirmpwd">
                             </div>
 
                         </div>

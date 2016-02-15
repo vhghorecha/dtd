@@ -31,6 +31,11 @@ function callback_edit_deposit($dep_id){
                 <a href="#" class="delete_item" data-depid="'.$dep_id.'">Delete</a>';
 }
 
+function callback_send_message_delete($msg_id)
+{
+    return '<a href="#" class="delete_item" data-msgid="'.$msg_id.'">Delete</a>';
+}
+
 function callback_edit_payment($dep_id){
     return '<a href="'. site_url("admin/editpayment/") . '/' . $dep_id . '" class="edit_item" data-depid="'.$dep_id.'">Edit</a> |
                 <a href="#" class="delete_item" data-depid="'.$dep_id.'">Delete</a>';
