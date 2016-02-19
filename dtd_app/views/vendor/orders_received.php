@@ -154,3 +154,113 @@
         </div>
     </div>
 </div>
+
+<?php $this->load->view('scripts'); ?>
+
+    <script type="text/javascript" language="javascript" src="<?=RES_URL;?>js/jquery.fileDownload.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#btn_up_code').click(function(){
+                $orderid = $('#up_orderid').val();
+                $up_code = $('#up_code').val();
+                $.ajax({
+                    type:'POST',
+                    url: '<?=site_url("ajax/update_order");?>',
+                    dataType: 'json',
+                    data: {order_id : $orderid, up_code : $up_code},
+                    success:function(data, textStatus, jqXHR){
+                        if(typeof data.message !== 'undefined'){
+                            $('#update_res').html('<div class="alert alert-success">' + data.message + '</div>')
+                            table.fnDraw(false);
+                            $('#pop_up_order').modal('hide');
+                        }else{
+                            $('#update_res').html('<div class="alert alert-error">' + data.error + '</div>')
+                        }
+                    }
+                });
+            });
+        });
+        var table = $('#v_ord_rec').dataTable( {
+            "sDom": '<"top"pl>rt<"bottom"><"clear">',
+            "bSort": false,
+            "oLanguage": {
+                "sLengthMenu": "_MENU_ records per page"
+            },
+            "bProcessing": true,
+            "bServerSide": true,
+            "sAjaxSource": "<?=site_url('ajax/v_ord_rec');?>",
+            "responsive" : true,
+            "drawCallback" : function(){
+                $('.update_order').click(function(){
+                    $('#update_res').html('');
+                    $('#up_code').val('');
+                    $('#up_orderid').val($(this).data('orderid'));
+                    $('#pop_up_order').modal('show');
+                });
+            },
+            "columns": [
+                { "data": "order_id" },
+                { "data": "ord_date" },
+                { "data": "user_name" },
+                { "data": "order_recipient" },
+                { "data": "order_telno" },
+                { "data": "type_name" },
+                { "data": "order_itemname" },
+                { "data": "user_comp" },
+                { "data": "user_rep" },
+                { "data": "order_status" },
+            ]
+        } );
+
+        // Setup - add a text input to each footer cell
+        $('#v_ord_rec tfoot th').each( function () {
+            //var title = $('#example thead th').eq( $(this).index() ).text();
+            if($(this).index() != 1 ){
+                $(this).html( txtsearch );
+            }else{
+                $(this).html( datesearch );
+            }
+
+        } );
+
+        $("#selallchk").change(function(){
+            $(".v_order_id").prop('checked', $(this).prop("checked"));
+        });
+
+        $(document).on("submit", "form#frmvendorpay", function (e) {
+            e.preventDefault();
+            $.fileDownload($(this).prop('action'), {
+                httpMethod: "POST",
+                data: $(this).serialize(),
+                successCallback: function (url) {
+                    table.fnDraw();
+                },
+            });
+        });
+
+        $('#btndeliver, #btnreturn').click(function(){
+            var action = $(this).data('action');
+            var order_ids = [];
+            $.each($("input[name='order_id']:checked"), function(){
+                order_ids.push($(this).val());
+            });
+            var reason = $('#txtreason').val();
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: '<?php echo site_url('ajax/v_ord_upd' )?>',
+                data: {'action': action, 'order_ids': order_ids, 'reason': reason },
+                success: function (data) {
+                    if (typeof data.updated !== 'undefined' && data.updated > 0) {
+                        $('#update_res').html('<div class="alert alert-success">Record Updated</div>');
+
+                    }else{
+                        $('#update_res').html('<div class="alert alert-danger">Error updating order</div>');
+                    }
+                    table.fnDraw();
+                }
+            });
+        })
+
+    </script>
+

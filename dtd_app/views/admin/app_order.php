@@ -76,3 +76,101 @@
         </div>
     </div>
 </div>
+
+<?php $this->load->view('scripts'); ?>
+
+
+    <script>
+        $(document).ready(function(){
+            var table = $('#a_app_ord').dataTable( {
+                "sDom": '<"top"pl>rt<"bottom"><"clear">',
+                "aaSorting": [[1, "desc"]],
+                "oLanguage": {
+                    "sLengthMenu": "_MENU_ records per page"
+                },
+                "bProcessing": true,
+                "bServerSide": true,
+                "sAjaxSource": "<?=site_url('ajax/a_app_ord');?>",
+                "responsive" : true,
+                "drawCallback" : function(){
+                    $('.approve_order').click(function(){
+                        $orderid = $(this).data('orderid');
+                        $.ajax({
+                            type:'POST',
+                            url: '<?=site_url("ajax/approve_order");?>',
+                            dataType: 'json',
+                            data: {order_id : $orderid},
+                            success:function(data, textStatus, jqXHR){
+                                if(typeof data.message !== 'undefined'){
+                                    $('#update_res').html('<div class="alert alert-success">' + data.message + '</div>')
+                                }else{
+                                    $('#update_res').html('<div class="alert alert-error">' + data.error + '</div>')
+                                }
+                                table.fnDraw(false);
+                            }
+                        });
+                    });
+                },
+                "columns": [
+                    { "data": "ord_date" },
+                    { "data": "order_id" },
+                    { "data": "user_name" },
+                    { "data": "order_recipient" },
+                    { "data": "order_telno" },
+                    { "data": "type_name" },
+                    { "data": "order_itemname" },
+                    { "data": "user_comp" },
+                    { "data": "user_rep" },
+                    { "data": "order_status" },
+                ]
+            } );
+
+            // Setup - add a text input to each footer cell
+            $('#a_app_ord tfoot th').each( function () {
+                //var title = $('#example thead th').eq( $(this).index() ).text();
+                if($(this).index() != 0 ){
+                    $(this).html( txtsearch );
+                }else{
+                    $(this).html( datesearch );
+                }
+
+            } );
+
+            var table2 = $('#a_appd_ord').dataTable( {
+                "sDom": '<"top"pl>rt<"bottom"><"clear">',
+                "aaSorting": [[1, "desc"]],
+                "oLanguage": {
+                    "sLengthMenu": "_MENU_ records per page"
+                },
+                "bProcessing": true,
+                "bServerSide": true,
+                "sAjaxSource": "<?=site_url('ajax/a_appd_ord');?>",
+                "responsive" : true,
+                "columns": [
+                    { "data": "ord_date" },
+                    { "data": "order_id" },
+                    { "data": "user_name" },
+                    { "data": "order_recipient" },
+                    { "data": "order_telno" },
+                    { "data": "type_name" },
+                    { "data": "order_itemname" },
+                    { "data": "user_comp" },
+                    { "data": "user_rep" },
+                ]
+            } );
+
+            // Setup - add a text input to each footer cell
+            $('#a_appd_ord tfoot th').each( function () {
+                //var title = $('#example thead th').eq( $(this).index() ).text();
+                if($(this).index() != 0 ){
+                    $(this).html( txtsearch );
+                }else{
+                    $(this).html( datesearch );
+                }
+
+            } );
+        });
+
+    </script>
+
+

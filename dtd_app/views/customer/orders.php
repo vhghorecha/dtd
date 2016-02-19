@@ -172,5 +172,73 @@
     <!-- /.container-fluid -->
 </div>
 <!-- /#page-wrapper -->
+<?php $this->load->view('scripts'); ?>
+
+    <script>
+        $(document).ready(function(){
+            var table = $('#c_orders').dataTable( {
+                "sDom": '<"top"pl>rt<"bottom"><"clear">',
+                "aaSorting": [[0, "desc"]],
+                "oLanguage": {
+                    "sLengthMenu": "_MENU_ records per page"
+                },
+                "bProcessing": true,
+                "bServerSide": true,
+                "sAjaxSource": "<?=site_url('ajax/c_orders');?>",
+                "responsive" : true,
+                "columns": [
+                    { "data": "order_id" },
+                    { "data": "order_date" },
+                    { "data": "order_recipient" },
+                    { "data": "order_telno" },
+                    { "data": "type_name" },
+                    { "data": "order_updatecode" },
+                    { "data": "order_status" },
+                    { "data" : "modify"},
+                ],
+            } );
+
+            // Setup - add a text input to each footer cell
+            $('#c_orders tfoot th').each( function () {
+                //var title = $('#example thead th').eq( $(this).index() ).text();
+                if($(this).index() != 1 ){
+                    $(this).html( txtsearch );
+                }else{
+                    $(this).html( datesearch );
+                }
+
+            } );
+
+            $('.mdatepicker').change(function(){
+                $.ajax({
+                    type:'POST',
+                    url: '<?=site_url("ajax/c_monthly");?>',
+                    dataType: 'json',
+                    data: {month : $(this).val()},
+                    success:function(data, textStatus, jqXHR){
+                        $('#tmonthcount').html(data.monthcount);
+                        $('#tdeliver').html(data.deliver);
+                        $('#tpending').html(data.pending);
+                        $('#tamount').html(data.amount);
+                    }
+                });
+            });
+
+            $('#daypicker').change(function(){
+                $.ajax({
+                    type:'POST',
+                    url: '<?=site_url("ajax/c_today");?>',
+                    dataType: 'json',
+                    data: {day : $(this).val()},
+                    success:function(data, textStatus, jqXHR){
+                        $('#daycount').html(data.count);
+                        $('#daysum').html(data.sum);
+                    }
+                });
+            });
+
+        });
+
+    </script>
 
     

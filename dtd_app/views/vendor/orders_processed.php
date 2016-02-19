@@ -52,3 +52,56 @@
     <!-- /.container-fluid -->
 </div>
 <!-- /#page-wrapper -->
+<?php $this->load->view('scripts'); ?>
+
+    <script>
+
+        $(document).ready(function(){
+
+            var table = $('#v_ord_del').dataTable( {
+                "sDom": '<"top"pl>rt<"bottom"><"clear">',
+                "aaSorting": [[1, "desc"]],
+                "oLanguage": {
+                    "sLengthMenu": "_MENU_ records per page"
+                },
+                "bProcessing": true,
+                "bServerSide": true,
+                "sAjaxSource": "<?=site_url('ajax/v_ord_del');?>",
+                "responsive" : true,
+                "drawCallback" : function(){
+                    $('.update_order').click(function(){
+                        $('#update_res').html('');
+                        $('#up_code').val('');
+                        $('#up_orderid').val($(this).data('orderid'));
+                        $('#pop_up_order').modal('show');
+                    });
+                },
+                "columns": [
+                    { "data": "ord_date" },
+                    { "data": "order_id" },
+                    { "data": "user_name" },
+                    { "data": "order_recipient" },
+                    { "data": "order_telno" },
+                    { "data": "type_name" },
+                    { "data": "order_itemname" },
+                    { "data": "user_sercomp" },
+                    { "data": "user_comp" },
+                    { "data": "user_rep" },
+                    { "data": "order_status" },
+                ]
+            } );
+
+            // Setup - add a text input to each footer cell
+            $('#v_ord_del tfoot th').each( function () {
+                //var title = $('#example thead th').eq( $(this).index() ).text();
+                if($(this).index() != 0 ){
+                    $(this).html( txtsearch );
+                }else{
+                    $(this).html( datesearch );
+                }
+
+            } );
+        });
+
+    </script>
+

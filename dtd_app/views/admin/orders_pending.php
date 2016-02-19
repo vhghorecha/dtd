@@ -48,3 +48,49 @@
     <!-- /.container-fluid -->
 </div>
 <!-- /#page-wrapper -->
+<?php $this->load->view('scripts'); ?>
+
+    <script>
+        $(document).ready(function(){
+            //========================================
+            var table = $('#a_ord_pen').dataTable( {
+                "sDom": '<"top"pl>rt<"bottom"><"clear">',
+                "aaSorting": [[1, "desc"]],
+                "oLanguage": {
+                    "sLengthMenu": "_MENU_ records per page"
+                },
+                "bProcessing": true,
+                "bServerSide": true,
+                "sAjaxSource": "<?=site_url('ajax/a_ord_pen');?>",
+                "responsive" : true,
+
+                "columns": [
+                    { "data": "ord_date" },
+                    { "data": "order_id" },
+                    { "data": "user_name" },
+                    { "data": "order_recipient" },
+                    { "data": "order_telno" },
+                    { "data": "type_name" },
+                    { "data": "order_itemname" },
+                    { "data": "user_sercomp" },
+                    { "data": "user_comp" },
+                    { "data": "user_rep" },
+
+                ]
+            } );
+
+            // Setup - add a text input to each footer cell
+            $('#a_ord_pen tfoot th').each( function () {
+                //var title = $('#example thead th').eq( $(this).index() ).text();
+                if($(this).index() != 0 ){
+                    $(this).html( txtsearch );
+                }else{
+                    $(this).html( datesearch );
+                }
+
+            } );
+            //========================================
+        });
+
+    </script>
+

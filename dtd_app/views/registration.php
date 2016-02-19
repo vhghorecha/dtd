@@ -99,3 +99,19 @@
                 </div>
             </div>
         </div>
+
+<?php $this->load->view("scripts"); ?>
+
+
+<script>
+    $("input[name='user_type']").change(function(){
+        if($(this).val() == 'vendor'){
+            $('#divBank').show();
+            $('#divBank').prop('required',true);
+        }else{
+            $('#divBank').hide();
+            $('#divBank').prop('required',false);
+        }
+    });
+</script>
+

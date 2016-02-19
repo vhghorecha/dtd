@@ -86,4 +86,53 @@
             </div>
             <!-- /.container-fluid -->
         </div>
+
         <!-- /#page-wrapper -->
+
+<?php $this->load->view('scripts'); ?>
+
+
+<script>
+
+    $(document).ready(function(){
+        var table = $('#a_daily_deposits').dataTable( {
+            "sDom": '<"top"pl>rt<"bottom"><"clear">',
+            "aaSorting": [[0, "asc"],[1, "asc"]],
+            "oLanguage": {
+                "sLengthMenu": "_MENU_ records per page"
+            },
+            "bProcessing": true,
+            "bServerSide": true,
+            "sAjaxSource": "<?=site_url('ajax/a_daily_deposits');?>",
+            "responsive" : true,
+            "columns": [
+                { "data": "depdate" },
+                { "data": "user_name" },
+                { "data": "dep_amount" },
+                { "data": "dep_transno" },
+                { "data": "dep_bankname" },
+                { "data": "dep_id" },
+            ],
+            "drawCallback" : function(){
+                $('.delete_item').click(function(){
+                    $item_id = $(this).data('depid');
+                    $isDelete = confirm('Are you sure you want to delete this Item?');
+                    if($isDelete){
+                        $.ajax({
+                            type:'POST',
+                            url: '<?=site_url("ajax/delete_deposit");?>',
+                            dataType: 'json',
+                            data: {dep_id : $item_id},
+                            success:function(data, textStatus, jqXHR){
+                                table.fnDraw(false);
+                            }
+                        });
+                    }
+                });
+            },
+        });
+    });
+
+</script>
+
+

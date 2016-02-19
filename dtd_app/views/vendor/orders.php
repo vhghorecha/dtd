@@ -172,3 +172,106 @@
 </div>
 <!-- /#page-wrapper -->
 <?php echo form_close();?>
+<?php $this->load->view('scripts'); ?>
+
+
+    <script>
+        $(document).ready(function(){
+            var table = $('#v_ord_rec').dataTable( {
+                "sDom": '<"top"pl>rt<"bottom"><"clear">',
+                "aaSorting": [[1, "desc"]],
+                "oLanguage": {
+                    "sLengthMenu": "_MENU_ records per page"
+                },
+                "bProcessing": true,
+                "bServerSide": true,
+                "sAjaxSource": "<?=site_url('ajax/v_orders');?>",
+                "responsive" : true,
+                "columns": [
+                    { "data": "ord_date" },
+                    { "data": "order_id" },
+                    { "data": "user_name" },
+                    { "data": "order_recipient" },
+                    { "data": "order_telno" },
+                    { "data": "type_name" },
+                    { "data": "order_itemname" },
+                    { "data": "order_status" },
+                    { "data": "user_comp" },
+                    { "data": "user_rep" },
+
+                ]
+            } );
+
+            // Setup - add a text input to each footer cell
+            $('#v_ord_rec tfoot th').each( function () {
+                //var title = $('#example thead th').eq( $(this).index() ).text();
+                if($(this).index() != 0 ){
+                    $(this).html( txtsearch );
+                }else{
+                    $(this).html( datesearch );
+                }
+            } );
+
+            var v_ord_d = $('#v_ord_d').dataTable( {
+                "bProcessing": true,
+                "responsive" : true,
+            } );
+
+            // Setup - add a text input to each footer cell
+            $('#v_ord_d tfoot th').each( function () {
+                //var title = $('#example thead th').eq( $(this).index() ).text();
+                if($(this).index() == 0){
+                    $(this).html( datesearch );
+                }
+
+                if($(this).index() == 1){
+                    $(this).html( txtsearch );
+                }
+            } );
+
+            v_ord_d.DataTable().columns().every( function () {
+                var that = this;
+                $( 'input', this.footer() ).on( 'keyup change', function () {
+                    if ( that.search() !== this.value ) {
+                        that
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+            } );
+
+            var v_ord_m = $('#v_ord_m').dataTable( {
+                "bProcessing": true,
+                "responsive" : true,
+            } );
+
+            $('#v_ord_m tfoot th').each( function () {
+                //var title = $('#example thead th').eq( $(this).index() ).text();
+                if($(this).index() == 0 || $(this).index() == 1 ){
+                    $(this).html( txtsearch );
+                }
+            } );
+
+            v_ord_m.DataTable().columns().every( function () {
+                var that = this;
+                $( 'input', this.footer() ).on( 'keyup change', function () {
+                    if ( that.search() !== this.value ) {
+                        that
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+            } );
+
+            $('.mdatepicker').change(function(){
+                $('#frmorders').submit();
+            });
+
+            $('#daypicker').change(function(){
+                $('#frmorders').submit();
+            });
+        })
+
+
+    </script>
+

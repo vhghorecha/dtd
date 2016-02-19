@@ -80,3 +80,67 @@
         </div>
     </div>
 </div>
+
+<?php $this->load->view("scripts"); ?>
+
+
+    <script>
+        $(document).ready(function(){
+            $('#btn_up_code').click(function(){
+                $userid = $('#up_userid').val();
+                $up_code = $('#up_areacode').val();
+                $.ajax({
+                    type:'POST',
+                    url: '<?=site_url("ajax/update_areacode");?>',
+                    dataType: 'json',
+                    data: {user_id : $userid, up_areacode : $up_code},
+                    success:function(data, textStatus, jqXHR){
+                        if(typeof data.message !== 'undefined'){
+                            $('#update_res').html('<div class="alert alert-success">' + data.message + '</div>')
+                        }else{
+                            $('#update_res').html('<div class="alert alert-error">' + data.error + '</div>')
+                        }
+                        table.fnDraw(false);
+                    }
+                });
+            });
+        });
+        var table = $('#a_vendors').dataTable( {
+            "sDom": '<"top"pl>rt<"bottom"><"clear">',
+            "aaSorting": [[0, "desc"]],
+            "oLanguage": {
+                "sLengthMenu": "_MENU_ records per page"
+            },
+            "bProcessing": true,
+            "bServerSide": true,
+            "sAjaxSource": "<?=site_url('ajax/a_vendors');?>",
+            "responsive" : true,
+            "columns": [
+                { "data": "user_id" },
+                { "data": "user_name" },
+                { "data": "user_email" },
+                { "data": "user_add" },
+                { "data": "user_tel" },
+                { "data": "user_comp" },
+                { "data": "user_rep" },
+                { "data": "user_site" },
+                { "data": "user_staffname" },
+                { "data": "user_stafftel" },
+                { "data": "user_balance"},
+                { "data": "user_areacode"},
+            ],
+            "drawCallback" : function(){
+                $('.update_area_code').click(function(){
+                    $('#update_res').html('');
+                    $('#up_areacode').val($(this).data('userarea'));
+                    $('#up_userid').val($(this).data('userid'));
+                    $('#pop_up_user').modal('show');
+                });
+            },
+        } );
+        // Setup - add a text input to each footer cell
+        $('#a_vendors tfoot th').each( function () {
+            $(this).html( txtsearch );
+        } );
+    </script>
+

@@ -124,5 +124,140 @@
             <!-- /.container-fluid -->
         </div>
         <!-- /#page-wrapper -->
+<?php $this->load->view("scripts") ?>
+
+<script>
+    $(document).ready(function(){
+        var table2 = $('#a_ven_pay').dataTable( {
+            "sDom": '<"top"pl>rt<"bottom"><"clear">',
+            "oLanguage": {
+                "sLengthMenu": "_MENU_ records per page"
+            },
+            "bSort": false,
+            "bProcessing": true,
+            "bServerSide": true,
+            "sAjaxSource": "<?=site_url('ajax/a_ven_pay/');?>",
+            "fnServerParams": function ( aoData ) {
+                aoData.push( { "name": "vendor_id", "value": $('#vendname').val() } );
+            },
+            "responsive" : true,
+            "columns": [
+                { "data": "order_id"  },
+                { "data": "ord_date" },
+                { "data": "vendor_amount" },
+                { "data": "user_name" },
+                { "data": "order_recipient" },
+                { "data": "order_telno" },
+                { "data": "type_name" },
+                { "data": "order_itemname" },
+            ],
+            "drawCallback" : function(){
+                $('.a_pay_order_amt').click(function(){
+                    if($('#payamount').val() == ''){
+                        $('#payamount').val(0);
+                    }
+                    if($(this).is(':checked')){
+                        $('#payamount').val( parseInt($('#payamount').val()) + parseInt($(this).val()) );
+                    }else{
+                        $('#payamount').val( parseInt($('#payamount').val()) - parseInt($(this).val()) );
+                    }
+                });
+            }
+        } );
+
+        // Setup - add a text input to each footer cell
+        $('#a_ven_pay tfoot th').each( function () {
+            //var title = $('#example thead th').eq( $(this).index() ).text();
+            if($(this).index() != 1 ){
+                $(this).html( txtsearch );
+            }else{
+                $(this).html( datesearch );
+            }
+
+        } );
+
+        $('#vendname').change(function(){
+            table2.fnDraw();
+            $('#payamount').val();
+        });
+
+        ///hsm code
+        $('#vendname').change(function(){
+            $venid = $(this).val();
+            if($venid > 0) {
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    url: '<?php echo site_url('ajax/a_get_bank' )?>',
+                    data: {'vendor_id': $venid},
+                    success: function (data) {
+                        if (typeof data.pay_bankacno !== 'undefined') {
+                            $('#paybankacno').val(data.pay_bankacno);
+                            $('#paybankname').val(data.pay_bankname);
+                        }
+                    }
+                });
+            }
+            else{
+                $('#paybankacno').val('');
+                $('#paybankname').val('');
+            }
+        });
+
+        $("#selallchk").change(function(){
+            $(".a_pay_order_amt").prop('checked', $(this).prop("checked"));
+        });
+
+
+        //=====================================================================
+        var table = $('#a_daily_payments').dataTable( {
+            "sDom": '<"top"pl>rt<"bottom"><"clear">',
+            "aaSorting": [[0, "asc"],[1, "asc"]],
+            "oLanguage": {
+                "sLengthMenu": "_MENU_ records per page"
+            },
+            "bProcessing": true,
+            "bServerSide": true,
+            "sAjaxSource": "<?=site_url('ajax/a_daily_payments');?>",
+            "responsive" : true,
+            "columns": [
+                { "data": "paydate" },
+                { "data": "user_name" },
+                { "data": "pay_amount" },
+                { "data": "pay_transno" },
+                { "data": "pay_bankname" },
+                { "data": "dep_id" },
+                { "data": "download" },
+            ],
+            "drawCallback" : function(){
+                $('.delete_item').click(function(){
+                    $delid = $(this).data("depid");
+                    $isDelete = confirm('Are you sure to delete this?');
+                    if($isDelete==true)
+                    {
+                        $.ajax({
+                            type:'POST',
+                            url: '<?=site_url("ajax/delete_payment");?>',
+                            dataType: 'json',
+                            data: {dep_id : $delid},
+                            success:function(data, textStatus, jqXHR){
+                                table.fnDraw(false);
+                            }
+                        });
+                    }
+
+                });//end of delete_item click
+
+            }
+            //end of drawback
+        } );
+        //=======================================================================
+    });
+
+
+</script>
+
+
+
 
     

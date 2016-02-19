@@ -63,4 +63,10 @@
 </div>
 <!-- /#page-wrapper -->
 
+<?php $this->load->view("scripts"); ?>
+
+<script type="text/javascript" language="javascript" src="<?=RES_URL;?>js/tinymce/tinymce.min.js"></script>
+<script type="text/javascript">
+    tinymce.init({ selector:'textarea',height: 300 });
+</script>
 

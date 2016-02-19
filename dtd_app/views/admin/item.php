@@ -73,3 +73,71 @@
         </div>
     </div>
 </div>
+
+<?php $this->load->view("scripts"); ?>
+
+
+    <script>
+        $(document).ready(function(){
+
+            var table = $('#a_item_list').dataTable( {
+                "sDom": '<"top"pl>rt<"bottom"><"clear">',
+                "aaSorting": [[0, "asc"]],
+                "oLanguage": {
+                    "sLengthMenu": "_MENU_ records per page"
+                },
+                "drawCallback" : function(){
+                    $('.edit_item').click(function(){
+                        $('#up_itemid').val($(this).data('typeid'));
+                        $('#up_itemname').val($(this).data('typename'));
+                        $('#pop_up_item').modal('show');
+                    });
+                    $('.delete_item').click(function(){
+                        $item_id = $(this).data('typeid');
+                        $isDelete = confirm('Are you sure you want to delete this Item?');
+                        if($isDelete){
+                            $.ajax({
+                                type:'POST',
+                                url: '<?=site_url("ajax/delete_item");?>',
+                                dataType: 'json',
+                                data: {type_id : $item_id},
+                                success:function(data, textStatus, jqXHR){
+                                    table.fnDraw(false);
+                                }
+                            });
+                        }
+                    });
+                },
+                "bProcessing": true,
+                "bServerSide": true,
+                "sAjaxSource": "<?=site_url('ajax/a_item_list');?>",
+                "responsive" : true,
+                "columns": [
+                    { "data": "type_name" },
+                    { "data": "edit" },
+                ]
+            } );
+
+            $('#btn_up_item').click(function(){
+                $typeid = $('#up_itemid').val();
+                $typename = $('#up_itemname').val();
+                $.ajax({
+                    type:'POST',
+                    url: '<?=site_url("ajax/edit_item");?>',
+                    dataType: 'json',
+                    data: {type_id : $typeid, type_name : $typename},
+                    success:function(data, textStatus, jqXHR){
+                        if(typeof data.message !== 'undefined'){
+                            $('#update_item').html('<div class="alert alert-success">' + data.message + '</div>')
+                        }else{
+                            $('#update_item').html('<div class="alert alert-error">' + data.error + '</div>')
+                        }
+                        table.fnDraw(false);
+                    }
+                });
+            });
+        });
+
+    </script>
+
+

@@ -41,3 +41,44 @@
     <!-- /.container-fluid -->
 </div>
 <!-- /#page-wrapper -->
+<?php $this->load->view('scripts'); ?>
+
+
+    <script>
+
+        $(document).ready(function(){
+            var table = $('#a_mon_pay').dataTable( {
+                "sDom": '<"top"pl>rt<"bottom"><"clear">',
+                "aaSorting": [[0, "desc"]],
+                "oLanguage": {
+                    "sLengthMenu": "_MENU_ records per page"
+                },
+                "bProcessing": true,
+                "bServerSide": true,
+                "sAjaxSource": "<?=site_url('ajax/a_mon_pay');?>",
+                "responsive" : true,
+
+                "columns": [
+                    { "data": "pdate" },
+                    { "data": "user_name" },
+                    { "data": "pay_amount" },
+                    { "data": "pay_transno" },
+                    { "data": "pay_bankname" },
+                ]
+            } );
+
+            // Setup - add a text input to each footer cell
+            $('#a_mon_pay tfoot th').each( function () {
+                //var title = $('#example thead th').eq( $(this).index() ).text();
+                if($(this).index() != 0 ){
+                    $(this).html( txtsearch );
+                }else{
+                    $(this).html( datesearch );
+                }
+
+            } );
+
+        });
+
+    </script>
+

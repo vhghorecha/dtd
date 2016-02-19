@@ -101,5 +101,72 @@
     <!-- /.container-fluid -->
 </div>
 <!-- /#page-wrapper -->
+<?php $this->load->views("scripts"); ?>
 
-    
+
+    <script>
+        $(document).ready(function(){
+
+            var table = $('#a_customer_grade').dataTable( {
+                "sDom": '<"top"pl>rt<"bottom"><"clear">',
+                "aaSorting": [[0, "asc"],[1, "asc"]],
+                "oLanguage": {
+                    "sLengthMenu": "_MENU_ records per page"
+                },
+                "bProcessing": true,
+                "bServerSide": true,
+                "sAjaxSource": "<?=site_url('ajax/a_customer_grade');?>",
+                "responsive" : true,
+                "columns": [
+                    { "data": "term"},
+                    { "data": "gp_no_order" },
+                    { "data": "grade_name" },
+                    { "data": "gp_disc" },
+                    { "data": "edit" },
+                ]
+            } );
+
+            var table2 = $('#a_item_price').dataTable( {
+                "sDom": '<"top"pl>rt<"bottom"><"clear">',
+                "aaSorting": [[0, "asc"],[1, "asc"]],
+                "oLanguage": {
+                    "sLengthMenu": "_MENU_ records per page"
+                },
+                "bProcessing": true,
+                "bServerSide": true,
+                "sAjaxSource": "<?=site_url('ajax/a_item_price');?>",
+                "responsive" : true,
+                "columns": [
+                    { "data": "type_name"},
+                    { "data": "gi_price" },
+                    { "data": "edit" },
+                ]
+            } );
+
+            var table3 = $('#a_vendor_price').dataTable( {
+                "sDom": '<"top"pl>rt<"bottom"><"clear">',
+                "aaSorting": [[0, "asc"]],
+                "oLanguage": {
+                    "sLengthMenu": "_MENU_ records per page"
+                },
+                "bProcessing": true,
+                "bServerSide": true,
+                "sAjaxSource": "<?=site_url('ajax/a_vendor_price');?>",
+                "responsive" : true,
+                "columns": [
+                    { "data": "user_name"},
+                    { "data": "type_name" },
+                    { "data": "gp_price" },
+                    { "data": "profit" },
+                    { "data": "edit" },
+                ]
+            } );
+            // Setup - add a text input to each footer cell
+            /* $('#a_vendor_price tfoot th').each( function () {
+             $(this).html( txtsearch );
+             } );*/
+        });
+
+
+    </script>
+

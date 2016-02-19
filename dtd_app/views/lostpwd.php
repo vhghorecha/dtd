@@ -39,3 +39,13 @@
         </div>
     </div>
 
+<?php $this->load->view("scripts"); ?>
+
+
+<script>
+    $('#lnkcaptcha').click(function(e){
+        e.preventDefault();
+        $('#imgcaptcha').attr('src','<?=site_url("ajax/get_captcha/lostpwd");?>' + $.now());
+    });
+</script>
+

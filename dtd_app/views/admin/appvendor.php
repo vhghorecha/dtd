@@ -45,3 +45,56 @@
     <!-- /.container-fluid -->
 </div>
 <!-- /#page-wrapper -->
+<?php $this->load->view('scripts'); ?>
+
+    <script>
+     $(document).ready(function(){
+         var table = $('#a_pending_vendors').dataTable( {
+             "sDom": '<"top"pl>rt<"bottom"><"clear">',
+             "aaSorting": [[0, "desc"]],
+             "oLanguage": {
+                 "sLengthMenu": "_MENU_ records per page"
+             },
+             "bProcessing": true,
+             "bServerSide": true,
+             "sAjaxSource": "<?=site_url('ajax/a_pending_vendors');?>",
+             "responsive" : true,
+             "columns": [
+                 { "data": "user_name" },
+                 { "data": "user_email" },
+                 { "data": "user_add" },
+                 { "data": "user_tel" },
+                 { "data": "user_comp" },
+                 { "data": "user_rep"},
+                 { "data": "user_site" },
+                 { "data": "user_staffname" },
+                 { "data": "user_stafftel" },
+                 { "data": "user_id" },
+             ],
+             "drawCallback" : function(){
+                 $('.approve_user').click(function(){
+                     $user_id = $(this).data('userid');
+                     $isDelete = confirm('Are you sure you want to Approve?');
+                     if($isDelete){
+                         $.ajax({
+                             type:'POST',
+                             url: '<?=site_url("ajax/approve_user");?>',
+                             dataType: 'json',
+                             data: {user_id : $user_id},
+                             success:function(data, textStatus, jqXHR){
+                                 table.fnDraw(false);
+                             }
+                         });
+                     }
+                 });
+             },
+         } );
+
+         // Setup - add a text input to each footer cell
+         $('#a_pending_vendors tfoot th').each( function () {
+             $(this).html( txtsearch );
+         } );
+     });
+
+    </script>
+

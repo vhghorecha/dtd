@@ -54,3 +54,39 @@
     </div>
     <!-- /.container-fluid -->
 </div>
+<?php $this->load->view('scripts'); ?>
+
+    <script>
+        $(document).ready(function(){
+
+            var table = $('#v_customers').dataTable( {
+                "sDom": '<"top"pl>rt<"bottom"><"clear">',
+                "aaSorting": [[0, "desc"]],
+                "oLanguage": {
+                    "sLengthMenu": "_MENU_ records per page"
+                },
+                "bProcessing": true,
+                "bServerSide": true,
+                "sAjaxSource": "<?=site_url('ajax/v_customers');?>",
+                "responsive" : true,
+                "columns": [
+                    { "data": "user_name" },
+                    { "data": "user_email" },
+                    { "data": "user_add" },
+                    { "data": "user_tel" },
+                    { "data": "user_comp" },
+                    { "data": "user_rep" },
+                    { "data": "user_site" },
+                    { "data": "user_staffname" },
+                    { "data": "user_stafftel" },
+                ]
+            } );
+            // Setup - add a text input to each footer cell
+            $('#v_customers tfoot th').each( function () {
+                $(this).html( txtsearch );
+            } );
+
+        });
+
+    </script>
+
