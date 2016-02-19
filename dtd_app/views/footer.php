@@ -57,6 +57,7 @@
 </script>
 
 <?php if($current_page == 'vendor' && $current_action == 'orders_received') { ?>
+    <script type="text/javascript" language="javascript" src="<?=RES_URL;?>js/jquery.fileDownload.js"></script>
     <script>
         $(document).ready(function(){
             $('#btn_up_code').click(function(){
@@ -81,7 +82,7 @@
         });
         var table = $('#v_ord_rec').dataTable( {
             "sDom": '<"top"pl>rt<"bottom"><"clear">',
-            "aaSorting": [[1, "desc"]],
+            "bSort": false,
             "oLanguage": {
                 "sLengthMenu": "_MENU_ records per page"
             },
@@ -98,8 +99,8 @@
                 });
             },
             "columns": [
-                { "data": "ord_date" },
                 { "data": "order_id" },
+                { "data": "ord_date" },
                 { "data": "user_name" },
                 { "data": "order_recipient" },
                 { "data": "order_telno" },
@@ -114,13 +115,46 @@
         // Setup - add a text input to each footer cell
         $('#v_ord_rec tfoot th').each( function () {
             //var title = $('#example thead th').eq( $(this).index() ).text();
-            if($(this).index() != 0 ){
+            if($(this).index() != 1 ){
                 $(this).html( txtsearch );
             }else{
                 $(this).html( datesearch );
             }
 
         } );
+
+        $("#selallchk").change(function(){
+            $(".v_order_id").prop('checked', $(this).prop("checked"));
+        });
+
+        $(document).on("submit", "form#frmvendorpay", function (e) {
+            e.preventDefault();
+            $.fileDownload($(this).prop('action'), {
+                httpMethod: "POST",
+                data: $(this).serialize(),
+                successCallback: function (url) {
+                    table.fnDraw();
+                },
+            });
+        });
+
+        $('#btndeliver, #btnreturn, #btncancel').click(function(){
+            var action = $(this).data('action');
+            var order_ids = $('.v_order_id').val();
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: '<?php echo site_url('ajax/v_ord_upd' )?>',
+                data: {'vendor_id': $venid},
+                success: function (data) {
+                    if (typeof data.pay_bankacno !== 'undefined') {
+                        $('#paybankacno').val(data.pay_bankacno);
+                        $('#paybankname').val(data.pay_bankname);
+                    }
+                }
+            });
+        })
+
     </script>
 <?php } ?>
 
@@ -392,6 +426,40 @@
             }
 
         } );
+
+        var table2 = $('#a_appd_ord').dataTable( {
+            "sDom": '<"top"pl>rt<"bottom"><"clear">',
+            "aaSorting": [[1, "desc"]],
+            "oLanguage": {
+                "sLengthMenu": "_MENU_ records per page"
+            },
+            "bProcessing": true,
+            "bServerSide": true,
+            "sAjaxSource": "<?=site_url('ajax/a_appd_ord');?>",
+            "responsive" : true,
+            "columns": [
+                { "data": "ord_date" },
+                { "data": "order_id" },
+                { "data": "user_name" },
+                { "data": "order_recipient" },
+                { "data": "order_telno" },
+                { "data": "type_name" },
+                { "data": "order_itemname" },
+                { "data": "user_comp" },
+                { "data": "user_rep" },
+            ]
+        } );
+
+        // Setup - add a text input to each footer cell
+        $('#a_appd_ord tfoot th').each( function () {
+            //var title = $('#example thead th').eq( $(this).index() ).text();
+            if($(this).index() != 0 ){
+                $(this).html( txtsearch );
+            }else{
+                $(this).html( datesearch );
+            }
+
+        } );
     </script>
 <?php } ?>
 
@@ -448,10 +516,10 @@
     <script>
         var table2 = $('#a_ven_pay').dataTable( {
             "sDom": '<"top"pl>rt<"bottom"><"clear">',
-            "aaSorting": [[0, "desc"]],
             "oLanguage": {
                 "sLengthMenu": "_MENU_ records per page"
             },
+            "bSort": false,
             "bProcessing": true,
             "bServerSide": true,
             "sAjaxSource": "<?=site_url('ajax/a_ven_pay/');?>",
@@ -460,7 +528,7 @@
             },
             "responsive" : true,
             "columns": [
-                { "data": "order_id" },
+                { "data": "order_id"  },
                 { "data": "ord_date" },
                 { "data": "vendor_amount" },
                 { "data": "user_name" },
@@ -498,6 +566,7 @@
             table2.fnDraw();
             $('#payamount').val();
         });
+
     </script>
 <?php } ?>
 
@@ -1232,6 +1301,10 @@
                 $('#paybankname').val('');
             }
         });
+
+        $("#selallchk").change(function(){
+            $(".a_pay_order_amt").prop('checked', $(this).prop("checked"));
+        });
     </script>
 <?PHP } ?>
 
@@ -1295,6 +1368,7 @@
                 { "data": "pay_transno" },
                 { "data": "pay_bankname" },
                 { "data": "dep_id" },
+                { "data": "download" },
             ],
             "drawCallback" : function(){
                 $('.delete_item').click(function(){

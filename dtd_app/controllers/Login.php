@@ -40,7 +40,8 @@ class Login extends CI_Controller {
 				if($data['validated']){
 					if($data['is_active'])
 					{
-						if($data['is_logged']=='0')
+						$curtime = time() - $data['lastlogin'];
+						if($data['is_logged']=='0' || $curtime > 900)
 						{
 							$this->user_model->change_status($data["userid"],'1');
 							$this->session->set_userdata('userinfo', $data);
@@ -53,11 +54,8 @@ class Login extends CI_Controller {
 						}
 						else
 						{
-							$error = "You are already logged in.";
+							$error = "You are already logged in on another system.";
 						}
-
-
-
 					}
 					else
 					{

@@ -58,6 +58,7 @@ class User_Model extends CI_Model{
 				'userrole' => $row->user_role,
 				'is_active' => $row->is_active,
 				'is_logged' => $row->is_logged,
+				'lastlogin' => $row->user_lastlogin,
 				'validated' => true
 			);
             return $data;
@@ -72,6 +73,7 @@ class User_Model extends CI_Model{
 	{
 
 		$this->db->set("is_logged", $status);
+		$this->db->set("user_lastlogin", date('Y-m-d H:i:s'));
 		$this->db->where('user_id', $id);
 		$this->db->update('dtd_users');
 	}

@@ -21,6 +21,10 @@ function callback_vendor_pay_order($order_id,$order_amount){
     return '<input type="checkbox" name="order_id[' . $order_id . ']" value="' . $order_amount . '" class="a_pay_order_amt"/> ' . $order_id;
 }
 
+function callback_order_checkbox($order_id){
+    return '<input type="checkbox" name="order_id[]" value="' . $order_id . '" class="v_order_id"/> ' . $order_id;
+}
+
 function callback_edit_item($type_id,$type_name){
     return '<a href="#" class="edit_item" data-typeid="'.$type_id.'" data-typename="'.$type_name.'"><i class="fa fa-edit"></i> Edit</a> |
                 <a href="#" class="delete_item" data-typeid="'.$type_id.'"><i class="fa fa-remove"></i> Delete</a>';
@@ -39,6 +43,10 @@ function callback_send_message_delete($msg_id)
 function callback_edit_payment($dep_id){
     return '<a href="'. site_url("admin/editpayment/") . '/' . $dep_id . '" class="edit_item" data-depid="'.$dep_id.'">Edit</a> |
                 <a href="#" class="delete_item" data-depid="'.$dep_id.'">Delete</a>';
+}
+
+function callback_download_payment($order_ids){
+    return '<a href="'. site_url("admin/download_orders/") . '/' . $order_ids . '" target="_blank">Download</a>';
 }
 
 function callback_edit_message($msg_id,$user){

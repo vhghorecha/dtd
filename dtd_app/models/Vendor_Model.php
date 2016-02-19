@@ -61,7 +61,8 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             ->join('dtd_item_type','dtd_item_type.type_id=dtd_order.order_typeid')
             ->where('dtd_order.order_vendorid',$vendor_id)
             ->where_in('dtd_order.order_status',array('Pending','Processing'))
-            ->edit_column('order_status','$1', 'callback_order_status(order_status,order_id)');
+            ->edit_column('order_status','$1', 'callback_order_status(order_status,order_id)')
+            ->edit_column('order_id', '$1', 'callback_order_checkbox(order_id)');
         return $this->datatables->generate();
     }
 
@@ -310,6 +311,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
                 ->edit_column('order_id','$1', 'callback_vendor_pay_order(order_id,vendor_amount)');
             return $this->datatables->generate();
         }
+
         public function get_rec_message(){
             $cust_id = $this->User_Model->get_current_user_id();
             //$vendor_id = $this->get_user_vendor_id();

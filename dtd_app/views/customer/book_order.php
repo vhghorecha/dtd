@@ -81,7 +81,7 @@
                     </div-->
                     <div class="form-group">
                         <label>Telephone Number</label>
-                        <input class="form-control" placeholder="Enter Telephone Number" name="telephone" id="telephone" value="<?=set_value('telephone');?>">
+                        <input type="text" class="form-control" placeholder="Enter Telephone Number" name="telephone" id="telephone" value="<?=set_value('telephone');?>">
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">

@@ -55,6 +55,11 @@ class Ajax extends CI_Controller {
 		die($this->Vendor_Model->get_ord_rec());
 	}
 
+	public function v_ord_upd(){
+		$order_ids = $this->input->post('order_ids');
+		$status = $this->input->post('action');
+	}
+
 	public function v_orders(){
 		die($this->Vendor_Model->get_orders());
 	}
@@ -69,6 +74,11 @@ class Ajax extends CI_Controller {
 	public function a_app_ord()
 	{
 		die($this->Admin_Model->get_created_orders());
+	}
+
+	public function a_appd_ord()
+	{
+		die($this->Admin_Model->get_approved_orders());
 	}
 	public function v_ord_del()
 	{

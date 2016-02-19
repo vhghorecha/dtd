@@ -42,14 +42,14 @@
                     </div>
                     <div class="form-group">
                         <label>Telephone Number</label>
-                        <input class="form-control" placeholder="Enter Telephone Number" name="telephone" id="telephone" value="<?=$order['order_telno'];?>">
+                        <input type="text" class="form-control" placeholder="Enter Telephone Number" name="telephone" id="telephone" value="<?=$order['order_telno'];?>">
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 
                     <div class="form-group">
                         <label>Date</label>
-                        <input class="form-control datepicker" placeholder="Click to Select Date" name="oda" id="oda" value="<?=$order['order_date'];?>">
+                        <input class="form-control datepicker" placeholder="Click to Select Date" name="oda" id="oda" value="<?=$order['order_date'];?>" readonly="readonly">
                     </div>
                     <div class="form-group">
                         <label>Item Type</label>

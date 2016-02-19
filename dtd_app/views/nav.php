@@ -82,6 +82,9 @@
                             <a href="<?=site_url('vendor/orders_received');?>"><i class="fa fa-edit fa-fw"></i> Orders Received</a>
                         </li>
                         <li>
+                            <a href="<?=site_url('vendor/orders_processed');?>"><i class="fa fa-edit fa-fw"></i> Orders Processed</a>
+                        </li>
+                        <li>
                             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Reports<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>

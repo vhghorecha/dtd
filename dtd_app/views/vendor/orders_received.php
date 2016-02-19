@@ -1,17 +1,21 @@
 <!-- Page Content -->
 <div id="page-wrapper">
+    <?php echo form_open(site_url('vendor/download'), array(
+        'id' => 'frmvendorpay',
+        'role' => 'form'
+    )); ?>
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header"> Orders Received:</h1>
+                <h3 class="page-header"> Orders Received:</h3>
             </div>
         </div>
         <div class="row">
                 <table id="v_ord_rec" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <thead>
                     <tr>
+                        <th><input type="checkbox" id="selallchk"/> Order id</th>
                         <th>Date</th>
-                        <th>Order id</th>
                         <th>Customer</th>
                         <th>Name</th>
                         <th>Phone</th>
@@ -24,8 +28,8 @@
                     </thead>
                     <tfoot>
                     <tr>
-                        <th>Date</th>
                         <th>Order id</th>
+                        <th>Date</th>
                         <th>Customer</th>
                         <th>Name</th>
                         <th>Phone</th>
@@ -38,7 +42,10 @@
                     </tfoot>
                 </table>
                 <div class="pull-right">
-                    <a href="<?=site_url('vendor/upload_code')?>" class="btn btn-primary">Upload Code</a>
+                    <a id="btndeliver" role="button" class="btn btn-primary" data-action="Delivered">Deliver</a>
+                    <a id="btnreturn" role="button" class="btn btn-primary" data-action="Returned">Return</a>
+                    <a id="btncancel" role="button" class="btn btn-primary" data-action="Cancelled">Cancel</a>
+                    <input type="submit" class="btn btn-primary" value="Download"/>
                     <a href="<?=site_url('vendor/download')?>" class="btn btn-primary">Download All</a>
                 </div>
             </div>
@@ -121,6 +128,7 @@
                 </div>
         </div>
     </div>
+    <?php echo form_close();?>
     <!-- /.container-fluid -->
 </div>
 <!-- /#page-wrapper -->

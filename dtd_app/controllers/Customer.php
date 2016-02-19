@@ -71,10 +71,9 @@ class Customer extends CI_Controller {
             array(
                 'field' => 'telephone',
                 'label' => 'Telephone Number',
-                'rules' => 'required|numeric',
+                'rules' => 'required',
                 'errors' => array(
                     'required' => 'You must provide a %s',
-                    'numeric' => '%s must be numeric'
                 )
             ),
             array(
@@ -268,7 +267,6 @@ class Customer extends CI_Controller {
                     'rules' => 'required',
                     'errors' => array(
                         'required' => 'You must provide a %s',
-
                     )
                 ),
                 array(
@@ -597,6 +595,9 @@ class Customer extends CI_Controller {
         $is_import = $this->input->post('btnImport');
         $data = array();
         $msg = '';
+        //Insert Counter
+        $totIns = 0;
+        $totNotIns = 0;
         if ($is_import == "Import"){
             $config['upload_path']          = './tmp/';
             $config['allowed_types']        = 'xls|xlsx';
@@ -624,22 +625,24 @@ class Customer extends CI_Controller {
                     $sheet = $objPHPExcel->getSheet(0);
                     $highestRow = $sheet->getHighestRow();
                     $highestColumn = $sheet->getHighestColumn();
+
                     //  Loop through each row of the worksheet in turn
                     for ($row = 2; $row <= $highestRow; $row++){
                         $data = array();
                         $data['order_custid'] = $this->user_model->get_current_user_id();
                         $data['order_vendorid'] = $this->Customer_Model->get_user_vendor_id();
 
-                        $data['order_recipient'] = $objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $row)->getValue();
-                        $data['order_address'] = $objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2, $row)->getValue();
-                        $data['order_zipcode'] = $objPHPExcel->getActiveSheet()->getCellByColumnAndRow(3, $row)->getValue();
-                        $data['order_telno'] = $objPHPExcel->getActiveSheet()->getCellByColumnAndRow(4, $row)->getValue();
-                        $data['order_mobno'] = $objPHPExcel->getActiveSheet()->getCellByColumnAndRow(5, $row)->getValue();
+                        $data['order_recipient'] = $objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0, $row)->getValue();
+                        $data['order_address'] = $objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $row)->getValue();
+                        $data['order_zipcode'] = $objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2, $row)->getValue();
+                        $data['order_telno'] = $objPHPExcel->getActiveSheet()->getCellByColumnAndRow(3, $row)->getValue();
+                        $data['order_mobno'] = $objPHPExcel->getActiveSheet()->getCellByColumnAndRow(4, $row)->getValue();
 
-                        $o_type = $objPHPExcel->getActiveSheet()->getCellByColumnAndRow(7, $row)->getValue();
+                        $o_type = $objPHPExcel->getActiveSheet()->getCellByColumnAndRow(5, $row)->getValue();
                         $data['order_typeid'] = $this->General_Model->get_item_id_from_type($o_type);
                         if(empty($data['order_typeid'])){
                             $msg .= "Row-$row Order Not Inserted==>Item Not Found<br/>";
+                            $totNotIns++;
                             continue;
                         }
                         $balance = $this->Customer_Model->get_user_balance();
@@ -659,6 +662,7 @@ class Customer extends CI_Controller {
                         $data['order_memo'] = $objPHPExcel->getActiveSheet()->getCellByColumnAndRow(8, $row)->getValue();
                         $data['order_status'] = $order_status;
                         $data['order_amount'] = $charge;
+                        $data['vendor_amount'] = $this->Customer_Model->set_vendor_price($data['order_typeid'],$data['order_vendorid']);
 
                         //insert the form data into database
                         $this->db->insert('dtd_order', $data);
@@ -666,19 +670,21 @@ class Customer extends CI_Controller {
                             if($newbalance >= 0){
                                 $this->Customer_Model->set_user_balance($charge);
                             }
-                            $msg .= "Row-$row Order Inserted<br/>";
+                            $totIns++;
                         }
                         else
                         {
+                            $totNotIns++;
                             $msg .= "Row-$row Order Not Inserted==>" . $this->db->_error_message() . "<br/>";
                         }
                     }
+                    @unlink($filepath);
                 } catch(Exception $e) {
                     die('Error loading file "'.pathinfo($filepath,PATHINFO_BASENAME).'": '.$e->getMessage());
                 }
             }
         }
-        $data['msg'] = $msg;
+        $data['msg'] = "Total Order Imported: $totIns<br/>Order Not Imported: $totNotIns<br/>" . $msg;
         $this->load->template('customer/import_order',$data);
     }
 }

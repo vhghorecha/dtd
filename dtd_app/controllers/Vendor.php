@@ -372,15 +372,19 @@ class Vendor extends CI_Controller {
     }
 
     public function download(){
+        $order_ids = $this->input->post('order_id');
         $this->load->dbutil();
         $vendor_id = $this->user_model->get_current_user_id();
-        $this->db->select("DATE_FORMAT(dtd_order.order_date,'%Y%b%d') as 'Order Date', dtd_users.user_name as 'Customer Name', dtd_users.user_staffname as 'Customer Representative', dtd_users.user_add as 'Customer Address', dtd_users.user_tel as 'Customer Phone', dtd_order.order_recipient as 'Recipient Name', dtd_order.order_address as 'Order Address', dtd_order.order_telno as 'Order Telephone', dtd_order.order_itemname as 'Order Item', dtd_order.order_memo as 'Memo'")
+        $this->db->select("dtd_order.order_id as 'Order ID', DATE_FORMAT(dtd_order.order_date,'%Y%b%d') as 'Order Date', dtd_users.user_name as 'Customer Name', dtd_users.user_add as 'Customer Address', dtd_users.user_zipcode as 'Customer Zipcode', dtd_users.user_tel as 'Customer Phone', dtd_order.order_recipient as 'Recipient Name', dtd_order.order_address as 'Order Address', dtd_order.order_zipcode as 'Order Zipcode', dtd_order.order_telno as 'Order Telephone', dtd_order.order_itemname as 'Order Item', dtd_order.order_memo as 'Memo'")
             ->from('dtd_order')
             ->join('dtd_cust','dtd_cust.user_id=dtd_order.order_custid')
             ->join('dtd_users','dtd_users.user_id=dtd_cust.user_id')
             ->join('dtd_item_type','dtd_item_type.type_id=dtd_order.order_typeid')
             ->where('dtd_order.order_vendorid',$vendor_id)
-            ->where_in('dtd_order.order_status','Pending');
+            ->where('dtd_order.order_status','Pending');
+        if(!empty($order_ids)){
+            $this->db->where_in('dtd_order.order_id', $order_ids);
+        }
         $query = $this->db->get();
         $csv_string = $this->dbutil->csv_from_result($query);
         $csv_string = chr(239) . chr(187) . chr(191) . $csv_string;
@@ -389,9 +393,12 @@ class Vendor extends CI_Controller {
 
         $this->db->where('order_vendorid', $vendor_id);
         $this->db->where('order_status', 'Pending');
+        if(!empty($order_ids)){
+            $this->db->where_in('order_id', $order_ids);
+        }
         $this->db->set('order_status', 'Processing');
         $this->db->update('order');
-
+        header('Set-Cookie: fileDownload=true; path=/');
         force_download('order_received.csv', $csv_string);
     }
 
