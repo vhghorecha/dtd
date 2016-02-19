@@ -41,12 +41,16 @@
                     </tr>
                     </tfoot>
                 </table>
-                <div class="pull-right">
-                    <a id="btndeliver" role="button" class="btn btn-primary" data-action="Delivered">Deliver</a>
-                    <a id="btnreturn" role="button" class="btn btn-primary" data-action="Returned">Return</a>
-                    <a id="btncancel" role="button" class="btn btn-primary" data-action="Cancelled">Cancel</a>
-                    <input type="submit" class="btn btn-primary" value="Download"/>
-                    <a href="<?=site_url('vendor/download')?>" class="btn btn-primary">Download All</a>
+                <div class="col-xs-6">
+                    <input type="text" class="form-control" id="txtreason" name="txtreason" placeholder="Return Reason"/>
+                </div>
+                <div class="col-xs-6">
+                    <a id="btnreturn" role="button" class="btn btn-primary pull-left" data-action="Returned">Return</a>
+                    <div class="pull-right">
+                        <a id="btndeliver" role="button" class="btn btn-primary" data-action="Delivered">Deliver</a>
+                        <input type="submit" class="btn btn-primary" value="Download"/>
+                        <a href="<?=site_url('vendor/download')?>" class="btn btn-primary">Download All</a>
+                    </div>
                 </div>
             </div>
             <br/>

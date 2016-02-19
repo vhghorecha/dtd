@@ -263,6 +263,15 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             return $this->db->affected_rows();
         }
 
+        public function update_status($data, $order_ids){
+            $vendor_id = $this->user_model->get_current_user_id();
+            $this->db->where('order_vendorid', $vendor_id);
+            $this->db->where_in('order_id', $order_ids);
+            $this->db->update('order',$data);
+            $result = array('updated' => $this->db->affected_rows());
+            return json_encode($result);
+        }
+
         public function get_customers()
         {
             $vendor_id = $this->user_model->get_current_user_id();

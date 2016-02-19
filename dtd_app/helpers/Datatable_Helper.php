@@ -22,7 +22,7 @@ function callback_vendor_pay_order($order_id,$order_amount){
 }
 
 function callback_order_checkbox($order_id){
-    return '<input type="checkbox" name="order_id[]" value="' . $order_id . '" class="v_order_id"/> ' . $order_id;
+    return '<input type="checkbox" name="order_id" value="' . $order_id . '" class="v_order_id"/> ' . $order_id;
 }
 
 function callback_edit_item($type_id,$type_name){

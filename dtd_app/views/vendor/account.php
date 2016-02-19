@@ -78,7 +78,7 @@
                             <tr>
                                 <th rowspan="2">Date</th>
                                 <th colspan="2">Charges</th>
-                                <th colspan="2">Deposit</th>
+                                <th colspan="2">Paid</th>
                                 <th rowspan="2">Balance</th>
                             </tr>
                             <tr>

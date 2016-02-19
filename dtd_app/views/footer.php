@@ -138,19 +138,26 @@
             });
         });
 
-        $('#btndeliver, #btnreturn, #btncancel').click(function(){
+        $('#btndeliver, #btnreturn').click(function(){
             var action = $(this).data('action');
-            var order_ids = $('.v_order_id').val();
+            var order_ids = [];
+            $.each($("input[name='order_id']:checked"), function(){
+                order_ids.push($(this).val());
+            });
+            var reason = $('#txtreason').val();
             $.ajax({
                 type: 'POST',
                 dataType: 'json',
                 url: '<?php echo site_url('ajax/v_ord_upd' )?>',
-                data: {'vendor_id': $venid},
+                data: {'action': action, 'order_ids': order_ids, 'reason': reason },
                 success: function (data) {
-                    if (typeof data.pay_bankacno !== 'undefined') {
-                        $('#paybankacno').val(data.pay_bankacno);
-                        $('#paybankname').val(data.pay_bankname);
+                    if (typeof data.updated !== 'undefined' && data.updated > 0) {
+                        $('#update_res').html('<div class="alert alert-success">Record Updated</div>');
+
+                    }else{
+                        $('#update_res').html('<div class="alert alert-danger">Error updating order</div>');
                     }
+                    table.fnDraw();
                 }
             });
         })
@@ -1625,6 +1632,16 @@
             table2.fnDraw();
         }
     }
+    $(document)
+        .ajaxStart(function(){
+            $(".dhlmodal").show();
+        })
+        .ajaxStop(function(){
+            $(".dhlmodal").hide();
+        }).ajaxError(function( event, jqxhr, settings, thrownError ) {
+            $(".dhlcenter").hide();
+            $("ajaxerror").html(thrownError).show();
+        });
 </script>
 </body>
 

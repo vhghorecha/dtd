@@ -57,7 +57,9 @@ class Ajax extends CI_Controller {
 
 	public function v_ord_upd(){
 		$order_ids = $this->input->post('order_ids');
-		$status = $this->input->post('action');
+		$data['order_status'] = $this->input->post('action');
+		$data['vendor_reason'] = $this->input->post('reason');
+		die($this->Vendor_Model->update_status($data,$order_ids));
 	}
 
 	public function v_orders(){

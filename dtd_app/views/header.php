@@ -48,6 +48,12 @@
 </head>
 
 <body>
+<div class="dhlmodal" style="display: none">
+    <div class="dhlcenter">
+        <img alt="" src="<?=RES_URL;?>images/ajax-loader.gif" />
+    </div>
+    <div id="ajaxerror" class="alert alert-danger"></div>
+</div>
 <?php
 if ($current_page != "site" && $current_action != 'login')
 {
