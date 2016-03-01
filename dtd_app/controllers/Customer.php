@@ -83,6 +83,14 @@ class Customer extends CI_Controller {
                 'errors' => array(
                     'required' => 'You must provide a %s'
                 )
+            ),
+            array(
+                'field' => 'item_type',
+                'label' => 'Item Type',
+                'rules' => 'required',
+                'errors' => array(
+                    'required' => 'You must select a %s'
+                )
             )
         );
         return $config;
@@ -421,6 +429,18 @@ class Customer extends CI_Controller {
         $this->load->template('customer/orders',$data);
     }
 
+    public function orders_pending(){
+        $this->load->template('customer/orders_pending');
+    }
+
+    public function orders_inprocess(){
+        $this->load->template('customer/orders_inprocess');
+    }
+
+    public function orders_processed(){
+        $this->load->template('customer/orders_processed');
+    }
+
     public function rec_message(){
         $this->load->template('rec_message');
     }
@@ -429,7 +449,7 @@ class Customer extends CI_Controller {
         $this->load->template('sent_message');
     }
 
-    public function message($msgid)
+    public function message($msgid = null)
     {
         $is_send = $this->input->post('btnSend');
         if($is_send=='Send'){

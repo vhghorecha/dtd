@@ -92,6 +92,7 @@
                                             <th class="all">Date</th>
                                             <th class="all">Vendor Name</th>
                                             <th class="all">Amount</th>
+                                            <th>A/c No.</th>
                                             <th>Transaction No.</th>
                                             <th>Bank Name</th>
                                             <th class="all">Edit/Delete</th>
@@ -103,6 +104,7 @@
                                             <th>Date</th>
                                             <th>Vendor Name</th>
                                             <th>Amount</th>
+                                            <th>A/c No.</th>
                                             <th>Transaction No.</th>
                                             <th>Bank Name</th>
                                             <th>Edit/Delete</th>
@@ -205,7 +207,8 @@
         });
 
         $("#selallchk").change(function(){
-            $(".a_pay_order_amt").prop('checked', $(this).prop("checked"));
+            $(".a_pay_order_amt").prop('checked', !$(this).prop("checked"));
+            $('.a_pay_order_amt').trigger("click");
         });
 
 
@@ -224,6 +227,7 @@
                 { "data": "paydate" },
                 { "data": "user_name" },
                 { "data": "pay_amount" },
+                { "data": "pay_bankacno" },
                 { "data": "pay_transno" },
                 { "data": "pay_bankname" },
                 { "data": "dep_id" },

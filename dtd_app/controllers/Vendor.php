@@ -96,6 +96,12 @@ class Vendor extends CI_Controller {
         $data['iorders'] = $this->Vendor_Model->get_day_iorders();
         $this->load->template('vendor/orders_received',$data);
     }
+
+    public function orders_pending()
+    {
+        $this->load->template('vendor/orders_pending');
+    }
+
     public function update_order()
     {
         $this->load->template('vendor/update_order');
@@ -291,7 +297,7 @@ class Vendor extends CI_Controller {
     public function sent_message(){
         $this->load->template('sent_message');
     }
-    public function message($msgid = 0)
+    public function message($msgid = null)
     {
         $is_send = $this->input->post('btnSend');
         if($is_send=='Send'){

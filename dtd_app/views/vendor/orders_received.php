@@ -18,11 +18,11 @@
                         <th>Date</th>
                         <th>Customer</th>
                         <th>Name</th>
+                        <th>Address</th>
+                        <th>Zipcode</th>
                         <th>Phone</th>
                         <th>Item type</th>
                         <th>Item name</th>
-                        <th>Company Name</th>
-                        <th>Representive Name</th>
                         <th>Status</th>
                     </tr>
                     </thead>
@@ -32,22 +32,17 @@
                         <th>Date</th>
                         <th>Customer</th>
                         <th>Name</th>
+                        <th>Address</th>
+                        <th>Zipcode</th>
                         <th>Phone</th>
                         <th>Item type</th>
                         <th>Item name</th>
-                        <th>Company Name</th>
-                        <th>Representive Name</th>
                         <th>Status</th>
                     </tr>
                     </tfoot>
                 </table>
-                <div class="col-xs-6">
-                    <input type="text" class="form-control" id="txtreason" name="txtreason" placeholder="Return Reason"/>
-                </div>
-                <div class="col-xs-6">
-                    <a id="btnreturn" role="button" class="btn btn-primary pull-left" data-action="Returned">Return</a>
+                <div class="col-xs-12">
                     <div class="pull-right">
-                        <a id="btndeliver" role="button" class="btn btn-primary" data-action="Delivered">Deliver</a>
                         <input type="submit" class="btn btn-primary" value="Download"/>
                         <a href="<?=site_url('vendor/download')?>" class="btn btn-primary">Download All</a>
                     </div>
@@ -203,11 +198,11 @@
                 { "data": "ord_date" },
                 { "data": "user_name" },
                 { "data": "order_recipient" },
+                { "data": "order_address" },
+                { "data": "order_zipcode" },
                 { "data": "order_telno" },
                 { "data": "type_name" },
                 { "data": "order_itemname" },
-                { "data": "user_comp" },
-                { "data": "user_rep" },
                 { "data": "order_status" },
             ]
         } );
@@ -229,38 +224,18 @@
 
         $(document).on("submit", "form#frmvendorpay", function (e) {
             e.preventDefault();
+            var order_ids = [];
+            $.each($("input[name='order_id']:checked"), function(){
+                order_ids.push($(this).val());
+            });
             $.fileDownload($(this).prop('action'), {
                 httpMethod: "POST",
-                data: $(this).serialize(),
+                data: {order_id: order_ids},
                 successCallback: function (url) {
                     table.fnDraw();
                 },
             });
         });
-
-        $('#btndeliver, #btnreturn').click(function(){
-            var action = $(this).data('action');
-            var order_ids = [];
-            $.each($("input[name='order_id']:checked"), function(){
-                order_ids.push($(this).val());
-            });
-            var reason = $('#txtreason').val();
-            $.ajax({
-                type: 'POST',
-                dataType: 'json',
-                url: '<?php echo site_url('ajax/v_ord_upd' )?>',
-                data: {'action': action, 'order_ids': order_ids, 'reason': reason },
-                success: function (data) {
-                    if (typeof data.updated !== 'undefined' && data.updated > 0) {
-                        $('#update_res').html('<div class="alert alert-success">Record Updated</div>');
-
-                    }else{
-                        $('#update_res').html('<div class="alert alert-danger">Error updating order</div>');
-                    }
-                    table.fnDraw();
-                }
-            });
-        })
 
     </script>
 

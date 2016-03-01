@@ -120,6 +120,7 @@ class User extends CI_Controller {
 					if($data['user_role'] == 'vendor')
 					{
 						$ins_data['pay_bankacno']=$this->input->post('txtbank');
+						$ins_data['vendor_hq1'] = $this->input->post('txthq1');
 						$this->vendor_model->insert($ins_data);
 					}else{
 						$data['user_grade'] = $this->general_model->get_single_val('grade_id','cust_grade');

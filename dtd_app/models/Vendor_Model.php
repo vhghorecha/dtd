@@ -54,13 +54,28 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
     public function get_ord_rec(){
         $this->load->helper('Datatable');
         $vendor_id = $this->user_model->get_current_user_id();
-        $this->datatables->select("DATE_FORMAT(dtd_order.order_date,'%b-%d') as ord_date,dtd_order.order_id,dtd_users.user_name,dtd_order.order_recipient,dtd_order.order_telno,dtd_item_type.type_name,dtd_order.order_itemname,dtd_users.user_comp,dtd_users.user_rep,dtd_order.order_status")
+        $this->datatables->select("DATE_FORMAT(dtd_order.order_date,'%b-%d') as ord_date,dtd_order.order_id,dtd_users.user_name,dtd_order.order_recipient,dtd_order.order_address, dtd_order.order_zipcode, dtd_order.order_telno,dtd_item_type.type_name,dtd_order.order_itemname, dtd_order.order_status")
             ->from('dtd_order')
             ->join('dtd_cust','dtd_cust.user_id=dtd_order.order_custid')
             ->join('dtd_users','dtd_users.user_id=dtd_cust.user_id')
             ->join('dtd_item_type','dtd_item_type.type_id=dtd_order.order_typeid')
             ->where('dtd_order.order_vendorid',$vendor_id)
-            ->where_in('dtd_order.order_status',array('Pending','Processing'))
+            ->where('dtd_order.order_status','Pending')
+            ->edit_column('order_status','$1', 'callback_order_status(order_status,order_id)')
+            ->edit_column('order_id', '$1', 'callback_order_checkbox(order_id)');
+        return $this->datatables->generate();
+    }
+
+    public function get_ord_pen(){
+        $this->load->helper('Datatable');
+        $vendor_id = $this->user_model->get_current_user_id();
+        $this->datatables->select("DATE_FORMAT(dtd_order.order_date,'%b-%d') as ord_date,dtd_order.order_id,dtd_users.user_name,dtd_order.order_recipient,dtd_order.order_address, dtd_order.order_zipcode, dtd_order.order_telno,dtd_item_type.type_name,dtd_order.order_itemname, dtd_order.order_status")
+            ->from('dtd_order')
+            ->join('dtd_cust','dtd_cust.user_id=dtd_order.order_custid')
+            ->join('dtd_users','dtd_users.user_id=dtd_cust.user_id')
+            ->join('dtd_item_type','dtd_item_type.type_id=dtd_order.order_typeid')
+            ->where('dtd_order.order_vendorid',$vendor_id)
+            ->where('dtd_order.order_status','Processing')
             ->edit_column('order_status','$1', 'callback_order_status(order_status,order_id)')
             ->edit_column('order_id', '$1', 'callback_order_checkbox(order_id)');
         return $this->datatables->generate();
@@ -69,12 +84,13 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
     public function get_orders(){
         $this->load->helper('Datatable');
         $vendor_id = $this->user_model->get_current_user_id();
-        $this->datatables->select("DATE_FORMAT(dtd_order.order_date,'%b-%d') as ord_date,dtd_order.order_id,dtd_users.user_name,dtd_order.order_recipient,dtd_order.order_telno,dtd_item_type.type_name,dtd_order.order_itemname,dtd_users.user_comp,dtd_users.user_rep,dtd_order.order_status")
+        $this->datatables->select("DATE_FORMAT(dtd_order.order_date,'%b-%d') as ord_date,dtd_order.order_id,dtd_users.user_name,dtd_order.order_recipient,dtd_order.order_address, dtd_order.order_zipcode, dtd_order.order_telno,dtd_item_type.type_name,dtd_order.order_itemname, dtd_order.order_status")
             ->from('dtd_order')
             ->join('dtd_cust','dtd_cust.user_id=dtd_order.order_custid')
             ->join('dtd_users','dtd_users.user_id=dtd_cust.user_id')
             ->join('dtd_item_type','dtd_item_type.type_id=dtd_order.order_typeid')
             ->where('dtd_order.order_vendorid',$vendor_id)
+            ->where('dtd_order.order_status <>', 'Created')
             ->edit_column('order_status','$1', 'callback_order_status(order_status,order_id)');
         return $this->datatables->generate();
     }
@@ -82,13 +98,13 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
     public function get_del_orders(){
         $this->load->helper('Datatable');
         $vendor_id = $this->user_model->get_current_user_id();
-        $this->datatables->select("DATE_FORMAT(dtd_order.order_date,'%b-%d') as ord_date,dtd_order.order_id,dtd_users.user_name,dtd_order.order_recipient,dtd_order.order_telno,dtd_item_type.type_name,dtd_order.order_itemname,dtd_cust.user_sercomp,dtd_users.user_comp,dtd_users.user_rep,dtd_order.order_status")
+        $this->datatables->select("DATE_FORMAT(dtd_order.order_date,'%b-%d') as ord_date,dtd_order.order_id,dtd_users.user_name,dtd_order.order_recipient,dtd_order.order_address, dtd_order.order_zipcode, dtd_order.order_telno,dtd_item_type.type_name,dtd_order.order_itemname, dtd_order.order_status")
             ->from('dtd_order')
             ->join('dtd_cust','dtd_cust.user_id=dtd_order.order_custid')
             ->join('dtd_users','dtd_users.user_id=dtd_cust.user_id')
             ->join('dtd_item_type','dtd_item_type.type_id=dtd_order.order_typeid')
             ->where('dtd_order.order_vendorid',$vendor_id)
-            ->where_in('dtd_order.order_status','Delivered')
+            ->where_in('dtd_order.order_status',array('Delivered','Returned'))
             ->edit_column('order_status','$1', 'callback_order_status(order_status,order_id)');
         return $this->datatables->generate();
     }
@@ -248,9 +264,10 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             $this->db->from('order');
             $data['pending'] = $this->db->count_all_results();
 
-            $this->db->select('order_id');
-            $this->db->where(array('order_vendorid' => $vendor_id, 'order_status' => 'Delivered'));
-            $this->db->from('order');
+            $this->db->select('order_status');
+            $this->db->from('dtd_order');
+            $this->db->where('order_vendorid', $vendor_id);
+            $this->db->where_in('order_status', array('Delivered','Returned'));
             $data['deliver'] = $this->db->count_all_results();
 
             $data['balance'] = $this->general_model->get_single_val('user_balance', 'users', array('user_id' => $vendor_id));
@@ -264,11 +281,28 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
         }
 
         public function update_status($data, $order_ids){
-            $vendor_id = $this->user_model->get_current_user_id();
-            $this->db->where('order_vendorid', $vendor_id);
-            $this->db->where_in('order_id', $order_ids);
-            $this->db->update('order',$data);
-            $result = array('updated' => $this->db->affected_rows());
+            if(!empty($order_ids)){
+                $vendor_id = $this->user_model->get_current_user_id();
+                if($data['order_status'] == 'Returned'){
+                    foreach($order_ids as $order_id){
+                        $order_data = $this->Customer_Model->get_order($order_id);
+                        $this->Customer_Model->set_user_balance($order_data['order_amount'],$order_data['order_custid']);
+                    }
+                }
+                if($data['order_status'] == 'Delivered'){
+                    foreach($order_ids as $order_id){
+                        $vendor_amount=$this->get_vendor_amount($order_id);
+                        $this->set_user_balance($vendor_amount);
+                    }
+                }
+                $this->db->where('order_vendorid', $vendor_id);
+                $this->db->where_in('order_id', $order_ids);
+                $this->db->update('order',$data);
+                $result = array('updated' => $this->db->affected_rows());
+            }else{
+                $result = array('error' => 'You must select order first');
+            }
+
             return json_encode($result);
         }
 
@@ -335,9 +369,10 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
         }
         public function get_sent_message(){
             $cust_id = $this->User_Model->get_current_user_id();
-            $this->datatables->select("msg_id, DATE_FORMAT(msg_date,'%b-%d') as msg_date, msg_title, msg_desc, msg_to")
+            $this->datatables->select("DATE_FORMAT(msg_date,'%b-%d') as msg_date, msg_title, msg_desc, msg_to, msg_id")
                 ->from('dtd_message')
                 ->edit_column('msg_to','$1', 'callback_message_to(msg_to)')
+                ->edit_column('msg_id','$1', 'callback_send_message_delete(msg_id)')
                 ->where('msg_from', $cust_id);
             return $this->datatables->generate();
         }

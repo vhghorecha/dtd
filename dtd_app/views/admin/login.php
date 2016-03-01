@@ -30,3 +30,4 @@
         </div>
     </div>
 </div>
+<?php $this->load->view("scripts"); ?>

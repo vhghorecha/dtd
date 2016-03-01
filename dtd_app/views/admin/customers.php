@@ -90,8 +90,6 @@
 </div>
 
 <?php $this->load->view("scripts"); ?>
-
-
     <script>
         $(document).ready(function(){
             $('#btn_up_code').click(function(){
@@ -153,7 +151,6 @@
         // Setup - add a text input to each footer cell
         $('#a_customers tfoot th').each( function () {
             $(this).html( txtsearch );
-            console.log($(this));
         } );
     </script>
 

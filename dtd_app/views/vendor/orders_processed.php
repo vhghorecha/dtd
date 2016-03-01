@@ -16,12 +16,11 @@
                         <th>Order id</th>
                         <th>Customer</th>
                         <th>Name</th>
+                        <th>Address</th>
+                        <th>Zipcode</th>
                         <th>Phone</th>
                         <th>Item type</th>
                         <th>Item name</th>
-                        <th>Company name</th>
-                        <th>Compnay Name</th>
-                        <th>Representive Name</th>
                         <th>Status</th>
                     </tr>
                     </thead>
@@ -31,12 +30,11 @@
                         <th>Order id</th>
                         <th>Customer</th>
                         <th>Name</th>
+                        <th>Address</th>
+                        <th>Zipcode</th>
                         <th>Phone</th>
                         <th>Item type</th>
                         <th>Item name</th>
-                        <th>Company name</th>
-                        <th>Compnay Name</th>
-                        <th>Representive Name</th>
                         <th>Status</th>
                     </tr>
                     </tfoot>
@@ -81,12 +79,11 @@
                     { "data": "order_id" },
                     { "data": "user_name" },
                     { "data": "order_recipient" },
+                    { "data": "order_address" },
+                    { "data": "order_zipcode" },
                     { "data": "order_telno" },
                     { "data": "type_name" },
                     { "data": "order_itemname" },
-                    { "data": "user_sercomp" },
-                    { "data": "user_comp" },
-                    { "data": "user_rep" },
                     { "data": "order_status" },
                 ]
             } );

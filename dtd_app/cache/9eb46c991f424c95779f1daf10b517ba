@@ -1,0 +1,403 @@
+a:2:{s:6:"expire";i:1455953035;s:7:"headers";a:0:{}}ENDCI---><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>DTD - Admin</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="http://localhost/dtd/dtd_asset/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://localhost/dtd/dtd_asset/css/datepicker.css">
+
+    <!-- MetisMenu CSS -->
+    <link href="http://localhost/dtd/dtd_asset/css/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="http://localhost/dtd/dtd_asset/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="http://localhost/dtd/dtd_asset/css/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="http://localhost/dtd/dtd_asset/css/dataTables.responsive.css" rel="stylesheet">
+    <link href="http://localhost/dtd/dtd_asset/css/sb-admin-2.css" rel="stylesheet">
+    <link href="http://localhost/dtd/dtd_asset/css/select2.min.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="http://localhost/dtd/dtd_asset/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+<div class="dhlmodal" style="display: none">
+    <div class="dhlcenter">
+        <img alt="" src="http://localhost/dtd/dtd_asset/images/ajax-loader.gif" />
+    </div>
+    <div id="ajaxerror" class="alert alert-danger"></div>
+</div>
+<div id="wrapper">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://localhost/dtd/admin">Door to Door Transport</a>
+        </div>
+        <!-- /.navbar-header -->
+
+        <ul class="nav navbar-top-links navbar-right">
+            <li class="dropdown">
+                <a class="navbar-brand" href="">Welcome, Admin</a>
+            </li>
+
+
+        </ul>
+        <!-- /.navbar-top-links -->
+        
+    <div class="navbar-default sidebar" role="navigation">
+        <div class="sidebar-nav navbar-collapse">
+            <ul class="nav" id="side-menu">
+                <li class="sidebar-search">
+                    <div class="input-group custom-search-form">
+                        <input type="text" class="form-control" placeholder="Search...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                </li>
+                <li>
+                    <a href="http://localhost/dtd/admin/dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                </li>
+                <li>
+                    <a href="http://localhost/dtd/admin/app_order"><i class="fa fa-thumbs-o-up fa-fw"></i> Approve Order</a>
+                </li>
+                <li>
+                    <a href="http://localhost/dtd/admin/allocation"><i class="fa fa-edit fa-fw"></i> Customer-Vendor allocation</a>
+                </li>
+                <li>
+                    <a href="http://localhost/dtd/admin/deposit"><i class="fa fa-plus-square fa-fw"></i> Customer Deposit</a>
+                </li>
+                <li>
+                    <a href="http://localhost/dtd/admin/payment"><i class="fa fa-minus-square fa-fw"></i> Vendor Payment</a>
+                </li>
+                <li>
+                    <a href="http://localhost/dtd/admin/price"><i class="fa fa-area-chart fa-fw"></i> Pricing Scheme</a>
+                </li>
+
+                <li>
+                    <a href="#"><i class="fa fa-money fa-fw"></i> Transactions<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="http://localhost/dtd/admin/money_received">Money Recieved</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost/dtd/admin/money_paid">Money Paid</a>
+                        </li>
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
+
+                <li>
+                    <a href="#"><i class="fa fa-users fa-fw"></i> Customers<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="http://localhost/dtd/admin/app_customer">Approve Customer</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost/dtd/admin/customers">View Customers</a>
+                        </li>
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-user fa-fw"></i> Vendors<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="http://localhost/dtd/admin/app_vendor">Approve Vendor</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost/dtd/admin/vendors">View Vendors</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost/dtd/admin/vendor_customer">View Customers</a>
+                        </li>
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-adn fa-fw"></i> Manage<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="http://localhost/dtd/admin/item">Item</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost/dtd/admin/grade">Grade</a>
+                        </li>
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
+
+                <li>
+                    <a href="http://localhost/dtd/admin/change_pwd"><i class="fa fa-cogs fa-fw"></i> Change Password</a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-envelope fa-fw"></i> Message Board<span class="fa arrow"></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="http://localhost/dtd/admin/message"><i class="fa fa-edit fa-fw"></i> New Message</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost/dtd/admin/rec_message"><i class="fa fa-envelope-o fa-fw"></i> Received</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost/dtd/admin/sent_message"><i class="fa fa-send fa-fw"></i> Sent</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="http://localhost/dtd/admin/backup"><i class="fa fa-save fa-fw"></i> Backup</a>
+                </li>
+                <li>
+                    <a href="http://localhost/dtd/admin/restore"><i class="fa fa-save fa-fw"></i> Restore</a>
+                </li>
+
+                <li>
+                    <a href="http://localhost/dtd/user/logout"><i class="fa fa-sign-out fa-fw"></i> Log Out</a>
+                </li>
+
+
+            </ul>
+        </div>
+        <!-- /.sidebar-collapse -->
+    </div>
+    <!-- /.navbar-static-side -->
+
+    </nav>
+    <!-- Page Content -->
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Dashboard</h1>
+            </div>
+            <div class="row">
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-lock fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">0</div>
+                            <div>Order Pending</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#">
+                    <div class="panel-footer">
+                        <span class="pull-left"><a href="http://localhost/dtd/admin/orders_pending"> View Details</a></span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-green">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-plus-square fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">240</div>
+                            <div>Money Received</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#">
+                    <div class="panel-footer">
+                        <span class="pull-left"><a href="http://localhost/dtd/admin/money_received">View Details</a></span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-yellow">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-minus-square fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">310.00</div>
+                            <div>Money Paid</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#">
+                    <div class="panel-footer">
+                        <span class="pull-left"><a href="http://localhost/dtd/admin/money_paid">View Details</a></span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-red">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-dollar  fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">-70</div>
+                            <div>Balance</div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#">
+                    <div class="panel-footer">
+                        <span class="pull-left"><a href="http://localhost/dtd/admin/account">View Details</a></span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</div>
+<!-- /#page-wrapper -->
+
+<!-- jQuery -->
+<script src="http://localhost/dtd/dtd_asset/js/jquery-1.11.1.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="http://localhost/dtd/dtd_asset/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="http://localhost/dtd/dtd_asset/js/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="http://localhost/dtd/dtd_asset/js/sb-admin-2.js"></script>
+<script src="http://localhost/dtd/dtd_asset/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript" language="javascript" src="http://localhost/dtd/dtd_asset/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" language="javascript" src="http://localhost/dtd/dtd_asset/js/dataTables.bootstrap.js"></script>
+<script type="text/javascript" language="javascript" src="http://localhost/dtd/dtd_asset/js/dataTables.responsive.js"></script>
+<script type="text/javascript" language="javascript" src="http://localhost/dtd/dtd_asset/js/jquery.columnFilter.js"></script>
+<script type="text/javascript" language="javascript" src="http://localhost/dtd/dtd_asset/js/select2.min.js"></script>
+<script type="text/javascript">
+    // When the document is ready
+    $(document).ready(function () {
+        $('.datepicker').datepicker({
+            format: "dd/mm/yyyy"
+        });
+        $('.tdatepicker').datepicker({
+            format: "M-dd"
+        });
+        $('.ydatepicker').datepicker({
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years"
+        });
+        $('.mdatepicker').datepicker({
+            format:"yyyy-mm",
+            viewMode: "months",
+            minViewMode: "months"
+        });
+        $('.datepicker, .tdatepicker, .ydatepicker, .mdatepicker').on('changeDate', function(ev){
+            $(this).datepicker('hide');
+        });
+        $('select').select2();
+    });
+    var txtsearch = '<input type="text" placeholder="Search" style="width:100%" />';
+    var datesearch = '<input type="text" placeholder="Search" style="width:100%" class="tdatepicker" />';
+</script>
+
+<script type="text/javascript">
+    // When the document is ready
+    $(document).ready(function() {
+        $('table.dttable').DataTable({
+            "sDom": '<"top">rt<"bottom"><"clear">',
+            "responsive" : true
+        });
+    });
+</script>
+
+
+<script>
+    if(typeof table !== 'undefined'){
+        table.DataTable().columns().every( function () {
+            var that = this;
+            $( 'input', this.footer() ).on( 'keyup change', function () {
+                if ( that.search() !== this.value ) {
+                    that
+                        .search( this.value )
+                        .draw();
+                }
+            } );
+        } );
+        function fnResetAllFilters() {
+            var oSettings = table.fnSettings();
+            for (iCol = 0; iCol < oSettings.aoPreSearchCols.length; iCol++) {
+                oSettings.aoPreSearchCols[iCol].sSearch = '';
+            }
+            table.fnDraw();
+        }
+        $('<button class="btn btn-primary pull-right">Clear Search</button>').click( function () {$('input').val('');fnResetAllFilters();}).insertBefore( 'div.dataTables_wrapper');
+    }
+
+    if(typeof table2 !== 'undefined'){
+        table2.DataTable().columns().every( function () {
+            var that = this;
+            $( 'input', this.footer() ).on( 'keyup change', function () {
+                if ( that.search() !== this.value ) {
+                    that
+                        .search( this.value )
+                        .draw();
+                }
+            } );
+        } );
+        function fnResetAllFilters() {
+            var oSettings = table2.fnSettings();
+            for (iCol = 0; iCol < oSettings.aoPreSearchCols.length; iCol++) {
+                oSettings.aoPreSearchCols[iCol].sSearch = '';
+            }
+            table2.fnDraw();
+        }
+    }
+    $(document)
+        .ajaxStart(function(){
+            $(".dhlmodal").show();
+        })
+        .ajaxStop(function(){
+            $(".dhlmodal").hide();
+        }).ajaxError(function( event, jqxhr, settings, thrownError ) {
+            $(".dhlcenter").hide();
+            $("ajaxerror").html(thrownError).show();
+        });
+</script></div>
+<!-- /#wrapper -->
+</body>
+</html>

@@ -101,7 +101,7 @@
     <!-- /.container-fluid -->
 </div>
 <!-- /#page-wrapper -->
-<?php $this->load->views("scripts"); ?>
+<?php $this->load->view("scripts"); ?>
 
 
     <script>

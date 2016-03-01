@@ -9,7 +9,7 @@ class Admin extends CI_Controller {
         $this->load->model('user_model');
         $this->load->model('General_Model');
         if(!$this->user_model->is_admin() && $this->uri->segment(2) != 'login'){
-            echo 'You don\'t have permission to access this page. <a href="' . site_url('admin/login') . '">Login</a>';
+            redirect('admin/login');
             die();
         }
     }
@@ -26,6 +26,7 @@ class Admin extends CI_Controller {
         $data['pending']=$this->Admin_Model->get_pending_orders();
         $data['cdeposit']=$this->Admin_Model->get_customer_deposit();
         $data['vpay']=$this->Admin_Model->get_vendor_payment();
+        $data['balance'] = $data['cdeposit'] - $data['vpay'];
         $this->load->template("admin/index",$data);
     }
 

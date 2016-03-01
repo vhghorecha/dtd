@@ -1,13 +1,42 @@
 <?php
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-function callback_order_status($order_status,$order_id){
-    if($order_status == 'Pending' || $order_status == 'Processing'){
-        return '<a href="#" class="update_order" data-orderid="' . $order_id . '">' . $order_status . '</a>';
-    }else if($order_status == 'Created'){
-        return '<a href="#" class="approve_order" data-orderid="' . $order_id . '">Approve Order</a>';
+function callback_order_status_cust($order_status){
+    switch($order_status){
+        case 'Created':
+            $order_status = '<span class="text-info">' . $order_status . '</span>';
+            break;
+        case 'Pending':
+            $order_status = '<span class="text-primary">' . $order_status . '</span>';
+            break;
+        case 'Processing':
+            $order_status = '<span class="text-warning">' . $order_status . '</span>';
+            break;
+        case 'Delivered':
+            $order_status = '<span class="text-success">' . $order_status . '</span>';
+            break;
+        case 'Returned':
+        case 'Cancelled':
+            $order_status = '<span class="text-danger">' . $order_status . '</span>';
+            break;
     }
     return $order_status;
+}
+
+function callback_order_status($order_status,$order_id){
+    $u_order_stauts = callback_order_status_cust($order_status);
+    if($order_status == 'Pending' || $order_status == 'Processing'){
+        return '<a href="#" class="update_order" data-orderid="' . $order_id . '">' . $u_order_stauts . '</a>';
+    }
+    return $u_order_stauts;
+}
+
+function callback_order_status_admin($order_status,$order_id){
+    $u_order_stauts = callback_order_status_cust($order_status);
+    if($order_status == 'Created'){
+        return '<a href="#" class="approve_order" data-orderid="' . $order_id . '">Approve Order</a>';
+    }
+    return $u_order_stauts;
 }
 
 function callback_edit_order($order_status, $order_id){
@@ -75,12 +104,16 @@ function callback_approve_user($user_id){
     return '<a href="#" class="approve_user" data-userid="'.$user_id.'" data-status="1">Approve</a>';
 }
 
-function callback_format_amount($amount){
+function callback_format_amount($amount,$cur = true){
     if($amount >= 0) {
-        return '$' . number_format($amount, 0);
+        $amount =  number_format($amount, 0);
     }else{
-        return '-$' . number_format(abs($amount),0);
+        $amount = '-' . number_format(abs($amount),0);
     }
+    if($cur){
+        $amount = '<i class="fa fa-krw"></i>' . $amount;
+    }
+    return $amount;
 }
 
 function callback_message_from($from){

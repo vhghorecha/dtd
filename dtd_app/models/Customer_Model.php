@@ -25,7 +25,7 @@ class Customer_Model extends CI_Model
         $query = $this->db->get();
         $result = $query->result();
 
-        $item_type_id = array('Select Item Type');
+        $item_type_id = array('');
         $item_type_name = array('Select Item Type');
 
         for ($i = 0; $i < count($result); $i++) {
@@ -52,10 +52,53 @@ class Customer_Model extends CI_Model
     public function get_user_orders()
     {
         $cust_id = $this->User_Model->get_current_user_id();
-        $this->datatables->select("dtd_order.order_id, DATE_FORMAT(dtd_order.order_date,'%b-%d') as order_date, dtd_order.order_recipient, dtd_order.order_telno, dtd_item_type.type_name, dtd_order.order_status, dtd_order.order_updatecode")
+        $this->datatables->select("dtd_order.order_id, DATE_FORMAT(dtd_order.order_date,'%b-%d') as order_date, dtd_order.order_recipient, dtd_order.order_telno, dtd_item_type.type_name, dtd_order.order_status, dtd_order.order_updatecode, dtd_order.vendor_reason")
             ->from('dtd_order')
             ->join('dtd_item_type', 'dtd_item_type.type_id=dtd_order.order_typeid')
             ->add_column('modify','$1','callback_edit_order(order_status,order_id)')
+            ->edit_column('order_status', '$1', 'callback_order_status_cust(order_status)')
+            ->where('dtd_order.order_custid', $cust_id);
+        return $this->datatables->generate();
+
+    }
+
+    public function get_user_orders_pen()
+    {
+        $cust_id = $this->User_Model->get_current_user_id();
+        $this->datatables->select("dtd_order.order_id, DATE_FORMAT(dtd_order.order_date,'%b-%d') as order_date, dtd_order.order_recipient, dtd_order.order_telno, dtd_item_type.type_name, dtd_order.order_status, dtd_order.order_updatecode, dtd_order.vendor_reason")
+            ->from('dtd_order')
+            ->join('dtd_item_type', 'dtd_item_type.type_id=dtd_order.order_typeid')
+            ->add_column('modify','$1','callback_edit_order(order_status,order_id)')
+            ->edit_column('order_status', '$1', 'callback_order_status_cust(order_status)')
+            ->where_in('dtd_order.order_status', array('Created', 'Pending'))
+            ->where('dtd_order.order_custid', $cust_id);
+        return $this->datatables->generate();
+
+    }
+
+    public function get_user_orders_pro()
+    {
+        $cust_id = $this->User_Model->get_current_user_id();
+        $this->datatables->select("dtd_order.order_id, DATE_FORMAT(dtd_order.order_date,'%b-%d') as order_date, dtd_order.order_recipient, dtd_order.order_telno, dtd_item_type.type_name, dtd_order.order_status, dtd_order.order_updatecode, dtd_order.vendor_reason")
+            ->from('dtd_order')
+            ->join('dtd_item_type', 'dtd_item_type.type_id=dtd_order.order_typeid')
+            ->add_column('modify','$1','callback_edit_order(order_status,order_id)')
+            ->edit_column('order_status', '$1', 'callback_order_status_cust(order_status)')
+            ->where('dtd_order.order_status', 'Processing')
+            ->where('dtd_order.order_custid', $cust_id);
+        return $this->datatables->generate();
+
+    }
+
+    public function get_user_orders_del()
+    {
+        $cust_id = $this->User_Model->get_current_user_id();
+        $this->datatables->select("dtd_order.order_id, DATE_FORMAT(dtd_order.order_date,'%b-%d') as order_date, dtd_order.order_recipient, dtd_order.order_telno, dtd_item_type.type_name, dtd_order.order_status, dtd_order.order_updatecode, dtd_order.vendor_reason")
+            ->from('dtd_order')
+            ->join('dtd_item_type', 'dtd_item_type.type_id=dtd_order.order_typeid')
+            ->add_column('modify','$1','callback_edit_order(order_status,order_id)')
+            ->edit_column('order_status', '$1', 'callback_order_status_cust(order_status)')
+            ->where_in('dtd_order.order_status', array('Delivered', 'Returned', 'Cancelled'))
             ->where('dtd_order.order_custid', $cust_id);
         return $this->datatables->generate();
 
@@ -213,7 +256,6 @@ class Customer_Model extends CI_Model
         $this->db->select('order_id');
         $this->db->from('dtd_order');
         $this->db->where('order_custid', $this->user_model->get_current_user_id());
-        $this->db->where('order_status<>', "Created");
         $this->db->like('order_date', $qday);
 
         $today['count'] = $this->db->count_all_results();
@@ -221,7 +263,6 @@ class Customer_Model extends CI_Model
         //counting the total changes of today
         $this->db->select_sum('order_amount');
         $this->db->where('order_custid', $this->user_model->get_current_user_id());
-        $this->db->where('order_status<>', "Created");
         $this->db->like('order_date', $qday);
         $query = $this->db->get('dtd_order');
         $today['sum'] = callback_format_amount(current($query->row_array()));
@@ -238,16 +279,22 @@ class Customer_Model extends CI_Model
         $this->db->select('order_id');
         $this->db->from('dtd_order');
         $this->db->where('order_custid', $this->user_model->get_current_user_id());
-        $this->db->where('order_status<>', "Created");
         $this->db->like('order_date', $qmonth);
         $month['monthcount'] = $this->db->count_all_results();
 
         $this->db->select('order_status');
         $this->db->from('dtd_order');
         $this->db->where('order_custid', $this->user_model->get_current_user_id());
-        $this->db->where('order_status', 'Delivered');
+        $this->db->where_in('order_status', array('Delivered','Returned'));
         $this->db->like('order_date', $qmonth);
         $month['deliver'] = $this->db->count_all_results();
+
+        $this->db->select('order_status');
+        $this->db->from('dtd_order');
+        $this->db->where('order_custid', $this->user_model->get_current_user_id());
+        $this->db->where('order_status', 'Processing');
+        $this->db->like('order_date', $qmonth);
+        $month['pending'] = $this->db->count_all_results();
 
         $this->db->select('order_status');
         $this->db->from('dtd_order');
@@ -274,6 +321,12 @@ class Customer_Model extends CI_Model
         return $month;
     }
 
+    public function get_order($order_id){
+        $this->db->select('order_custid, order_amount');
+        $this->db->where('order_id', $order_id);
+        return $this->db->get('order')->row_array();
+    }
+
     public function get_user_charges()
     {
         $this->db->select_sum('order_amount');
@@ -289,7 +342,7 @@ class Customer_Model extends CI_Model
         $this->db->select('order_id');
         $this->db->from('dtd_order');
         $this->db->where('order_custid', $user_id);
-        $this->db->where('order_status', 'Pending');
+        $this->db->where_in('order_status', array('Pending', 'Created'));
         //$this->db->like('order_date', date('Y-m-d'));
         $all['count'] = $this->db->count_all_results();
 
@@ -302,7 +355,7 @@ class Customer_Model extends CI_Model
         $this->db->select('order_status');
         $this->db->from('dtd_order');
         $this->db->where('order_custid', $user_id);
-        $this->db->where('order_status', 'Delivered');
+        $this->db->where_in('order_status', array('Delivered','Returned'));
         $all['deliver'] = $this->db->count_all_results();
 
         $all['balance'] = $this->general_model->get_single_val('user_balance', 'users', array('user_id' => $user_id));
@@ -339,7 +392,7 @@ class Customer_Model extends CI_Model
 			$query=$this->db->query("
 			SELECT DATE_FORMAT(order_date,'%Y-%M') as date, COUNT(order_id) as num,SUM(order_amount) as amount
 			FROM dtd_order
-			WHERE order_status <> 'Created' AND order_date LIKE '".$date->format("Y-m")."%' AND order_custid = ". $cust_id ."
+			WHERE order_status IN('Delivered','Processing','Pending') AND order_date LIKE '".$date->format("Y-m")."%' AND order_custid = ". $cust_id ."
 			GROUP BY date");
 			$data['charge']= $query->row_array();
 
@@ -367,7 +420,7 @@ class Customer_Model extends CI_Model
             $query=$this->db->query("
 			SELECT DATE_FORMAT(order_date,'%Y') as date, COUNT(order_id) as num,SUM(order_amount) as amount
 			FROM dtd_order
-			WHERE order_status <> 'Created' AND order_date LIKE '".$date->format("Y")."%' AND order_custid = ". $cust_id ."
+			WHERE order_status IN('Delivered','Processing','Pending') AND order_date LIKE '".$date->format("Y")."%' AND order_custid = ". $cust_id ."
 			GROUP BY date");
             $data['charge']= $query->row_array();
 
@@ -413,7 +466,7 @@ class Customer_Model extends CI_Model
 
     public function get_sent_message(){
         $cust_id = $this->User_Model->get_current_user_id();
-        $this->datatables->select("msg_id, msg_to, msg_title, msg_desc, DATE_FORMAT(msg_date,'%b-%d') as msg_date")
+        $this->datatables->select("msg_to, msg_title, msg_desc, DATE_FORMAT(msg_date,'%b-%d') as msg_date, msg_id")
             ->from('dtd_message')
             ->edit_column('msg_to','$1', 'callback_message_to(msg_to)')
             ->edit_column('msg_id','$1', 'callback_send_message_delete(msg_id)')

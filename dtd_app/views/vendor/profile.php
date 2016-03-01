@@ -94,17 +94,17 @@
                                                name="compname" id="compname"></td>
                                 </tr>
                                 <tr>
-                                    <td>Office HQ1</td>
+                                    <td>Service Provider 1</td>
                                     <td><input class="form-control" value="<? echo $profile['vendor_hq1']; ?>"
                                                name="hq1" id="hq1"></td>
                                 </tr>
                                 <tr>
-                                    <td>Office HQ2</td>
+                                    <td>Service Provider 2</td>
                                     <td><input class="form-control" value="<? echo $profile['vendor_hq2']; ?>"
                                                name="hq2" id="hq2"></td>
                                 </tr>
                                 <tr>
-                                    <td>Office HQ3</td>
+                                    <td>Service Provider 3</td>
                                     <td><input class="form-control" value="<? echo $profile['vendor_hq3']; ?>"
                                                name="hq3" id="hq3"></td>
                                 </tr>
@@ -230,5 +230,4 @@
     <!-- /.container-fluid -->
 </div>
 <!-- /#page-wrapper -->
-
-    
+<?php $this->load->view("scripts"); ?>

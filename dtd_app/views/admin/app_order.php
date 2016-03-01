@@ -19,7 +19,7 @@
                         <th>Item name</th>
                         <th>Company Name</th>
                         <th>Representive Name</th>
-                        <th>Status</th>
+                        <th class="all">Status</th>
                     </tr>
                     </thead>
                     <tfoot>

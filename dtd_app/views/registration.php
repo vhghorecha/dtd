@@ -18,6 +18,16 @@
                         'role' => 'form'
                     )); ?>
                     <fieldset>
+                        <div class="col-xs-12">
+                            <div class="form-group text-danger">
+                                <h4>
+                                    <label>Registration Type</label>
+                                    <br/>
+                                    <input type="radio" name="user_type" value="customer" checked> Customer
+                                    <input type="radio" name="user_type" value="vendor"> Vendor
+                                </h4>
+                            </div>
+                        </div>
                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                             <div class="form-group">
 								<label>Username (Email)*</label>
@@ -43,11 +53,9 @@
 								<label>Address*</label>
                                 <textarea name="txtaddress" class="form-control" placeholder="Address" id="txtaddress" row="3" required><?=@$txtaddress;?></textarea>
                             </div>
-                            <div class="form-group">
-                                <label>Registration Type</label>
-                                <br/>
-                                <input type="radio" name="user_type" value="customer" checked> Customer
-                                <input type="radio" name="user_type" value="vendor"> Vendor
+                            <div class="form-group" style="display:none" id="divHQ">
+                                <label>Service Provider 1</label>
+                                <input class="form-control" placeholder="Service Provider 1" name="txthq1" id="txthq1" type="text" value="<?=@$txthq1;?>">
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -76,7 +84,6 @@
                                 <label>Memo</label>
                                 <textarea name="txtmemo" class="form-control" placeholder="Memo" id="txtmemo" row="3"><?=@$txtmemo;?></textarea>
                             </div>
-
                             <div class="form-group" style="display:none" id="divBank">
                                 <label>Bank Account Number</label>
                                 <input class="form-control" placeholder="Bank Account Number" name="txtbank" id="txtbank" type="text" value="<?=@$txtbank;?>">
@@ -106,12 +113,11 @@
 <script>
     $("input[name='user_type']").change(function(){
         if($(this).val() == 'vendor'){
-            $('#divBank').show();
-            $('#divBank').prop('required',true);
+            $('#divBank, #divHQ').show();
+            $('#divBank, #divHQ').prop('required',true);
         }else{
-            $('#divBank').hide();
-            $('#divBank').prop('required',false);
+            $('#divBank, #divHQ').hide();
+            $('#divBank, #divHQ').prop('required',false);
         }
     });
 </script>
-

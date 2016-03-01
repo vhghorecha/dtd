@@ -55,6 +55,11 @@ class Ajax extends CI_Controller {
 		die($this->Vendor_Model->get_ord_rec());
 	}
 
+	public function v_ord_pen()
+	{
+		die($this->Vendor_Model->get_ord_pen());
+	}
+
 	public function v_ord_upd(){
 		$order_ids = $this->input->post('order_ids');
 		$data['order_status'] = $this->input->post('action');
@@ -92,6 +97,19 @@ class Ajax extends CI_Controller {
 	public function c_orders(){
 		die($this->Customer_Model->get_user_orders());
 	}
+
+	public function c_ord_pen(){
+		die($this->Customer_Model->get_user_orders_pen());
+	}
+
+	public function c_ord_pro(){
+		die($this->Customer_Model->get_user_orders_pro());
+	}
+
+	public function c_ord_del(){
+		die($this->Customer_Model->get_user_orders_del());
+	}
+
 	public function c_monthly(){
 		die(json_encode($this->Customer_Model->get_monthly()));
 	}
@@ -259,7 +277,7 @@ class Ajax extends CI_Controller {
 	}
 
 	public function v_sent_msg(){
-		die($this->Customer_Model->get_sent_message());
+		die($this->Vendor_Model->get_sent_message());
 	}
 	public function a_rec_msg(){
 		die($this->Admin_Model->get_rec_message());

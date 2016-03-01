@@ -17,10 +17,8 @@
                     <th>Phone</th>
                     <th>Item type</th>
                     <th>Item name</th>
-                    <th>Company name</th>
-                    <th>Company Name</th>
-                    <th>Representive Name</th>
-
+                    <th>Vendor</th>
+                    <th>Status</th>
                 </tr>
                 </thead>
                 <tfoot>
@@ -28,14 +26,12 @@
                     <th>Date</th>
                     <th>Order id</th>
                     <th>Customer</th>
-                    <th>Name</th>
+                    <th>Recepient</th>
                     <th>Phone</th>
                     <th>Item type</th>
                     <th>Item name</th>
-                    <th>Company name</th>
-                    <th>Company Name</th>
-                    <th>Representive Name</th>
-
+                    <th>Vendor</th>
+                    <th>Status</th>
                 </tr>
                 </tfoot>
             </table>
@@ -54,7 +50,7 @@
         $(document).ready(function(){
             //========================================
             var table = $('#a_ord_pen').dataTable( {
-                "sDom": '<"top"pl>rt<"bottom"><"clear">',
+                "sDom": '<"top"pl>rt<"bottom"i><"clear">',
                 "aaSorting": [[1, "desc"]],
                 "oLanguage": {
                     "sLengthMenu": "_MENU_ records per page"
@@ -67,15 +63,13 @@
                 "columns": [
                     { "data": "ord_date" },
                     { "data": "order_id" },
-                    { "data": "user_name" },
+                    { "data": "cust_name" },
                     { "data": "order_recipient" },
                     { "data": "order_telno" },
                     { "data": "type_name" },
                     { "data": "order_itemname" },
-                    { "data": "user_sercomp" },
-                    { "data": "user_comp" },
-                    { "data": "user_rep" },
-
+                    { "data": "vendor_name" },
+                    { "data": "order_status" },
                 ]
             } );
 

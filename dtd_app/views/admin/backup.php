@@ -44,5 +44,5 @@
     <!-- /.container-fluid -->
 </div>
 <!-- /#page-wrapper -->
-
+<?php $this->load->view("scripts"); ?>
     

@@ -105,15 +105,32 @@
             },
             "bProcessing": true,
             "bServerSide": true,
-            "sAjaxSource": "<?=site_url('ajax/c_sent_msg');?>",
+            "sAjaxSource": "<?=site_url('ajax/v_sent_msg');?>",
             "responsive" : true,
             "columns": [
-                { "data": "msg_id" },
                 { "data": "msg_to", "width": "15%" },
                 { "data": "msg_title", "width": "25%" },
                 { "data": "msg_desc", "width": "50%" },
                 { "data": "msg_date", "width": "10%" },
+                { "data": "msg_id" },
             ],
+            "drawCallback" : function(){
+            $('.delete_item').click(function(){
+                $msg_id = $(this).data('msgid');
+                $isDelete = confirm('Are you sure you want to delete this message?');
+                if($isDelete){
+                    $.ajax({
+                        type:'POST',
+                        url: '<?=site_url("ajax/delete_rec_message");?>',
+                        dataType: 'json',
+                        data: {msg_id : $msg_id},
+                        success:function(data, textStatus, jqXHR){
+                            table.fnDraw(false);
+                        }
+                    });
+                }
+            });
+        },
         } );
 
         // Setup - add a text input to each footer cell
@@ -142,12 +159,29 @@
             "sAjaxSource": "<?=site_url('ajax/a_sent_msg');?>",
             "responsive" : true,
             "columns": [
-                { "data": "msg_id" },
                 { "data": "msg_to", "width": "15%" },
                 { "data": "msg_title", "width": "25%" },
                 { "data": "msg_desc", "width": "50%" },
                 { "data": "msg_date", "width": "10%" },
+                { "data": "msg_id" },
             ],
+            "drawCallback" : function() {
+                $('.delete_item').click(function () {
+                    $msg_id = $(this).data('msgid');
+                    $isDelete = confirm('Are you sure you want to delete this message?');
+                    if ($isDelete) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '<?=site_url("ajax/delete_rec_message");?>',
+                            dataType: 'json',
+                            data: {msg_id: $msg_id},
+                            success: function (data, textStatus, jqXHR) {
+                                table.fnDraw(false);
+                            }
+                        });
+                    }
+                });
+            },
         } );
 
         // Setup - add a text input to each footer cell
@@ -162,7 +196,3 @@
         } );
     </script>
 <?php } ?>
-
-
-
-    

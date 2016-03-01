@@ -19,6 +19,7 @@
                         <th>Tracking Code</th>
                         <th>Status</th>
                         <th>Modify</th>
+                        <th class="none">Reason</th>
                     </tr>
                     </thead>
                     <tfoot>
@@ -31,6 +32,7 @@
                         <th>Tracking Code</th>
                         <th>Status</th>
                         <th>Modify</th>
+                        <th class="none">Reason</th>
                     </tr>
                     </tfoot>
                 </table>
@@ -101,13 +103,6 @@
                         </tr>
                         </thead>
 
-                        <tfoot>
-                        <tr>
-                            <th>No. of Order</th>
-                            <th>Charge</th>
-                        </tr>
-                        </tfoot>
-
                         <tbody>
                         <tr>
                             <td id="daycount"><?php echo $today['count']; ?></td>
@@ -141,16 +136,6 @@
                         </tr>
                         </thead>
 
-                        <tfoot>
-                        <tr>
-                            <th>Total Order</th>
-                            <th>Delivered</th>
-                            <th>Pending</th>
-
-                            <th>Charge</th>
-                        </tr>
-                        </tfoot>
-
                         <tbody>
                         <tr>
                             <td id="tmonthcount"><?php echo $month['monthcount']; ?></td>
@@ -175,8 +160,9 @@
 <?php $this->load->view('scripts'); ?>
 
     <script>
+        var table;
         $(document).ready(function(){
-            var table = $('#c_orders').dataTable( {
+            table = $('#c_orders').dataTable( {
                 "sDom": '<"top"pl>rt<"bottom"><"clear">',
                 "aaSorting": [[0, "desc"]],
                 "oLanguage": {
@@ -195,6 +181,7 @@
                     { "data": "order_updatecode" },
                     { "data": "order_status" },
                     { "data" : "modify"},
+                    { "data" : "vendor_reason"},
                 ],
             } );
 
@@ -240,5 +227,3 @@
         });
 
     </script>
-
-    
