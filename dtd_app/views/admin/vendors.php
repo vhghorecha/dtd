@@ -17,6 +17,7 @@
                             <table id="a_vendors" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                 <thead>
                                 <tr>
+                                    <th>Sr.no</th>
                                     <th>User ID</th>
                                     <th>User Name</th>
                                     <th>Email</th>
@@ -33,6 +34,7 @@
                                 </thead>
                                 <tfoot>
                                 <tr>
+                                    <th>Sr.no</th>
                                     <th>User ID</th>
                                     <th>User Name</th>
                                     <th>Email</th>
@@ -107,15 +109,17 @@
         });
         var table = $('#a_vendors').dataTable( {
             "sDom": '<"top"pl>rt<"bottom"><"clear">',
-            "aaSorting": [[0, "desc"]],
+            "aaSorting": [[1, "desc"]],
             "oLanguage": {
                 "sLengthMenu": "_MENU_ records per page"
             },
             "bProcessing": true,
             "bServerSide": true,
             "sAjaxSource": "<?=site_url('ajax/a_vendors');?>",
+            "sPaginationType": "listbox",
             "responsive" : true,
             "columns": [
+                { "data": null },
                 { "data": "user_id" },
                 { "data": "user_name" },
                 { "data": "user_email" },
@@ -129,6 +133,11 @@
                 { "data": "user_balance"},
                 { "data": "user_areacode"},
             ],
+            "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+                var index = iDisplayIndex +1;
+                $('td:eq(0)',nRow).html(index);
+                return nRow;
+            },
             "drawCallback" : function(){
                 $('.update_area_code').click(function(){
                     $('#update_res').html('');

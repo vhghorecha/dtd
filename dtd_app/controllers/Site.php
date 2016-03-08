@@ -22,4 +22,6 @@ class Site extends CI_Controller {
 	{
 		$this->load->template('login');
 	}
+
+
 }

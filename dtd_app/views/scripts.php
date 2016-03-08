@@ -16,8 +16,12 @@
 <script type="text/javascript" language="javascript" src="<?=RES_URL;?>js/dataTables.responsive.js"></script>
 <script type="text/javascript" language="javascript" src="<?=RES_URL;?>js/jquery.columnFilter.js"></script>
 <script type="text/javascript" language="javascript" src="<?=RES_URL;?>js/select2.min.js"></script>
+<script type="text/javascript" language="javascript" src="<?=RES_URL;?>js/select.js"></script>
 
 <script type="text/javascript" language="javascript">
     var txtsearch = '<input type="text" placeholder="Search" style="width:100%" />';
     var datesearch = '<input type="text" placeholder="Search" style="width:100%" class="tdatepicker" />';
+
+    var fromsearch = '<select><option value="0">Administrator</option><option value="1">Customer</option><option value="2">Vendor</option></select>';
+
 </script>

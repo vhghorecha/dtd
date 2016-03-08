@@ -9,6 +9,7 @@ class Vendor extends CI_Controller {
         $this->load->model('Vendor_Model');
         $this->load->model('Customer_Model');
         $this->load->model('Admin_Model');
+        $this->load->model('General_Model');
 
         if(!$this->user_model->is_vendor()){
             redirect('/');
@@ -94,12 +95,17 @@ class Vendor extends CI_Controller {
         $data['orders'] = $this->Vendor_Model->get_orders();
         $data['dorders'] = $this->Vendor_Model->get_day_orders();
         $data['iorders'] = $this->Vendor_Model->get_day_iorders();
+
+        $data['items'] = $this->Admin_Model->get_all_item_json();
+        $data['customers'] = $this->Admin_Model->get_customer_json();
         $this->load->template('vendor/orders_received',$data);
     }
 
     public function orders_pending()
     {
-        $this->load->template('vendor/orders_pending');
+        $data['items'] = $this->Admin_Model->get_all_item_json();
+        $data['customers'] = $this->Admin_Model->get_customer_json();
+        $this->load->template('vendor/orders_pending',$data);
     }
 
     public function update_order()
@@ -108,7 +114,9 @@ class Vendor extends CI_Controller {
     }
     public function orders_processed()
     {
-        $this->load->template('vendor/orders_processed');
+        $data['items'] = $this->Admin_Model->get_all_item_json();
+        $data['customers'] = $this->Admin_Model->get_customer_json();
+        $this->load->template('vendor/orders_processed',$data);
     }
     public function profile()
     {	$user_id = $this->user_model->get_current_user_id();
@@ -288,6 +296,10 @@ class Vendor extends CI_Controller {
         $orders['daily'] = $this->Vendor_Model->get_daily_orders();
         $orders['monthly'] = $this->Vendor_Model->get_monthly_orders();
 
+        $orders['items'] = $this->Admin_Model->get_all_item_json();
+        $orders['status_val'] = $this->Admin_Model->get_all_status_json();
+        $orders['customers'] = $this->Admin_Model->get_customer_json();
+
         $this->load->template('vendor/orders',$orders);
     }
     public function rec_message(){
@@ -319,9 +331,18 @@ class Vendor extends CI_Controller {
                     )
                 ),
             );
+
+
             $this->form_validation->set_rules($config);
             if ($this->form_validation->run() == true) {
                 $msg_to=$this->input->post('reci');
+
+
+                $filedata = $this->general_model->get_uploaded_file();
+                $data['msg_file'] = $filedata['file_name'];
+
+
+
                 if($msg_to == 'customer')
                 {
                     $msg_to =$this->input->post('custname');;
@@ -357,6 +378,7 @@ class Vendor extends CI_Controller {
                 $data["txtmsg"]= $this->Admin_Model->get_message($msgid);
                 $data["txtsub"] = "Re: " . $this->Admin_Model->get_subject($msgid);
                 $data["txtreci"] = $this->Admin_Model->get_from($msgid);
+                $data["attachment"] = $this->Admin_Model->get_message_file($msgid);
             }
 
             $vendor_id=$this->user_model->get_current_user_id();
@@ -364,6 +386,23 @@ class Vendor extends CI_Controller {
             $this->load->template('vendor/message',$data);
         }
     }
+
+    public function read_message($msg_id)
+    {
+        if(!empty($msg_id))
+        {
+            $data["txtmsg"] = $this->Admin_Model->get_message($msg_id);
+            $data["txtsub"] = $this->Admin_Model->get_subject($msg_id);
+            $data["txtreci"] = $this->Admin_Model->get_from($msg_id);
+
+            $updated_data = array('msg_read'=>'1');
+            $this->Admin_Model->update_read_status($msg_id,$updated_data);
+
+            $this->load->template('vendor/read_message',$data);
+        }
+
+    }
+
     public function account()
     {
         $data['account'] = $this->Vendor_Model->get_user_account();

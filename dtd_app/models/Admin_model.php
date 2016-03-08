@@ -34,9 +34,10 @@ class Admin_Model extends CI_Model{
 
     public function get_rec_message(){
 
-        $this->datatables->select("msg_id, msg_from,  msg_title, msg_desc, DATE_FORMAT(msg_date,'%b-%d') as msg_date")
+        $this->datatables->select("msg_from,  msg_title, msg_desc, DATE_FORMAT(msg_date,'%b-%d') as msg_date,msg_read,msg_id")
             ->from('dtd_message')
             ->edit_column('msg_from','$1', 'callback_message_from(msg_from)')
+            ->edit_column('msg_title','$1', 'callback_subject_from(msg_id,msg_title,admin,msg_read)')
             ->edit_column('msg_id','$1', 'callback_edit_message(msg_id,admin)')
             ->edit_column('msg_desc','$1','strip_tags(msg_desc)')
             ->where('msg_to', '0');
@@ -252,6 +253,15 @@ class Admin_Model extends CI_Model{
         $query = $this->db->get('message');
         $message = $query->row_array();
         return $message['msg_from'];
+    }
+
+    public function get_message_file($msg_id)
+    {
+        $this->db->select("msg_file");
+        $this->db->where('msg_id',$msg_id);
+        $query = $this->db->get('message');
+        $message = $query->row_array();
+        return $message['msg_file'];
     }
 
     public function delete_item($type_id){
@@ -481,7 +491,7 @@ class Admin_Model extends CI_Model{
     //Created by Hardik Mehta
     public function get_all_customers()
     {
-        $this->datatables->select("dtd_users.user_id, user_name, user_email, user_add, user_tel, user_comp, user_rep, user_site, user_staffname, user_stafftel, user_balance, user_areacode, grade_name, user_grade")
+        $this->datatables->select("user_name, user_email, user_add, user_tel, user_comp, user_rep, user_site, user_staffname, user_stafftel, user_balance, user_areacode, grade_name, user_grade,dtd_users.user_id")
             ->from("dtd_users")
             ->join("dtd_cust", "dtd_cust.user_id=dtd_users.user_id")
             ->join("dtd_cust_grade", "dtd_cust_grade.grade_id=dtd_cust.user_grade", "left outer")
@@ -506,13 +516,13 @@ class Admin_Model extends CI_Model{
     }
 
     public function get_vendor_json(){
-        $this->db->select('user_id,user_name');
+        $this->db->select('user_id,user_name,user_email');
         $this->db->where('user_role','vendor');
         $this->db->from('users');
         $query = $this->db->get();
         $states = array();
         foreach($query->result_array() as $state){
-            $states[] = array($state['user_id'], $state['user_name']);
+            $states[] = array($state['user_id'], $state['user_name'],$state['user_email']);
         }
         return json_encode($query->result_array());
     }
@@ -640,6 +650,61 @@ class Admin_Model extends CI_Model{
         }
         return $result;
 
+    }
+
+    public function update_read_status($msg_id,$data)
+    {
+        $this->db->where('msg_id',$msg_id);
+        $this->db->update('message', $data);
+        return $this->db->affected_rows();
+
+    }
+
+    public function count_unread_message()
+    {
+        $this->db->select('msg_read');
+        $this->db->where('msg_read','0');
+        $this->db->where('msg_to','0');
+        $this->db->from('message');
+        return $this->db->count_all_results();
+
+    }
+
+    public function get_all_item_json()
+    {
+        $this->db->select('type_id,type_name');
+        $this->db->from('item_type');
+        $query = $this->db->get();
+        $items = array();
+        foreach($query->result_array() as $items){
+            $items[] = array($items['type_name'], $items['type_name']);
+        }
+        return json_encode($query->result_array());
+    }
+
+    public function get_all_status_json()
+    {
+        $this->db->select('order_id,order_status');
+        $this->db->from('dtd_order');
+        $this->db->group_by('order_status');
+        $query = $this->db->get();
+        $status_arr = array();
+        foreach($query->result_array() as $status_arr){
+            $status_arr[] = array($status_arr['order_status'], $status_arr['order_status']);
+        }
+        return json_encode($query->result_array());
+    }
+
+    public function get_customer_json(){
+        $this->db->select('user_id,user_name');
+        $this->db->where('user_role','customer');
+        $this->db->from('users');
+        $query = $this->db->get();
+        $states = array();
+        foreach($query->result_array() as $state){
+            $states[] = array($state['user_id'], $state['user_name']);
+        }
+        return json_encode($query->result_array());
     }
 }
 ?>

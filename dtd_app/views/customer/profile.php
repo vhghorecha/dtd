@@ -176,7 +176,10 @@
                             <table class="table">
                                 <tbody>
                                 <tr>
-                                    <td><?=$profile['vendor_name'];?></td><td><?=$profile['vendor_email'];?></td>
+                                    <td><?=$profile['vendor_name'];?></td><td><?=$profile['vendor_hq1'];?></td>
+                                </tr>
+                                <tr>
+                                    <td><?=$profile['user_memo'];?></td><td><?=$profile['user_stafftel'];?></td>
                                 </tr>
                                 <tr>
                                     <td><?=$profile['vendor_tel'];?></td><td><?=$profile['vendor_rep'];?></td>

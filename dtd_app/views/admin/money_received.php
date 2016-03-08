@@ -13,6 +13,7 @@
                         <table id="a_mon_rec" class="table table-striped table-bordered" cellspacing="0" width="100%">
                             <thead>
                             <tr>
+                                <th>Sr.no</th>
                                 <th>Date</th>
                                 <th>Customer Name</th>
                                 <th>Amount</th>
@@ -23,6 +24,7 @@
 
                             <tfoot>
                             <tr>
+                                <th>Sr.no</th>
                                 <th>Date</th>
                                 <th>Customer Name</th>
                                 <th>Amount</th>
@@ -45,25 +47,34 @@
 
 
     <script>
+        var table;
         $(document).ready(function(){
-            var table = $('#a_mon_rec').dataTable( {
+            table = $('#a_mon_rec').dataTable( {
                 "sDom": '<"top"pl>rt<"bottom"><"clear">',
-                "aaSorting": [[0, "desc"]],
+                "aaSorting": [[1, "desc"]],
                 "oLanguage": {
                     "sLengthMenu": "_MENU_ records per page"
                 },
                 "bProcessing": true,
+                "sPaginationType": "listbox",
                 "bServerSide": true,
                 "sAjaxSource": "<?=site_url('ajax/a_mon_rec');?>",
                 "responsive" : true,
 
+
                 "columns": [
+                    { "data": null },
                     { "data": "ddate" },
                     { "data": "user_name" },
                     { "data": "dep_amount" },
                     { "data": "dep_transno" },
                     { "data": "dep_bankname" },
-                ]
+                ],
+                "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+                    var index = iDisplayIndex +1;
+                    $('td:eq(0)',nRow).html(index);
+                    return nRow;
+                },
             } );
 
             // Setup - add a text input to each footer cell

@@ -17,6 +17,7 @@
                             <table id="a_customers" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
+                                        <th>Sr.no</th>
                                         <th>User Name</th>
                                         <th>Email</th>
                                         <th class="none">Address</th>
@@ -35,6 +36,7 @@
                                 </thead>
                                 <tfoot>
                                 <tr>
+                                    <th>Sr.no</th>
                                     <th>User Name</th>
                                     <th>Email</th>
                                     <th class="none">Address</th>
@@ -91,6 +93,7 @@
 
 <?php $this->load->view("scripts"); ?>
     <script>
+        var table;
         $(document).ready(function(){
             $('#btn_up_code').click(function(){
                 $userid = $('#up_userid').val();
@@ -111,43 +114,52 @@
                     }
                 });
             });
+
+            table = $('#a_customers').dataTable( {
+                "sDom": '<"top"pl>rt<"bottom"><"clear">',
+                "aaSorting": [[1, "desc"]],
+                "oLanguage": {
+                    "sLengthMenu": "_MENU_ records per page"
+                },
+                "bProcessing": true,
+                "bServerSide": true,
+                "sAjaxSource": "<?=site_url('ajax/a_customers');?>",
+                "sPaginationType": "listbox",
+                "responsive" : true,
+                "columns": [
+                    { "data": null },
+                    { "data": "user_name" },
+                    { "data": "user_email" },
+                    { "data": "user_add" },
+                    { "data": "user_tel" },
+                    { "data": "user_comp" },
+                    { "data": "user_rep" },
+                    { "data": "user_site" },
+                    { "data": "user_staffname" },
+                    { "data": "user_stafftel" },
+                    { "data": "user_balance"},
+                    { "data": "user_areacode"},
+                    { "data": "grade_name"},
+                    { "data": "user_modify"},
+                    { "data": "user_vendor"},
+                ],
+                "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+                    var index = iDisplayIndex +1;
+                    $('td:eq(0)',nRow).html(index);
+                    return nRow;
+                },
+                "drawCallback" : function(){
+                    $('.update_customer').click(function(){
+                        $('#update_res').html('');
+                        $('#up_grade').val($(this).data('usergrade')).trigger("change");
+                        $('#up_areacode').val($(this).data('userarea'));
+                        $('#up_userid').val($(this).data('userid'));
+                        $('#pop_up_user').modal('show');
+                    });
+                },
+            } );
         });
-        var table = $('#a_customers').dataTable( {
-            "sDom": '<"top"pl>rt<"bottom"><"clear">',
-            "aaSorting": [[0, "desc"]],
-            "oLanguage": {
-                "sLengthMenu": "_MENU_ records per page"
-            },
-            "bProcessing": true,
-            "bServerSide": true,
-            "sAjaxSource": "<?=site_url('ajax/a_customers');?>",
-            "responsive" : true,
-            "columns": [
-                { "data": "user_name" },
-                { "data": "user_email" },
-                { "data": "user_add" },
-                { "data": "user_tel" },
-                { "data": "user_comp" },
-                { "data": "user_rep" },
-                { "data": "user_site" },
-                { "data": "user_staffname" },
-                { "data": "user_stafftel" },
-                { "data": "user_balance"},
-                { "data": "user_areacode"},
-                { "data": "grade_name"},
-                { "data": "user_modify"},
-                { "data": "user_vendor"},
-            ],
-            "drawCallback" : function(){
-                $('.update_customer').click(function(){
-                    $('#update_res').html('');
-                    $('#up_grade').val($(this).data('usergrade')).trigger("change");
-                    $('#up_areacode').val($(this).data('userarea'));
-                    $('#up_userid').val($(this).data('userid'));
-                    $('#pop_up_user').modal('show');
-                });
-            },
-        } );
+
         // Setup - add a text input to each footer cell
         $('#a_customers tfoot th').each( function () {
             $(this).html( txtsearch );

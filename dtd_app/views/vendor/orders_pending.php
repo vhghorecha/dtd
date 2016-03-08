@@ -10,10 +10,17 @@
                 <h3 class="page-header"> Orders Pending:</h3>
             </div>
         </div>
+        <div class="row" >
+            <div class="col-lg-12">
+                <div id="cbo_items" class="col-lg-6 col-md-6 col-sm-6 col-xs-12"></div>
+                <div id="cbo_customer" class="col-lg-6 col-md-6 col-sm-6 col-xs-12"></div>
+            </div>
+        </div>
         <div class="row">
                 <table id="v_ord_pen" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <thead>
                     <tr>
+                        <th>Sr.no</th>
                         <th><input type="checkbox" id="selallchk"/> Order id</th>
                         <th>Date</th>
                         <th>Customer</th>
@@ -28,6 +35,7 @@
                     </thead>
                     <tfoot>
                     <tr>
+                        <th>Sr.no</th>
                         <th>Order id</th>
                         <th>Date</th>
                         <th>Customer</th>
@@ -82,6 +90,7 @@
 
     <script type="text/javascript" language="javascript" src="<?=RES_URL;?>js/jquery.fileDownload.js"></script>
     <script>
+        var table
         $(document).ready(function(){
             $('#btn_up_code').click(function(){
                 $orderid = $('#up_orderid').val();
@@ -102,38 +111,98 @@
                     }
                 });
             });
+
+            var items = $.parseJSON('<?=$items;?>');
+            var customers = $.parseJSON('<?=$customers;?>');
+            table = $('#v_ord_pen').dataTable( {
+                "sDom": '<"top"pl>rt<"bottom"><"clear">',
+                "bSort": false,
+                "oLanguage": {
+                    "sLengthMenu": "_MENU_ records per page"
+                },
+                "bProcessing": true,
+                "bServerSide": true,
+                "sAjaxSource": "<?=site_url('ajax/v_ord_pen');?>",
+                "sPaginationType": "listbox",
+                "responsive" : true,
+                "drawCallback" : function(){
+                    $('.update_order').click(function(){
+                        $('#update_res').html('');
+                        $('#up_code').val('');
+                        $('#up_orderid').val($(this).data('orderid'));
+                        $('#pop_up_order').modal('show');
+                    });
+                },
+                "columns": [
+                    { "data": null },
+                    { "data": "order_id" },
+                    { "data": "ord_date" },
+                    { "data": "user_name" },
+                    { "data": "order_recipient" },
+                    { "data": "order_address" },
+                    { "data": "order_zipcode" },
+                    { "data": "order_telno" },
+                    { "data": "type_name" },
+                    { "data": "order_itemname" },
+                    { "data": "order_status" },
+                ],
+                "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+                    var index = iDisplayIndex +1;
+                    $('td:eq(0)',nRow).html(index);
+                    return nRow;
+                },
+
+                "initComplete": function(settings, json) {
+
+
+
+                    this.api().columns(7).every( function () {
+                        var column = this;
+                        var select = $('<select><option value="">Search Item</option></select>')
+                            .appendTo( $('#cbo_items').empty() )
+                            .on( 'change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+
+                                column
+                                    .search( val  )
+                                    .draw();
+                            } );
+
+                        $.each( items, function( index, value ){
+                            select.append( '<option value="'+value.type_name+'">'+value.type_name+'</option>' )
+                        } );
+                    } );
+
+
+                    this.api().columns(2).every( function () {
+                        var column = this;
+                        var select = $('<select><option value="">Search Customer</option></select>')
+                            .appendTo( $('#cbo_customer').empty() )
+                            .on( 'change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+
+                                column
+                                    .search( val  )
+                                    .draw();
+                            } );
+
+                        $.each( customers, function( index, value ){
+                            select.append( '<option value="'+value.user_name+'">'+value.user_name+'</option>' )
+                        } );
+                    } );
+
+                },
+
+
+            } );
+
+
         });
-        var table = $('#v_ord_pen').dataTable( {
-            "sDom": '<"top"pl>rt<"bottom"><"clear">',
-            "bSort": false,
-            "oLanguage": {
-                "sLengthMenu": "_MENU_ records per page"
-            },
-            "bProcessing": true,
-            "bServerSide": true,
-            "sAjaxSource": "<?=site_url('ajax/v_ord_pen');?>",
-            "responsive" : true,
-            "drawCallback" : function(){
-                $('.update_order').click(function(){
-                    $('#update_res').html('');
-                    $('#up_code').val('');
-                    $('#up_orderid').val($(this).data('orderid'));
-                    $('#pop_up_order').modal('show');
-                });
-            },
-            "columns": [
-                { "data": "order_id" },
-                { "data": "ord_date" },
-                { "data": "user_name" },
-                { "data": "order_recipient" },
-                { "data": "order_address" },
-                { "data": "order_zipcode" },
-                { "data": "order_telno" },
-                { "data": "type_name" },
-                { "data": "order_itemname" },
-                { "data": "order_status" },
-            ]
-        } );
+
 
         // Setup - add a text input to each footer cell
         $('#v_ord_pen tfoot th').each( function () {

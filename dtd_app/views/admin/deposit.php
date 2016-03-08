@@ -54,6 +54,7 @@
                                 <table id="a_daily_deposits" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                     <thead>
                                     <tr>
+                                        <th>Sr.no</th>
                                         <th>Date</th>
                                         <th>Customer Name</th>
                                         <th>Amount</th>
@@ -64,6 +65,7 @@
                                     </thead>
                                     <tfoot>
                                     <tr>
+                                        <th>Sr.no</th>
                                         <th>Date</th>
                                         <th>Customer Name</th>
                                         <th>Amount</th>
@@ -97,15 +99,17 @@
     $(document).ready(function(){
         var table = $('#a_daily_deposits').dataTable( {
             "sDom": '<"top"pl>rt<"bottom"><"clear">',
-            "aaSorting": [[0, "asc"],[1, "asc"]],
+            "aaSorting": [[1, "asc"],[2, "asc"]],
             "oLanguage": {
                 "sLengthMenu": "_MENU_ records per page"
             },
             "bProcessing": true,
             "bServerSide": true,
             "sAjaxSource": "<?=site_url('ajax/a_daily_deposits');?>",
+            "sPaginationType": "listbox",
             "responsive" : true,
             "columns": [
+                { "data": null },
                 { "data": "depdate" },
                 { "data": "user_name" },
                 { "data": "dep_amount" },
@@ -113,6 +117,11 @@
                 { "data": "dep_bankname" },
                 { "data": "dep_id" },
             ],
+            "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+                var index = iDisplayIndex +1;
+                $('td:eq(0)',nRow).html(index);
+                return nRow;
+            },
             "drawCallback" : function(){
                 $('.delete_item').click(function(){
                     $item_id = $(this).data('depid');

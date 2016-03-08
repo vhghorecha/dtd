@@ -291,4 +291,16 @@ class Ajax extends CI_Controller {
 		return $this->escaptcha->get_html();
 	}
 
+	public function a_rec_count(){
+		die(strval($this->Admin_Model->count_unread_message()));
+	}
+
+	public function c_rec_count(){
+		die(strval($this->Customer_Model->count_unread_message()));
+	}
+
+	public function v_rec_count(){
+		die(strval($this->Vendor_Model->count_unread_message()));
+	}
+
 }

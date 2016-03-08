@@ -16,6 +16,7 @@
                             <table id="v_customers" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
+                                        <th>Sr.no</th>
                                         <th>User Name</th>
                                         <th>Email</th>
                                         <th>Address</th>
@@ -29,6 +30,7 @@
                                 </thead>
                                 <tfoot>
                                     <tr>
+                                        <th>Sr.no</th>
                                         <th>User Name</th>
                                         <th>Email</th>
                                         <th>Address</th>
@@ -57,19 +59,22 @@
 <?php $this->load->view('scripts'); ?>
 
     <script>
+        var table;
         $(document).ready(function(){
 
-            var table = $('#v_customers').dataTable( {
+            table = $('#v_customers').dataTable( {
                 "sDom": '<"top"pl>rt<"bottom"><"clear">',
-                "aaSorting": [[0, "desc"]],
+                "aaSorting": [[1, "desc"]],
                 "oLanguage": {
                     "sLengthMenu": "_MENU_ records per page"
                 },
                 "bProcessing": true,
                 "bServerSide": true,
                 "sAjaxSource": "<?=site_url('ajax/v_customers');?>",
+                "sPaginationType": "listbox",
                 "responsive" : true,
                 "columns": [
+                    { "data": null },
                     { "data": "user_name" },
                     { "data": "user_email" },
                     { "data": "user_add" },
@@ -79,7 +84,12 @@
                     { "data": "user_site" },
                     { "data": "user_staffname" },
                     { "data": "user_stafftel" },
-                ]
+                ],
+                "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+                    var index = iDisplayIndex +1;
+                    $('td:eq(0)',nRow).html(index);
+                    return nRow;
+                },
             } );
             // Setup - add a text input to each footer cell
             $('#v_customers tfoot th').each( function () {

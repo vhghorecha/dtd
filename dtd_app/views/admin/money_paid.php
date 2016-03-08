@@ -13,6 +13,7 @@
                         <table id="a_mon_pay" class="table table-striped table-bordered" cellspacing="0" width="100%">
                             <thead>
                                 <tr>
+                                    <th>Sr.no</th>
                                     <th>Date</th>
                                     <th>Vendor Name</th>
                                     <th>Amount</th>
@@ -23,6 +24,7 @@
 
                             <tfoot>
                                 <tr>
+                                    <th>Sr.no</th>
                                     <th>Date</th>
                                     <th>Vendor Name</th>
                                     <th>Amount</th>
@@ -45,11 +47,11 @@
 
 
     <script>
-
+        var table;
         $(document).ready(function(){
-            var table = $('#a_mon_pay').dataTable( {
+            table = $('#a_mon_pay').dataTable( {
                 "sDom": '<"top"pl>rt<"bottom"><"clear">',
-                "aaSorting": [[0, "desc"]],
+                "aaSorting": [[1, "desc"]],
                 "oLanguage": {
                     "sLengthMenu": "_MENU_ records per page"
                 },
@@ -57,14 +59,21 @@
                 "bServerSide": true,
                 "sAjaxSource": "<?=site_url('ajax/a_mon_pay');?>",
                 "responsive" : true,
+                "sPaginationType": "listbox",
 
                 "columns": [
+                    { "data": null },
                     { "data": "pdate" },
                     { "data": "user_name" },
                     { "data": "pay_amount" },
                     { "data": "pay_transno" },
                     { "data": "pay_bankname" },
-                ]
+                ],
+                "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+                    var index = iDisplayIndex +1;
+                    $('td:eq(0)',nRow).html(index);
+                    return nRow;
+                },
             } );
 
             // Setup - add a text input to each footer cell

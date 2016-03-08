@@ -18,6 +18,7 @@
                             <table id="a_vendor_customers" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                 <thead>
                                 <tr>
+                                    <th>Sr.no</th>
                                     <th>Vendor</th>
                                     <th>User Name</th>
                                     <th>Email</th>
@@ -54,15 +55,17 @@
             var vendors = $.parseJSON('<?=$vendors;?>');
             var table = $('#a_vendor_customers').dataTable( {
                     "sDom": '<"top"pl>rt<"bottom"><"clear">',
-                    "aaSorting": [[0, "desc"]],
+                    "aaSorting": [[1, "desc"]],
                     "oLanguage": {
                         "sLengthMenu": "_MENU_ records per page"
                     },
                     "bProcessing": true,
                     "bServerSide": true,
                     "sAjaxSource": "<?=site_url('ajax/a_vendor_customers');?>",
+                "sPaginationType": "listbox",
                     "responsive" : true,
                     "columns": [
+                        { "data": null},
                         { "data": "vendor_id", "visible": false },
                         { "data": "user_name" },
                         { "data": "user_email" },
@@ -75,6 +78,11 @@
                         { "data": "user_stafftel" },
                         { "data": "user_balance"},
                     ],
+                    "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+                        var index = iDisplayIndex +1;
+                        $('td:eq(0)',nRow).html(index);
+                        return nRow;
+                    },
                     "initComplete": function(settings, json) {
                         this.api().columns(0).every( function () {
                             var column = this;

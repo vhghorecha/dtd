@@ -52,7 +52,7 @@ class Customer_Model extends CI_Model
     public function get_user_orders()
     {
         $cust_id = $this->User_Model->get_current_user_id();
-        $this->datatables->select("dtd_order.order_id, DATE_FORMAT(dtd_order.order_date,'%b-%d') as order_date, dtd_order.order_recipient, dtd_order.order_telno, dtd_item_type.type_name, dtd_order.order_status, dtd_order.order_updatecode, dtd_order.vendor_reason")
+        $this->datatables->select("dtd_order.order_id, DATE_FORMAT(dtd_order.order_date,'%b-%d') as order_date, dtd_order.order_recipient, dtd_order.order_telno, dtd_item_type.type_name,dtd_order.order_updatecode, dtd_order.order_status,  dtd_order.vendor_reason")
             ->from('dtd_order')
             ->join('dtd_item_type', 'dtd_item_type.type_id=dtd_order.order_typeid')
             ->add_column('modify','$1','callback_edit_order(order_status,order_id)')
@@ -115,10 +115,11 @@ class Customer_Model extends CI_Model
 
     public function get_user_profile()
     {
-        $this->db->select('t1.user_name,t1.user_email,t1.user_add,t1.user_zipcode,t1.user_tel,t1.user_comp,t1.user_rep,t1.user_site,t1.user_staffname,t1.user_stafftel,t1.user_memo,t2.user_regno,t2.user_lob,t2.user_sercomp,t3.user_name as "vendor_name",t3.user_email as "vendor_email", t3.user_tel as "vendor_tel", t3.user_rep as "vendor_rep", t3.user_add as "vendor_add", t3.user_zipcode as "vendor_zipcode"');
+        $this->db->select('t1.user_name,t1.user_email,t1.user_add,t1.user_zipcode,t1.user_tel,t1.user_comp,t1.user_rep,t1.user_site,t1.user_staffname,t1.user_stafftel,t1.user_memo,t2.user_regno,t2.user_lob,t2.user_sercomp,t3.user_name as "vendor_name",t3.user_email as "vendor_email", t3.user_tel as "vendor_tel", t3.user_rep as "vendor_rep", t3.user_add as "vendor_add", t3.user_zipcode as "vendor_zipcode",t4.vendor_hq1');
         $this->db->from('dtd_users t1');
         $this->db->join('dtd_cust t2', ' t1.user_id=t2.user_id');
         $this->db->join('dtd_users t3',' t3.user_id = t2.vendor_id');
+        $this->db->join('dtd_vendor t4',' t3.user_id = t4.user_id');
         $this->db->where("t1.user_id", $this->user_model->get_current_user_id());
         return $this->db->get()->row_array();
     }
@@ -453,15 +454,32 @@ class Customer_Model extends CI_Model
         $cust_id = $this->User_Model->get_current_user_id();
         $vendor_id = $this->get_user_vendor_id();
         $msg_to = array($cust_id, 'all', 'allc');
-        $this->datatables->select("msg_id, msg_from, msg_title, msg_desc, DATE_FORMAT(msg_date,'%b-%d') as m_date")
+        $this->datatables->select("msg_from, msg_title, msg_desc, DATE_FORMAT(msg_date,'%b-%d') as m_date,msg_read,msg_id")
             ->from('dtd_message')
             ->edit_column('msg_from','$1', 'callback_message_from(msg_from)')
+            ->edit_column('msg_title','$1', 'callback_subject_from(msg_id,msg_title,customer,msg_read)')
             ->edit_column('msg_id','$1', 'callback_edit_message(msg_id,customer)')
             ->edit_column('msg_desc','$1','strip_tags(msg_desc)')
             ->where_in('msg_to', $msg_to)
             ->or_where('msg_to', 'allvc')
             ->where('msg_from', $vendor_id);
         return $this->datatables->generate();
+    }
+
+    public function count_unread_message()
+    {
+        $cust_id = $this->User_Model->get_current_user_id();
+        $vendor_id = $this->get_user_vendor_id();
+        $msg_to = array($cust_id, 'all', 'allc');
+
+        $this->db->select('msg_read');
+        $this->db->where('msg_read','0');
+        $this->db->where('msg_from', $vendor_id);
+        $this->db->where_in('msg_to', $msg_to);
+        $this->db->or_where('msg_to', 'allvc');
+        $this->db->from('message');
+        return $this->db->count_all_results();
+
     }
 
     public function get_sent_message(){

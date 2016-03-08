@@ -15,6 +15,7 @@
                             <table id="a_ven_pay" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                 <thead>
                                 <tr>
+                                    <th>Sr.no</th>
                                     <th><input type="checkbox" id="selallchk"/> Order id</th>
                                     <th>Date</th>
                                     <th>Amount</th>
@@ -27,6 +28,7 @@
                                 </thead>
                                 <tfoot>
                                 <tr>
+                                    <th>Sr.no</th>
                                     <th>Order id</th>
                                     <th>Date</th>
                                     <th>Amount</th>
@@ -89,6 +91,7 @@
                                     <table id="a_daily_payments" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                         <thead>
                                         <tr>
+                                            <th>Sr.no</th>
                                             <th class="all">Date</th>
                                             <th class="all">Vendor Name</th>
                                             <th class="all">Amount</th>
@@ -101,6 +104,7 @@
                                         </thead>
                                         <tfoot>
                                         <tr>
+                                            <th>Sr.no</th>
                                             <th>Date</th>
                                             <th>Vendor Name</th>
                                             <th>Amount</th>
@@ -129,8 +133,9 @@
 <?php $this->load->view("scripts") ?>
 
 <script>
+    var table2,table ;
     $(document).ready(function(){
-        var table2 = $('#a_ven_pay').dataTable( {
+        table2 = $('#a_ven_pay').dataTable( {
             "sDom": '<"top"pl>rt<"bottom"><"clear">',
             "oLanguage": {
                 "sLengthMenu": "_MENU_ records per page"
@@ -139,11 +144,13 @@
             "bProcessing": true,
             "bServerSide": true,
             "sAjaxSource": "<?=site_url('ajax/a_ven_pay/');?>",
+            "sPaginationType": "listbox",
             "fnServerParams": function ( aoData ) {
                 aoData.push( { "name": "vendor_id", "value": $('#vendname').val() } );
             },
             "responsive" : true,
             "columns": [
+                { "data": null  },
                 { "data": "order_id"  },
                 { "data": "ord_date" },
                 { "data": "vendor_amount" },
@@ -153,6 +160,11 @@
                 { "data": "type_name" },
                 { "data": "order_itemname" },
             ],
+            "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+                var index = iDisplayIndex +1;
+                $('td:eq(0)',nRow).html(index);
+                return nRow;
+            },
             "drawCallback" : function(){
                 $('.a_pay_order_amt').click(function(){
                     if($('#payamount').val() == ''){
@@ -213,7 +225,7 @@
 
 
         //=====================================================================
-        var table = $('#a_daily_payments').dataTable( {
+        table = $('#a_daily_payments').dataTable( {
             "sDom": '<"top"pl>rt<"bottom"><"clear">',
             "aaSorting": [[0, "asc"],[1, "asc"]],
             "oLanguage": {
@@ -223,7 +235,9 @@
             "bServerSide": true,
             "sAjaxSource": "<?=site_url('ajax/a_daily_payments');?>",
             "responsive" : true,
+            "sPaginationType": "listbox",
             "columns": [
+                { "data": null  },
                 { "data": "paydate" },
                 { "data": "user_name" },
                 { "data": "pay_amount" },
@@ -233,6 +247,11 @@
                 { "data": "dep_id" },
                 { "data": "download" },
             ],
+            "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+                var index = iDisplayIndex +1;
+                $('td:eq(0)',nRow).html(index);
+                return nRow;
+            },
             "drawCallback" : function(){
                 $('.delete_item').click(function(){
                     $delid = $(this).data("depid");

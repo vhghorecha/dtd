@@ -22,7 +22,7 @@
         $('.datepicker, .tdatepicker, .ydatepicker, .mdatepicker').on('changeDate', function(ev){
             $(this).datepicker('hide');
         });
-        $('select').select2();
+        $('select:not(.notselect)').select2();
     });
 </script>
 
@@ -79,6 +79,30 @@
                 table2.fnDraw();
             }
         }
+
+        <?php
+            if($current_page == 'admin')
+            {
+                ?>
+                    $('#msgcount').load('<?php echo site_url("ajax/a_rec_count");?>');
+                <?php
+            }
+
+            if($current_page == 'customer')
+            {
+                ?>
+                    $('#msgcount').load('<?php echo site_url("ajax/c_rec_count");?>');
+                <?php
+            }
+
+            if($current_page == 'vendor')
+            {
+                ?>
+                    $('#msgcount').load('<?php echo site_url("ajax/v_rec_count");?>');
+                <?php
+            }
+        ?>
+
     });
     $(document)
         .ajaxStart(function(){

@@ -17,6 +17,7 @@
                             <table id="a_pending_customers" class="table table-striped table-bordered" cellspacing="0" width="100%">
                                 <thead>
                                 <tr>
+                                    <th>Sr.no</th>
                                     <th>User Name</th>
                                     <th>Email</th>
                                     <th>Address</th>
@@ -53,15 +54,17 @@
 
             var table = $('#a_pending_customers').dataTable( {
                 "sDom": '<"top"pl>rt<"bottom"><"clear">',
-                "aaSorting": [[0, "desc"]],
+                "aaSorting": [[1, "desc"]],
                 "oLanguage": {
                     "sLengthMenu": "_MENU_ records per page"
                 },
                 "bProcessing": true,
                 "bServerSide": true,
                 "sAjaxSource": "<?=site_url('ajax/a_pending_customers');?>",
+                "sPaginationType": "listbox",
                 "responsive" : true,
                 "columns": [
+                    { "data": null },
                     { "data": "user_name" },
                     { "data": "user_email" },
                     { "data": "user_add" },
@@ -73,6 +76,11 @@
                     { "data": "user_stafftel" },
                     { "data": "user_id" },
                 ],
+                "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+                    var index = iDisplayIndex +1;
+                    $('td:eq(0)',nRow).html(index);
+                    return nRow;
+                },
                 "drawCallback" : function(){
                     $('.approve_user').click(function(){
                         $user_id = $(this).data('userid');

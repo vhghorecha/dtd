@@ -16,6 +16,7 @@
                                width="100%">
                             <thead>
                                 <tr>
+                                    <th>Sr.no</th>
                                     <th>Item Type</th>
                                     <th>Price</th>
                                     <th>Edit/Delete</th>
@@ -39,6 +40,7 @@
                                width="100%">
                             <thead>
                                 <tr>
+                                    <th>Sr.no</th>
                                     <th>Term(Period)</th>
                                     <th>No. of Orders</th>
                                     <th>Grade</th>
@@ -67,6 +69,7 @@
                                width="100%">
                             <thead>
                                 <tr>
+                                    <th>Sr.no</th>
                                     <th>Vendor Name</th>
                                     <th>Item Type</th>
                                     <th>Price</th>
@@ -76,6 +79,7 @@
                             </thead>
                             <tfoot>
                             <tr>
+                                <th>Sr.no</th>
                                 <th>Vendor Name</th>
                                 <th>Item Type</th>
                                 <th>Price</th>
@@ -109,43 +113,57 @@
 
             var table = $('#a_customer_grade').dataTable( {
                 "sDom": '<"top"pl>rt<"bottom"><"clear">',
-                "aaSorting": [[0, "asc"],[1, "asc"]],
+                "aaSorting": [[1, "asc"],[2, "asc"]],
                 "oLanguage": {
                     "sLengthMenu": "_MENU_ records per page"
                 },
                 "bProcessing": true,
                 "bServerSide": true,
                 "sAjaxSource": "<?=site_url('ajax/a_customer_grade');?>",
+                "sPaginationType": "listbox",
                 "responsive" : true,
                 "columns": [
+                    { "data": null},
                     { "data": "term"},
                     { "data": "gp_no_order" },
                     { "data": "grade_name" },
                     { "data": "gp_disc" },
                     { "data": "edit" },
-                ]
+                ],
+                "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+                    var index = iDisplayIndex +1;
+                    $('td:eq(0)',nRow).html(index);
+                    return nRow;
+                },
             } );
 
             var table2 = $('#a_item_price').dataTable( {
                 "sDom": '<"top"pl>rt<"bottom"><"clear">',
-                "aaSorting": [[0, "asc"],[1, "asc"]],
+                "aaSorting": [[1, "asc"],[2, "asc"]],
                 "oLanguage": {
                     "sLengthMenu": "_MENU_ records per page"
                 },
                 "bProcessing": true,
                 "bServerSide": true,
                 "sAjaxSource": "<?=site_url('ajax/a_item_price');?>",
+                "sPaginationType": "listbox",
                 "responsive" : true,
                 "columns": [
+                    { "data": null},
                     { "data": "type_name"},
                     { "data": "gi_price" },
                     { "data": "edit" },
-                ]
+                ],
+                "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+                    var index = iDisplayIndex +1;
+                    $('td:eq(0)',nRow).html(index);
+                    return nRow;
+                },
             } );
 
             var table3 = $('#a_vendor_price').dataTable( {
                 "sDom": '<"top"pl>rt<"bottom"><"clear">',
-                "aaSorting": [[0, "asc"]],
+                "aaSorting": [[1, "asc"]],
                 "oLanguage": {
                     "sLengthMenu": "_MENU_ records per page"
                 },
@@ -154,12 +172,18 @@
                 "sAjaxSource": "<?=site_url('ajax/a_vendor_price');?>",
                 "responsive" : true,
                 "columns": [
+                    { "data": null},
                     { "data": "user_name"},
                     { "data": "type_name" },
                     { "data": "gp_price" },
                     { "data": "profit" },
                     { "data": "edit" },
-                ]
+                ],
+                "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+                    var index = iDisplayIndex +1;
+                    $('td:eq(0)',nRow).html(index);
+                    return nRow;
+                },
             } );
             // Setup - add a text input to each footer cell
             /* $('#a_vendor_price tfoot th').each( function () {

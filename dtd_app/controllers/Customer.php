@@ -426,19 +426,24 @@ class Customer extends CI_Controller {
         $data['today']=$this->Customer_Model->get_today();
         $data['month']=$this->Customer_Model->get_monthly();
         $data['daily'] = $this->Customer_Model->get_daily_orders();
+        $data['items'] = $this->Admin_Model->get_all_item_json();
+        $data['status_val'] = $this->Admin_Model->get_all_status_json();
         $this->load->template('customer/orders',$data);
     }
 
     public function orders_pending(){
-        $this->load->template('customer/orders_pending');
+        $data['items'] = $this->Admin_Model->get_all_item_json();
+        $this->load->template('customer/orders_pending',$data);
     }
 
     public function orders_inprocess(){
-        $this->load->template('customer/orders_inprocess');
+        $data['items'] = $this->Admin_Model->get_all_item_json();
+        $this->load->template('customer/orders_inprocess',$data);
     }
 
     public function orders_processed(){
-        $this->load->template('customer/orders_processed');
+        $data['items'] = $this->Admin_Model->get_all_item_json();
+        $this->load->template('customer/orders_processed',$data);
     }
 
     public function rec_message(){
@@ -482,6 +487,10 @@ class Customer extends CI_Controller {
                 {
                     $msg_to=$this->Customer_Model->get_user_vendor_id();
                 }
+
+                $filedata = $this->general_model->get_uploaded_file();
+                $data['msg_file'] = $filedata['file_name'];
+
                 $date = mdate('%Y-%m-%d %H:%i:%s');
                 $data['msg_date'] = $date;
                 $data['msg_from'] = $user_id = $this->user_model->get_current_user_id();;
@@ -517,6 +526,22 @@ class Customer extends CI_Controller {
         }
     }
 
+    public function read_message($msg_id)
+    {
+        if(!empty($msg_id))
+        {
+            $data["txtmsg"] = $this->Admin_Model->get_message($msg_id);
+            $data["txtsub"] = $this->Admin_Model->get_subject($msg_id);
+            $data["txtreci"] = $this->Admin_Model->get_from($msg_id);
+            $data["attachment"] = $this->Admin_Model->get_message_file($msg_id);
+
+            $updated_data = array('msg_read'=>'1');
+            $this->Admin_Model->update_read_status($msg_id,$updated_data);
+
+            $this->load->template('customer/read_message',$data);
+        }
+
+    }
     public function deleteorder($order_id=null)
     {
 

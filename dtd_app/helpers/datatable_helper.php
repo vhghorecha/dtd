@@ -157,3 +157,11 @@ function callback_message_to($to){
     }
     return $to;
 }
+
+function callback_subject_from($msg_id,$msg_subject,$user,$msg_read)
+{
+    $msg_subject = $msg_read ? $msg_subject : '<b>' . $msg_subject . '</b>';
+    return '<a href="'. site_url("$user/read_message/") . '/' . $msg_id. '">'.$msg_subject.'</a>';
+
+}
+

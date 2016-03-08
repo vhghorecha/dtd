@@ -69,7 +69,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
     public function get_ord_pen(){
         $this->load->helper('Datatable');
         $vendor_id = $this->user_model->get_current_user_id();
-        $this->datatables->select("DATE_FORMAT(dtd_order.order_date,'%b-%d') as ord_date,dtd_order.order_id,dtd_users.user_name,dtd_order.order_recipient,dtd_order.order_address, dtd_order.order_zipcode, dtd_order.order_telno,dtd_item_type.type_name,dtd_order.order_itemname, dtd_order.order_status")
+        $this->datatables->select("dtd_order.order_id,DATE_FORMAT(dtd_order.order_date,'%b-%d') as ord_date,dtd_users.user_name,dtd_order.order_recipient,dtd_order.order_address, dtd_order.order_zipcode, dtd_order.order_telno,dtd_item_type.type_name,dtd_order.order_itemname, dtd_order.order_status")
             ->from('dtd_order')
             ->join('dtd_cust','dtd_cust.user_id=dtd_order.order_custid')
             ->join('dtd_users','dtd_users.user_id=dtd_cust.user_id')
@@ -359,9 +359,10 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
             $cust_id = $this->User_Model->get_current_user_id();
             //$vendor_id = $this->get_user_vendor_id();
             $msg_to = array($cust_id, 'all', 'allv');
-            $this->datatables->select("msg_id, msg_from, msg_title, msg_desc, DATE_FORMAT(msg_date,'%b-%d') as msg_date")
+            $this->datatables->select("msg_from, msg_title, msg_desc, DATE_FORMAT(msg_date,'%b-%d') as msg_date, msg_read,msg_id")
                 ->from('dtd_message')
                 ->edit_column('msg_from','$1', 'callback_message_from(msg_from)')
+                ->edit_column('msg_title','$1', 'callback_subject_from(msg_id,msg_title,vendor,msg_read)')
                 ->edit_column('msg_id','$1', 'callback_edit_message(msg_id,vendor)')
                 ->edit_column('msg_desc','$1','strip_tags(msg_desc)')
                 ->where_in('msg_to', $msg_to);
@@ -369,12 +370,25 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
         }
         public function get_sent_message(){
             $cust_id = $this->User_Model->get_current_user_id();
-            $this->datatables->select("DATE_FORMAT(msg_date,'%b-%d') as msg_date, msg_title, msg_desc, msg_to, msg_id")
+            $this->datatables->select("msg_to,msg_title,msg_desc, DATE_FORMAT(msg_date,'%b-%d') as msg_date, msg_id")
                 ->from('dtd_message')
                 ->edit_column('msg_to','$1', 'callback_message_to(msg_to)')
                 ->edit_column('msg_id','$1', 'callback_send_message_delete(msg_id)')
                 ->where('msg_from', $cust_id);
             return $this->datatables->generate();
+        }
+
+        public function count_unread_message()
+        {
+            $cust_id = $this->User_Model->get_current_user_id();
+            $msg_to = array($cust_id, 'all', 'allv');
+
+            $this->db->select('msg_read');
+            $this->db->where('msg_read','0');
+            $this->db->where_in('msg_to',$msg_to);
+            $this->db->from('message');
+            return $this->db->count_all_results();
+
         }
 }
 ?>

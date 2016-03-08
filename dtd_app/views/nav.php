@@ -35,7 +35,7 @@
                     <a href="<?=site_url('customer/profile');?>"><i class="fa fa-user fa-fw"></i> Profile</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-envelope fa-fw"></i> Message Board<span class="fa arrow"></a>
+                    <a href="#"><i class="fa fa-envelope fa-fw"></i> Message Board <span id="msgcount" class="badge"></span> <span class="fa arrow"></a>
                     <ul class="nav nav-second-level">
                         <li>
                             <a href="<?=site_url('customer/message');?>"><i class="fa fa-edit fa-fw"></i> New Message</a>
@@ -103,7 +103,7 @@
                     <a href="<?=site_url('vendor/customers');?>"><i class="fa fa-users fa-fw"></i> View Customers</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-envelope fa-fw"></i> Message Board<span class="fa arrow"></a>
+                    <a href="#"><i class="fa fa-envelope fa-fw"></i> Message Board <span id="msgcount" class="badge"></span> <span class="fa arrow"></a>
                     <ul class="nav nav-second-level">
                         <li>
                             <a href="<?=site_url('vendor/message');?>"><i class="fa fa-edit fa-fw"></i> New Message</a>
@@ -217,7 +217,7 @@
                     <a href="<?=site_url('admin/change_pwd');?>"><i class="fa fa-cogs fa-fw"></i> Change Password</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-envelope fa-fw"></i> Message Board<span class="fa arrow"></a>
+                    <a href="#"><i class="fa fa-envelope fa-fw"></i> Message Board <span id="msgcount" class="badge"></span> <span class="fa arrow"></a>
                     <ul class="nav nav-second-level">
                         <li>
                             <a href="<?=site_url('admin/message');?>"><i class="fa fa-edit fa-fw"></i> New Message</a>

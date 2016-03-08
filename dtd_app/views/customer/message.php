@@ -12,7 +12,7 @@
                 <?php if (!empty($message)) { ?>
                     <div class="alert alert-success fade in"><?= $message; ?></div>
                 <?php } ?>
-                <?php echo form_open(current_url(), array(
+                <?php echo form_open_multipart(current_url(), array(
                     'id' => 'frmmessage',
                     'role' => 'form'
                 )); ?>
@@ -37,6 +37,12 @@
                 <div class="form-group">
                     <label>Message</label>
                     <textarea name="txtmsg" class="form-control" placeholder="Enter your message" id="txtmsg" row="3"><?=@$txtmsg;?></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Upload files</label>
+                    <input type="file" name="userfile"  class="form-control"  />
+
                 </div>
 
 

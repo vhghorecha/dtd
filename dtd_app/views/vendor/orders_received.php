@@ -10,10 +10,18 @@
                 <h3 class="page-header"> Orders Received:</h3>
             </div>
         </div>
+        <div class="row" >
+            <div class="col-lg-12">
+                <div id="cbo_items" class="col-lg-6 col-md-6 col-sm-6 col-xs-12"></div>
+                <div id="cbo_customer" class="col-lg-6 col-md-6 col-sm-6 col-xs-12"></div>
+            </div>
+        </div>
+
         <div class="row">
                 <table id="v_ord_rec" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <thead>
                     <tr>
+                        <th>Sr.no</th>
                         <th><input type="checkbox" id="selallchk"/> Order id</th>
                         <th>Date</th>
                         <th>Customer</th>
@@ -28,6 +36,7 @@
                     </thead>
                     <tfoot>
                     <tr>
+                        <th>Sr.no</th>
                         <th>Order id</th>
                         <th>Date</th>
                         <th>Customer</th>
@@ -64,7 +73,7 @@
                                     <th>No. of Order</th>
                                     <th>Charge amount</th>
                                 </tr>
-                                </thead>
+                                </thead>3
                                 <tbody>
                                 <?php foreach($dorders as $order){?>
                                     <tr>
@@ -175,6 +184,8 @@
                 });
             });
         });
+        var items = $.parseJSON('<?=$items;?>');
+        var customers = $.parseJSON('<?=$customers;?>');
         var table = $('#v_ord_rec').dataTable( {
             "sDom": '<"top"pl>rt<"bottom"><"clear">',
             "bSort": false,
@@ -184,6 +195,7 @@
             "bProcessing": true,
             "bServerSide": true,
             "sAjaxSource": "<?=site_url('ajax/v_ord_rec');?>",
+            "sPaginationType": "listbox",
             "responsive" : true,
             "drawCallback" : function(){
                 $('.update_order').click(function(){
@@ -194,6 +206,7 @@
                 });
             },
             "columns": [
+                { "data": null },
                 { "data": "order_id" },
                 { "data": "ord_date" },
                 { "data": "user_name" },
@@ -204,7 +217,60 @@
                 { "data": "type_name" },
                 { "data": "order_itemname" },
                 { "data": "order_status" },
-            ]
+            ],
+            "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+                var index = iDisplayIndex +1;
+                $('td:eq(0)',nRow).html(index);
+                return nRow;
+            },
+
+            "initComplete": function(settings, json) {
+
+
+
+                this.api().columns(7).every( function () {
+                    var column = this;
+                    var select = $('<select><option value="">Search Item</option></select>')
+                        .appendTo( $('#cbo_items').empty() )
+                        .on( 'change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+
+                            column
+                                .search( val  )
+                                .draw();
+                        } );
+
+                    $.each( items, function( index, value ){
+                        select.append( '<option value="'+value.type_name+'">'+value.type_name+'</option>' )
+                    } );
+                } );
+
+
+                this.api().columns(2).every( function () {
+                    var column = this;
+                    var select = $('<select><option value="">Search Customer</option></select>')
+                        .appendTo( $('#cbo_customer').empty() )
+                        .on( 'change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+
+                            column
+                                .search( val  )
+                                .draw();
+                        } );
+
+                    $.each( customers, function( index, value ){
+                        select.append( '<option value="'+value.user_name+'">'+value.user_name+'</option>' )
+                    } );
+                } );
+
+
+            },
+
+
         } );
 
         // Setup - add a text input to each footer cell

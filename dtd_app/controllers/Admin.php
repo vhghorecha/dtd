@@ -32,7 +32,9 @@ class Admin extends CI_Controller {
 
     public function app_order()
     {
-        $this->load->template('admin/app_order');
+        $data["customers"] = $this->Admin_Model->get_customer_json();
+        $data["items"] = $this->Admin_Model->get_all_item_json();
+        $this->load->template('admin/app_order',$data);
     }
     //Created By Hardik Mehta
     public function login()
@@ -953,7 +955,11 @@ class Admin extends CI_Controller {
     }
     public function orders_pending()
     {
-        $this->load->template('admin/orders_pending');
+        $data["status_val"] = $this->Admin_Model->get_all_status_json();
+        $data["items"] = $this->Admin_Model->get_all_item_json();
+        $data["customers"] = $this->Admin_Model->get_customer_json();
+        $data["vendors"] = $this->Admin_Model->get_vendor_json();
+        $this->load->template('admin/orders_pending',$data);
     }
     public function rec_message(){
         $this->load->template('rec_message');
@@ -995,6 +1001,10 @@ class Admin extends CI_Controller {
                 {
                     $msg_to=$this->input->post('vendname');
                 }
+
+                $filedata = $this->general_model->get_uploaded_file();
+                $data['msg_file'] = $filedata['file_name'];
+
                 $date = mdate('%Y-%m-%d %H:%i:%s');
                 $data['msg_date'] = $date;
                 $data['msg_from'] = 0;
@@ -1028,6 +1038,22 @@ class Admin extends CI_Controller {
             $data['vendors'] = $this->Admin_Model->get_vendors();
             $data['customers'] = $this->Admin_Model->get_customers();
             $this->load->template('admin/message',$data);
+        }
+
+    }
+
+    public function read_message($msg_id)
+    {
+        if(!empty($msg_id))
+        {
+            $data["txtmsg"] = $this->Admin_Model->get_message($msg_id);
+            $data["txtsub"] = $this->Admin_Model->get_subject($msg_id);
+            $data["txtreci"] = $this->Admin_Model->get_from($msg_id);
+            $data["attachment"] = $this->Admin_Model->get_message_file($msg_id);
+            $updated_data = array('msg_read'=>'1');
+            $this->Admin_Model->update_read_status($msg_id,$updated_data);
+
+            $this->load->template('admin/read_message',$data);
         }
 
     }
