@@ -31,7 +31,8 @@
     $(document).ready(function() {
         $('table.dttable').DataTable({
             "sDom": '<"top">rt<"bottom"><"clear">',
-            "responsive" : true
+            "responsive" : true,
+            "bSort": false,
         });
     });
 </script>
@@ -57,7 +58,7 @@
                 }
                 table.fnDraw();
             }
-            $('<button class="btn btn-primary pull-right">Clear Search</button>').click( function () {$('input').val('');fnResetAllFilters();}).insertBefore( 'div.dataTables_wrapper');
+            //$('<button class="btn btn-primary pull-right">Clear Search</button>').click( function () {$('input').val('');fnResetAllFilters();}).insertBefore( 'div.dataTables_wrapper');
         }
 
         if(typeof table2 !== 'undefined'){

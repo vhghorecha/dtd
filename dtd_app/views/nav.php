@@ -164,10 +164,19 @@
                     <a href="#"><i class="fa fa-money fa-fw"></i> Transactions<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="<?=site_url('admin/money_received');?>">Money Recieved</a>
+                            <a href="<?=site_url('admin/customer_orders');?>">Customer Orders</a>
                         </li>
                         <li>
-                            <a href="<?=site_url('admin/money_paid');?>">Money Paid</a>
+                            <a href="<?=site_url('admin/customer_charges');?>">Customer Charges</a>
+                        </li>
+                        <li>
+                            <a href="<?=site_url('admin/vendor_orders');?>">Vendor Orders</a>
+                        </li>
+                        <li>
+                            <a href="<?=site_url('admin/vendor_balance');?>">Vendor Balance</a>
+                        </li>
+                        <li>
+                            <a href="<?=site_url('admin/account');?>">Account</a>
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->

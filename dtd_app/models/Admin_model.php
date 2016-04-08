@@ -80,8 +80,6 @@ class Admin_Model extends CI_Model{
         $this->db->from('users');
         $this->db->where("user_role","vendor");
         $query = $this->db->get();
-        $vendids = array('');
-        $vendnames = array('Select Vendor');
         foreach($query->result_array() as $vend){
             $vendids[] = $vend['user_id'];
             $vendnames[] = $vend['user_name'];
@@ -133,12 +131,13 @@ class Admin_Model extends CI_Model{
     }
 
     public function get_daily_payments(){
-        $this->datatables->select('DATE_FORMAT(pay_date,"%b-%d")as paydate,user_name,pay_amount,pay_transno,pay_bankacno,pay_bankname,dep_id,pay_orderids')
+        $this->datatables->select('now(),DATE_FORMAT(pay_date,"%b-%d") as paydate, SUM(pay_amount) as pay_amount, pay_code, pay_status')
             ->from('vendorpay')
             ->join('users','users.user_id=vendorpay.pay_vendorid')
+            ->group_by('pay_code')
             ->edit_column('pay_amount','$1','callback_format_amount(pay_amount)')
-            ->edit_column('dep_id','$1','callback_edit_payment(dep_id)')
-            ->add_column('download','$1','callback_download_payment(dep_id)');
+            ->edit_column('pay_status','$1','callback_pay_status(pay_status)')
+            ->add_column('download','$1','callback_download_payment(pay_code)');
         return $this->datatables->generate();
     }
 
@@ -585,6 +584,47 @@ class Admin_Model extends CI_Model{
             ->edit_column('dep_amount','$1','callback_format_amount(dep_amount)');
         return $this->datatables->generate();
     }
+
+    public function get_admin_account_daily()
+    {
+        $result = array();
+        $start = new DateTime();
+        $end = new DateTime();
+        $start->modify("-30 days");
+
+        $dates = new DatePeriod($start,new DateInterval("P1D"),$end);
+        foreach(array_reverse(iterator_to_array($dates)) as $date)
+        {
+            $data['date']=$date->format('d-m-Y');
+            $query=$this->db->query("
+                SELECT DATE_FORMAT(dep_date,'%d-%m-%Y') as date, COUNT(dep_id) as num,SUM(dep_amount) as amount
+                FROM dtd_custdep
+                WHERE dep_date LIKE '".$date->format("Y-m-d")."%'
+                GROUP BY date");
+            $data['charge']= $query->row_array();
+
+
+            $query=$this->db->query("
+                SELECT DATE_FORMAT(pay_date,'%d-%m-%Y') as date, COUNT(dep_id) as num, SUM(pay_amount) as amount
+                FROM dtd_vendorpay
+                WHERE pay_date LIKE '".$date->format("Y-m-d")."%'
+                GROUP BY date");
+            $data['recived'] = $query->row_array();
+
+            $result[]=$data;
+        }
+        return $result;
+
+    }
+
+    public function get_admin_account_weekly()
+    {
+        $selOrders = "SELECT DATE_FORMAT(order_date,'%d-%m-%y') as ord_date, COUNT(DISTINCT(order_custid)) as total_cust , (SELECT count(order_id) FROM `dtd_order` WHERE order_date LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m-%d'),'%') group by order_status having order_status IN ('Created','Pending'))  as pending, (SELECT count(order_id) FROM `dtd_order` WHERE order_date  LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m-%d'),'%') group by order_status having order_status = 'Processing' ) as processing, (SELECT count(order_id) FROM `dtd_order` WHERE order_date  LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m-%d'),'%') group by order_status having order_status = 'Delivered' ) as delivered, (SELECT count(order_id) FROM `dtd_order` WHERE order_date  LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m-%d'),'%') group by order_status having order_status IN ('Cancelled','Returned') ) as returned from dtd_order m where order_date between DATE_SUB(now(),INTERVAL 7 DAY) and now() group by ord_date ORDER BY order_date DESC";
+        $query = $this->db->query($selOrders);
+        $last_orders = $query->result_array();
+        return $last_orders;
+    }
+
     public function get_admin_account()
     {
         $result = array();
@@ -705,6 +745,169 @@ class Admin_Model extends CI_Model{
             $states[] = array($state['user_id'], $state['user_name']);
         }
         return json_encode($query->result_array());
+    }
+
+    public function get_cust_today()
+    {
+        $selOrders = "SELECT DATE_FORMAT(order_date,'%d-%m-%y') as ord_date, COUNT(DISTINCT(order_custid)) as total_cust , (SELECT count(order_id) FROM `dtd_order` WHERE order_date LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m-%d'),'%') group by order_status having order_status IN ('Created','Pending'))  as pending, (SELECT count(order_id) FROM `dtd_order` WHERE order_date  LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m-%d'),'%') group by order_status having order_status = 'Processing' ) as processing, (SELECT count(order_id) FROM `dtd_order` WHERE order_date  LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m-%d'),'%') group by order_status having order_status = 'Delivered' ) as delivered, (SELECT count(order_id) FROM `dtd_order` WHERE order_date  LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m-%d'),'%') group by order_status having order_status IN ('Cancelled','Returned') ) as returned from dtd_order m where order_date between DATE_SUB(now(),INTERVAL 15 DAY) and now() group by ord_date ORDER BY order_date DESC";
+        $query = $this->db->query($selOrders);
+        $last_orders = $query->result_array();
+        for($i=0;$i<count($last_orders);$i++){
+            $item_types = $this->Customer_Model->get_item_types();
+            foreach($item_types as $it){
+                $selItem = "SELECT order_id FROM `dtd_order` WHERE DATE_FORMAT(order_date,'%d-%m-%y') = '{$last_orders[$i]['ord_date']}' AND order_typeid = '{$it->type_id}'";
+                $last_orders[$i][$it->type_name] = $this->db->query($selItem)->num_rows();
+            }
+        }
+        return $last_orders;
+    }
+
+    public function get_cust_today_by_cust()
+    {
+        $selOrders = "SELECT DATE_FORMAT(order_date,'%d-%m-%y') as ord_date, u.user_name, order_custid , (SELECT count(order_id) FROM `dtd_order` WHERE order_date LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m-%d'),'%') AND order_custid = m.order_custid group by order_status having order_status IN ('Created','Pending'))  as pending, (SELECT count(order_id) FROM `dtd_order` WHERE order_date  LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m-%d'),'%') AND order_custid = m.order_custid group by order_status having order_status = 'Processing' ) as processing, (SELECT count(order_id) FROM `dtd_order` WHERE order_date  LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m-%d'),'%') AND order_custid = m.order_custid group by order_status having order_status = 'Delivered' ) as delivered, (SELECT count(order_id) FROM `dtd_order` WHERE order_date  LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m-%d'),'%') AND order_custid = m.order_custid group by order_status having order_status IN ('Cancelled','Returned') ) as returned from dtd_order m left join dtd_users u on m.order_custid = u.user_id where order_date between DATE_SUB(now(),INTERVAL 15 DAY) and now() group by ord_date, order_custid  ORDER BY order_date DESC";
+        $query = $this->db->query($selOrders);
+        $last_orders = $query->result_array();
+        for($i=0;$i<count($last_orders);$i++){
+            $item_types = $this->Customer_Model->get_item_types();
+            foreach($item_types as $it){
+                $selItem = "SELECT order_id FROM `dtd_order` WHERE order_custid = '{$last_orders[$i]['order_custid']}' AND DATE_FORMAT(order_date,'%d-%m-%y') = '{$last_orders[$i]['ord_date']}' AND order_typeid = '{$it->type_id}'";
+                $last_orders[$i][$it->type_name] = $this->db->query($selItem)->num_rows();
+            }
+        }
+        return $last_orders;
+    }
+
+    public function get_cust_monthly()
+    {
+        $selOrders = "SELECT DATE_FORMAT(order_date,'%M-%y') as month, COUNT(DISTINCT(order_custid)) as total_cust , (SELECT count(order_id) FROM `dtd_order` WHERE order_date LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m'),'%') group by order_status having order_status IN ('Created','Pending'))  as pending, (SELECT count(order_id) FROM `dtd_order` WHERE order_date  LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m'),'%') group by order_status having order_status = 'Processing' ) as processing, (SELECT count(order_id) FROM `dtd_order` WHERE order_date  LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m'),'%') group by order_status having order_status = 'Delivered' ) as delivered, (SELECT count(order_id) FROM `dtd_order` WHERE order_date  LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m'),'%') group by order_status having order_status IN ('Cancelled','Returned') ) as returned from dtd_order m where order_date group by month  ORDER BY order_date DESC";
+        $query = $this->db->query($selOrders);
+        $last_orders = $query->result_array();
+        for($i=0;$i<count($last_orders);$i++){
+            $item_types = $this->Customer_Model->get_item_types();
+            foreach($item_types as $it){
+                $selItem = "SELECT order_id FROM `dtd_order` WHERE DATE_FORMAT(order_date,'%M-%y') = '{$last_orders[$i]['month']}' AND order_typeid = '{$it->type_id}'";
+                $last_orders[$i][$it->type_name] = $this->db->query($selItem)->num_rows();
+            }
+        }
+        return $last_orders;
+    }
+
+    public function get_ven_today()
+    {
+        $selOrders = "SELECT DATE_FORMAT(order_date,'%d-%m-%y') as ord_date, COUNT(DISTINCT(order_vendorid)) as total_ven , (SELECT count(order_id) FROM `dtd_order` WHERE order_date LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m-%d'),'%') group by order_status having order_status IN ('Created','Pending'))  as pending, (SELECT count(order_id) FROM `dtd_order` WHERE order_date  LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m-%d'),'%') group by order_status having order_status = 'Processing' ) as processing, (SELECT count(order_id) FROM `dtd_order` WHERE order_date  LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m-%d'),'%') group by order_status having order_status = 'Delivered' ) as delivered, (SELECT count(order_id) FROM `dtd_order` WHERE order_date  LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m-%d'),'%') group by order_status having order_status IN ('Cancelled','Returned') ) as returned from dtd_order m where order_date between DATE_SUB(now(),INTERVAL 15 DAY) and now() group by ord_date  ORDER BY order_date DESC";
+        $query = $this->db->query($selOrders);
+        $last_orders = $query->result_array();
+        for($i=0;$i<count($last_orders);$i++){
+            $item_types = $this->Customer_Model->get_item_types();
+            foreach($item_types as $it){
+                $selItem = "SELECT order_id FROM `dtd_order` WHERE DATE_FORMAT(order_date,'%d-%m-%y') = '{$last_orders[$i]['ord_date']}' AND order_typeid = '{$it->type_id}'";
+                $last_orders[$i][$it->type_name] = $this->db->query($selItem)->num_rows();
+            }
+        }
+        return $last_orders;
+    }
+
+    public function get_ven_today_by_ven()
+    {
+        $selOrders = "SELECT DATE_FORMAT(order_date,'%d-%m-%y') as ord_date, u.user_name, order_vendorid , (SELECT count(order_id) FROM `dtd_order` WHERE order_date LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m-%d'),'%') AND order_vendorid = m.order_vendorid group by order_status having order_status IN ('Created','Pending'))  as pending, (SELECT count(order_id) FROM `dtd_order` WHERE order_date  LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m-%d'),'%') AND order_vendorid = m.order_vendorid group by order_status having order_status = 'Processing' ) as processing, (SELECT count(order_id) FROM `dtd_order` WHERE order_date  LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m-%d'),'%') AND order_vendorid = m.order_vendorid group by order_status having order_status = 'Delivered' ) as delivered, (SELECT count(order_id) FROM `dtd_order` WHERE order_date  LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m-%d'),'%') AND order_vendorid = m.order_vendorid group by order_status having order_status IN ('Cancelled','Returned') ) as returned from dtd_order m left join dtd_users u on m.order_vendorid = u.user_id where order_date between DATE_SUB(now(),INTERVAL 15 DAY) and now() group by ord_date, order_vendorid ORDER BY order_date DESC";
+        $query = $this->db->query($selOrders);
+        $last_orders = $query->result_array();
+        for($i=0;$i<count($last_orders);$i++){
+            $item_types = $this->Customer_Model->get_item_types();
+            foreach($item_types as $it){
+                $selItem = "SELECT order_id FROM `dtd_order` WHERE order_vendorid = '{$last_orders[$i]['order_vendorid']}' AND DATE_FORMAT(order_date,'%d-%m-%y') = '{$last_orders[$i]['ord_date']}' AND order_typeid = '{$it->type_id}'";
+                $last_orders[$i][$it->type_name] = $this->db->query($selItem)->num_rows();
+            }
+        }
+        return $last_orders;
+    }
+
+    public function get_ven_monthly()
+    {
+        $selOrders = "SELECT DATE_FORMAT(order_date,'%M-%y') as month, COUNT(DISTINCT(order_vendorid)) as total_ven , (SELECT count(order_id) FROM `dtd_order` WHERE order_date LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m'),'%') group by order_status having order_status IN ('Created','Pending'))  as pending, (SELECT count(order_id) FROM `dtd_order` WHERE order_date  LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m'),'%') group by order_status having order_status = 'Processing' ) as processing, (SELECT count(order_id) FROM `dtd_order` WHERE order_date  LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m'),'%') group by order_status having order_status = 'Delivered' ) as delivered, (SELECT count(order_id) FROM `dtd_order` WHERE order_date  LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m'),'%') group by order_status having order_status IN ('Cancelled','Returned') ) as returned from dtd_order m where order_date group by month  ORDER BY order_date DESC";
+        $query = $this->db->query($selOrders);
+        $last_orders = $query->result_array();
+        for($i=0;$i<count($last_orders);$i++){
+            $item_types = $this->Customer_Model->get_item_types();
+            foreach($item_types as $it){
+                $selItem = "SELECT order_id FROM `dtd_order` WHERE DATE_FORMAT(order_date,'%M-%y') = '{$last_orders[$i]['month']}' AND order_typeid = '{$it->type_id}'";
+                $last_orders[$i][$it->type_name] = $this->db->query($selItem)->num_rows();
+            }
+        }
+        return $last_orders;
+    }
+
+    public function get_cust_charges()
+    {
+        $selOrders = "SELECT DATE_FORMAT(order_date,'%d-%m-%y') as ord_date, COUNT(DISTINCT(order_custid)) as total_cust , SUM(order_amount) as total_amount, (SELECT SUM(order_amount) FROM `dtd_order` WHERE order_date  LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m-%d'),'%') group by order_status having order_status IN ('Cancelled','Returned') ) as returned from dtd_order m where order_date between DATE_SUB(now(),INTERVAL 15 DAY) and now() group by ord_date ORDER BY order_date DESC";
+        $query = $this->db->query($selOrders);
+        $last_orders = $query->result_array();
+        for($i=0;$i<count($last_orders);$i++){
+            $item_types = $this->Customer_Model->get_item_types();
+            foreach($item_types as $it){
+                $selItem = "SELECT SUM(order_amount) FROM `dtd_order` WHERE DATE_FORMAT(order_date,'%d-%m-%y') = '{$last_orders[$i]['ord_date']}' AND order_typeid = '{$it->type_id}'";
+                $last_orders[$i][$it->type_name] = current($this->db->query($selItem)->row_array());
+            }
+        }
+        return $last_orders;
+    }
+
+    public function get_cust_charges_by_cust()
+    {
+        $selOrders = "SELECT DATE_FORMAT(order_date,'%d-%m-%y') as ord_date, u.user_name, order_custid , SUM(order_amount) as total_amount, (SELECT SUM(order_amount) FROM `dtd_order` WHERE order_date  LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m-%d'),'%') AND order_custid = m.order_custid group by order_status having order_status IN ('Cancelled','Returned') ) as returned from dtd_order m left join dtd_users u on m.order_custid = u.user_id where order_date between DATE_SUB(now(),INTERVAL 15 DAY) and now() group by ord_date, order_custid ORDER BY order_date DESC";
+        $query = $this->db->query($selOrders);
+        $last_orders = $query->result_array();
+        for($i=0;$i<count($last_orders);$i++){
+            $item_types = $this->Customer_Model->get_item_types();
+            foreach($item_types as $it){
+                $selItem = "SELECT SUM(order_amount) FROM `dtd_order` WHERE order_custid = '{$last_orders[$i]['order_custid']}' AND DATE_FORMAT(order_date,'%d-%m-%y') = '{$last_orders[$i]['ord_date']}' AND order_typeid = '{$it->type_id}'";
+                $last_orders[$i][$it->type_name] = current($this->db->query($selItem)->row_array());
+            }
+        }
+        return $last_orders;
+    }
+
+    public function get_cust_charges_monthly()
+    {
+        $selOrders = "SELECT DATE_FORMAT(order_date,'%M-%y') as month, COUNT(DISTINCT(order_custid)) as total_cust, SUM(order_amount) as total_amount, (SELECT SUM(order_amount) FROM `dtd_order` WHERE order_date LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m'),'%') group by order_status having order_status IN ('Created','Pending'))  as pending, (SELECT SUM(order_amount) FROM `dtd_order` WHERE order_date  LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m'),'%') group by order_status having order_status = 'Processing' ) as processing, (SELECT SUM(order_amount) FROM `dtd_order` WHERE order_date  LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m'),'%') group by order_status having order_status = 'Delivered' ) as delivered, (SELECT SUM(order_amount) FROM `dtd_order` WHERE order_date  LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m'),'%') group by order_status having order_status IN ('Cancelled','Returned') ) as returned from dtd_order m where order_date group by month  ORDER BY order_date DESC";
+        $query = $this->db->query($selOrders);
+        $last_orders = $query->result_array();
+        for($i=0;$i<count($last_orders);$i++){
+            $item_types = $this->Customer_Model->get_item_types();
+            foreach($item_types as $it){
+                $selItem = "SELECT SUM(order_amount) FROM `dtd_order` WHERE DATE_FORMAT(order_date,'%M-%y') = '{$last_orders[$i]['month']}' AND order_typeid = '{$it->type_id}'";
+                $last_orders[$i][$it->type_name] = current($this->db->query($selItem)->row_array());
+            }
+        }
+        return $last_orders;
+    }
+
+    public function get_cust_outstanding(){
+        $selOrders = "SELECT DATE_FORMAT(order_date,'%d-%m-%y') as ord_date, COUNT(DISTINCT(order_custid)) as total_cust, SUM(order_amount) as total_amount FROM dtd_order m WHERE order_date between DATE_SUB(now(),INTERVAL 15 DAY) and now() GROUP BY ord_date  ORDER BY order_date DESC";
+        $query = $this->db->query($selOrders);
+        $last_orders = $query->result_array();
+        for($i=0;$i<count($last_orders);$i++){
+            $selItem = "SELECT SUM(dep_amount) FROM `dtd_custdep` WHERE DATE_FORMAT(dep_date,'%d-%m-%y') = '{$last_orders[$i]['ord_date']}'";
+            $last_orders[$i]['deposit'] = current($this->db->query($selItem)->row_array());
+            $last_orders[$i]['outstanding'] = $last_orders[$i]['total_amount'] - $last_orders[$i]['deposit'];
+        }
+        return $last_orders;
+    }
+
+    public function get_ven_charges()
+    {
+        $selOrders = "SELECT DATE_FORMAT(order_date,'%d-%m-%y') as ord_date, COUNT(DISTINCT(order_vendorid)) as total_ven , SUM(vendor_amount) as total_amount, (SELECT SUM(vendor_amount) FROM `dtd_order` WHERE order_date LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m-%d'),'%') group by vendor_paid having vendor_paid = 'Unpaid') as unpaid, (SELECT SUM(vendor_amount) FROM `dtd_order` WHERE order_date LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m-%d'),'%') group by vendor_paid having vendor_paid = 'Prepaid') as prepaid, (SELECT SUM(vendor_amount) FROM `dtd_order` WHERE order_date LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m-%d'),'%') group by vendor_paid having vendor_paid = 'Paid') as paid from dtd_order m where order_date between DATE_SUB(now(),INTERVAL 15 DAY) and now() group by ord_date ORDER BY order_date DESC";
+        $query = $this->db->query($selOrders);
+        $last_orders = $query->result_array();
+        return $last_orders;
+    }
+
+    public function get_ven_charges_by_ven()
+    {
+        $selOrders = "SELECT DATE_FORMAT(order_date,'%d-%m-%y') as ord_date, u.user_name, order_vendorid, COUNT(DISTINCT(order_vendorid)) as total_ven , SUM(vendor_amount) as total_amount, (SELECT SUM(vendor_amount) FROM `dtd_order` WHERE order_vendorid = m.order_vendorid AND order_date LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m-%d'),'%') group by vendor_paid having vendor_paid = 'Unpaid') as unpaid, (SELECT SUM(vendor_amount) FROM `dtd_order` WHERE order_vendorid = m.order_vendorid AND order_date LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m-%d'),'%') group by vendor_paid having vendor_paid = 'Prepaid') as prepaid, (SELECT SUM(vendor_amount) FROM `dtd_order` WHERE order_vendorid = m.order_vendorid AND order_date LIKE CONCAT(DATE_FORMAT(m.order_date,'%Y-%m-%d'),'%') group by vendor_paid having vendor_paid = 'Paid') as paid from dtd_order m LEFT JOIN dtd_users u on m.order_vendorid = u.user_id where order_date between DATE_SUB(now(),INTERVAL 15 DAY) and now() group by ord_date, order_vendorid ORDER BY order_date DESC";
+        $query = $this->db->query($selOrders);
+        $last_orders = $query->result_array();
+        return $last_orders;
     }
 }
 ?>

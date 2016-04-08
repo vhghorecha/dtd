@@ -246,80 +246,61 @@ class Customer_Model extends CI_Model
 
     public function get_today()
     {
-        $qday = $this->input->post('day');
-        if(empty($qday)){
-            $qday = date('Y-m-d');
-        }else{
-            $qday = date_create_from_format("d/m/Y", $qday);
-            $qday = $qday->format("Y-m-d");
+        $cust_id = $this->user_model->get_current_user_id();
+
+        $selOrders = "SELECT DATE_FORMAT(order_date,'%d-%m-%y') as ord_date , (SELECT count(order_id) FROM `dtd_order` WHERE order_date = m.order_date AND order_custid = m.order_custid group by order_status having order_status IN ('Created','Pending'))  as pending, (SELECT count(order_id) FROM `dtd_order` WHERE order_date = m.order_date AND order_custid = m.order_custid group by order_status having order_status = 'Processing' ) as processing, (SELECT count(order_id) FROM `dtd_order` WHERE order_date = m.order_date AND order_custid = m.order_custid group by order_status having order_status = 'Delivered' ) as delivered, (SELECT count(order_id) FROM `dtd_order` WHERE order_date = m.order_date AND order_custid = m.order_custid group by order_status having order_status IN ('Cancelled','Returned') ) as returned, (SELECT count(order_id) FROM `dtd_order` WHERE order_date = m.order_date AND order_custid = m.order_custid)  as total from dtd_order m where order_date between DATE_SUB(now(),INTERVAL 15 DAY) and now() and order_custid = '{$cust_id}' group by ord_date";
+        $query = $this->db->query($selOrders);
+        return $query->result_array();
+    }
+
+    public function get_today_bi(){
+        $cust_id = $this->user_model->get_current_user_id();
+        $result = array();
+
+        $last_orders = $this->get_today();
+        foreach ($last_orders as $date)
+        {
+            $data = array();
+            $data['date']=$date['ord_date'];
+            $selDel = "SELECT order_id FROM `dtd_order` WHERE order_custid = '{$cust_id}' AND DATE_FORMAT(order_date,'%d-%m-%y') = '{$date['ord_date']}' AND order_status = 'Delivered'";
+            $data['delivered'] = $this->db->query($selDel)->num_rows();
+            $item_types = $this->get_item_types();
+            foreach($item_types as $it){
+                $selItem = "SELECT order_id FROM `dtd_order` WHERE order_custid = '{$cust_id}' AND DATE_FORMAT(order_date,'%d-%m-%y') = '{$date['ord_date']}' AND order_status = 'Delivered' AND order_typeid = '{$it->type_id}'";
+                $data[$it->type_name] = $this->db->query($selItem)->num_rows();
+            }
+            $result[] = $data;
         }
-        //counting today's total order
-        $this->db->select('order_id');
-        $this->db->from('dtd_order');
-        $this->db->where('order_custid', $this->user_model->get_current_user_id());
-        $this->db->like('order_date', $qday);
-
-        $today['count'] = $this->db->count_all_results();
-
-        //counting the total changes of today
-        $this->db->select_sum('order_amount');
-        $this->db->where('order_custid', $this->user_model->get_current_user_id());
-        $this->db->like('order_date', $qday);
-        $query = $this->db->get('dtd_order');
-        $today['sum'] = callback_format_amount(current($query->row_array()));
-
-        return $today;
+        return $result;
     }
 
     public function get_monthly()
     {
-        $qmonth = $this->input->post('month');
-        if(empty($qmonth)){
-            $qmonth = date('Y-m');
+        $cust_id = $this->user_model->get_current_user_id();
+        $result = array();
+        $end = new DateTime();
+        $start = new DateTime("first day of january" . date('Y'));
+        $dates = new DatePeriod($start,new DateInterval("P1M"),$end);
+        foreach($dates as $date)
+        {
+            $data = array();
+            $data['month']=$date->format('M-Y');
+            $selDel = "SELECT order_id FROM `dtd_order` WHERE order_custid = '{$cust_id}' AND order_date LIKE '{$date->format('Y-m')}%' AND order_status = 'Delivered'";
+            $data['delivered'] = $this->db->query($selDel)->num_rows();
+            $item_types = $this->get_item_types();
+            foreach($item_types as $it){
+                $selItem = "SELECT order_id FROM `dtd_order` WHERE order_custid = '{$cust_id}' AND order_date LIKE '{$date->format('Y-m')}%' AND order_status = 'Delivered' AND order_typeid = '{$it->type_id}'";
+                $data[$it->type_name] = $this->db->query($selItem)->num_rows();
+            }
+            $result[] = $data;
         }
-        $this->db->select('order_id');
-        $this->db->from('dtd_order');
-        $this->db->where('order_custid', $this->user_model->get_current_user_id());
-        $this->db->like('order_date', $qmonth);
-        $month['monthcount'] = $this->db->count_all_results();
+        return $result;
+    }
 
-        $this->db->select('order_status');
-        $this->db->from('dtd_order');
-        $this->db->where('order_custid', $this->user_model->get_current_user_id());
-        $this->db->where_in('order_status', array('Delivered','Returned'));
-        $this->db->like('order_date', $qmonth);
-        $month['deliver'] = $this->db->count_all_results();
-
-        $this->db->select('order_status');
-        $this->db->from('dtd_order');
-        $this->db->where('order_custid', $this->user_model->get_current_user_id());
-        $this->db->where('order_status', 'Processing');
-        $this->db->like('order_date', $qmonth);
-        $month['pending'] = $this->db->count_all_results();
-
-        $this->db->select('order_status');
-        $this->db->from('dtd_order');
-        $this->db->where('order_custid', $this->user_model->get_current_user_id());
-        $this->db->where('order_status', 'Processing');
-        $this->db->like('order_date', $qmonth);
-        $month['pending'] = $this->db->count_all_results();
-
-       /* $this->db->select('order_status');
-        $this->db->from('dtd_order');
-        $this->db->where('order_custid', $this->user_model->get_current_user_id());
-        $this->db->where('order_status', 'Created');
-        $this->db->like('order_date', date('Y-m'));
-        $month['created'] = $this->db->count_all_results(); */
-
-        $this->db->select_sum('order_amount');
-        $this->db->where('order_custid', $this->user_model->get_current_user_id());
-        $this->db->where('order_status<>', "Created");
-        $this->db->like('order_date', $qmonth);
-        $query = $this->db->get('dtd_order');
-
-        $month['amount'] = callback_format_amount(current($query->row_array()));
-        $month['success'] = true;
-        return $month;
+    public function get_item_types(){
+        $this->db->select('type_id,type_name')
+            ->from('item_type');
+        return $this->db->get()->result();
     }
 
     public function get_order($order_id){

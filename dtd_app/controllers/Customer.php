@@ -424,9 +424,11 @@ class Customer extends CI_Controller {
     public function orders()
     {
         $data['today']=$this->Customer_Model->get_today();
+        $data['today_bi']=$this->Customer_Model->get_today_bi();
         $data['month']=$this->Customer_Model->get_monthly();
         $data['daily'] = $this->Customer_Model->get_daily_orders();
         $data['items'] = $this->Admin_Model->get_all_item_json();
+        $data['item_types'] = $this->Customer_Model->get_item_types();
         $data['status_val'] = $this->Admin_Model->get_all_status_json();
         $this->load->template('customer/orders',$data);
     }

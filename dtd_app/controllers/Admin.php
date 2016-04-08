@@ -330,11 +330,11 @@ class Admin extends CI_Controller {
 
     public function payment()
     {
-        $is_save = $this->input->post('btnSave');
-        if($is_save=='save'){
+        $is_save = $this->input->post('btnfilter');
+        if($is_save=='Generate'){
             $config = array(
                 array(
-                    'field' => 'vendname',
+                    'field' => 'vendname[]',
                     'label' => 'Vendor Name',
                     'rules' => 'required',
                     'errors' => array(
@@ -342,69 +342,52 @@ class Admin extends CI_Controller {
                     )
                 ),
                 array(
-                    'field' => 'paydate',
-                    'label' => 'Date of Payment',
+                    'field' => 'fromdate',
+                    'label' => 'From Date',
                     'rules' => 'required',
                     'errors' => array(
                         'required' => 'You must provide a %s',
                     )
                 ),
                 array(
-                    'field' => 'payamount',
-                    'label' => 'Amount',
-                    'rules' => 'required|numeric',
-                    'errors' => array(
-                        'required' => 'You must provide a %s',
-                        'numeric' => 'Only Numbers are allowed in Amount',
-                    )
-                ),
-                /* array(
-                    'field' => 'payreference',
-                    'label' => 'Transaction Reference',
-                    'rules' => 'required|alpha_numeric|is_unique[dtd_vendorpay.pay_transno]',
-                    'errors' => array(
-                        'required' => 'You must provide a %s',
-                        'alpha_numeric' => 'Only alpha numeric values are allowed in Transaction Reference',
-                        'is_unique' => 'Transaction Reference already registered...',
-                    )
-                ),
-                array(
-                    'field' => 'paybankacno',
-                    'label' => 'Bank A/c. Number',
-                    'rules' => 'required|alpha_numeric',
-                    'errors' => array(
-                        'required' => 'You must provide a %s',
-                        'alpha_numeric' => 'Only alpha numeric values are allowed in Transaction Reference',
-                    )
-                ),
-                array(
-                    'field' => 'paybankname',
-                    'label' => 'Bank Name',
+                    'field' => 'todate',
+                    'label' => 'To Date',
                     'rules' => 'required',
                     'errors' => array(
                         'required' => 'You must provide a %s',
                     )
-                ),*/
+                ),
             );
             $this->form_validation->set_rules($config);
             if ($this->form_validation->run() == true) {
-                //$vendid = $this->Admin_Model->get_vendorid($this->input->post('vendname'));
-                $data['pay_vendorid'] = $this->input->post('vendname');
-                $date = DateTime::createFromFormat('d/m/Y',$this->input->post('paydate'));
-                $data['pay_date'] = $date->format('Y-m-d');
-                $data['pay_amount'] = $this->input->post('payamount');
-                $data['pay_transno'] = $this->input->post('payreference');
-                $data['pay_bankacno'] = $this->input->post('paybankacno');
-                $data['pay_bankname'] = $this->input->post('paybankname');
-                $order_ids = array_keys($this->input->post('order_id'));
-                $data['pay_orderids'] = implode(",",$order_ids);
-                $this->Admin_Model->vendor_pay($data);
-                $this->Vendor_Model->set_user_balance(-$data['pay_amount'],$data['pay_vendorid']);
+                $vendors = $this->input->post('vendname');
+                $fromdate = DateTime::createFromFormat('d/m/Y',$this->input->post('fromdate'));
+                $todate = DateTime::createFromFormat('d/m/Y',$this->input->post('todate'));
+                foreach($vendors as $vendor){
+                    $this->db->select('GROUP_CONCAT(dtd_order.order_id) as order_ids, SUM(vendor_amount) as payamount')
+                        ->from('dtd_order')
+                        ->where('dtd_order.order_vendorid', $vendor)
+                        ->where('dtd_order.order_status', 'Delivered')
+                        ->where('dtd_order.order_date >= ', $fromdate->format('Y-m-d'))
+                        ->where('dtd_order.order_date <= ', $todate->format('Y-m-d'))
+                        ->where('dtd_order.vendor_paid', 'Unpaid');
 
-                $this->db->where_in('order_id', $order_ids);
-                $this->db->set('vendor_paid', '1');
-                $this->db->update('order');
-                $message = "Vendor Payment successfully done.";
+                    $resord = $this->db->get()->row_array();
+                    if(!empty($resord['order_ids'])){
+                        $data['pay_orderids'] = $resord['order_ids'];
+                        $data['pay_vendorid'] = $vendor;
+                        $data['pay_date'] = date('Y-m-d');
+                        $data['pay_amount'] = $resord['payamount'];
+                        $data['pay_code'] = time();
+                        $this->Admin_Model->vendor_pay($data);
+
+                        $this->db->reset_query();
+                        $this->db->where_in('order_id', explode(",",$data['pay_orderids']));
+                        $this->db->update('order', array('vendor_paid' => 'Prepaid'));
+                    }
+
+                }
+                $message = "Generated Successfully...";
             }else{
                 $error = validation_errors();
             }
@@ -424,19 +407,14 @@ class Admin extends CI_Controller {
         }
     }
 
-    public function download_orders($pay_id){
-        $order_ids = $this->General_Model->get_single_val('pay_orderids', 'vendorpay', array('dep_id' => $pay_id));
-        if(!empty($order_ids)){
+    public function download_orders($paycode)
+    {
+        if (!empty($paycode)) {
             $this->load->dbutil();
-            $vendor_id = $this->user_model->get_current_user_id();
-            $this->db->select('dtd_order.order_id,DATE_FORMAT(dtd_order.order_date,"%b-%d") as ord_date,dtd_order.vendor_amount,dtd_users.user_name,dtd_order.order_recipient,dtd_order.order_telno,dtd_item_type.type_name,dtd_order.order_itemname,"'.$pay_id.'" as "paycode"')
-                ->from('dtd_order')
-                ->join('dtd_cust','dtd_cust.user_id=dtd_order.order_custid')
-                ->join('dtd_users','dtd_users.user_id=dtd_cust.user_id')
-                ->join('dtd_item_type','dtd_item_type.type_id=dtd_order.order_typeid')
-                ->where_in('dtd_order.order_id',explode(",",$order_ids))
-                ->where('dtd_order.order_status','Delivered')
-                ->where('dtd_order.vendor_paid', '1');
+            $this->db->select('pay_code as "Pay Code", user_name as "Vendor Name", DATE_FORMAT(pay_date, "%d-%m-%Y") as "Payment Date", pay_amount as "Amount", pay_transno as "Transaction No", pay_bankacno as "Account No", pay_bankname as "Bank Name", pay_orderids as "Paid For"')
+                ->from("vendorpay as v")
+                ->join("users as u", "u.user_id = v.pay_vendorid")
+                ->where("pay_code",$paycode);
 
             $query = $this->db->get();
             $csv_string = $this->dbutil->csv_from_result($query);
@@ -444,9 +422,8 @@ class Admin extends CI_Controller {
             // Load the download helper and send the file to your desktop
             $this->load->helper('download');
 
-            force_download('order_paid.csv', $csv_string);
+            force_download('order_prepaid.csv', $csv_string);
         }
-        die('No Records Found');
     }
 
     public function allocation()
@@ -949,6 +926,8 @@ class Admin extends CI_Controller {
     }
     public function account()
     {
+        $data['today']=$this->Admin_Model->get_admin_account_weekly();
+        $data['daccount']=$this->Admin_Model->get_admin_account_daily();
         $data['account']=$this->Admin_Model->get_admin_account();
         $data['yaccount']=$this->Admin_Model->get_admin_account_year();
         $this->load->template('admin/account',$data);
@@ -1150,6 +1129,41 @@ class Admin extends CI_Controller {
             $data['message'] = $message;
         }
         $this->load->template('admin/backup',$data);
+    }
+
+    public function customer_orders()
+    {
+        $data['today']=$this->Admin_Model->get_cust_today();
+        $data['month']=$this->Admin_Model->get_cust_monthly();
+        $data['today_cust']=$this->Admin_Model->get_cust_today_by_cust();
+        $data['item_types'] = $this->Customer_Model->get_item_types();
+        $this->load->template('admin/customer_orders',$data);
+    }
+
+    public function customer_charges()
+    {
+        $data['today']=$this->Admin_Model->get_cust_charges();
+        $data['month']=$this->Admin_Model->get_cust_charges_monthly();
+        $data['today_cust']=$this->Admin_Model->get_cust_charges_by_cust();
+        $data['outstanding'] = $this->Admin_Model->get_cust_outstanding();
+        $data['item_types'] = $this->Customer_Model->get_item_types();
+        $this->load->template('admin/customer_charges',$data);
+    }
+
+    public function vendor_orders()
+    {
+        $data['today']=$this->Admin_Model->get_ven_today();
+        $data['month']=$this->Admin_Model->get_ven_monthly();
+        $data['today_ven']=$this->Admin_Model->get_ven_today_by_ven();
+        $data['item_types'] = $this->Customer_Model->get_item_types();
+        $this->load->template('admin/vendor_orders',$data);
+    }
+
+    public function vendor_balance()
+    {
+        $data['today']=$this->Admin_Model->get_ven_charges();
+        $data['today_ven']=$this->Admin_Model->get_ven_charges_by_ven();
+        $this->load->template('admin/vendor_balance',$data);
     }
 
     public function restore(){

@@ -49,110 +49,136 @@
         </div>
         <!-- /.row -->
     </div>
-    <?php /*<div class="row">
-        <div class="col-lg-12">
-            <h3>Daily Processing:</h3>
-            <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                <thead>
-                <tr>
-                    <th rowspan="2">Date</th>
-                    <th rowspan="2">Type</th>
-                    <th colspan="2"><center>Order Requested</center></th>
-                </tr>
-                <tr>
-                    <th>Numbers</th>
-                    <th>Amount</th>
-                </tr>
-                </thead>
-                <?PHP $totNum=0; $totAmt=0;?>
-
-                <tbody>
-                <?php foreach($daily as $order){?>
-                    <tr>
-                        <td><?php echo $order['date']; ?></td>
-                        <td><?php echo $order['type_name']; ?></td>
-                        <td><center><?php echo $order['subtotal'];
-                                $totNum += 0 + $order['subtotal'];
-                                ?></center></td>
-                        <td><center><?php echo callback_format_amount($order['subamount']);
-                                $totAmt += 0 + $order['subamount'];
-                                ?></center></td>
-                    </tr>
-                <?php }?>
-                </tbody>
-                <tfoot>
-                <tr>
-                    <th colspan="2"><center>Total</center></th>
-                    <th><center><?PHP echo $totNum;?></center></th>
-                    <th><center><?PHP echo callback_format_amount($totAmt);?></center></th>
-                </tr>
-                </tfoot>
-
-            </table>
-        </div>
-    </div>*/?>
     <div class="row">
-        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+        <div class="col-xs-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    Today's Order
+                    Daily Order by Status (Last 15 Days Only)
                 </div>
                 <div class="panel-body">
-                    <div class="form-inline text-center">
-                        <label>Day:</label>
-                        <input type="text" id="daypicker" class="form-control datepicker" placeholder="Date" value="<?=date('d/m/Y');?>"/>
-                    </div>
-                    <table id="example" class="table dttable table-striped table-bordered" cellspacing="0" width="100%">
+                    <table id="example" class="table table-striped table-bordered dttable" cellspacing="0" width="100%">
                         <thead>
                         <tr>
-                            <th>No. of Order</th>
-                            <th>Charge</th>
-
+                            <th>Date</th>
+                            <th>Pending</th>
+                            <th>InProcess</th>
+                            <th>Delivered</th>
+                            <th>Returned</th>
+                            <th>Total</th>
                         </tr>
                         </thead>
 
                         <tbody>
-                        <tr>
-                            <td id="daycount"><?php echo $today['count']; ?></td>
-                            <td id="daysum"><?php echo $today['sum']; ?></td>
-
-                        </tr>
-
+                        <?php foreach($today as $t) { ?>
+                            <tr>
+                                <td><?=$t['ord_date']; ?></td>
+                                <td><?=$t['pending']; ?></td>
+                                <td><?=$t['processing']; ?></td>
+                                <td><?=$t['delivered']; ?></td>
+                                <td><?=$t['returned']; ?></td>
+                                <td><?=$t['total']; ?></td>
+                            </tr>
+                        <?php } ?>
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Total</th>
+                                <th><?=array_sum(array_column($today,'pending')); ?></th>
+                                <th><?=array_sum(array_column($today,'processing')); ?></th>
+                                <th><?=array_sum(array_column($today,'delivered')); ?></th>
+                                <th><?=array_sum(array_column($today,'returned')); ?></th>
+                                <th><?=array_sum(array_column($today,'total')); ?></th>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
         </div>
-        <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
+
+        <div class="col-xs-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Daily Order by Item (Last 15 Days Only)
+                </div>
+                <div class="panel-body">
+                    <table id="example" class="table table-striped table-bordered dttable" cellspacing="0" width="100%">
+                        <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>Delivered</th>
+                            <?php foreach($item_types as $it) { ?>
+                                <th><?=$it->type_name;?></th>
+                            <?php } ?>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <?php foreach($today_bi as $t) { ?>
+                            <tr>
+                                <td><?=$t['date']; ?></td>
+                                <td><?=$t['delivered']; ?></td>
+                                <?php foreach($item_types as $it) { ?>
+                                    <td><?=$t[$it->type_name];?></td>
+                                <?php } ?>
+                            </tr>
+                        <?php } ?>
+                        </tbody>
+
+                        <tfoot>
+                        <tr>
+                            <th>Total</th>
+                            <th><?=array_sum(array_column($today_bi,'delivered')); ?></th>
+                            <?php foreach($item_types as $it) { ?>
+                                <th><?=array_sum(array_column($today_bi,$it->type_name));?></th>
+                            <?php } ?>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="panel-footer">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     Monthly Order
                 </div>
                 <div class="panel-body">
-                    <div class="form-inline text-center">
-                        <label>Month:</label>
-                        <input type="text" class="form-control mdatepicker" size="7" placeholder="Month" value="<?=date('Y-m');?>"/>
-                    </div>
-                    <table id="example" class="table dttable table-striped table-bordered" cellspacing="0" width="100%">
+                    <table id="example" class="table table-striped table-bordered dttable" cellspacing="0" width="100%">
                         <thead>
                         <tr>
-                            <th>Total Order</th>
+                            <th>Month</th>
                             <th>Delivered</th>
-                            <th>Pending</th>
-
-                            <th>Charge</th>
+                            <?php foreach($item_types as $it) { ?>
+                                <th><?=$it->type_name;?></th>
+                            <?php } ?>
                         </tr>
                         </thead>
 
                         <tbody>
-                        <tr>
-                            <td id="tmonthcount"><?php echo $month['monthcount']; ?></td>
-                            <td id="tdeliver"><?php echo $month['deliver']; ?></td>
-                            <td id="tpending"><?php echo $month['pending']; ?></td>
-                            <td id="tamount"><?php echo $month['amount']; ?></td>
-                        </tr>
-
+                        <?php foreach($month as $t) { ?>
+                            <tr>
+                                <td><?=$t['month']; ?></td>
+                                <td><?=$t['delivered']; ?></td>
+                                <?php foreach($item_types as $it) { ?>
+                                    <td><?=$t[$it->type_name];?></td>
+                                <?php } ?>
+                            </tr>
+                        <?php } ?>
                         </tbody>
+
+                        <tfoot>
+                        <tr>
+                            <th>Total</th>
+                            <th><?=array_sum(array_column($month,'delivered')); ?></th>
+                            <?php foreach($item_types as $it) { ?>
+                                <th><?=array_sum(array_column($month,$it->type_name));?></th>
+                            <?php } ?>
+                        </tr>
+                        </tfoot>
                     </table>
                 </div>
                 <div class="panel-footer">
@@ -204,9 +230,6 @@
                 },
 
                 "initComplete": function(settings, json) {
-
-
-
                     this.api().columns(4).every( function () {
                         var column = this;
                         var select = $('<select><option value="">Search Item</option></select>')
@@ -260,35 +283,6 @@
                 }
 
             } );
-
-            $('.mdatepicker').change(function(){
-                $.ajax({
-                    type:'POST',
-                    url: '<?=site_url("ajax/c_monthly");?>',
-                    dataType: 'json',
-                    data: {month : $(this).val()},
-                    success:function(data, textStatus, jqXHR){
-                        $('#tmonthcount').html(data.monthcount);
-                        $('#tdeliver').html(data.deliver);
-                        $('#tpending').html(data.pending);
-                        $('#tamount').html(data.amount);
-                    }
-                });
-            });
-
-            $('#daypicker').change(function(){
-                $.ajax({
-                    type:'POST',
-                    url: '<?=site_url("ajax/c_today");?>',
-                    dataType: 'json',
-                    data: {day : $(this).val()},
-                    success:function(data, textStatus, jqXHR){
-                        $('#daycount').html(data.count);
-                        $('#daysum').html(data.sum);
-                    }
-                });
-            });
-
         });
 
     </script>

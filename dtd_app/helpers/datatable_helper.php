@@ -78,6 +78,13 @@ function callback_download_payment($order_ids){
     return '<a href="'. site_url("admin/download_orders/") . '/' . $order_ids . '" target="_blank">Download</a>';
 }
 
+function callback_pay_status($pay_status){
+    if($pay_status == 1){
+        return 'Paid';
+    }
+    return 'Prepaid';
+}
+
 function callback_edit_message($msg_id,$user){
     return '<a href="'. site_url("$user/message/") . '/' . $msg_id . '" class="edit_item" data-msgid="'.$msg_id.'">Reply</a> |
                 <a href="#" class="delete_item" data-msgid="'.$msg_id.'">Delete</a>';
